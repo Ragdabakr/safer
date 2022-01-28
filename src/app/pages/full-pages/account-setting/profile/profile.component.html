@@ -1,0 +1,83 @@
+
+<!--Tabs Starts-->
+<section id="tabs">
+  <div class="row text-left">
+    <div class="col-sm-12">
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Tabset Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"><i class="icon-user" aria-hidden="true"></i>   الملف الشخصي</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body" *ngIf="!openGeneralData">
+              <p><span class="item">الاسم</span> : {{user.name}}</p>
+              <p><span class="item">الايميل</span> : {{user.email}}</p>
+              <p><span class="item">الرتبة</span> : {{user.role}}</p>
+              <div class="recover-pass">
+                <button class="btn btn-primary">
+                    <a class="text-decoration-none text-white" (click)="editGeneralData()">
+                        تعديل
+                    </a>
+                </button>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="openGeneralData">
+            <form [formGroup]="userForm" >
+              <div class="content with-padding padding-bottom-0">
+                  <div class="row">
+                      <div class="col-xl-12">
+        
+                              <div class="col-md-12">
+                                <div class="submit-field form-group"
+                                [ngClass]="{'has-error': userForm.get('name')?.errors &&
+                                            (userForm.get('name').touched || userForm.get('name').dirty)}">
+                                      <h5 class="control-label">الاسم </h5>
+                                      <input  type="text" class="form-control" formControlName='name' >
+                                      <span class="alert alert-danger" *ngIf="userForm.get('name')?.errors &&
+                                      (userForm.get('name').touched || userForm.get('name').dirty)">
+                                      <span  *ngIf="userForm.get('name').errors.required">اسم المستخدم مطلوب</span>
+                                      <span  *ngIf="userForm.get('name').errors.minlength || userForm.get('name').errors.maxlength">اقل عدد حروف متاح 4 ,اكثر عدد حروف متاح 50  </span>
+                                      </span>
+                                  </div>
+                              </div>
+        
+                            <div class="col-md-12">
+                              <div class="submit-field form-group"
+                               [ngClass]="{'has-error': userForm.get('email')?.errors &&
+                                           (userForm.get('email').touched || userForm.get('email').dirty)}">
+                                  <h5 class="control-label">الايميل</h5>
+                                  <input  type="text" class="form-control" formControlName='email' >
+                                  <span class="alert alert-danger" *ngIf="userForm.get('email')?.errors &&
+                                  (userForm.get('email').touched || userForm.get('email').dirty)">
+                                  <span  *ngIf="userForm.get('email').errors?.required">اسم الكامل مطلوب</span>
+                                  <span  *ngIf="userForm.get('email').errors?.email">الايميل غير صحيح</span>
+                                  </span>
+                              </div>
+                          </div>
+        
+                              <div class="col-md-12">
+                                    <h5 class="control-label" >الرتبة </h5>
+                                    <input  type="text" readOnly class="form-control" formControlName='role' >
+                              </div>
+                            </div>
+                      </div>
+                  </div>
+        
+                  <div class="buttons margin-top-10">
+                      <input type="submit"  (click)="submitEdituserForm(userForm)" class=" btn btn-primary submit" value="تعديل">
+                  </div>
+              </form>
+        </div>
+        </div>
+      </div>
+
+    </div>
+    <!--Tabset Ends-->    
+  </div>
+
+</section>
+<!--Tabs Starts-->

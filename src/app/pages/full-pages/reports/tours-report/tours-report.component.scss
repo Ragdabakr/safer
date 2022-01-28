@@ -1,0 +1,19 @@
+.media-object{
+    width:60px;
+    max-width: 60px !important;
+
+}
+.completed-tours{
+    overflow-y: scroll;
+    height:500px
+}
+
+ul{
+    list-style-type:none;
+    margin:0;
+    padding:0;
+
+}
+ul li{
+display:inline-block;
+}

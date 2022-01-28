@@ -1,0 +1,69 @@
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> الفواتير</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body add-items">
+          <p-table  #dt [value]="invoices" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          currentPageReportTemplate="إظهار {first} الى {last} من   الفواتير" [style]="{'width':'100%','overflow':'auto!important'}"
+          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+          [responsive]="true" selectionMode="single"
+          [filterDelay]="0" [globalFilterFields]="['number','createdAt','bookingInfo.tourName.name','bookingInfo.contactInfo.fullName' ]">
+          <ng-template pTemplate="caption">
+            <div class="ui-table-globalfilter-container">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                <th pSortableColumn="number">رقم الفاتورة <p-sortIcon field="number"></p-sortIcon></th>
+                <th pSortableColumn="createdAt"> تاريخ الفاتورة <p-sortIcon field="createdAt"></p-sortIcon></th>
+                <th pSortableColumn="bookingInfo.contactInfo.fullName">اسم المسافر <p-sortIcon field="bookingInfo.contactInfo.fullName"></p-sortIcon></th>
+                <th pSortableColumn="bookingInfo.tourName.name">اسم الرحلة <p-sortIcon field="bookingInfo.tourName.name"></p-sortIcon></th>
+                <th pSortableColumn="bookingInfo.tourInfo.tourDate">تاريخ الرحلة <p-sortIcon field="bookingInfo.tourInfo.tourDate"></p-sortIcon></th>
+                <th pSortableColumn="completed"> حالة الفاتورة <p-sortIcon field="completed"></p-sortIcon></th>
+                <!-- <th pSortableColumn="address">العنوان <p-sortIcon field="address"></p-sortIcon></th> -->
+                <th >ازالة</th>  
+            </tr>
+         </ng-template>
+          <ng-template pTemplate="body" let-invoice>
+            <tr>
+                <!-- <td>{{user.user_id}}</td> -->
+                <td><a href="/full-layout/full-pages/invoice/{{invoice.id}}">#{{invoice?.number}}</a></td>
+                <td>{{invoice?.createdAt | date }}</td>
+                <td>{{invoice?.bookingInfo.contactInfo.fullName}}</td>
+                <td>{{invoice?.bookingInfo.tourName.name}}</td>
+                <td>{{invoice?.bookingInfo.tourInfo.tourDate | date}}</td>
+                <td>
+                  <span class="badge badge-success  mr-1" *ngIf="invoice?.completed === true">مكتملة </span>
+                  <span class="badge badge-danger  mr-1" *ngIf="invoice?.completed === false">غير مكتملة </span>
+                </td>
+                <td>               
+                <div class="fonticon-wrap"  (click)="deleteInvoice(invoice.id)">
+                  <i class="icon-trash icon"></i>
+                </div> 
+              
+                </td>
+             </tr>
+          </ng-template>
+        </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</div>
+<div class="row" matchHeight="card">
+
+</div>

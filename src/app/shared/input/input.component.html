@@ -1,0 +1,32 @@
+<div class="field">
+    <label>{{ label }}</label>  <span class="red">*</span>
+    <input [type]="inputType"  [formControl]="control" class="form-control" />
+    <div *ngIf="showErrors()" class="ui pointing red basic label">
+        <p *ngIf="control.errors.required">
+             الخانة مطلوبة
+        </p>
+        <p *ngIf="control.errors.minlength">
+            القيمة الذي ادخلتها
+            {{ control.errors.minlength.actualLength }}
+           اقل قيمة مسموح بها هي
+            {{ control.errors.minlength.requiredLength }}
+            حروف
+        </p>
+        <p *ngIf="control.errors.maxlength">
+            القيمة الذي ادخلتها
+            {{ control.errors.maxlength.actualLength }}
+            اكبر قيمة مسموح بها هي
+            {{ control.errors.maxlength.requiredLength }}
+            حروف
+        </p>
+        <p *ngIf="control.errors.pattern">
+            القيمة المدخلة غير صحيحة
+        </p>
+        <p *ngIf="control.errors.nonUniqueUsername">
+           الاسم مستخدم من قبل
+        </p>
+        <p *ngIf="control.errors.noConnection">
+            لا يوجد اتصال بالانترنت
+        </p>
+    </div>
+</div>

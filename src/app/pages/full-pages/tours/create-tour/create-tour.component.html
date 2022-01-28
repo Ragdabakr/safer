@@ -1,0 +1,312 @@
+<div class="row">
+</div>
+<section id="ngx">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                <p class="mb-0">
+                    <ngb-alert *ngIf="error" >
+                        <strong>خطأ!</strong> {{alert}}
+                    </ngb-alert>
+                    <ngb-alert *ngIf="success"  type="success" [dismissible]="false">
+                        <strong>!</strong> {{successAlert}}
+                    </ngb-alert>
+                </p>
+                <aw-wizard #wizard navBarLayout="large-empty-symbols">
+                    <aw-wizard-step  stepTitle="معلومات الرحلة"   [navigationSymbol]="{ symbol: '&#xf013;', fontFamily: 'FontAwesome' }">
+                        <form [formGroup]="dataForm" class="editForm" novalidate>
+                            <!-- {{dataForm.value |json}} -->
+                            <h4 class="head text-center">اضافة برنامج سياحي جديد </h4>
+
+                            <br />
+                            <div class='row'>
+                                <div class='col-12'>
+                                    <div class="row">
+                                        <div class="col-sm-12 borderSection">
+                                            <div class="row">
+
+                                            
+                                                <div class="form-group col-sm-6">
+                                                  <app-input inputType="text"
+                                                               label="اسم الرحلة"
+                                                               [control]="dataForm.get('name')"></app-input>
+                                                </div>
+
+                                                <div class="form-group col-sm-6">
+                                                    <app-input inputType="number"
+                                                               label="المدة"
+                                                               [control]="dataForm.get('duration')"></app-input>
+                                                </div>
+
+
+                                                <div class="form-group col-sm-6">
+                                                    <app-input inputType="number"
+                                                               label="عدد المقاعد"
+                                                               [control]="dataForm.get('maxGroupSize')"></app-input>
+                                                </div>
+
+                                                
+                                                <div class="form-group col-sm-6">
+                                                    <app-input inputType="number"
+                                                               label="سعر البالغ"
+                                                               [control]="dataForm.get('adultPrice')"></app-input>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <app-input inputType="number"
+                                                               label="سعر الطفل"
+                                                               [control]="dataForm.get('childPrice')"></app-input>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <app-input inputType="number"
+                                                               label="سعر الرضيع"
+                                                               [control]="dataForm.get('infantPrice')"></app-input>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <label class="label-control" for="userinput6">المرشدين</label>
+                                                    <ng-select [items]="allGuides" bindLabel="name" bindValue="name" [multiple]="true" placeholder="{{ 'ChooseGuide' | translate}}"  formControlName="guides">
+                                                    </ng-select>
+                                                    <span class="ui pointing red basic label" *ngIf="hasGuidesError">{{ 'GuideRequired' | translate}}</span>
+                                                </div>
+                                                
+                                                <div class="form-group col-sm-6">
+                                                    <label class=" label-control" for="userinput6">مستوي الرحلة</label><span class="red">*</span>
+                                                    <ng-select [items]="difficulty" bindLabel="name" bindValue="name" placeholder="Select Guides" formControlName="difficulty">
+                                                    </ng-select>
+                                                    <span class="ui pointing red basic label" *ngIf="hasDifficultyError">{{ 'DifficultyRequired' | translate}} </span>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <label class=" label-control" for="userinput6">نوع الرحلة</label><span class="red">*</span>
+                                                    <ng-select [items]="Tourtype" bindLabel="type" bindValue="type" placeholder="Select type" formControlName="type">
+                                                    </ng-select>
+                                                    <span class="ui pointing red basic label" *ngIf="hasDifficultyError">{{ 'TourTypeRequired' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Array of start dates-->
+                                        <div class="form-group col-sm-12 borderSection">
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="submit-field" formArrayName="startDates">
+                                                            <input type="submit" (click)="addStartDatesButtonClick()" class="button btn gradient-pomegranate" value="أضف تاريخ للرحلة">
+
+                                                             <div class="keywords-container" *ngFor="let item of dataForm.get('startDates')['controls']; let i = index;">
+                                                                <div class="keyword-input-container" [formGroupName]='i'>
+                                                                    <div class="row">
+                                                                        <div class="form-group col-sm-6">
+                                                                            <label class=" label-control" for="userinput6"> تاريخ الرحلة</label><span class="red">*</span>
+                                                                            <div class="input-group">
+
+                                                                                <input class="form-control" type="date" placeholder="yyyy-mm-dd" name="dp" formControlName="date" >
+                                                                            
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> 
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="borderSection">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label class="label-control" for="userinput6">البرنامج السياحي</label><span class="red">*</span>
+                                                    <!-- <div class="col-md-12 col-lg-12">
+                                                        <quill-editor formControlName="description"  [style]="{height: '250px'}" (onEditorCreated)="setFocus($event)"></quill-editor>
+                                                      </div> -->
+                                                    <textarea class="form-control" formControlName="description" rows="6" cols="160"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button   *ngIf="dataForm.invalid"   type="button" uiSref="work" class="btn btn-info btn-raised" (click)="onFirstSubmit()">
+                                          التالي
+                                            <span style="margin-left:10px;">
+                                                <i class="ft-chevron-right"></i>
+                                            </span>
+                                        </button>
+                                        <button   *ngIf="dataForm.valid" type="button" uiSref="work" class="btn btn-info btn-raised" (click)="onFirstSubmit()" awNextStep>
+                                          التالي
+                                            <span style="margin-left:10px;">
+                                                <i class="ft-chevron-right"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </aw-wizard-step>
+                    <aw-wizard-step stepTitle="البرنامج السياحي"  [navigationSymbol]="{ symbol: '&#xf00b;', fontFamily: 'FontAwesome' }">
+                        <form [formGroup]="locationForm">
+                            <!-- {{locationForm.value |json}} -->
+                            <div class="input-with-icon-left">
+                                <input type="submit" (click)="addLocationButtonClick()" class="button btn gradient-pomegranate" value="أضف موقع جديد">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="submit-field" formArrayName="locations">
+                                            <div class="keywords-container" *ngFor="let item of locationForm.get('locations')['controls']; let i = index;">
+                                                <div class="keyword-input-container" [formGroupName]='i'>
+                                                    <div class="row borderSection">
+                                                        <div class="form-group col-sm-6">
+                                                            <label for="postalCode">خط الطول</label>
+                                                            <span>
+                                                                <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
+                                                                        popoverTitle="coordinats like ( 21.596798)">
+                                                                    ?
+                                                                </button>
+                                                            </span>
+                                                            <input type="text" formControlName="longitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
+                                                        </div>
+
+                                                        <div class="form-group col-sm-6">
+                                                            <label for="postalCode">خط العرض</label>
+                                                            <span>
+                                                                <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
+                                                                        popoverTitle="coordinats like (39.162380 )">
+                                                                    ?
+                                                                </button>
+                                                            </span>
+                                                            <input type="text" formControlName="latitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
+                                                        </div>
+                
+                                                        <!-- <div class="form-group col-sm-6">
+                                                            <label class="label-control" for="userinput6">المرشد السياحي</label>
+                                                            <ng-select [items]="allGuides"  bindLabel="name" bindValue="name" [multiple]="false" placeholder="Select Guides" formControlName="guides">
+                                                            </ng-select>
+
+                                                        </div> -->
+                                                        <div class="form-group col-sm-6">
+                                                            اليوم
+                                                            <input type="text" formControlName="day" class="keyword-input with-border form-control " placeholder="اليوم الأول" />
+                                                        </div>
+                                                        <div class="form-group col-sm-6">
+                                                            المدينة
+                                                            <input type="text" formControlName="city" class="keyword-input with-border form-control "  />
+                                                        </div>
+                                                        <div class="form-group col-sm-12">
+                                                            <label class=" label-control" for="userinput6">العنوان</label>
+                                                            <input type="text" formControlName="address" class="keyword-input with-border form-control " />
+                                                        </div>
+                                                        <!-- <div class="form-group col-sm-6">
+                                                            <label class=" label-control" for="userinput6">الباص</label>
+                                                            <ng-select [items]="buses" bindLabel="busData" bindValue="busNumber" [multiple]="false" placeholder="Select buses" formControlName="buses">
+                                                            </ng-select>
+                                                        </div>
+                                                        <div class="form-group col-sm-6">
+                                                            <label class=" label-control" for="userinput6">الفندق</label>
+                                                            <ng-select [items]="hotels" bindLabel="name" bindValue="name" [multiple]="false" placeholder="Select hotels" formControlName="hotels">
+                                                            </ng-select>
+                                                        </div> -->
+                                                        <div class="form-group col-sm-12">
+                                                            <label class=" label-control" for="userinput6">الوصف</label>
+                                                            <textarea type="text" formControlName="description" class="keyword-input with-border form-control" placeholder="e.g. description of the tour"></textarea>
+                                                        </div>
+                                                        <hr />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-center space-20">
+                                <button uiSref="personal" type="button" class="btn btn-raised btn-secondary mr-1" awPreviousStep>
+                                    <span style="margin-right:10px;">
+                                        <i class="ft-chevron-left"></i>
+                                    </span> السابق
+                                </button>
+                                <button uiSref="address" type="button" class="btn btn-raised btn-info" (click)="onSecondSubmit()" awNextStep>
+                                    التالي
+                                    <span style="margin-left:10px;">
+                                        <i class="ft-chevron-right"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </aw-wizard-step>
+                    
+                    <aw-wizard-step [stepTitle]="'صور الرحلة'" [navigationSymbol]="{ symbol: '&#xf030;', fontFamily: 'FontAwesome' }">
+                        <form [formGroup]="imageForm" class="editForm" novalidate>
+                            <h4 class="head text-center">صور البرنامج</h4>
+                            <br />
+                            <div class='row'>
+                                <div class='col-sm-12'>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div *ngIf="fileUploadProgress">
+                                                <div class="progress0">
+                                                    <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': fileUploadProgress , 'height': '10px' }"></div>
+                                                </div>
+                                            </div>
+                                            <label class=" label-control" for="userinput6">صورة الرحلة</label>
+                                            <img class="photo" [src]="selectedFile ? selectedFile : 'https://res.cloudinary.com/reg1rego3/image/upload/v1585916456/user_rygoeq.png'" file accept='image/*' />
+                                            <label class="mb-3 custom-file-upload-image input-group">
+                                                <input type="file" formControlName="imageCover" ng2FileSelect [uploader]="uploader" (onFileSelected)="OnFileSelect($event)" accept="image/*   ">
+                                                <span> <p class="upload"><i class="fa fa-download" aria-hidden="true"></i>  اختار صورة  </p></span>
+                                               </label>
+                                            <!-- <button type="button" class="btn btn-raised btn-success btn-sm" (click)="imageUpload()">
+                                                <span class="fa fa-upload"></span> رفع
+                                            </button> -->
+
+                                        </div>
+                                    </div>
+
+                                    <hr />
+                                    <div class="col-md-12">
+
+                                        <h4>  صور الرحلة</h4>
+                                        <label class=" custom-file-upload input-group">
+                                            <input type="file" (change)="onFileChange($event)" />
+                                            <span> <p class="upload"><i class="fa fa-download" aria-hidden="true"></i>  اختار صورة  </p></span>
+                                        </label>
+                                        <hr/>
+
+                                        <ul *ngFor="let image of myFiles">
+                                            <li class="imageContainer">
+                                                <div class="imageContainer">
+                                                    <img alt="" class="photo" [src]="image" file accept='image/* ' height="150" width="200" style="margin: 3px;" />
+                                                    <span><button type="button" class="btn btn-raised btn-success btn-sm  x-class" (click)="removeImage(image)">
+                                                        <i class="ft-x"></i>
+                                                    </button></span>
+                                                </div>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+
+                                    <div class="form-group text-center">
+                                        <button uiSref="work" type="button" class="btn btn-raised btn-secondary mr-1" awPreviousStep>
+                                            <span style="margin-right:10px;">
+                                                <i class="ft-chevron-left"></i>
+                                            </span> السابق
+                                        </button>
+                                        <button uiSref="result" type="button" class="btn btn-raised btn-success" (click)="onThirdSubmit()">
+                                            التالي
+                                            <span style="margin-left:10px;">
+                                                <i class="ft-chevron-right"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </aw-wizard-step>
+                 
+                </aw-wizard>
+            </div>
+        </div>
+    </div>
+</section>

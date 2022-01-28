@@ -1,0 +1,152 @@
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> إضافة مبلغ</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body add-items"  >
+          <form [formGroup]="safeboxForm"  novalidate>
+            
+              <div class="row">
+                  <div class="form-group col-sm-3">
+                      <label for="street">وصف الحركة</label><span class="red">*</span>
+                      <input type="text"  formControlName="name" class="form-control">
+                  </div>
+                  <div class="form-group col-sm-3">
+                      <label for="houseNumber">التاريخ</label><span class="red">*</span>
+                      <input type="date" formControlName="date" class="form-control">
+                  </div>
+                 
+                  <div class="form-group col-sm-3">
+                    <label for="postalCode">مدين</label><span class="red">*</span>
+                    <input type="text" formControlName="indebted" class="form-control">
+                </div>
+                <div class="form-group col-sm-3">
+                  <label for="postalCode">دائن</label><span class="red">*</span>
+                  <input type="text" formControlName="credit" class="form-control">
+              </div>
+              <div class="form-group col-sm-12">
+                <label for="postalCode">التفاصيل</label><span class="red">*</span>
+                <input type="text" formControlName="description" class="form-control">
+            </div>
+              </div> 
+          <div class="buttons margin-top-10">
+            <input type="submit"  (click)="submitNewSafeBox(safeboxForm)" class=" btn btn-primary submit " value="حفظ">
+        </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> حركة الصندوق</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <p-table  #dt [value]="safeboxes"  dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          currentPageReportTemplate="" [style]="{'width':'100%','overflow':'auto!important'}"
+          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+          [responsive]="true" selectionMode="single"
+          [filterDelay]="0" [globalFilterFields]="['name','number','date','description' , 'credit'  ,'indebted']">
+          <ng-template pTemplate="caption"   >
+            <div class="ui-table-globalfilter-container">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="number">القيد <p-sortIcon field="number"></p-sortIcon></th>
+                <th pSortableColumn="name"> وصف الحركة  <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="date">التاريخ <p-sortIcon field="date"></p-sortIcon></th>
+                <th pSortableColumn="description">التفاصيل <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="indebted">مدين <p-sortIcon field="indebted"></p-sortIcon></th>
+                <th pSortableColumn="credit">دائن <p-sortIcon field="credit"></p-sortIcon></th>
+                <th >التعديل</th>  
+            </tr>
+         </ng-template>
+          <ng-template pTemplate="body" let-safebox  let-rowIndex="rowIndex">
+            <tr>
+                <!-- <td></td> -->
+                <td>{{ rowIndex }}</td>
+                <td>{{safebox?.name }}</td>
+                <td>{{safebox?.date | date}}</td>
+                <td>{{safebox?.description}}</td>
+                <td>{{safebox?.indebted}}</td>
+                <td>{{safebox?.credit}}</td>
+               
+                <td>               
+                <div class="fonticon-wrap"  (click)="editSafebox(safebox)">
+                  <i class="icon-pencil icon"></i>
+                </div> 
+              
+                </td>
+             </tr>
+          </ng-template>
+        </p-table>
+
+        <p-dialog [(visible)]="editHotelDialog" [style]="{width: '450px'}" header=" التعديل" [modal]="true" styleClass="p-fluid" styleClass="p-fluid"  [dismissableMask]="false" 
+        [modal]="true"
+        [appendTo]="'body'">       
+                        <div class="row">
+                          <div class="col-md-12"> 
+                        
+                              <!--start edit -->
+    
+                              <div class="container-box">
+                                  <form [formGroup]="dataForm"  novalidate>
+                                      <div class="row">
+                                          <div class="form-group col-sm-6">
+                                              <label for="street">الاسم</label><span class="red">*</span>
+                                              <input type="text"  formControlName="name" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-6">
+                                              <label for="houseNumber">التفاصيل</label><span class="red">*</span>
+                                              <input type="text" formControlName="description" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-12">
+                                              <label for="postalCode">التاريخ</label><span class="red">*</span>
+                                              <input type="text" formControlName="date" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-12">
+                                            <label for="postalCode">دائن</label><span class="red">*</span>
+                                            <input type="text" formControlName="credit" class="form-control">
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                          <label for="postalCode">مدين</label><span class="red">*</span>
+                                          <input type="text" formControlName="indebted" class="form-control">
+                                      </div>
+                                      </div>
+                                  <div class="buttons margin-top-10">
+                                    <input type="submit"  (click)="editSafeboxButton(dataForm)" class=" btn btn-primary submit " value="تعديل">
+                                </div>
+                                </form>
+                             </div>
+                        </div>  
+                    </div>    
+              </p-dialog> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card">
+
+</div>
+
+
+
+
+
+

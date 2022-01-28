@@ -1,0 +1,54 @@
+.payment{
+    margin-top: 3% !important;
+}
+
+.btn-primary {
+    color: white !important;
+}
+button, input {
+    text-align: right;
+}
+.checkbox{
+    margin-right: 3%;
+}
+form label {
+    color: #212529;
+}
+.blueTiltle {
+    color: blue;
+    font-weight: 400;
+   cursor: pointer;
+}
+.redTiltle {
+    color: red;
+    font-weight: 400;
+   cursor: pointer;
+}
+.code{
+    float:left;
+}
+.prsentage{
+margin-right: 10px;
+color:blue;
+}
+.borderSection {
+    width: 100%;
+    border: 1px solid #e1dfdf;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+
+}
+.badge{
+    font-family: 'primeicons' !important;
+    font-weight: 700;
+    color: blue;
+    padding-left: 10px;
+    font-size:15px;
+}
+.keywords-container{
+    direction:rtl ;
+    padding-top: 10px;
+    padding-bottom:10px;
+}

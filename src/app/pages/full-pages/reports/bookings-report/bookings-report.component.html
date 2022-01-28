@@ -1,0 +1,246 @@
+<div class="row">
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card bg-primary">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{activeBookings}}</h3>
+              <span>  الحجوزات الحالية</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-calendar font-large-1"></i>
+              
+            </div>
+          </div>
+        </div>
+        <!-- <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card bg-info">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{cancelBooking}}</h3>
+              <span>  الحجوزات الملفاة</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-ban font-large-1"></i>
+              
+            </div>
+          </div>
+        </div>
+        <!-- <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card bg-dark">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{bookingsByWeekLength}}</h3>
+              <span> الحجوزات خلال هذا الاسبوع</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-bar-chart font-large-1"></i>
+              
+            </div>
+          </div>
+        </div>
+        <!-- <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card bg-warning">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{bookingsByMonthLength}}</h3>
+              <span> الحجوزات خلال هذاالشهر</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-pie-chart font-large-1"></i>
+            </div>
+          </div>
+        </div>
+        <!-- <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card bg-success">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{cashBooking}}</h3>
+              <span>الحجوزات عن طريق المكتب</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-graph font-large-1"></i>
+            </div>
+          </div>
+        </div>
+        <!-- <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card bg-danger">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{bankTransfearBooking}}</h3>
+              <span>الحجوزات بالتحويل البنكي </span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-credit-card font-large-1"></i>
+            </div>
+          </div>
+        </div>
+        <!-- <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="row" matchHeight="card">
+  <div class="col-xl-4 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">الرحلات</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body"  *ngFor="let tour of tours">
+          <div class="media mb-3">
+            <img alt="96x96" class="media-object d-flex mr-3 align-self-center bg-primary height-50 rounded-circle" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png">
+            <div class="media-body">
+              <h4 class="font-medium-1 mt-2 mb-0">{{tour?.name}}</h4>
+            </div>
+            <a *ngIf="tour.completed === true" class="d-flex ml-3 btn btn-raised btn-round gradient-blackberry py-2 width-100 justify-content-center white">مكتملة</a>
+            <a *ngIf="tour.completed === false"class="d-flex ml-3 btn btn-raised btn-round gradient-pomegranate py-2 width-100 justify-content-center white">غير مكتملة</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">احصائيات الحجوزات الشهرية خلال السنة</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="chart-info mb-3">
+            <span class="text-uppercase mr-3"><i class="fa fa-circle primary font-small-2 mr-1"></i> عدد الحجوزات</span>
+          </div>
+          <div id="line-chart1" class="height-350 lineChart1 lineChart1Shadow">
+            <x-chartist class="" [data]="lineChart1.data" [type]="lineChart1.type" [options]="lineChart1.options" [events]="lineChart1.events">
+            </x-chartist>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-8 col-lg-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h4 class="card-title">احصائيات عدد المقاعد والحجوزات و المقاعد المتبقية  للرحلات</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="chart-info mb-2">
+            <span class="text-uppercase mr-3"><i class="fa fa-circle primary font-small-2 mr-1"></i>  عدد مقاعد الرحلة </span>
+            <span class="text-uppercase mr-3"><i class="fa fa-circle warning font-small-2 mr-1"></i>   عدد الحجوزات</span>
+            <span class="text-uppercase mr-3"><i class="fa fa-circle danger font-small-2 mr-1"></i>   عدد المقاعد المتبقية </span>
+          </div>
+          <div id="line-area-chart" class="height-300 lineAreaChart mb-1">
+            <x-chartist class="" [data]="lineAreaChart.data" [type]="lineAreaChart.type" [options]="lineAreaChart.options" [events]="lineAreaChart.events">
+            </x-chartist>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-12">
+    <div class="card completed-tours">
+      <div class="card-content">
+        <div class="card-body ">
+          <h4 class="card-title">الحجوزات </h4>
+          <p class="card-text">عدد الحجوزات في كل رحلة</p>
+        </div>
+        <ul class="list-group" *ngFor="let tour of tours">
+          <li class="list-group-item text-left">
+            <span class="badge bg-primary float-right text-white">{{tour?.bookings.length}}</span> {{tour?.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h4 class="card-title">احصائيات الحجوزات خلال الاسبوع</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="chart-info mb-2">
+            <span class="text-uppercase mr-3"><i class="fa fa-circle primary font-small-2 mr-1"></i>عدد الحجوزات</span>
+        
+          </div>
+          <div id="line-chart2" class="height-350 lineChart2 lineChart2Shadow">
+            <x-chartist class="" [data]="lineChart2.data" [type]="lineChart2.type" [options]="lineChart2.options"
+              [events]="lineChart2.events">
+            </x-chartist>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" matchHeight="card">
+<!-- <app-booking-list></app-booking-list> -->
+</div>

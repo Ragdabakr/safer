@@ -1,0 +1,150 @@
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-4 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> إضافة سيارة</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body add-items"  >
+          <form [formGroup]="transportForm"  novalidate>
+            
+              <div class="row">
+                  <div class="form-group col-sm-6">
+                      <label for="street">رقم السيارة</label><span class="red">*</span>
+                      <input type="text"  formControlName="busNumber" class="form-control">
+                  </div>
+                  <div class="form-group col-sm-6">
+                      <label for="houseNumber">النوع</label><span class="red">*</span>
+                      <input type="text" formControlName="brand" class="form-control">
+                  </div>
+                  <div class="form-group col-sm-6">
+                      <label for="postalCode">اللون</label><span class="red">*</span>
+                      <input type="text" formControlName="color" class="form-control">
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label for="postalCode">الحجم</label><span class="red">*</span>
+                    <input type="text" formControlName="size" class="form-control">
+                </div>
+                <div class="form-group col-sm-12">
+                  <label for="postalCode">عدد الركاب</label><span class="red">*</span>
+                  <input type="text" formControlName="maxPassengerSize" class="form-control">
+              </div>
+              </div> 
+          <div class="buttons margin-top-10">
+            <input type="submit"  (click)="submitNewTransport(transportForm)" class=" btn btn-primary submit " value="حفظ">
+        </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-8 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> السيارات</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <p-table  #dt [value]="transports" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          currentPageReportTemplate="إظهار {first} الى {last} من  {totalUsers} الفنادق" [style]="{'width':'100%','overflow':'auto!important'}"
+          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+          [responsive]="true" selectionMode="single"
+          [filterDelay]="0" [globalFilterFields]="['name','phone','city','address' ]">
+          <ng-template pTemplate="caption">
+            <div class="ui-table-globalfilter-container">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                <th pSortableColumn="busNumber">رقم السيارة <p-sortIcon field="busNumber"></p-sortIcon></th>
+                <th pSortableColumn="size"> الحجم <p-sortIcon field="size"></p-sortIcon></th>
+                <th pSortableColumn="brand">النوع <p-sortIcon field="brand"></p-sortIcon></th>
+                <th pSortableColumn="color"> اللون <p-sortIcon field="color"></p-sortIcon></th>
+                <th pSortableColumn="maxPassengerSize">عدد الركاب <p-sortIcon field="maxPassengerSize"></p-sortIcon></th>
+                <!-- <th pSortableColumn="address">العنوان <p-sortIcon field="address"></p-sortIcon></th> -->
+                <th >التعديل</th>  
+            </tr>
+         </ng-template>
+          <ng-template pTemplate="body" let-transport>
+            <tr>
+                <!-- <td>{{user.user_id}}</td> -->
+                <td>{{transport?.busNumber}}</td>
+                <td>{{transport?.size }}</td>
+                <td>{{transport?.brand}}</td>
+                <td>{{transport?.color}}</td>
+                <td>{{transport?.maxPassengerSize}}</td>
+                <td>               
+                <div class="fonticon-wrap"  (click)="editTransport(transport)">
+                  <i class="icon-pencil icon"></i>
+                </div> 
+              
+                </td>
+             </tr>
+          </ng-template>
+        </p-table>
+
+        <p-dialog [(visible)]="editHotelDialog" [style]="{width: '450px'}" header="تعديل الفندق" [modal]="true" styleClass="p-fluid" styleClass="p-fluid"  [dismissableMask]="false" 
+        [modal]="true"
+        [appendTo]="'body'">       
+                        <div class="row">
+                          <div class="col-md-12"> 
+                        
+                              <!--start edit -->
+    
+                              <div class="container-box">
+                                  <form [formGroup]="dataForm"  novalidate>
+                                      <div class="row">
+                                          <div class="form-group col-sm-6">
+                                              <label for="street">رقم السيارة</label><span class="red">*</span>
+                                              <input type="text"  formControlName="busNumber" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-6">
+                                              <label for="houseNumber">اللون</label><span class="red">*</span>
+                                              <input type="text" formControlName="color" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-12">
+                                              <label for="postalCode">الحجم</label><span class="red">*</span>
+                                              <input type="text" formControlName="size" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-12">
+                                            <label for="postalCode">عدد الركاب</label><span class="red">*</span>
+                                            <input type="text" formControlName="maxPassengerSize" class="form-control">
+                                        </div>
+                                          <div class="form-group col-sm-12">
+                                            <label for="postalCode">النوع</label><span class="red">*</span>
+                                            <input type="text" formControlName="brand" class="form-control">
+                                        </div>
+                                      </div>
+                                  <div class="buttons margin-top-10">
+                                    <input type="submit"  (click)="editTransportButton(dataForm)" class=" btn btn-primary submit " value="تعديل">
+                                </div>
+                                </form>
+                             </div>
+                        </div>  
+                    </div>    
+              </p-dialog> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card">
+
+</div>
+
+
+
+
+
+

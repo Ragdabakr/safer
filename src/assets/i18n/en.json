@@ -1,0 +1,52 @@
+{
+  "Dashboard": "Dashboard",
+    "Language": "Language",
+    "arabic": "Arabic",
+    "english": "English",
+    
+    "AccountSettings": "Account settings",
+    "Settings": "Settings",
+    "Profile": "Profile",
+    "TourPrograms": "Tour Programs",
+    "Trips": "Trips",
+    "AddTour": "Add Tour",
+    "Reservations" :"Reservations",
+    "AddReservations" :"Add Reservation",
+    "Employees" :"Employees",
+    "Companies":"Companies",
+    "FlightTickets":"Flight Tickets",
+    "Airline":"Airline",
+    "Roles" :"Permissions",
+    "Reports":"Reports",
+    "Stats":"stats",
+    "GroupsReport":"Groups reports",
+    "TripStats" :"Trip Stats",
+    "Bookingstats" :"Booking Stats",
+    "Invoices":"Invoices",
+    "Guides":"Guides",
+    "Hotels":"Hotels",
+    "Transports":"Transports",
+    "TipInformation":"Trip information",
+    "TourName":"Tour Name",
+    "Duration":"Duration",
+    "MaxGroupSize":"Max Group Size",
+    "Price":"price",
+    "Discount":"Discount",
+    "Difficulty":"Difficulty",
+    "TourType":"Tour Type",
+    "TourDate":"Tour Date",
+    "Program":"Program",
+    "Summary":"Summary",
+    "ChooseGuide":"Choose Guide",
+    "GuideRequired":"Guide Required",
+    "DifficultyRequired":"Difficulty Required",
+    "TourTypeRequired":"TourTypeRequired",
+    "Maxlength":"Max length",
+    "Minlength":"Min length",
+    "Next":"Next"
+
+
+
+
+  
+}

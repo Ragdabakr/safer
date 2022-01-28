@@ -1,0 +1,60 @@
+
+.editbutton[_ngcontent-c5] {
+    float: left;
+    text-align: left;
+    font-size: 30px;
+}
+.fa {
+    color: white;
+}
+.btn-toolbar {
+    margin-right: 10px;
+}
+.btn-toolbar button {
+    margin-right: 10px;
+}
+ul {
+    display: inline-block;
+    list-style: none;
+}
+.x-class{
+    right:0px;
+    top:0px;
+    position: absolute;
+}
+.imageContainer{
+    position:relative;
+    border:1px solid #ccc;
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+input[type="file"] {
+    display: none;
+}
+.upload{
+    color:white;
+}
+.custom-file-upload[_ngcontent-c5] {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #c2108b;
+    width: 20%;
+    border-radius: 5px;
+    margin-top:10px;
+}
+.custom-file-upload-image{
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #009DA0;
+        width: 100%;
+        border-radius: 5px;
+}
+.head{
+        font-family: 'FontAwesome';
+        font-weight: 500;
+}

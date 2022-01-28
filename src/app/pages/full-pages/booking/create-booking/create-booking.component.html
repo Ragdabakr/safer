@@ -1,0 +1,252 @@
+<div class="row">
+</div>
+<section id="ngx">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                <p class="mb-0">
+                    <ngb-alert *ngIf="error" >
+                        <strong>خطأ!</strong> {{alert}}
+                    </ngb-alert>
+                    <ngb-alert *ngIf="success"  type="success" [dismissible]="false">
+                        <strong>!</strong> {{successAlert}}
+                    </ngb-alert>
+                </p>
+                <aw-wizard #wizard navBarLayout="large-empty-symbols">
+                    <aw-wizard-step [stepTitle]="'المسافرين'" [navigationSymbol]="{ symbol: '&#xf013;', fontFamily: 'FontAwesome' }">
+                        <form [formGroup]="travellerForm"  novalidate>
+                            <!-- {{dataForm.value |json}} -->
+                                        <!-- Array of travellers-->
+                                     
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="submit-field" formArrayName="travellerInfo">
+                                                  <input type="submit" (click)="addTravellerInfoButtonClick()" class="button btn gradient-pomegranate" value=" أضف مسافر جديد">
+  
+                                                    <div class="keywords-container" *ngFor="let item of travellerForm.get('travellerInfo')['controls']; let i = index;">
+                                                      <div class="keyword-input-container" [formGroupName]='i'>
+                                                        <hr *ngIf="i>0">
+                                                          <div class="row">
+                                                              <div class="form-group col-sm-6">
+                                                                  <label class=" label-control" for="userinput6"> اسم المسافر</label><span class="red">*</span>
+                                                                  <div class="input-group">
+                                                                      <input class="form-control" type="text" name="dp" formControlName="firstName" >
+                                                                  </div>
+                                                                  <span class="alert alert-danger"  *ngIf="travellerInfo.controls[i].get('firstName').errors?.required && (travellerInfo.controls[i].get('firstName').touched || travellerInfo.controls[i].get('firstName').dirty)">
+                                                                   اسم المسافر مطلوب
+                                                                  </span>
+                                                              </div>
+                                                              <div class="form-group col-sm-6">
+                                                                <label class=" label-control" for="userinput6"> اسم العائلة </label><span class="red">*</span>
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="text" name="dp" formControlName="lastName" >
+                                                                </div>
+                                                                <span class="alert alert-danger"  *ngIf="travellerInfo.controls[i].get('lastName').errors?.required && (travellerInfo.controls[i].get('lastName').touched || travellerInfo.controls[i].get('lastName').dirty)">
+                                                                    اسم العائلة مطلوب
+                                                                </span>
+                                                            </div>
+                                                            <div class="form-group col-sm-6">
+                                                              <label class=" label-control" for="userinput6"> رقم جواز السفر </label><span class="red">*</span>
+                                                              <div class="input-group">
+                                                                  <input class="form-control"    type="text"  name="dp" formControlName="passportNo" >
+                                                              </div>
+                                                              <span class="alert alert-danger"  *ngIf="travellerInfo.controls[i].get('passportNo').errors?.required && (travellerInfo.controls[i].get('passportNo').touched || travellerInfo.controls[i].get('passportNo').dirty)">
+                                                                رقم جواز السفر مطلوب
+                                                              </span>
+                                                              <span class="alert alert-danger"  *ngIf="travellerInfo.controls[i].get('passportNo').errors?.pattern">
+                                                                رقم جواز السفر يجب ان يحتوي علي حرف كبير وأرقام فقط
+                                                              </span> 
+                                                          </div>
+                                                          <div class="form-group col-sm-6">
+                                                            <label class=" label-control" for="userinput6"> السن </label><span class="red">*</span>
+                                                            <div class="input-group">
+                                                                <input class="form-control" type="number"  name="dp" formControlName="age" >
+                                                            </div>
+                                                            <span class="alert alert-danger"  *ngIf="travellerInfo.controls[i].get('age').errors?.required && (travellerInfo.controls[i].get('age').touched || travellerInfo.controls[i].get('age').dirty)">
+                                                               السن مطلوب
+                                                            </span>
+                                                        </div>
+                                                          </div>
+                                                      </div>
+                                                  </div> 
+
+                                              </div>
+                                          </div>
+                                      </div>
+                                       
+                                    <div class="form-group text-center">
+                                          <button  *ngIf="travellerForm.invalid"  type="button" uiSref="work" class="btn btn-info btn-raised" (click)="onFirstSubmit()">
+                                            التالي
+                                            <span style="margin-left:10px;">
+                                                <i class="ft-chevron-right"></i>
+                                            </span>
+                                        </button>
+                                        <button   *ngIf="travellerForm.valid" type="button" uiSref="work" class="btn btn-info btn-raised" (click)="onFirstSubmit()" awNextStep>
+                                            التالي
+                                            <span style="margin-left:10px;">
+                                                <i class="ft-chevron-right"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                              </form>
+                     </aw-wizard-step>
+                    <aw-wizard-step [stepTitle]="'معلومات التواصل'" [navigationSymbol]="{ symbol: '&#xf00b;', fontFamily: 'FontAwesome' }">
+                      <div class="form-group col-sm-12 borderSection">
+                        <form [formGroup]="dataForm"  novalidate>
+                         <div formGroupName="contactInfo"> 
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    <label for="street">الاسم</label><span class="red">*</span>
+                                    <input type="text" formControlName="fullName" class="form-control">
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="postalCode">الجوال</label><span class="red">*</span>
+                                    <input  type="text" id="phone" (change)="hasError($event)"  ng2TelInput formControlName="phone" class="form-control">
+                                    <span id="valid-msg" *ngIf="phoneSuccess" >✓ الرقم صحيح</span>
+                                    <span id="error-msg" *ngIf="phoneError" >الرقم غير صحيح</span>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="houseNumber">الايميل</label><span class="red">*</span>
+                                        <input type="text" formControlName="email" class="form-control">
+                                    <span class="alert alert-danger" *ngIf="customerInfo.controls['email'].invalid && (customerInfo.controls['email'].dirty || customerInfo.controls['email'].touched)">
+                                        <span  *ngIf="customerInfo.controls['email'].errors?.required">الايميل مطلوب </span>
+                                        <span  *ngIf="customerInfo.controls['email'].errors?.pattern">الايميل غير صحيح</span> 
+                                    </span>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                  <label for="postalCode">العنوان</label>
+                                  <input type="text" formControlName="address" class="form-control">
+                              </div>
+                            </div>
+                        </div> 
+                         <div class="form-group text-center space-20">
+                          <button uiSref="personal" type="button" class="btn btn-raised btn-secondary mr-1" awPreviousStep>
+                              <span style="margin-right:10px;">
+                                  <i class="ft-chevron-left"></i>
+                              </span> السابق
+                          </button>
+                          <button  *ngIf="dataForm.invalid"  type="button" uiSref="work" class="btn btn-info btn-raised" (click)="onSecondSubmit()">
+                            التالي
+                            <span style="margin-left:10px;">
+                                <i class="ft-chevron-right"></i>
+                            </span>
+                        </button>
+                          <button  *ngIf="dataForm.valid" uiSref="address" type="button" class="btn btn-raised btn-info" (click)="onSecondSubmit()" awNextStep>
+                              التالي
+                              <span style="margin-left:10px;">
+                                  <i class="ft-chevron-right"></i>
+                              </span>
+                          </button>
+
+                        </div>
+                      </form>
+                    </div>
+                    </aw-wizard-step>
+                    
+                    <aw-wizard-step [stepTitle]="'معلومات الرحلة'" [navigationSymbol]="{ symbol: '&#xf00b;', fontFamily: 'FontAwesome' }">
+                      <div class="form-group col-sm-12 borderSection">
+                        <form [formGroup]="tourForm"  novalidate>
+                          <div class="form-group col-sm-12">
+                            <label class="label-control" for="userinput6"> اسم الرحلة</label><span class="red">*</span>
+                            <select  class="form-control" data-size="7" (change)="onTourChange($event.target.value)"  formControlName="tourName"  title="المستخدم" >
+                              <option *ngFor="let tour of tours"  [value]="tour.id">{{tour.name}}</option>
+                          </select>
+                          </div>
+                         <div formGroupName="tourInfo"> 
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                  <label class="label-control" for="userinput6"> تاريخ الرحلة</label><span class="red">*</span>
+                                  <ng-select [items]="tourDates"  bindLabel="date" bindValue="date" [multiple]="false" formControlName="tourDate">
+                                  </ng-select>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                  <label for="street">عدد البالغين</label><span class="red">*</span>
+                                  <input type="number" formControlName="adult" class="form-control">
+                              </div>
+                              <div class="form-group col-sm-6">
+                                <label for="street">عدد الأطفال</label><span class="red">*</span>
+                                <input type="number" formControlName="child" class="form-control">
+                              </div>
+                              <div class="form-group col-sm-6">
+                                <label for="street">عدد الرضع</label><span class="red">*</span>
+                                <input type="number" formControlName="infant" class="form-control">
+                            </div>
+                            </div>
+                        </div> 
+                        <div class="form-group text-center space-20">
+                          <button uiSref="personal" type="button" class="btn btn-raised btn-secondary mr-1" awPreviousStep>
+                              <span style="margin-right:10px;">
+                                  <i class="ft-chevron-left"></i>
+                              </span> السابق
+                          </button>
+                          <button  *ngIf="tourForm.invalid || stopNextStep"  type="button" uiSref="work" class="btn btn-info btn-raised" (click)="onThirdSubmit()">
+                            التالي
+                            <span style="margin-left:10px;">
+                                <i class="ft-chevron-right"></i>
+                            </span>
+                        </button>
+                          <button *ngIf="tourForm.valid && !stopNextStep" uiSref="address" type="button" class="btn btn-raised btn-info" (click)="onThirdSubmit()" awNextStep>
+                              التالي
+                              <span style="margin-left:10px;">
+                                  <i class="ft-chevron-right"></i>
+                              </span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                    </aw-wizard-step>
+
+                    <aw-wizard-step [stepTitle]="' الدفع'" [navigationSymbol]="{ symbol: '&#xf030;', fontFamily: 'FontAwesome' }">
+                      <div class="form-group col-sm-12 borderSection">
+                        <form [formGroup]="paymentForm"  novalidate>
+                         <div formGroupName="paymentInfo"> 
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                  <label class="label-control" for="userinput6"> طريقة الدفع</label><span class="red">*</span>
+                                  <select  class="form-control" data-size="7"  (change)="onPaymentChange($event.target.value)" formControlName="paymentWay"> title="المستخدم" >
+                                    <option *ngFor="let payment of paymentWays"  [value]="payment.name">{{payment.name}}</option>
+                                </select>
+                                </div>
+                               <div class="form-group col-sm-6"   *ngIf="paymentWayCheck === 'تحويل بنكي'">
+                                  <label for="street"> صورة التحويل البنكي</label>
+                                  <label class="mb-3 custom-file-upload-image input-group">
+                                    <img class="photo" [src]="selectedFile" file accept='image/*' />
+                                    <input type="file" formControlName="bankPaymentPhoto" ng2FileSelect [uploader]="uploader" (onFileSelected)="OnFileSelect($event)" accept="image/*   ">
+                                    <span> <p class="upload"><i class="fa fa-download" aria-hidden="true"></i>  اختار صورة  </p></span>
+                                   </label>
+                               </div>
+                                <div class="form-group col-sm-6">
+                                  <label for="street">السعر الكلي</label><span class="red">*</span>
+                                  <input type="number" readOnly value={{totalPrice}} formControlName="totalPrice" class="form-control">
+                              </div>
+                              <div class="form-group col-sm-6">
+                                <label class="label-control" for="userinput6"> حالة الطلب</label><span class="red">*</span>
+                                <ng-select [items]="bookingStatus"  bindLabel="name" bindValue="name" [multiple]="false"  formControlName="orderStatus">
+                                </ng-select>
+                              </div>
+                              
+                            </div>
+                        </div> 
+                        <div class="form-group text-center space-20">
+                          <button uiSref="personal" type="button" class="btn btn-raised btn-secondary mr-1" awPreviousStep>
+                              <span style="margin-right:10px;">
+                                  <i class="ft-chevron-left"></i>
+                              </span> السابق
+                          </button>
+                          <button uiSref="address" type="button" class="btn btn-raised btn-info" (click)="onFourthSubmit()" awNextStep>
+                              التالي
+                              <span style="margin-left:10px;">
+                                  <i class="ft-chevron-right"></i>
+                              </span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+
+                    </aw-wizard-step> 
+                </aw-wizard>
+            </div>
+        </div>
+    </div>
+</section>
+

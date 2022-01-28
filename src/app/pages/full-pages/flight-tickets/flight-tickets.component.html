@@ -1,0 +1,197 @@
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> اضافة شركة طيران جديدة</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body add-items"  >
+          <form [formGroup]="companyForm"  novalidate>
+              <div class="row">
+                  <div class="form-group col-sm-3">
+                      <label for="street">اسم الشركة</label><span class="red">*</span>
+                      <input type="text"  formControlName="name" class="form-control">
+              </div>
+              <div class="form-group col-sm-3">
+                <span class="blueTiltle  code" (click)="randomInteger()">صنع أتوماتيكي</span>  <label for="street">رمز التعريف</label><span class="red">*</span>
+                <input type="text"  formControlName="PINCompanyCode" class="form-control">
+            </div>
+              <div class="form-group col-sm-3">
+                  <label for="street"> طبيعة الحساب</label><span class="red">*</span>
+                    <select  class="form-control" data-size="7" formControlName="type"  >
+                        <option *ngFor="let role of roles"  [ngValue]="role">{{role}}</option>
+                    </select>
+              </div>
+                <div class="form-group col-sm-3">
+                  <label for="street">الوارد</label>
+                  <input type="text" formControlName="incoming" class="form-control">
+              </div>
+              <div class="form-group col-sm-3">
+                <label for="street">الصادر</label>
+                <input type="text" formControlName="outgoing" class="form-control">
+             </div>
+              <div class="form-group col-sm-3">
+                <label for="street">عمولة شركة الطيران</label><span class="red">*</span> <span class="prsentage">%</span>
+                <input type="text" formControlName="companyComm" class="form-control">
+             </div>
+            <div class="form-group col-sm-3">
+              <label for="street">العمولة لنا</label><span class="red">*</span> <span class="prsentage">%</span>
+              <input type="text" formControlName="ourComm" class="form-control">
+            </div>
+            <div class="form-group col-sm-3">
+              <label for="street">عمولة الي عميل</label><span class="red">*</span> <span class="prsentage">%</span>
+              <input type="text" formControlName="delegateComm" class="form-control">
+            </div>
+            <div class="form-group col-sm-3">
+              <label for="street">الهاتف</label>
+              <input type="tel"  formControlName="phone" class="form-control">
+          </div>
+        <div class="form-group col-sm-3">
+          <label for="street">البريد الالكتروني</label>
+          <input type="text"  formControlName="email" class="form-control">
+      </div>
+            <div class="form-group col-sm-3">
+              <label for="street">ملاحظات</label>
+              <input type="text"  formControlName="note" class="form-control">
+           </div>
+              </div> 
+          <div class="buttons margin-top-10">
+            <input type="submit"  (click)="submitNewCompany(companyForm)" class=" btn btn-primary submit " value="حفظ">
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> الشركات</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <p-table  #dt [value]="companies" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          [style]="{'width':'100%','overflow':'auto!important'}"
+          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+          [responsive]="true" selectionMode="single"
+          [filterDelay]="0" [globalFilterFields]="['name' ]">
+          <ng-template pTemplate="caption">
+            <div class="ui-table-globalfilter-container">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                <th pSortableColumn="name">رقم الحساب <p-sortIcon field="PINCompanyCode"></p-sortIcon></th>
+                <th pSortableColumn="name">الاسم <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="name">نوع العميل <p-sortIcon field="company"></p-sortIcon></th>
+                <th pSortableColumn="name">الوارد <p-sortIcon field="incoming"></p-sortIcon></th>
+                <th pSortableColumn="name">الصادر <p-sortIcon field="outgoing"></p-sortIcon></th>
+                <th pSortableColumn="name">الملاحظات <p-sortIcon field="notes"></p-sortIcon></th>
+                <th pSortableColumn="name">التعديل <p-sortIcon field="notes"></p-sortIcon></th>
+            </tr>
+         </ng-template>
+          <ng-template pTemplate="body" let-company>
+            <tr>
+                <td>{{company?.PINCompanyCode}}</td>
+                <td>{{company?.name}}</td>  
+                <td>{{company?.type}}</td>  
+                <td>{{company?.incoming}}</td>  
+                <td>{{company?.outgoing}}</td> 
+                 <td>{{company?.notes}}</td>  
+                <td>
+                  <div class="blueTiltle" (click)="openUpdateCompany(company)">
+                    <i class="ft-edit ft icon"></i>
+                  </div>  
+                </td>  
+                <td>
+                  <div class="redTiltle" (click)="deleteCompany(company)">
+                    <i class="ft-trash-2 ft icon"></i>
+                  </div>  
+                </td>  
+                      
+               
+             </tr>
+          </ng-template>
+        </p-table>
+     
+        <!--Update Company-->
+        <p-dialog [(visible)]="addUpdateCompanyeDialog" [style]="{width: '850px', textAlign :'right'}" header=" معلومات الشركة" [modal]="true" styleClass="p-fluid"   [dismissableMask]="false" 
+        [modal]="true"
+        [appendTo]="'body'">       
+                              <!--start edit -->
+                              <div class="container-box " >
+                                <form [formGroup]="travelAdentCompanyForm"  novalidate>
+            
+                                  <div class="row">
+
+                                    <div class="form-group col-sm-6">
+                                      <label for="street">الهاتف</label>
+                                      <input type="tel"  formControlName="phone" class="form-control">
+                                  </div>
+                                    <div class="form-group col-sm-6">
+                                      <span class="red">*</span><label for="street">اسم الحساب</label>
+                                      <input type="text" formControlName="name" class="form-control">
+                                   </div>
+                                    <div class="form-group col-sm-6">
+                                      <span class="red">*</span> <label for="street">طبيعة الحساب</label>
+                    
+                                          <select  class="form-control" data-size="7" formControlName="type"  >
+                                              <option *ngFor="let role of roles"  [ngValue]="role">{{role}}</option>
+                                          </select>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                      <span class="prsentage">%</span><span class="red">*</span>  <label for="street">عمولة شركة الطيران</label>
+                                      <input type="text" formControlName="companyComm" class="form-control">
+                                   </div>
+                                  <div class="form-group col-sm-6">
+                                    <span class="prsentage">%</span><span class="red">*</span> <label for="street">العمولة لنا</label>
+                                    <input type="text" formControlName="ourComm" class="form-control">
+                                  </div>
+                                  <div class="form-group col-sm-6">
+                                    <span class="prsentage">%</span><span class="red">*</span> <label for="street">عمولة الي عميل</label>
+                                    <input type="text" formControlName="delegateComm" class="form-control">
+                                  </div>
+                                   
+                                  <div class="form-group col-sm-6">
+                                    <label for="street">البريد الالكتروني</label>
+                                    <input type="text"  formControlName="email" class="form-control">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                  <span class="blueTiltle  code" (click)="randomInteger()">صنع أتوماتيكي</span>  <span class="red">*</span><label for="street">رمز التعريف</label>
+                                  <input type="text"  formControlName="PINCompanyCode" class="form-control">
+                              </div>
+
+                                  </div> 
+                              <div class="buttons margin-top-10">
+                                <input type="submit"  (click)="updateCompanyButton(travelAdentCompanyForm)" class=" btn btn-primary submit " value="حفظ">
+                            </div>
+                            </form>
+                    </div>
+              
+        </p-dialog> 
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card">
+
+</div>
+
+
+
+
+
+
+

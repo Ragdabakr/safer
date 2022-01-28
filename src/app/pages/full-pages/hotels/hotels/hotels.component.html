@@ -1,0 +1,140 @@
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-4 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> إضافة فندق</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body add-items"  >
+          <form [formGroup]="hotelForm"  novalidate>
+            
+              <div class="row">
+                  <div class="form-group col-sm-6">
+                      <label for="street">اسم الفندق</label><span class="red">*</span>
+                      <input type="text"  formControlName="name" class="form-control">
+                  </div>
+                  <div class="form-group col-sm-6">
+                      <label for="houseNumber">رقم الهاتف</label><span class="red">*</span>
+                      <input type="text" formControlName="phone" class="form-control">
+                  </div>
+                  <div class="form-group col-sm-12">
+                      <label for="postalCode">المدينة</label><span class="red">*</span>
+                      <input type="text" formControlName="city" class="form-control">
+                  </div>
+                  <div class="form-group col-sm-12">
+                    <label for="postalCode">العنوان</label><span class="red">*</span>
+                    <input type="text" formControlName="address" class="form-control">
+                </div>
+              </div> 
+          <div class="buttons margin-top-10">
+            <input type="submit"  (click)="submitNewHotel(hotelForm)" class=" btn btn-primary submit " value="حفظ">
+        </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-8 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> الفنادق</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <p-table  #dt [value]="hotels" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          currentPageReportTemplate="إظهار {first} الى {last} من  {totalUsers} الفنادق" [style]="{'width':'100%','overflow':'auto!important'}"
+          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+          [responsive]="true" selectionMode="single"
+          [filterDelay]="0" [globalFilterFields]="['name','phone','city','address' ]">
+          <ng-template pTemplate="caption">
+            <div class="ui-table-globalfilter-container">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                <th pSortableColumn="name">اسم الفندق <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="phone"> رقم الهاتف <p-sortIcon field="phone"></p-sortIcon></th>
+                <th pSortableColumn="city">المدينة <p-sortIcon field="city"></p-sortIcon></th>
+                <!-- <th pSortableColumn="address">العنوان <p-sortIcon field="address"></p-sortIcon></th> -->
+                <th >التعديل</th>  
+            </tr>
+         </ng-template>
+          <ng-template pTemplate="body" let-hotel>
+            <tr>
+                <!-- <td>{{user.user_id}}</td> -->
+                <td>{{hotel?.name}}</td>
+                <td>{{hotel?.phone }}</td>
+                <td>{{hotel?.city}}</td>
+                <!-- <td>{{user?.active}}</td> -->
+                <!-- <td>{{hotel?.address}}</td> -->
+                <td>               
+                <div class="fonticon-wrap"  (click)="editHotel(hotel)">
+                  <i class="icon-pencil icon"></i>
+                </div> 
+              
+                </td>
+             </tr>
+          </ng-template>
+        </p-table>
+
+        <p-dialog [(visible)]="editHotelDialog" [style]="{width: '450px'}" header="تعديل الفندق" [modal]="true" styleClass="p-fluid" styleClass="p-fluid"  [dismissableMask]="false" 
+        [modal]="true"
+        [appendTo]="'body'">       
+                        <div class="row">
+                          <div class="col-md-12"> 
+                        
+                              <!--start edit -->
+    
+                              <div class="container-box">
+                                  <form [formGroup]="dataForm"  novalidate>
+                                      <div class="row">
+                                          <div class="form-group col-sm-6">
+                                              <label for="street">الاسم</label><span class="red">*</span>
+                                              <input type="text"  formControlName="name" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-6">
+                                              <label for="houseNumber">رقم الهاتف</label><span class="red">*</span>
+                                              <input type="text" formControlName="phone" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-12">
+                                              <label for="postalCode">المدينة</label><span class="red">*</span>
+                                              <input type="text" formControlName="city" class="form-control">
+                                          </div>
+                                          <div class="form-group col-sm-12">
+                                            <label for="postalCode">العنوان</label><span class="red">*</span>
+                                            <input type="text" formControlName="address" class="form-control">
+                                        </div>
+                                      </div>
+                                  <div class="buttons margin-top-10">
+                                    <input type="submit"  (click)="editHotelButton(dataForm)" class=" btn btn-primary submit " value="تعديل">
+                                </div>
+                                </form>
+                             </div>
+                        </div>  
+                    </div>    
+              </p-dialog> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card">
+
+</div>
+
+
+
+
+
+

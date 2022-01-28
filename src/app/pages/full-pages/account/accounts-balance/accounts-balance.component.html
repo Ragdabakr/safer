@@ -1,0 +1,91 @@
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> أرصدة الحسابات</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body add-items"  >
+          <div class="row form-inline">
+            <div class="form-group col-sm-4">
+              <label for="street"> صافي المدينون</label>
+              <input type="text" formControlName="accountName" value="{{totalDebitNumber}}" class="form-control">
+           </div>
+           <div class="form-group col-sm-4">
+            <label for="street"> صافي الدائنون</label>
+            <input type="text" formControlName="accountName" value="{{totalCreditNumber}}" class="form-control">
+         </div>
+         <div class="form-group col-sm-4">
+          <label for="street"> صافي المديونية</label>
+          <input type="text" formControlName="accountName" value="{{totalDebitNumber -totalCreditNumber }}" class="form-control">
+       </div>
+           </div>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">  حسابات الشركات</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <p-table  #dt [value]="companies" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          [style]="{'width':'100%','overflow':'auto!important'}"
+          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+          [responsive]="true" selectionMode="single"
+          [filterDelay]="0" [globalFilterFields]="['name' ,'type' ,'debit' ,'credit' ,'notes','PINCompanyCode' ]">
+          <ng-template pTemplate="caption">
+            <div class="ui-table-globalfilter-container">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="number">القيد <p-sortIcon field="number"></p-sortIcon></th>
+              <th pSortableColumn="PINCompanyCode">رقم الحساب <p-sortIcon field="PINCompanyCode"></p-sortIcon></th>
+                <th pSortableColumn="name">الاسم <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="type">نوع العميل <p-sortIcon field="type"></p-sortIcon></th>
+                <th pSortableColumn="debit">المدين <p-sortIcon field="debit"></p-sortIcon></th>
+                <th pSortableColumn="credit">الدائن <p-sortIcon field="credit"></p-sortIcon></th>
+              
+            </tr>
+         </ng-template>
+          <ng-template pTemplate="body" let-company   let-rowIndex="rowIndex">
+            <tr>
+                <td>{{ rowIndex }}</td>
+                <td>{{company?.PINCompanyCode}}</td>  
+                <td>{{company?.name}}</td>  
+                <td>{{company?.type}}</td>  
+                <td>{{company?.debit}}</td>  
+                <td>{{company?.credit}}</td> 
+                 
+              
+             </tr>
+          </ng-template>
+        </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card">
+
+</div>
+
+
+
+
+
+
+

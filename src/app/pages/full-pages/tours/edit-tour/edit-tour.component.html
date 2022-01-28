@@ -1,0 +1,465 @@
+<div class="row">
+</div>
+<section id="ngx">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+              <!-- <p class="mb-0">
+                <ngb-alert *ngIf="error" >
+                    <strong>خطأ!</strong> {{alert}}
+                </ngb-alert>
+                <ngb-alert *ngIf="success"  type="success" [dismissible]="false">
+                    <strong>!</strong> {{successAlert}}
+                </ngb-alert>
+            </p> -->
+
+<div class="row">
+  <div class="col-sm-12 col-md-12" >
+    <br/>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-content">
+                      <!--Start cover photo -->
+                      <h4 class="head ">الصورة الرئيسية</h4>
+                     <div class="imageContainer col-md-4"  *ngIf="!selectedFile">
+                      <img class="full-img-top img-fluid" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png" alt="Card image cap">
+                     </div>
+
+                     <div class="imageContainer col-md-4"  *ngIf="selectedFile">
+                      <img class="full-img-top img-fluid" [src]="selectedFile" alt="Card image cap">
+                      <label class=" mb-6 custom-file-upload-image">
+                        <span> <p  (click)="uploadSingleImage()" class="upload"><i class="fa fa-download" aria-hidden="true"></i>  ارفع الصورة  </p></span>
+                      </label>
+                     </div>
+                   
+
+                     <label class="mb-3 custom-file-upload input-group">
+                      <input type="file" formControlName="imageCover" ng2FileSelect [uploader]="uploader" (onFileSelected)="OnFileSelect($event)" accept="image/*   ">
+                      <span> <p class="upload"><i class="fa fa-download" aria-hidden="true"></i>  اختار صورة  </p></span>
+                     </label>
+
+                     
+                     <!--End cover photo -->
+                      <div class="card-body">
+                        <form [formGroup]="dataForm" class="editForm" novalidate>
+                          <!-- {{dataForm.value |json}} -->
+                          <h4 class="head">معلومات الرحلة</h4>
+
+                          <br />
+                          <div class='row'>
+                              <div class='col-12'>
+                                  <div class="row">
+                                      <div class="col-sm-12 borderSection">
+                                          <div class="row">
+
+                                              <div class="form-group col-sm-6">
+                                                  <app-input inputType="text"
+                                                             label="اسم الرحلة"
+                                                             value='tour.name'
+                                                             [control]="dataForm.get('name')"></app-input>
+                                              </div>
+
+
+                                              <div class="form-group col-sm-6">
+                                                  <app-input inputType="number"
+                                                             label="المدة"
+                                                             value='tour.duration'
+                                                             [control]="dataForm.get('duration')"></app-input>
+                                              </div>
+
+
+                                              <div class="form-group col-sm-6">
+                                                  <app-input inputType="number"
+                                                             label="عدد الافراد"
+                                                             value='tour.maxGroupSize'
+                                                             [control]="dataForm.get('maxGroupSize')"></app-input>
+                                              </div>
+
+                                              <div class="form-group col-sm-6">
+                                                <app-input inputType="number"
+                                                           label="سعر البالغ"
+                                                           [control]="dataForm.get('adultPrice')"></app-input>
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <app-input inputType="number"
+                                                           label="سعر الطفل"
+                                                           [control]="dataForm.get('childPrice')"></app-input>
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <app-input inputType="number"
+                                                           label="سعر الرضيع"
+                                                           [control]="dataForm.get('infantPrice')"></app-input>
+                                            </div>
+                                              <div class="form-group col-sm-6">
+                                                  <label class="label-control" for="userinput6">المرشدين السياحين</label>
+                                                  <ng-select  [items]="allGuides"  bindLabel="name" bindValue="name" [multiple]="true"  formControlName="guides">
+                                                  </ng-select>
+                                                  <span class="ui pointing red basic label" *ngIf="hasGuidesError"> المرشد السياحي مطلوب ...</span>
+                                              </div>
+                                              
+                                              <div class="form-group col-sm-6">
+                                                  <label class=" label-control" for="userinput6">مستوي الصعوبة</label><span class="red">*</span>
+                                                  <ng-select [items]="difficulty" value='tour.difficulty' bindLabel="name" bindValue="name" placeholder="Select Guides" formControlName="difficulty">
+                                                  </ng-select>
+                                                  <span class="ui pointing red basic label" *ngIf="hasDifficultyError">مستوي صعوبة الرحلة ...</span>
+                                              </div>
+                                              <div class="form-group col-sm-6">
+                                                  <label class=" label-control" for="userinput6">نوع الرحلة</label><span class="red">*</span>
+                                                  <ng-select [items]="Tourtype" bindLabel="type"  value='tour.type' bindValue="type" placeholder="Select type" formControlName="type">
+                                                  </ng-select>
+                                                  <span class="ui pointing red basic label" *ngIf="hasDifficultyError">نوع الرحلة مطلوب ...</span>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                    
+
+                                      <!-- <div class="form-group col-sm-12 borderSection">
+                                          <label for="street">مكان التجمع</label>
+                                          <hr>
+                                          <div formGroupName="startLocation">
+                                              <div class="row">
+                                                  <div class="form-group col-sm-6">
+                                                      <label for="street">اليوم</label>
+                                                      <input type="text" formControlName="day" class="form-control">
+                                                  </div>
+                                                  <div class="form-group col-sm-6">
+                                                      <label for="houseNumber">العنوان</label>
+                                                      <input type="text" formControlName="address" class="form-control">
+                                                  </div>
+                
+                                                  <div class="form-group col-sm-6">
+                                                      <label for="postalCode">خط الطول</label>
+                                                      <span>
+                                                          <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
+                                                                  popoverTitle="خط الطول ( 21.596798)">
+                                                              ?
+                                                          </button>
+                                                      </span>
+                                                      <input type="text" formControlName="longitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
+                                                  </div>
+                                                  <div class="form-group col-sm-6">
+                                                      <label for="postalCode">خط العرض</label>
+                                                      <span>
+                                                          <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
+                                                                  popoverTitle="خط العرض (39.162380 )">
+                                                              ?
+                                                          </button>
+                                                      </span>
+                                                      <input type="text" formControlName="latitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
+                                                  </div>
+                                                  <div class="form-group col-sm-12">
+                                                      <label for="postalCode">عنوان التجمع</label>
+                                                      <input type="text" formControlName="description" class="form-control">
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div> -->
+
+                                      <div class="borderSection">
+                                          <div class="form-group">
+                                              <div class="col-md-12"  [ngClass]="{'has-error': dataForm.get('description').errors &&
+                                              (dataForm.get('description').touched || dataForm.get('description').dirty)}">
+                                                  <label class="label-control" for="userinput6">وصف الرحلة</label><span class="red">*</span>
+                                                  <textarea class="form-control" value="tour.description" formControlName="description" rows="8" cols="160"></textarea>
+                                              </div>
+                                              <div class="help-block"  *ngIf="dataForm.get('description').errors &&
+                                              (dataForm.get('description').touched || dataForm.get('description').dirty)" class="ui pointing red basic label">
+                                                <p  *ngIf="dataForm.get('description').errors.required">وصف الرحلة مطلوب </p>
+                                                <p   *ngIf="dataForm.get('description').errors.minLength">اقل عدد حروف 9 </p>
+                                                <p  *ngIf="dataForm.get('description').errors.maxLength"> أكثر عدد حروف 500</p>
+                                            </div>
+                                          </div>
+                                          <!-- <div class="form-group">
+                                              <div class="col-md-12" [ngClass]="{'has-error': dataForm.get('description').errors &&
+                                              (dataForm.get('description').touched || dataForm.get('description').dirty)}">
+                                                  <label class="label-control" for="userinput6">الملخص</label><span class="red">*</span>
+                                                  <textarea class="form-control" value="tour.summary"  formControlName="summary"  rows="4" cols="160"></textarea>
+                                              </div>
+                                              <div class="help-block"  *ngIf="dataForm.get('summary').errors &&
+                                              (dataForm.get('summary').touched || dataForm.get('summary').dirty)" class="ui pointing red basic label">
+                                                <p  *ngIf="dataForm.get('summary').errors.required">وصف الرحلة مطلوب </p>
+                                                <p   *ngIf="dataForm.get('summary').errors.minLength">اقل عدد حروف 9 </p>
+                                                <p  *ngIf="dataForm.get('summary').errors.maxLength"> أكثر عدد حروف 100</p>
+                                            </div>
+                                          </div> -->
+                                      </div> 
+
+                                  </div>
+                                  <button  (click)="editTourInformation(dataForm)" class="btn  btn-primary editbutton"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                              </div>
+                          </div>
+                      </form>
+                      <hr/>
+
+                      <!-- edit tour dates-->
+                      <form [formGroup]="dataForm" class="editForm" novalidate>
+                        <div class='row'>
+                            <div class='col-12'>
+                                <div class="row">
+                                    <!-- Array of start dates-->
+                                    <div class="form-group col-sm-12 borderSection">
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                  <div class="sidebar-widget" *ngIf="!editdate && !addNew">
+                                                    <div class="boxed-list-headline" >
+                                                    <button (click)="addNewSDate()" class="btn right btn-primary apply-now-button popup-with-zoom-anim"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                                    <h4 class="head ">تاريخ الرحلات</h4>
+                                                    </div>
+                                                    <ul class="task-tags" *ngFor="let date of tour?.startDates">
+                                                      <li class="input-group"><input readonly class="form-control col-md-6"  name="dp" [value]="date.date | date" >
+                                                        <span class="btn-toolbar">
+                                                          <button (click)="editDateButton(date)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
+                                                          <button (click)="removeDateButton(date)" class="btn  btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                        </span>
+                                                      </li>
+                                                    </ul>
+                                                  </div>
+
+                                                 <!--edit date  form when click in edit click-->
+                                                  <div class="col-xl-12" *ngIf="editdate">
+                                                    <div class="dashboard-box">
+                                                      <form [formGroup]="dataForm">
+                                                        <div class="content content-skill">
+                                                          <div class="row">
+                                                               <div class="col-md-12 input-group" [formGroup]="dataForm"  >
+                                                                      <input type="date" #date  class="form-control col-md-6" [value]="myEditDate | date"/>
+                                                                      <span class="btn-toolbar">
+                                                                        <button   (click)="submitEditDateForm(date.value)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
+                                                                        <button  (click)="cancelEditDateForm()" class="btn  btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button> 
+                                                                      </span>
+                                                                 </div>   
+                                                             </div>
+                                                          </div>				 
+                                                    </form>
+                                                    </div>
+                                                  </div>
+
+                                                  
+                                                 <!--Add date  form when click in add dateclick-->
+                                                 <div class="col-xl-12" *ngIf="addNew">
+                                                  <div class="dashboard-box">
+                                                    <form [formGroup]="dataForm">
+                                                        <div class="row">
+                                                              <label class=" label-control" for="userinput6"> تاريخ الرحلة </label><span class="red">*</span>
+                                                              <div class="keywords-container">
+                                                                <!-- <div class="col-sm-6" *ngIf="i>0"></div> -->
+                                                                  <div class="col-md-12 input-group" [formGroup]="dataForm"  >
+                                                                    <input type="date" #date  class="form-control col-md-12" [value]="myEditDate | date"/>
+                                                                    <span class="btn-toolbar">
+                                                                      <button (click)="submitAddDateForm(date.value)"  class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
+                                                                      <button (click)="cancelDateButton()" class="btn  btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button> 
+                                                                    </span>
+                                                                  </div> 
+                                                                   </div> 
+                                                               </div>    			 
+                                                       </form>
+                                                    </div>
+                                                  </div>
+
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div> 
+                                      </div>
+                                   </div>
+                                </div>
+                             </form>
+                       <hr/>
+                      <!--end edit tour dates-->
+
+                      <!-- Start tour tripLocations-->
+                      
+                        <div class="keyword-input-container" *ngIf="!editTripLocations && !AddTripLocations " >
+                          <div class="boxed-list-headline" >
+                            <button (click)="addNewTripLocation()" class="btn right btn-primary apply-now-button popup-with-zoom-anim"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            </div>
+                            <h4 class="head">أيام الرحلات</h4>
+                          <div class="task-tags" *ngFor="let location of tour?.tripLocations; let i = index;">
+                            <!-- <hr *ngIf="i>0"> -->
+                          <div class="row borderSection">
+                              <div class="form-group col-sm-12 input-group">
+                                  <input type="text" readonly [value]="location.day"  class="keyword-input with-border form-control " />
+                                  <span class="btn-toolbar">
+                                    <button (click)="editLocation(location)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
+                                    <button (click)="removeLocationButton(location)" class="btn  btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button> 
+                                  </span>
+                              </div>
+                              <hr />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End tour trip Locations-->
+
+                      <!-- Edit tour trip locations-->
+                      
+                         <form *ngIf="editTripLocations && dataForm" [formGroup]="locationForm" class="editForm" novalidate>
+                          
+                          <div class="keyword-input-container"  formArrayName ="tripLocations" >
+                            <div class="task-tags"   *ngFor="let location of  locationForm.get('tripLocations')['controls']; let i = index;">
+                            <div class="row borderSection" [formGroupName] ='i'>
+                                <div class="form-group col-sm-6">
+                                    <label for="postalCode">خط الطول</label><span class="red">*</span>
+                                    <span>
+                                        <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
+                                                popoverTitle="coordinats like ( 21.596798)">
+                                            ?
+                                        </button>
+                                    </span>
+                                    <input type="text"  value={{singleLocation.coordinates[0]}} formControlName="longitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label for="postalCode">خط العرض</label><span class="red">*</span>
+                                    <span>
+                                        <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
+                                                popoverTitle="coordinats like (39.162380 )">
+                                            ?
+                                        </button>
+                                    </span>
+                                    <input type="text" value={{singleLocation.coordinates[1]}}  formControlName="latitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                  <label class=" label-control" for="userinput6">اليوم</label><span class="red">*</span>
+                                    <input type="text" value={{singleLocation.day}} formControlName="day" class="keyword-input with-border form-control " placeholder="اليوم الأول" />
+                                </div>
+                                <div class="form-group col-sm-9">
+                                    <label class=" label-control" for="userinput6">العنوان</label><span class="red">*</span>
+                                    <input type="text" value={{singleLocation.address}}  formControlName="address" class="keyword-input with-border form-control " />
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label class=" label-control" for="userinput6">الوصف</label><span class="red">*</span>
+                                    <textarea type="text" value={{singleLocation.description}}  formControlName="description" class="keyword-input with-border form-control" placeholder="e.g. description of the tour"></textarea>
+                                </div>
+                                <hr />
+                            </div>
+                            <span class="btn-toolbar">
+                          <button (click)="editLocationButton(locationForm)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
+                          <button (click)="cancelEditTripLocations()" class="btn  btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </span>
+                          </div>
+                        </div>
+                        
+                        </form> 
+                     
+                       <!-- End  tour trip locations-->
+
+                       <!-- start add tour trip locations-->
+                       <form [formGroup]="locationForm" *ngIf="AddTripLocations">
+                        <!-- {{locationForm.value |json}} -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="submit-field" formArrayName="tripLocations">
+                                        <div class="keywords-container" *ngFor="let item of locationForm.get('tripLocations')['controls']; let i = index;">
+                                            <div class="keyword-input-container" [formGroupName]='i'>
+                                                <div class="row borderSection">
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="postalCode">خط الطول</label>
+                                                        <span>
+                                                            <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
+                                                                    popoverTitle="coordinats like ( 21.596798)">
+                                                                ?
+                                                            </button>
+                                                        </span>
+                                                        <input type="text" formControlName="longitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="postalCode">خط العرض</label>
+                                                        <span>
+                                                            <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
+                                                                    popoverTitle="coordinats like (39.162380 )">
+                                                                ?
+                                                            </button>
+                                                        </span>
+                                                        <input type="text" formControlName="latitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        اليوم
+                                                        <input type="text" formControlName="day" class="keyword-input with-border form-control " placeholder="اليوم الأول" />
+                                                    </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <label class=" label-control" for="userinput6">العنوان</label>
+                                                        <input type="text" formControlName="address" class="keyword-input with-border form-control " />
+                                                    </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <label class=" label-control" for="userinput6">الوصف</label>
+                                                        <textarea type="text" formControlName="description" class="keyword-input with-border form-control" placeholder="e.g. description of the tour"></textarea>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="btn-toolbar">
+                          <button type="submit" (click)="addLocationButton(locationForm)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
+                          <button type="submit" (click)="cancelAddTripLocations()" class="btn  btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </span>
+                    </form>
+                    <hr />
+                      <!-- End  add  tour trip locations-->
+                      
+                      <!-- Start  Show  tour images and delete-->
+
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="card">
+                          <div class="card-content"  >
+                            <h4 class="head">صور الرحلة</h4>
+                              <ul  *ngFor="let image of tour?.images">
+                                <li >
+                                  <div style="position:relative;" class="imageContainer">
+                                    <span><button type="button" class="btn btn-raised btn-danger btn-sm  x-class" (click)="removeImage(image)">
+                                      <i class="ft-x"></i></button></span>
+                                    <img src="https://res.cloudinary.com/reg1rego3/image/upload/v{{image.imageVersion}}/{{image.imageId}}.jpg"alt="Random first slide" height="150" width="200" style="margin: 3px;" >
+                                  </div>
+                                </li>
+                              </ul>
+                          </div>
+                        </div>
+                      </div>
+                     <!-- Start  add  tour images-->
+                      <div class="col-md-12">
+                        <label class="custom-file mb-3 custom-file-upload input-group">
+                            <input type="file" (change)="onFileChange($event)" />
+                            <span> <p class="upload"><i class="fa fa-download" aria-hidden="true"></i>  اختار صورة  </p></span>
+                        </label>
+                       
+                        <ul *ngFor="let image of myFiles">
+                            <li class="imageContainer">
+                              <div class="imageContainer">
+                                <img alt="" class="photo" [src]="image" file accept='image/* ' height="150" width="200" style="margin: 3px;" />
+                                <span><button type="button" class="btn btn-raised btn-success btn-sm  x-class" (click)="removeUploadImage(image)">
+                                    <i class="ft-x"></i>
+                                </button></span>
+                              </div>
+                              <label class=" mb-12 custom-file-upload-image">
+                                <span> <p  (click)="imageUpload()" class="upload"><i class="fa fa-download" aria-hidden="true"></i>  ارفع الصورة  </p></span>
+                              </label>
+                            </li>
+                        </ul>
+
+                    </div>
+                      <!-- End  add  tour images-->
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               </div>
+             </div>
+           </div>
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </section>

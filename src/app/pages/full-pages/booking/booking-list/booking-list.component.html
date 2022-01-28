@@ -1,0 +1,556 @@
+
+<div class="row">
+</div>
+<section id="ngx">
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
+            <p class="mb-0">
+            </p>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> الحجوزات
+        </div>
+        <div class="card-body">
+          <!-- <p-toolbar class="toolbar" >
+            <button (click)="createNewTour()" class=" btn btn-default" >
+              <i class="icon-plus icon"></i>  اضافة رحلة 
+            </button>
+            <button (click)="exportCSV()" class=" btn btn-default left" >
+              <i class="icon-share-alt icon"></i>  CSV
+            </button>
+          </p-toolbar>  -->
+        <p-table #dt [value]="bookings" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+        currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} المستخدمين" [style]="{'width':'100%','overflow':'auto!important'}"
+        [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+        [responsive]="true" selectionMode="single"
+        [filterDelay]="0" [globalFilterFields]="['tourName.name','contactInfo.fullName','createdAt ','number','.paymentInfo.totalPrice' , 'price', 'child', 'adult', 'infant' ,'maxGroupSize', 'priceDiscount']">
+        <ng-template pTemplate="caption">
+          <div class="ui-table-globalfilter-container">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+              <th pSortableColumn="id">رقم الحجز <p-sortIcon field="id"></p-sortIcon></th>
+              <th pSortableColumn="type">اسم الرحلة <p-sortIcon field="type"></p-sortIcon></th>
+              <th pSortableColumn="type">تاريخ الرحلة <p-sortIcon field="type"></p-sortIcon></th>
+              <th pSortableColumn="duration">صاحب الحجز <p-sortIcon field="duration"></p-sortIcon></th>
+              <th pSortableColumn="createdAt">تاريخ الحجز <p-sortIcon field="createdAt"></p-sortIcon></th>
+              <th pSortableColumn="adult">عدد البالغين <p-sortIcon field="adult"></p-sortIcon></th>
+              <th pSortableColumn="child">عدد الأطفال<p-sortIcon field="child"></p-sortIcon></th>
+              <th pSortableColumn="infant">عدد الرضع <p-sortIcon field="infant"></p-sortIcon></th>
+              <th pSortableColumn="price"> السعر الكلي <p-sortIcon field="price"></p-sortIcon></th>
+              <th pSortableColumn="maxGroupSize"> حالة الطلب <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+              <!-- <th pSortableColumn="active">التفعيل <p-sortIcon field="active"></p-sortIcon></th> -->
+              <th >التعديل</th> 
+              <th >الحذف</th> 
+              <th >تفاصيل الحجز</th> 
+              <th >طباعة فاتورة</th> 
+          </tr>
+       </ng-template>
+        <ng-template pTemplate="body" let-booking>
+          <tr>
+              <!-- <td>{{user.user_id}}</td> -->
+              <td>#{{booking?.number}}</td>
+              <td>{{booking?.tourName.name}}</td>
+              <td>{{booking?.tourInfo.tourDate | date}}</td>
+              <td>{{booking?.contactInfo.fullName}}</td>
+              <td>{{booking?.createdAt | date}}</td>
+              <td>{{booking?.tourInfo.adult}}</td>
+              <td>{{booking?.tourInfo.child}}</td>
+              <td>{{booking?.tourInfo.infant}}</td>
+              <td>{{booking?.paymentInfo.totalPrice}} ريال</td>
+              <td>
+                <span class="badge badge-success  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'تأكيد حجز المبلغ كامل'"> {{booking?.paymentInfo.orderStatus}}</span>
+                <span class="badge badge-warning  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'حجز بدون دفع'"> {{booking?.paymentInfo.orderStatus}}</span>
+                <span class="badge badge-primary  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'دفع بتحويل بنكي'"> {{booking?.paymentInfo.orderStatus}}</span>
+                <span class="badge badge-danger  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'الغاء الحجز'"> {{booking?.paymentInfo.orderStatus}}</span>
+               </td>
+              <td>
+                <div class="fonticon-wrap" (click)="editBooking(booking)" >
+                  <i class="icon-pencil edit"></i>
+                </div> 
+              </td>
+              <td>
+                <div class="fonticon-wrap" (click)="deleteBooking(booking)" >
+                  <i class="icon-trash red"></i>
+                </div> 
+              </td>
+              <td>
+              <div class="fonticon-wrap" (click)="detailsBooking(booking)"  >
+                  <i class=" icon-eye edit"></i>
+                </div> 
+            </td>
+            <td>
+              <div class="fonticon-wrap" (click)="printReaet(booking)"  >
+                  <i class="icon-printer edit"></i>
+                </div> 
+            </td>
+        
+           </tr>
+        </ng-template>
+      </p-table>
+     </div>
+   </div>
+  <!-- Edit booking Dialog-->
+    <p-dialog [(visible)]="editBookingDialog" [style]="{width: '650px'}" header="تعديل الحجز" [modal]="true" styleClass="p-fluid" styleClass="p-fluid"  [dismissableMask]="false" 
+    [modal]="true" (onHide)="close()"
+    [appendTo]="'body'">    
+    <!-- <i (click)="hide()" class="icon-close edit"></i>  -->
+                    <div class="row">
+                      <div class="col-md-12"> 
+
+                         <!--edit traveller-->
+                        <div *ngIf="!bookingTraveller">
+                          <ul class="array" *ngFor="let traveller of editbooking?.travellerInfo" >
+                            <li>
+                               {{traveller.firstName}} {{traveller.lastName}}
+                               <button (click)="editBookingTraveller(traveller)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
+                            </li>
+                            <hr/>
+                            </ul>
+                        </div>     
+                          <!--edit traveller-->
+
+                          <div *ngIf="bookingTraveller" class="container-box">
+                            <form  [formGroup]="travellerForm"  novalidate>
+                              <div class="keyword-input-container"  formArrayName ="travellerInfo" >
+                                <div class="task-tags"   *ngFor="let traveller of  travellerForm.get('travellerInfo')['controls']; let i = index;">
+                                <div class="row borderSection" [formGroupName] ='i'>
+                                  {{traveller?.firstName}}
+                                 <div class="row">
+                                     <div class="form-group col-sm-6">
+                                         <label for="street">الاسم الاول</label><span class="red">*</span>
+                                         <input type="text"  formControlName="firstName" class="form-control">
+                                     </div>
+                                     <div class="form-group col-sm-6">
+                                         <label for="houseNumber">الاسم الاخير</label><span class="red">*</span>
+                                         <input type="text"  formControlName="lastName" class="form-control">
+                                     </div>
+                                     <div class="form-group col-sm-6">
+                                         <label for="postalCode">رقم جواز السفر</label><span class="red">*</span>
+                                         <input type="text"  formControlName="passportNo" class="form-control">
+                                         <span class="alert alert-danger"  *ngIf="travellerInfo2.controls[i].get('passportNo').errors?.required && (travellerInfo2.controls[i].get('passportNo').touched || travellerInfo2.controls[i].get('passportNo').dirty)">
+                                          رقم جواز السفر مطلوب
+                                        </span>
+                                        <span class="alert alert-danger"  *ngIf="travellerInfo2.controls[i].get('passportNo').errors?.pattern">
+                                          رقم جواز السفر يجب ان يحتوي علي حرف كبير وأرقام فقط
+                                        </span> 
+                                     </div>
+                                     <div class="form-group col-sm-6">
+                                       <label for="postalCode">السن</label>
+                                       <input type="text"  formControlName="age" class="form-control">
+                                   </div>
+                                 </div>
+                                </div>
+                               </div>
+                            </div>
+                            
+                          <span class="btn-toolbar">
+                            <button (click)="editTavellerButton(travellerForm)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
+                            <button (click)="cancelEditTravellerInfo()" class="btn  btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+                          </span>
+                            </form> 
+                          </div>
+                          
+                          <!--end edit traveller-->
+                          <!--start edit contactInfo-->
+
+                          <div class="container-box">
+                              <form [formGroup]="dataForm"  novalidate>
+                                <div formGroupName="contactInfo"> 
+                                  <div class="row">
+                                      <div class="form-group col-sm-6">
+                                          <label for="street">الاسم بالكامل</label><span class="red">*</span>
+                                          <input type="text"  formControlName="fullName" class="form-control">
+                                      </div>
+                                      <div class="form-group col-sm-6">
+                                          <label for="houseNumber">الايميل</label><span class="red">*</span>
+                                          <input type="text" formControlName="email" class="form-control">
+                                          <span class="alert alert-danger" *ngIf="customerInfo.controls['email'].invalid && (customerInfo.controls['email'].dirty || customerInfo.controls['email'].touched)">
+                                            <span  *ngIf="customerInfo.controls['email'].errors?.required">الايميل مطلوب </span>
+                                            <span  *ngIf="customerInfo.controls['email'].errors?.pattern">الايميل غير صحيح</span> 
+                                        </span>
+                                      </div>
+                                      <div class="form-group col-sm-6">
+                                          <label for="postalCode">الجوال</label><span class="red">*</span>
+                                          <input  type="text" id="phone" (change)="hasError($event)"  ng2TelInput formControlName="phone" class="form-control">
+                                          <span id="valid-msg" *ngIf="phoneSuccess" >✓ الرقم صحيح</span>
+                                          <span id="error-msg" *ngIf="phoneError" >الرقم غير صحيح</span>
+                                      </div>
+                                      <div class="form-group col-sm-6">
+                                        <label for="postalCode">العنوان</label>
+                                        <input type="text" formControlName="address" class="form-control">
+                                    </div>
+                                  </div>
+                              </div> 
+                              <div class="buttons margin-top-10">
+                                <input type="submit"  (click)="editContactInfoButton(dataForm)" class=" btn btn-primary submit " value="تعديل">
+                            </div>
+                            </form>
+                         </div>
+
+                          <!--end edit contactInfo-->
+
+                          <!--Edit tour info-->
+                          <div class="container-box">
+                            <form [formGroup]="tourForm"  novalidate>
+                              <div class="form-group col-sm-12">
+                                <label class="label-control" for="userinput6"> اسم الرحلة</label><span class="red">*</span>
+                                <input type="text"  class="form-control" formControlName="tourId"  readonly>
+                              </div>
+                              <div formGroupName="tourInfo"> 
+                                 <div class="row">
+                                  
+                                     <div class="form-group col-sm-6">
+                                       <label class="label-control" for="userinput6"> تاريخ الرحلة</label><span class="red">*</span>
+                                        <ng-select [items]="tourDates"  [bindLabel]="date | date" [bindValue]="date | date" [multiple]="false" formControlName="tourDate"> 
+                                        <ng-template ng-option-tmp let-item="item">
+                                          {{ item.date | date }}
+                                       </ng-template> 
+                                       </ng-select>
+                                     </div>
+                                     <div class="form-group col-sm-6">
+                                       <label for="street">عدد البالغين</label><span class="red">*</span>
+                                       <input type="number"  (change)="onAdultChange($event.target.value)" formControlName="adult" class="form-control">
+                                   </div>
+                                   <div class="form-group col-sm-6">
+                                     <label for="street">عدد الأطفال</label><span class="red">*</span>
+                                     <input type="number" (change)="onChildChange($event.target.value)" formControlName="child" class="form-control">
+                                   </div>
+                                  <div class="form-group col-sm-6">
+                                    <label for="street">عدد الرضع</label><span class="red">*</span>
+                                    <input type="number" (change)="onChildChange($event.target.value)" formControlName="infant" class="form-control">
+                                  </div>
+                                 </div>
+                             </div> 
+                             <div class="buttons margin-top-10">
+                              <input type="submit"  (click)="editTourInfoButton(tourForm)" class=" btn btn-primary submit " value="تعديل">
+                             </div>
+                           </form>
+                          </div>
+                         
+                          <!--end edit tour info-->
+                           <!--end edit payment info-->
+                           <div class="container-box" >
+                           <form [formGroup]="paymentForm"  novalidate>
+                            <div formGroupName="paymentInfo"> 
+                               <div class="row">
+                                   <div class="form-group col-sm-6">
+                                     <label class="label-control" for="userinput6"> طريقة الدفع</label><span class="red">*</span>
+                                     <select  class="form-control" data-size="7"  (change)="onPaymentChange($event.target.value)" formControlName="paymentWay"> title="المستخدم" >
+                                       <option *ngFor="let payment of paymentWays"  [value]="payment.name">{{payment.name}}</option>
+                                   </select>
+                                   </div>
+                                   <div class="form-group col-sm-6"   *ngIf="paymentWayCheck === 'تحويل بنكي'">
+                                    <label for="street"> صورة التحويل البنكي</label>
+  
+                                    <label class="mb-3 custom-file-upload-image input-group">
+                                      <img class="photo" [src]="selectedFile" file accept='image/*' />
+                                      <input type="file" formControlName="bankPaymentPhoto" ng2FileSelect [uploader]="uploader" (onFileSelected)="OnFileSelect($event)" accept="image/*   ">
+                                      <span> <p class="upload"><i class="fa fa-download" aria-hidden="true"></i>  اختار صورة  </p></span>
+                                     </label>
+                                    </div>                          
+                                   <div class="form-group col-sm-6">
+                                     <label for="street">السعر الكلي</label><span class="red">*</span>
+                                     <input type="number" readOnly value={{totalPrice}} formControlName="totalPrice" class="form-control">
+                                 </div>
+                                 <div class="form-group col-sm-6">
+                                   <label class="label-control" for="userinput6"> حالة الطلب</label><span class="red">*</span>
+                                   <ng-select [items]="bookingStatus"  bindLabel="name" bindValue="name" [multiple]="false"  formControlName="orderStatus">
+                                   </ng-select>
+                                 </div>
+                                 
+                               </div>
+                           </div> 
+                           <div class="buttons margin-top-10">
+                            <input type="submit"  (click)="editPaymentInfoButton(paymentForm)" class=" btn btn-primary submit " value="تعديل">
+                           </div>
+                         </form>
+                         </div>
+                            <!--end edit payment info-->
+                        </div>  
+                      </div>    
+      </p-dialog> 
+    <!-- End booking Dialog -->
+
+    <!-- tour details Dialog-->
+  <!-- Start order details Dialog-->
+
+  <p-dialog  [(visible)]="detailsBookingDialog" [style]="{width: '550px'}" header=" معلومات الرحلة"  styleClass="p-fluid"  [dismissableMask]="false" 
+   [modal]="true"
+   [appendTo]="'body'">
+ 
+      <div class="row">
+        <div class="col-sm-12 col-md-12" >
+          <br/>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                          <div class="card-content">
+                           
+                            <div class="card-body">
+                              <h4 class="card-title"> رقم الحجز :</h4>
+                              <p class="card-text">{{booking?.number}}</p>
+                              <hr/>
+
+                              <div class=" row">
+                                <div class=" col-md-12">
+                                  <h4 class="card-title"> المسافرين :</h4>
+                                  <div>
+                                    <div class="card-content">
+                                      <div class="card-body">
+                                        <ul class="list-group"  *ngFor="let traveller of booking?.travellerInfo">
+                                          <li class="list-group-item">
+                                            <span class="badge badge-default mr-2" style="font-size: 15px;"><i class="icon-user danger "></i> الاسم : </span> {{traveller?.firstName }}
+                                             {{traveller?.lastName }}
+                                          </li>
+                                          <li class="list-group-item">
+                                            <span class="badge badge-default mr-2"  style="font-size: 15px;"><i class="icon-calendar danger "></i> السن :</span>{{traveller?.age }}
+                                          </li>
+                                          <li class="list-group-item">
+                                            <span class="badge badge-default mr-2"  style="font-size: 15px;"><i class="icon-plane danger "></i> جواز السفر : </span>{{traveller?.passportNo }}
+                                          </li>
+                                          
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div> 
+                             
+                              <div class="details row">
+                                <h4 class="card-title"> معلومات التواصل :</h4>
+                                <div class="row text-left" matchHeight="card">
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger">الاسم بالكامل</h3>
+                                              <span class="black">{{booking?.contactInfo.fullName}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger ">البريد الالكتروني </h3>
+                                              <span >{{booking?.contactInfo.email}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger ">رقم الهاتف</h3>
+                                              <span>{{booking?.contactInfo.phone}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-12 col-lg-12 col-12" *ngIf="booking?.contactInfo.address">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger"> العنوان</h3>
+                                              <span>{{booking?.contactInfo.address}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                               
+                              <div class="details row">
+                                <h4 class="card-title">معلومات الرحلة :</h4>
+                                <div class="row text-left" matchHeight="card">
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger ">اسم الرحلة </h3>
+                                              <span >{{booking?.tourName.name}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger ">تاريخ الرحلة </h3>
+                                              <span >{{booking?.tourInfo.tourDate | date}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger ">عدد البالغين</h3>
+                                              <span>{{booking?.tourInfo.adult}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                 
+                                  <div class="col-xl-12 col-lg-12 col-12" *ngIf="booking?.tourInfo.child">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger"> عدد الاطفال</h3>
+                                              <span>{{booking?.tourInfo.child}}</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger ">عدد الرضع</h3>
+                                              <span>{{booking?.tourInfo.infant}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                             
+                              <div class="details row">
+                                <h4 class="card-title">معلومات الدفع :</h4>
+                                <div class="row text-left" matchHeight="card">
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger"> طريقة الدفع</h3>
+                                              <span class="black">{{booking?.paymentInfo.paymentWay}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger "> السعر الكلي</h3>
+                                              <span>{{booking?.paymentInfo.totalPrice}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-12 col-lg-12 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger"> حالة الدفع</h3>
+                                              <span>{{booking?.paymentInfo.orderStatus}}</span>
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                
+                                </div>
+                               
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+             </div>
+            </div>
+    </p-dialog>  
+
+  </div>
+ </div>
+</div>
+</div>
+</div>
+</div>
+</section>

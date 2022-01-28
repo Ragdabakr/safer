@@ -1,0 +1,13 @@
+.wrapper {
+    position: relative;
+    top: 0;
+    height: 100vh;
+    direction: rtl !important;
+}
+body {
+    direction: rtl !important;
+}
+.app-sidebar{
+    direction: rtl !important;
+    float :right !important;
+}

@@ -1,0 +1,141 @@
+
+
+@import 'intl-tel-input/build/css/intlTelInput.css';
+
+/* phone flags path*/
+.iti__flag {background-image: url("../node_modules/intl-tel-input/build/img/flags.png");} 
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+ .iti__flag {background-image: url("../node_modules/intl-tel-input/build/img/flags@2x.png");}
+} 
+
+ .ft-trash-2 {
+    color: red;
+}
+.badge{
+    margin-top: 10px;
+}
+.badge-pill{
+    color:white !important;
+}
+
+[class*=" ft-"], [class^=ft-] {
+    font-weight: 500;
+    font-size: 18px;
+    padding-right: 20px;
+} 
+
+ :host /deep/ .mandatory-cell {
+    border-color: red;
+} 
+span{
+    font-family:'primeicons' !important
+}
+
+.wrapper {
+    position: relative;
+    top: 0;
+    height: 100vh;
+
+}
+body {
+    font-family: auto;
+
+}
+
+form label {
+    color: #75787d;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    font-weight: 500;
+    font-family: auto;
+}
+aw-wizard-navigation-bar.horizontal.large-empty-symbols ul.steps-indicator li:not(:last-child):before {
+    background-color: #e6e6e6;
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: calc(100% - 50px);
+    top: -25px;
+    right: calc(50% + 25px);
+}
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border-top: 0px;
+    background-color: #ffffff;
+}
+
+
+
+.iti {
+    position: relative;
+    display: inline-block;
+    width: 100% !important;
+}
+.iti__country {
+    padding: 5px 10px;
+    outline: none;
+    text-align: right !important;
+}
+.iti__country-list {
+    width: 300px !important;
+}
+.ui-toolbar .btn{
+    background-color: #ffffff;
+}
+body .ui-toolbar {
+    background-color: #007ad9;
+    border: 1px solid #007ad9;
+    padding: 0.571em 1em;
+    margin-bottom: 20px;
+}
+
+/* fix toast message dissapearing*/
+#toast-container > div {
+    opacity: 1;
+  }
+  .toast {
+    font-size: initial !important;
+    border: initial !important;
+    backdrop-filter: blur(0) !important;
+  }
+  .toast-success {
+    background-color: #51A351 !important;
+  }
+  .toast-error {
+    background-color: #BD362F !important;
+  }
+  .toast-info {
+    background-color: #2F96B4 !important;
+  }
+  .toast-warning {
+    background-color: #F89406 !important;
+  }
+.logoImage{
+    width: 130px !important;
+    padding-bottom: 60px;
+    margin-right: 170%;
+}
+form label {
+    color: #75787d;
+    font-size: 1.1rem !important;
+    letter-spacing: 0px !important;
+    font-weight: 500;
+    font-family: sans-serif;
+}
+.card h1.card-title, .card h2.card-title, .card h3.card-title, .card h4.card-title, .card h5.card-title, .card h6.card-title {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05rem;
+    font-size: 1.25rem;
+    font-family: sans-serif;
+    margin-bottom: 0.25rem;
+}
+.card-add {
+    border-top: 10px solid #007ad9 !important;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #007ad9 !important;
+    border-color: #007ad9 !important;
+}

@@ -1,0 +1,244 @@
+<div class="row">
+  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+    <div class="card bg-primary">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{completedTours}}</h3>
+              <span>الرحلات المكتملة</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-bulb font-large-1"></i>
+            </div>
+          </div>
+        </div>
+        <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+    <div class="card bg-warning">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{innerTours}}</h3>
+              <span>الرحلات الداخلية</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-pie-chart font-large-1"></i>
+            </div>
+          </div>
+        </div>
+        <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+    <div class="card bg-success">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{outerTours}}</h3>
+              <span>الرحلات الدولية</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-graph font-large-1"></i>
+            </div>
+          </div>
+        </div>
+        <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+    <div class="card bg-danger">
+      <div class="card-content">
+        <div class="card-body pt-2 pb-0">
+          <div class="media">
+            <div class="media-body white text-left">
+              <h3 class="font-large-1 mb-0">{{cancelledTours}}</h3>
+              <span>الرحلات الملغية</span>
+            </div>
+            <div class="media-right white text-right">
+              <i class="icon-wallet font-large-1"></i>
+            </div>
+          </div>
+        </div>
+        <div id="Widget-line-chart2" class="height-75 WidgetlineChart WidgetlineChartShadow mb-3">
+          <x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options"
+            [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+          </x-chartist>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card">
+  <div class="col-xl-4 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">{{totalTours}} الرحلات</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body"  *ngFor="let tour of tours">
+          <div class="media mb-3">
+            <img alt="96x96" class="media-object d-flex mr-3 align-self-center bg-primary height-50 rounded-circle" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png">
+            <div class="media-body">
+              <h4 class="font-medium-1 mt-2 mb-0">{{tour?.name}}</h4>
+            </div>
+            <a *ngIf="tour.completed === true" class="d-flex ml-3 btn btn-raised btn-round gradient-blackberry py-2 width-100 justify-content-center white">مكتملة</a>
+            <a *ngIf="tour.completed === false"class="d-flex ml-3 btn btn-raised btn-round gradient-pomegranate py-2 width-100 justify-content-center white">غير مكتملة</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-8 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">احصائيات الرحلات الشهرية خلال السنة</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="chart-info mb-3">
+            <span class="text-uppercase mr-3"><i class="fa fa-circle primary font-small-2 mr-1"></i> عدد الرحلات</span>
+          </div>
+          <div id="line-chart1" class="height-350 lineChart1 lineChart1Shadow">
+            <x-chartist class="" [data]="lineChart1.data" [type]="lineChart1.type" [options]="lineChart1.options" [events]="lineChart1.events">
+            </x-chartist>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card">
+
+</div>
+<div class="row" matchHeight="card">
+  <div class="col-xl-6 col-lg-12 col-sm-12">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-img">
+          <img class="card-img-top img-fluid height-300" src="assets/img/photos/weather-1.jpg" alt="Card image cap">
+          <h4 class="card-title">Sunny</h4>
+          <a class="btn btn-floating halfway-fab bg-primary"><i class="ft-plus"></i></a>
+        </div>
+        <div class="card-body mt-2">
+          <div class="row">
+            <div class="col-2 text-center">
+              <span class="d-block">Mon</span>
+              <i class="wi wi-day-sunny d-block warning font-large-1 my-3"></i>
+              <span class="d-block">13&deg;</span>
+            </div>
+            <div class="col-2 text-center">
+              <span class="d-block">Tue</span>
+              <i class="wi wi-day-cloudy d-block warning font-large-1 my-3"></i>
+              <span class="d-block">12&deg;</span>
+            </div>
+            <div class="col-2 text-center">
+              <span class="d-block">Wed</span>
+              <i class="wi wi-day-cloudy-gusts d-block warning font-large-1 my-3"></i>
+              <span class="d-block">10&deg;</span>
+            </div>
+            <div class="col-2 text-center">
+              <span class="d-block">Thu</span>
+              <i class="wi wi-day-cloudy-windy d-block warning font-large-1 my-3"></i>
+              <span class="d-block">12&deg;</span>
+            </div>
+            <div class="col-2 text-center">
+              <span class="d-block">Fri</span>
+              <i class="wi wi-day-fog d-block warning font-large-1 my-3"></i>
+              <span class="d-block">9&deg;</span>
+            </div>
+            <div class="col-2 text-center">
+              <span class="d-block">Sat</span>
+              <i class="wi wi-day-lightning d-block warning font-large-1 my-3"></i>
+              <span class="d-block">6&deg;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-6 col-lg-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h4 class="card-title">احصائيات اسعار الرحلات الدولية والداخلية</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="chart-info mb-2">
+            <span class="text-uppercase mr-3"><i class="fa fa-circle primary font-small-2 mr-1"></i>متوسط السعر</span>
+            <span class="text-uppercase mr-3"><i class="fa fa-circle danger font-small-2 mr-1"></i> اعلي سعر</span>
+            <span class="text-uppercase mr-3"><i class="fa fa-circle warning font-small-2 mr-1"></i> اقل سعر</span>
+        
+          </div>
+          <div id="line-chart2" class="height-350 lineChart2 lineChart2Shadow">
+            <x-chartist class="" [data]="lineChart2.data" [type]="lineChart2.type" [options]="lineChart2.options"
+              [events]="lineChart2.events">
+            </x-chartist>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-9 col-lg-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h4 class="card-title">احصائيات عدد المقاعد والمدة الزمنية للرحلات</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="chart-info mb-2">
+            <span class="text-uppercase mr-3"><i class="fa fa-circle primary font-small-2 mr-1"></i>  عدد المقاعد </span>
+            <span class="text-uppercase mr-3"><i class="fa fa-circle warning font-small-2 mr-1"></i>   عدد أيام الرحلة</span>
+          </div>
+          <div id="line-area-chart" class="height-300 lineAreaChart mb-1">
+            <x-chartist class="" [data]="lineAreaChart.data" [type]="lineAreaChart.type" [options]="lineAreaChart.options"
+              [responsiveOptions]="lineAreaChart.responsiveOptions" [events]="lineAreaChart.events">
+
+            </x-chartist>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-12">
+    <div class="card completed-tours">
+      <div class="card-content">
+        <div class="card-body ">
+          <h4 class="card-title">الحجوزات </h4>
+          <p class="card-text">عدد الحجوزات في كل رحلة</p>
+        </div>
+        <ul class="list-group" *ngFor="let tour of tours">
+          <li class="list-group-item text-left">
+            <span class="badge bg-primary float-right text-white">{{tour?.bookings.length}}</span> {{tour?.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

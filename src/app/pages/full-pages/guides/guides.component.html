@@ -1,0 +1,227 @@
+
+  <section id="ngx">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+             
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              
+              <i class="fa fa-align-justify"></i> المرشدين السياحيين
+           </div>
+            <div class="card-body">
+              <p-toolbar class="toolbar" >
+                <button (click)="createNewUser()" class=" btn btn-default" >
+                  <i class="icon-plus icon"></i>  اضافة مرشد سياحي 
+                </button>
+                <button (click)="exportCSV()" class=" btn btn-default left" >
+                  <i class="icon-share-alt icon"></i>  CSV
+                </button>
+              </p-toolbar> 
+            <p-table #dt [value]="users" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+            currentPageReportTemplate="إظهار {first} الى {last} من  {totalUsers} المرشدين السياحيين" [style]="{'width':'100%','overflow':'auto!important'}"
+            [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+            [responsive]="true" selectionMode="single"
+            [filterDelay]="0" [globalFilterFields]="['name','email','role','active' ]">
+            <ng-template pTemplate="caption">
+              <div class="ui-table-globalfilter-container">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-search"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                  <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                  <th pSortableColumn="name">اسم المستخدم <p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="email"> الايميل <p-sortIcon field="email"></p-sortIcon></th>
+                  <th pSortableColumn="role">نوع المستخدم <p-sortIcon field="role"></p-sortIcon></th>
+                  <th pSortableColumn="active">حالة المستخدم <p-sortIcon field="active"></p-sortIcon></th>
+                
+                  <th >التعديل</th> 
+                  
+              </tr>
+           </ng-template>
+            <ng-template pTemplate="body" let-user>
+              <tr>
+                  <!-- <td>{{user.user_id}}</td> -->
+                  <td>{{user?.name}}</td>
+                  <td>{{user?.email }}</td>
+                  <td>{{user?.role}}</td>
+                  <!-- <td>{{user?.active}}</td> -->
+                  <td>
+                        <!-- Rounded switch -->
+                    <label class="switch" *ngIf='user.active === false' >
+                      <input type="checkbox" />
+                      <span class="slider round"  (click)="enableUser(user._id)"></span>
+                    </label>
+                    <label class="switch"  *ngIf="user.active === true">
+                      <input type="checkbox" checked >
+                      <span class="slider round"  (click)="disableUser(user._id)"></span>
+                    </label>
+                  </td>
+                  <td>               
+                  <div class="fonticon-wrap" (click)="editUser(user)"  >
+                    <i class="icon-pencil icon"></i>
+                  </div> 
+                
+                  </td>
+                 
+               </tr>
+            </ng-template>
+          </p-table>
+         </div>
+       </div>
+      <!-- Edit User Dialog-->
+       <p-dialog [visible]="userDialog" [style]="{width: '450px'}" header="تعديل المستخدم"  styleClass="p-fluid"  [dismissableMask]="false"
+       [modal]="true"
+       [appendTo]="'body'" >
+        <!-- <ng-template pTemplate="content"> -->
+        <form [formGroup]="userForm" >
+          <div class="content with-padding padding-bottom-0">
+              <div class="row">
+                  <div class="col-xl-12">
+    
+                          <div class="col-md-12">
+                            <div class="submit-field form-group"
+                            [ngClass]="{'has-error': userForm.get('name')?.errors &&
+                                        (userForm.get('name').touched || userForm.get('name').dirty)}">
+                                  <h5 class="control-label">اسم المستخدم </h5>
+                                  <input  type="text" class="form-control" formControlName='name' value='user.name'>
+                                  <span class="alert alert-danger" *ngIf="userForm.get('name')?.errors &&
+                                  (userForm.get('name').touched || userForm.get('name').dirty)">
+                                  <span  *ngIf="userForm.get('name').errors.required">اسم المستخدم مطلوب</span>
+                                  <span  *ngIf="userForm.get('name').errors.minlength || userForm.get('name').errors.maxlength">اقل عدد حروف متاح 4 ,اكثر عدد حروف متاح 50  </span>
+                                  </span>
+                              </div>
+                          </div>
+    
+                        <div class="col-md-12">
+                          <div class="submit-field form-group"
+                           [ngClass]="{'has-error': userForm.get('email')?.errors &&
+                                       (userForm.get('email').touched || userForm.get('email').dirty)}">
+                              <h5 class="control-label">الايميل</h5>
+                              <input  type="text" class="form-control" formControlName='email' value='user.email'>
+                              <span class="alert alert-danger" *ngIf="userForm.get('email')?.errors &&
+                              (userForm.get('email').touched || userForm.get('email').dirty)">
+                              <span  *ngIf="userForm.get('email').errors?.required">اسم الكامل مطلوب</span>
+                              <span  *ngIf="userForm.get('email').errors?.email">الايميل غير صحيح</span>
+                              </span>
+                          </div>
+                      </div>
+    
+                          <div class="col-md-12">
+                                <h5 class="control-label" >نوع المستخدم</h5>
+                                <select  class="form-control" data-size="7" formControlName="role"  value='user.role' title="نوع المستخدم" >
+                                    <option *ngFor="let role of roles"   [ngValue]="role.role_name">{{ role.role_name}}</option>
+                                </select>
+                          </div>
+    
+                        </div>
+                  </div>
+              </div>
+    
+              <div class="buttons margin-top-10">
+                  <input type="submit"  (click)="submitEdituserForm(userForm , user._id)" class=" btn btn-primary submit" value="حفظ">
+                  <button pButton pRipple label="Cancel" icon="pi pi-times" class=" btn btn-danger submit " (click)="hideDialog()">اغلاق</button>
+              </div>
+          </form>
+         <!-- </ng-template> -->
+        </p-dialog>
+      <!-- create User Dialog-->
+       <p-dialog [(visible)]="newUserDialog" [style]="{width: '450px'}" header="اضافة مستخدم جديد" appendToBody="true"  styleClass="p-fluid" [dismissableMask]="false"
+       [modal]="true"
+       [appendTo]="'body'">
+       <!-- <ng-template pTemplate="content"> -->
+        <form [formGroup]="newUserForm" >
+          <div class="content with-padding padding-bottom-0">
+              <div class="row">
+                  <div class="col-xl-12">
+                          <div class="col-md-12">
+                              <div class="submit-field form-group" *ngIf="newUserForm.get('name') as userFormControl"
+                              [class.invalid]="userFormControl?.errors && (userFormControl.touched || userFormControl.dirty)">
+                                  <h5 class="control-label">اسم المستخدم</h5>
+                                  <input  type="text" class="form-control" formControlName='name' >
+                                  <span class="alert alert-danger" *ngIf="newUserForm.get('name')?.errors &&
+                                  (newUserForm.get('name').touched || newUserForm.get('name').dirty)">
+                                  <span  *ngIf="newUserForm.get('name').errors.required">اسم المستخدم مطلوب</span>
+                                  <span  *ngIf="newUserForm.get('name').errors.minlength || newUserForm.get('name').errors.maxlength">اقل عدد حروف متاح 4 ,اكثر عدد حروف متاح 50  </span>
+                                  </span>
+                              </div>
+                          </div>
+    
+                          <div class="col-md-12">
+                              <div class="submit-field"  *ngIf="newUserForm.get('email') as userFormControl"
+                              [class.invalid]="userFormControl?.errors && (userFormControl.touched || userFormControl.dirty)">
+                                  <h5 class="control-label">الايميل</h5>
+                                  <input type="text" formControlName='email'  class="form-control">
+                                  <span   class="alert alert-danger" *ngIf="newUserForm.get('email')?.errors &&
+                                  (newUserForm.get('email').touched || newUserForm.get('email').dirty)">
+                                  <span  *ngIf="newUserForm.get('email').errors.required">الايميل مطلوب</span>
+                                  <span  *ngIf="newUserForm.get('email').errors.email">الايميل غير صحيح</span>
+                                  </span>
+                              </div>
+                          </div>
+    
+                          <div class="col-md-12">
+                            <div class="submit-field"  *ngIf="newUserForm.get('password') as userFormControl"
+                            [class.invalid]="userFormControl?.errors && (userFormControl.touched || userFormControl.dirty)">
+                                <h5 class="control-label">كلمة المرور</h5>
+                                <input type="text" class="form-control" formControlName='password' >
+                                <span  class="alert alert-danger" *ngIf="newUserForm.get('password')?.errors &&
+                                (newUserForm.get('password').touched || newUserForm.get('password').dirty)">
+                                <span  *ngIf="newUserForm.get('password').errors?.required"> كلمة المرور مطلوبة</span>
+                                <span  *ngIf="newUserForm.get('password').errors?.minlength">اقل عدد حروف متاح 8</span>
+                                </span>
+                            </div>
+                        </div>
+  
+                        <div class="col-md-12">
+                          <div class="submit-field"  *ngIf="newUserForm.get('passwordConfirmation') as userFormControl"
+                          [class.invalid]="userFormControl?.errors && (userFormControl.touched || userFormControl.dirty)">
+                              <h5 class="control-label">تأكيد كلمة المرور</h5>
+                              <input type="text" class="form-control" formControlName='passwordConfirmation' >
+                              <span  class="alert alert-danger" *ngIf="newUserForm.get('passwordConfirmation')?.errors &&
+                              (newUserForm.get('passwordConfirmation').touched || newUserForm.get('passwordConfirmation').dirty)">
+                              <span  *ngIf="newUserForm.get('passwordConfirmation').errors?.required"> كلمة المرور مطلوبة</span>
+                              <span  *ngIf="newUserForm.get('passwordConfirmation').errors?.minlength">اقل عدد حروف متاح 8</span>
+                              </span>
+                          </div>
+                      </div>
+                          <div class="col-md-12">
+                                <h5 class="control-label" >نوع المستخدم</h5>
+                                <select  class="form-control" data-size="7" formControlName="role"   title="نوع المستخدم" >
+                                    <option *ngFor="let role of roles"  [ngValue]="role.role_name">{{role.role_name}}</option>
+                                </select>
+                          </div>
+    
+                        </div>
+                  </div>
+              </div>
+    
+              <div class="buttons margin-top-10">
+                  <input type="submit"  (click)="submitCreateUserForm(newUserForm)" class=" btn btn-primary submit " value="حفظ">
+                   <button  icon="pi pi-times" class=" btn btn-danger submit" (click)="hideUserDialog()">الغاء</button>
+              </div>
+          </form> 
+         <!-- </ng-template>  -->
+        </p-dialog> 
+    
+      </div>
+     </div>
+    </div>
+    
+    
+    </div>
+    </div>
+    </div>
+    </section>
+  

@@ -1,0 +1,332 @@
+
+<div class="row">
+</div>
+<section id="ngx">
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
+            <p class="mb-0">
+            </p>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> الرحلات
+        </div>
+        <div class="card-body">
+          <p-toolbar class="toolbar" >
+            <button (click)="createNewTour()" class=" btn btn-default" >
+              <i class="icon-plus icon"></i>  اضافة رحلة 
+            </button>
+            <button (click)="exportCSV()" class=" btn btn-default right" >
+              <i class="icon-share-alt icon"></i>  CSV
+            </button>
+          </p-toolbar> 
+        <p-table #dt [value]="tours" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+        currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
+        [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+        [responsive]="true" selectionMode="single"
+        [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
+        <ng-template pTemplate="caption">
+          <div class="ui-table-globalfilter-container">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+              <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+              <th pSortableColumn="name">اسم الرحلة <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="type">نوع الرحلة <p-sortIcon field="type"></p-sortIcon></th>
+              <th pSortableColumn="duration">المدة <p-sortIcon field="duration"></p-sortIcon></th>
+              <th pSortableColumn="createdAt">تاريخ انشاء الرحلة <p-sortIcon field="createdAt"></p-sortIcon></th>
+              <th pSortableColumn="adultPrice"> سعر البالغ <p-sortIcon field="adultPrice"></p-sortIcon></th>
+              <th pSortableColumn="chuldPrice"> سعر الطفل <p-sortIcon field="childPrice"></p-sortIcon></th>
+              <th pSortableColumn="infantPrice"> سعر الرضيع <p-sortIcon field="infantPrice"></p-sortIcon></th>
+              <th pSortableColumn="maxGroupSize">  عدد المقاعد <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+              <th pSortableColumn="maxGroupSize"> عدد الحجوزات <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+              <th pSortableColumn="priceDiscount">صورة المكان <p-sortIcon field="priceDiscount"></p-sortIcon></th>
+              <!-- <th pSortableColumn="active">التفعيل <p-sortIcon field="active"></p-sortIcon></th> -->
+              <th >التعديل</th> 
+              <th > التفاصيل</th> 
+              <th >التفعيل</th> 
+              
+          </tr>
+       </ng-template>
+        <ng-template pTemplate="body" let-tour>
+          <tr>
+              <!-- <td>{{user.user_id}}</td> -->
+              <td>{{tour?.name}}</td>
+              <td>{{tour?.type}}</td>
+              <td>{{tour?.duration}} _ يوم</td>
+              <td>{{tour?.createdAt | date}}</td>
+              <td>{{tour?.adultPrice}} ريال</td>
+              <td>{{tour?.childPrice}} ريال</td>
+              <td>{{tour?.infantPrice}} ريال</td>
+              <td>{{tour?.maxGroupSize}}</td>
+              <td>{{tour?.bookings.length}}</td>
+              <td> <img class="card-img-top img-fluid" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png" alt="Card image cap">
+              <td>
+                <div class="fonticon-wrap" (click)="editTour(tour)" >
+                  <i class="icon-pencil edit"></i>
+                </div> 
+              </td>
+              <td>
+              <div class="fonticon-wrap" (click)="detailsTour(tour)"  >
+                  <i class=" icon-eye edit"></i>
+                </div> 
+            </td>
+            <td>
+              <!-- Rounded switch -->
+              <label class="switch" *ngIf="tour?.active === false" >
+                <input type="checkbox" />
+                <span class="slider round"  (click)="enableTour(tour)"></span>
+              </label>
+              <label class="switch"  *ngIf="tour?.active === true">
+                <input type="checkbox" checked >
+                <span class="slider round"  (click)="disableTour(tour)"></span>
+              </label>
+            </td>
+           </tr>
+        </ng-template>
+      </p-table>
+     </div>
+   </div>
+
+  <p-dialog  [(visible)]="detailsTourDialog" [style]="{width: '750px'}" header=" معلومات الرحلة"  styleClass="p-fluid"  [dismissableMask]="false"
+   [modal]="true"
+   [appendTo]="'body'">
+ 
+      <div class="row">
+        <div class="col-sm-12 col-md-12" >
+          <br/>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                          <div class="card-content">
+                            <img class="full-img-top img-fluid" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png" alt="Card image cap">
+                            <div class="card-body">
+                              <h4 class="card-title">{{tour?.name}}</h4>
+                              <p class="card-text">{{tour?.description}}</p>
+                             
+                              <div class="details row">
+                                
+                                <div class="row text-left" matchHeight="card">
+                                  <div class="col-xl-6 col-lg-6 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger">مدة الرحلة</h3>
+                                              <span class="black">{{tour?.duration}}</span>
+                                            </div>
+                                            <div class="media-right align-self-center">
+                                              <i class="icon-plane danger font-large-1 float-right"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger ">أقصي عدد مسافرين </h3>
+                                              <span >{{tour?.maxGroupSize}}</span>
+                                            </div>
+                                            <div class="media-right align-self-center">
+                                              <i class="
+                                              icon-users danger font-large-1 float-right"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              
+                                  <div class="col-xl-6 col-lg-6 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger ">نوع الرحلة</h3>
+                                              <span>{{tour?.type}}</span>
+                                            </div>
+                                            <div class="media-right align-self-center">
+                                              <i class="icon-globe danger font-large-1 float-right"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger">مستوي الصعوبة</h3>
+                                              <span>{{tour?.difficulty}}</span>
+                                            </div>
+                                            <div class="media-right align-self-center">
+                                              <i class="icon-layers danger font-large-1 float-right"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body ">
+                                              <h3 class="mb-1 danger">سعر البالغ</h3>
+                                              <span>{{tour?.adultPrice}}</span>
+                                            </div>
+                                            <div class="media-right align-self-center">
+                                              <i class="icon-wallet danger font-large-1 float-right"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger">  سعر الطفل</h3>
+                                              <span >{{tour?.childPrice}}</span>
+                                            </div>
+                                            <div class="media-right align-self-center">
+                                              <i class="icon-wallet danger font-large-1 float-right"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-12">
+                                    <div class="card">
+                                      <div class="card-content">
+                                        <div class="px-3 py-3">
+                                          <div class="media">
+                                            <div class="media-body">
+                                              <h3 class="mb-1 danger">سعر الرضيع  </h3>
+                                              <span >{{tour?.infantPrice}}</span>
+                                            </div>
+                                            <div class="media-right align-self-center">
+                                              <i class="icon-wallet danger font-large-1 float-right"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class=" row">
+                                  <div class=" col-md-12">
+                                  <h3 class="content-title"> تواريخ بدأ الرحلات</h3>
+                                    <div>
+                                      <div class="card-content">
+                                        <div class="card-body">
+                                          <ul class="list-group"  *ngFor="let date of tour?.startDates">
+                                            <li class="list-group-item">
+                                              <span class="badge badge-default mr-2"><i class="icon-calendar danger font-large-1"></i></span>  {{date?.date | date}}
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                               <div class="details col-md-12"> 
+                                <h3 class="content-title"> ايام الرحلة</h3>
+                                    <!--One open panel at a time Starts-->
+                                    <ngb-accordion [closeOthers]="true" *ngFor="let trip of tour?.tripLocations">
+                                      <ngb-panel id="1" title={{trip?.day}} >
+                                        <ng-template ngbPanelContent >
+                                          <p> <i class="edit fa ft-check-circle">  </i>العنوان : {{trip?.address}}</p>
+                                          <p> <i class="edit fa ft-check-circle">  </i> الوصف : {{trip?.description}}</p>
+                                          <hr>
+                                        </ng-template>
+                                      </ngb-panel>
+                                    </ngb-accordion>
+                               <hr>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="card">
+                                  <div class="card-content"  >
+                                    <ngb-carousel  style="width: 550px; height: 350px; padding-left: 16px; padding-right: 16px">
+                                      <ng-template ngbSlide *ngFor="let image of tour?.images"  >
+                                        <img src="https://res.cloudinary.com/reg1rego3/image/upload/v{{image.imageVersion}}/{{image.imageId}}.jpg"alt="Random first slide" style="width: 550px; height: 350px; ">
+                                      </ng-template>
+                                    </ngb-carousel>
+                                   
+                                  </div>
+                                </div>
+                              </div>
+                              <!--Basic google map starts-->
+                                  <!-- <section id="map">
+                                    <div class="row text-left">
+                                        <div class="col-sm-12">
+                                            <div class="content-header">الرحلة علي الخريطة</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <div class="card-body" >
+                                                        <agm-map [zoom]="3" [center]="center" >
+                                                            <agm-marker *ngFor="let trip of tour?.tripLocations"  [latitude]="trip?.coordinates[1]" [longitude]="trip?.coordinates[0]"></agm-marker>
+                                                            <agm-polyline [visible]="true" [strokeWeight]="2" [strokeColor]="'red'"> 
+                                                              <agm-polyline-point
+                                                              *ngFor="let trip of tour?.tripLocations"  [latitude]="trip?.coordinates[1]" [longitude]="trip?.coordinates[0]">
+                                                                </agm-polyline-point>
+                                                              </agm-polyline>
+                                                            </agm-map>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </section> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+             </div>
+            </div>
+    </p-dialog> 
+
+  </div>
+ </div>
+</div>
+</div>
+</div>
+</div>
+</section>

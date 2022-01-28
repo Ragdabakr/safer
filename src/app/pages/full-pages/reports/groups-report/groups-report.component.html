@@ -1,0 +1,209 @@
+    <!--Tabset Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">تقارير الرحلات</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <ngb-tabset>
+              <ngb-tab title="الرحلات المفتوحة">
+                <ng-template ngbTabContent>
+                   
+                  <div class="card-body">
+                    <!-- <p-toolbar class="toolbar" >
+                      <button (click)="createNewTour()" class=" btn btn-default" >
+                        <i class="icon-plus icon"></i>  اضافة رحلة 
+                      </button>
+                      <button (click)="exportCSV()" class=" btn btn-default right" >
+                        <i class="icon-share-alt icon"></i>  CSV
+                      </button>
+                    </p-toolbar>  -->
+                  <p-table #dt [value]="tours" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+                  currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
+                  [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+                  [responsive]="true" selectionMode="single"
+                  [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
+                  <ng-template pTemplate="caption">
+                    <div class="ui-table-globalfilter-container">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                        <th pSortableColumn="name">اسم الرحلة <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="type">نوع الرحلة <p-sortIcon field="type"></p-sortIcon></th>
+                        <th pSortableColumn="duration">المدة <p-sortIcon field="duration"></p-sortIcon></th>
+                        <th pSortableColumn="createdAt">تاريخ انشاء الرحلة <p-sortIcon field="createdAt"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize">  عدد المقاعد <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize"> المقاعد المحجوزة <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize"> المقاعد المتوفرة <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th > تقرير الرحلة</th> 
+                    
+                        
+                    </tr>
+                 </ng-template>
+                  <ng-template pTemplate="body" let-tour>
+                    <tr>
+                        <!-- <td>{{user.user_id}}</td> -->
+                        <td>{{tour?.name}}</td>
+                        <td>{{tour?.type}}</td>
+                        <td>{{tour?.duration}} _ يوم</td>
+                        <td>{{tour?.createdAt | date}}</td>
+                        <td>{{tour?.maxGroupSize}}</td>
+                        <td>{{tour?.bookings.length}}</td>
+                        <td>{{tour?.maxGroupSize - tour?.bookings.length}}</td>
+                      
+                        <td>
+                        <div class="fonticon-wrap" (click)="detailsGroup(tour)"  >
+                            <i class=" icon-eye edit"></i>
+                          </div> 
+                      </td>
+                      <!-- <td>
+                        
+                        <label class="switch" *ngIf="tour?.active === false" >
+                          <input type="checkbox" />
+                          <span class="slider round"  (click)="enableTour(tour)"></span>
+                        </label>
+                        <label class="switch"  *ngIf="tour?.active === true">
+                          <input type="checkbox" checked >
+                          <span class="slider round"  (click)="disableTour(tour)"></span>
+                        </label>
+                      </td> -->
+                     </tr>
+                  </ng-template>
+                </p-table>
+               </div>
+
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="الرحلات المغلقة">
+                
+                <ng-template ngbTabContent>
+                  <p-table #dt [value]="closedTours" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+                  currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
+                  [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+                  [responsive]="true" selectionMode="single"
+                  [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
+                  <ng-template pTemplate="caption">
+                    <div class="ui-table-globalfilter-container">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                        <th pSortableColumn="name">اسم الرحلة <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="type">نوع الرحلة <p-sortIcon field="type"></p-sortIcon></th>
+                        <th pSortableColumn="duration">المدة <p-sortIcon field="duration"></p-sortIcon></th>
+                        <th pSortableColumn="createdAt">تاريخ انشاء الرحلة <p-sortIcon field="createdAt"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize">  عدد المقاعد <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize"> المقاعد المحجوزة <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize"> المقاعد المتوفرة <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th > تقرير الرحلة</th> 
+                       
+                        
+                    </tr>
+                 </ng-template>
+                  <ng-template pTemplate="body" let-tour>
+                    <tr>
+                        <!-- <td>{{user.user_id}}</td> -->
+                        <td>{{tour?.name}}</td>
+                        <td>{{tour?.type}}</td>
+                        <td>{{tour?.duration}} _ يوم</td>
+                        <td>{{tour?.createdAt | date}}</td>
+                        <td>{{tour?.maxGroupSize}}</td>
+                        <td>{{tour?.bookings.length}}</td>
+                        <td>{{tour?.maxGroupSize - tour?.bookings.length}}</td>
+                      
+                        <td>
+                        <div class="fonticon-wrap" (click)="detailsGroup(tour)"  >
+                            <i class=" icon-eye edit"></i>
+                          </div> 
+                      </td>
+                     
+                     </tr>
+                  </ng-template>
+                </p-table>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="الرحلات الملغية" >
+                <ng-template ngbTabContent>
+                  <p-table #dt [value]="cancelledTours" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+                  currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
+                  [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+                  [responsive]="true" selectionMode="single"
+                  [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
+                  <ng-template pTemplate="caption">
+                    <div class="ui-table-globalfilter-container">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                        <th pSortableColumn="name">اسم الرحلة <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="type">نوع الرحلة <p-sortIcon field="type"></p-sortIcon></th>
+                        <th pSortableColumn="duration">المدة <p-sortIcon field="duration"></p-sortIcon></th>
+                        <th pSortableColumn="createdAt">تاريخ انشاء الرحلة <p-sortIcon field="createdAt"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize">  عدد المقاعد <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize"> المقاعد المحجوزة <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th pSortableColumn="maxGroupSize"> المقاعد المتوفرة <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                        <th > تقرير الرحلة</th> 
+                      
+                        
+                    </tr>
+                 </ng-template>
+                  <ng-template pTemplate="body" let-tour>
+                    <tr>
+                        <!-- <td>{{user.user_id}}</td> -->
+                        <td>{{tour?.name}}</td>
+                        <td>{{tour?.type}}</td>
+                        <td>{{tour?.duration}} _ يوم</td>
+                        <td>{{tour?.createdAt | date}}</td>
+                        <td>{{tour?.maxGroupSize}}</td>
+                        <td>{{tour?.bookings.length}}</td>
+                        <td>{{tour?.maxGroupSize - tour?.bookings.length}}</td>
+                      
+                        <td>
+                        <div class="fonticon-wrap" (click)="detailsGroup(tour)"  >
+                            <i class=" icon-eye edit"></i>
+                          </div> 
+                      </td>
+                     
+                     </tr>
+                  </ng-template>
+                </p-table>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
+       
+      </div>
+
+
+    </div>
+    <!--Tabset Ends-->   
