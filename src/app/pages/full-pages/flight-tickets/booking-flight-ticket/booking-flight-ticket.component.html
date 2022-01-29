@@ -8,12 +8,7 @@
       <div class="card-content completed-tours">
         <div class="card-body add-items">
 
-          <div class="form-group col-sm-6">
-            <label for="street">نوع التذكرة</label><span class="red">*</span>
-            <select     #mySelect (change)='onTicketTypeSelected($event)' class="form-control" data-size="7" formControlName="companyAccount"  >
-              <option *ngFor="let ticketType of ticketTypes"  [ngValue]="ticketType">{{ticketType}}</option>
-          </select>
-      </div> 
+      
 
       <!--NEW TICKET  with comm-->
 
@@ -26,37 +21,37 @@
               <div class="row">
                 <div class=" borderSection form-inline"> 
 
-                    <div class="form-group  col-sm-6">
-                          <label for="street"> القطع من</label><span class="red">*</span>
+                    <div class="form-group  col-sm-4">
+                          <label for="street"> القطع من</label>
                           <select  class="form-control" data-size="7" formControlName="bookingFrom"  >
                             <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
-                        </select>
+                        </select><span class="red">*</span>
                     </div>
-                        <div class="form-group col-sm-6">
-                          <label for="street"> القطع الي</label><span class="red">*</span>
+                        <div class="form-group col-sm-4">
+                          <label for="street"> القطع الي</label>
                           <select class="form-control" data-size="7" formControlName="bookingTo"  >
                             <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
-                        </select>
+                        </select><span class="red">*</span>
                     </div>
                 
-                <div class="form-group col-sm-6">
-                  <label for="street"> النسبة</label>%<span class="red">*</span>
-                  <input type="text"  formControlName="ratio" class="form-control">
+                <div class="form-group col-sm-4">
+                  <label for="street"> النسبة</label>
+                  <input type="text"  formControlName="ratio" class="form-control">%<span class="red">*</span>
             </div>
-            <div class="form-group col-sm-6">
-              <label for="street">طريقة الدفع</label><span class="red">*</span>
+            <div class="form-group col-sm-4">
+              <label for="street">طريقة الدفع</label>
               <select class="form-control" data-size="7" formControlName="paymentMethod"  >
                 <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
-            </select>
+            </select><span class="red">*</span>
             </div>
 
-                <div class="form-group col-sm-6 payment">
-                  <label for="street">تاريخ المغادرة</label> <span class="red">*</span>
-                  <input  class="date" type="date" formControlName="departureDate" class="form-control">
+                <div class="form-group col-sm-4 payment">
+                  <label for="street">تاريخ المغادرة</label> 
+                  <input  class="date" type="date" formControlName="departureDate" class="form-control"><span class="red">*</span>
               </div>
-              <div class="form-group col-sm-6 payment">
-                <label for="street">الوجهة</label> <span class="red">*</span>
-                <input  class="checkbox" type="text" formControlName="destination" class="form-control">
+              <div class="form-group col-sm-4 payment">
+                <label for="street">الوجهة</label> 
+                <input  class="checkbox" type="text" formControlName="destination" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 ">
               <label for="street">الملاحظات</label>
@@ -64,362 +59,101 @@
           </div>
             </div>
          
-          <div class=" borderSection "  formArrayName="travellers"> 
-              <input type="submit"  (click)="addTravellerButtonClick()" class=" btn btn-primary submit " value="اضافة مسافر">
+          <div class=" borderSection row form-inline"  formArrayName="travellers"> 
+            <div  class="form-group "><input type="submit"   (click)="calculate()" class=" btn btn-danger submit " value="الحساب"></div>
+              <!-- <input type="submit"  (click)="addTravellerButtonClick()" class=" btn btn-danger submit " value="اضافة مسافر"> -->
             <div class="keywords-container " *ngFor="let item of flightTicketForm.get('travellers')['controls']; let i = index;">
               <div class="keyword-input-container  row" [formGroupName]='i'>
-                  <div class="form-group col-sm-3">
-                    <label for="street">أسم المسافر</label><span class="red">*</span>
-                    <input type="text"  formControlName="travellerFirstName" class="form-control">
+                  <div class="form-group col-sm-4 payment">
+                    <label class="label" for="street">اسم المسافر</label>
+                    <input type="text"  formControlName="travellerFirstName" class="form-control"><span class="red">*</span>
                 </div>
-                <div class="form-group col-sm-3">
-                  <label for="street">الاسم الأخير</label><span class="red">*</span>
-                  <input type="text"  formControlName="travellerLastName" class="form-control">
+                <div class="form-group col-sm-4 payment">
+                  <label  class="label" for="street">الاسم الأخير</label>
+                  <input type="text"  formControlName="travellerLastName" class="form-control"><span class="red">*</span>
                 </div>
-                <div class="form-group col-sm-3">
-                  <label for="street">نوع المسافر</label><span class="red">*</span>
+                <div class="form-group col-sm-4 payment">
+                  <label  class="label" for="street">نوع المسافر</label>
                   <select  class="form-control" data-size="7" formControlName="travellerType"  >
                     <option *ngFor="let type of types"  [ngValue]="type">{{type}}</option>
-                </select>
+                </select><span class="red">*</span>
               </div>
-              <div class="form-group col-sm-3 ">
-                <label for="street">رقم pnr</label> <span class="red">*</span>
-                <input  class="checkbox" type="text" formControlName="pnrNumber" class="form-control">
+              <div class="form-group col-sm-4 payment">
+                <label  class="label" for="street">رقم pnr</label>
+                <input  class="checkbox" type="text" formControlName="pnrNumber" class="form-control"><span class="red">*</span>
               </div>
-              <div class="form-group col-sm-3">
-                <label for="street">رقم الجواز</label><span class="red">*</span>
-                <input type="text"  formControlName="passportNumber" class="form-control">
+              <div class="form-group col-sm-4 payment">
+                <label  class="label" for="street">رقم الجواز</label>
+                <input type="text"  formControlName="passportNumber" class="form-control"><span class="red">*</span>
             </div>
-            <div class="form-group col-sm-3">
-              <label for="street">مبلغ الفير</label><span class="red">*</span>
-              <input type="text"  formControlName="ticketCostPrice" class="form-control">
+            <div class="form-group col-sm-4 payment">
+              <label  class="label" for="street">سعر البيع</label>
+              <input type="text"  formControlName="ticketSellingPrice" class="form-control"><span class="red">*</span>
           </div>
-          <div class="form-group col-sm-3">
-            <label for="street">الضريبة</label><span class="red">*</span>
+            <div class="form-group col-sm-4 payment">
+              <label  class="label" for="street">مبلغ الفير</label>
+              <input type="text"  formControlName="ticketCostPrice" class="form-control"><span class="red">*</span>
+            </div>
+            <div class="form-group col-sm-4 payment">
+              <label  class="label" for="street"> العمولة</label>
+              <input type="text"  formControlName="comm" class="form-control"><span class="red">*</span>
+            </div>
+            <div class="form-group col-sm-4 payment">
+              <label  class="label" for="street">مبلغ التسديد</label>
+              <input type="text"  formControlName="netCost" class="form-control"><span class="red">*</span>
+            </div>
+            <div class="form-group col-sm-4 payment">
+              <label  class="label" for="street">الخصم</label>
+              <input type="text"  formControlName="discount" class="form-control">
+            </div>
+            <div class="form-group col-sm-4 payment">
+              <label  class="label" for="street">صافي العمولة</label>
+              <input type="text"  formControlName="netComm" class="form-control"><span class="red">*</span>
+            </div>
+          <div class="form-group col-sm-4 payment">
+            <label  class="label" for="street">الضريبة</label>
             <input type="text"  formControlName="ticketvatPrice" class="form-control">
         </div>
-          <div class="form-group col-sm-3">
-            <label for="street">سعر البيع</label><span class="red">*</span>
-            <input type="text"  formControlName="ticketSellingPrice" class="form-control">
+          <div class="form-group col-sm-4 payment">
+            <label  class="label" for="street">المجموع </label>
+            <input type="text"  formControlName="totalPrice" class="form-control"><span class="red">*</span>
         </div>
+        <div class="form-group col-sm-4 payment">
+          <label class="label"  for="street"> المبلغ الواصل</label>
+          <input type="text"  formControlName="receivedAmount" class="form-control">
+      </div>
+      <div class="form-group col-sm-4 payment">
+        <label  class="label" for="street"> المبلغ الباقي</label>
+        <input type="text"  formControlName="remainingAmount" class="form-control">
+    </div>
             </div>
             </div> 
-             <div  class="form-group col-sm-3"><input type="submit"   (click)="addNewTraveller()" class=" btn btn-primary submit " value="حفظ"></div>
+             <div  class="form-group col-sm-3"><input type="submit"   (click)="addNewTraveller()" class=" btn btn-danger submit " value="حفظ"></div>
+            
           </div>
         
               </div>
         </form>
 
-        <!--REFUND TICKET-->
-
-        <!-- <form  *ngIf="refundTicket" [formGroup]="refundFlightTicketForm"  novalidate>
-
-            <div class="row">
-              <div class=" borderSection row  col-sm-12"> 
-                  <div class="form-group col-lg-4 col-sm-4">
-                        <label for="street">شركة الطيران</label><span class="red">*</span>
-                        <select  class="form-control" data-size="7" formControlName="airlineAccount"  >
-                          <option *ngFor="let flightTicketsCompany of flightTicketsCompanies"  [ngValue]="flightTicketsCompany">{{flightTicketsCompany.name}}</option>
-                      </select>
-                  </div>
-                      <div class="form-group  col-lg-4  col-sm-4">
-                        <label for="street">اسم الشركة</label><span class="red">*</span>
-                        <select class="form-control" data-size="7" formControlName="companyAccount"  >
-                          <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
-                      </select>
-                  </div>
-              
-              <div class="form-group col-sm-4">
-                <label for="street">رقم pnr</label><span class="red">*</span>
-                <input  class="text" type="text" formControlName="pnrNumber" class="form-control">
-            </div>
-          <div class="form-group col-sm-4">
-            <label for="street'">طريقة الدفع</label><span class="red">*</span>
-            <select class="form-control" data-size="7" formControlName="paymentMethod"  >
-              <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
-          </select>
-          </div>
-          <div class="form-group col-sm-4 ">
-            <label for="street">تاريخ المغادرة</label> <span class="red">*</span>
-            <input  class="date" type="date" formControlName="departureDate" class="form-control">
-        </div>
-        <div class="form-group col-sm-4 ">
-          <label for="street">الوجهة</label> <span class="red">*</span>
-          <input  class="checkbox" type="text" formControlName="destination" class="form-control">
-      </div>
-          <div class="form-group col-sm-12 ">
-            <label for="street">الملاحظات</label>
-            <input  class="checkbox" type="text" formControlName="notes" class="form-control">
-        </div>
-        </div>
-
-        <div class=" borderSection row   col-sm-12">   
-        <div class="form-group col-sm-3 payment">
-            <label for="street">سعر التذكرة الأصلية</label> <span class="red">*</span>
-            <input  class="date" type="text" formControlName="costTicketPrice" class="form-control">
-        </div>
-        <div class="form-group col-sm-3 payment">
-          <label for="street">إجمالي عمولة التذكره الأصلية</label> <span class="red">*</span>
-          <input  class="checkbox" type="text" formControlName="vatTicketPrice" class="form-control">
-        </div>
-        <div class="form-group col-sm-3 payment">
-          <label for="street">غرامة الاسترجاع لشركة الطيران</label> <span class="red">*</span>
-          <input  class="date" type="text" formControlName="fineTicketSystem" class="form-control">
-      </div>
-      <div class="form-group col-sm-3 payment">
-        <label for="street">عمولة الاسترجاع لنا</label> <span class="red">*</span>
-        <input  class="checkbox" type="text" formControlName="fineTicketCompany" class="form-control">
-      </div>
-    </div>
-            </div>
-            <div class="buttons margin-top-10">
-              <input type="submit"  (click)="submitRefundFlightTicket(refundFlightTicketForm)" class=" btn btn-primary submit " value="حفظ">
-          </div>
-      </form> -->
-
-      <!--CHANGE TICKET-->
-
-      <!-- <form  *ngIf="changeTicket" [formGroup]="changeFlightTicketForm"  novalidate>
-
-        <div class="row">
-          <div class=" borderSection row  col-sm-12"> 
-              <div class="form-group col-lg-4 col-sm-4">
-                    <label for="street">شركة الطيران</label><span class="red">*</span>
-                    <select  class="form-control" data-size="7" formControlName="airlineAccount"  >
-                      <option *ngFor="let flightTicketsCompany of flightTicketsCompanies"  [ngValue]="flightTicketsCompany">{{flightTicketsCompany.name}}</option>
-                  </select>
-              </div>
-                  <div class="form-group  col-lg-4  col-sm-4">
-                    <label for="street">اسم الشركة</label><span class="red">*</span>
-                    <select class="form-control" data-size="7" formControlName="companyAccount"  >
-                      <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
-                  </select>
-              </div>
-          
-          <div class="form-group col-sm-4">
-            <label for="street">رقم pnr</label><span class="red">*</span>
-            <input  class="text" type="text" formControlName="pnrNumber" class="form-control">
-        </div>
-      <div class="form-group col-sm-4">
-        <label for="street'">طريقة الدفع</label><span class="red">*</span>
-        <select class="form-control" data-size="7" formControlName="paymentMethod"  >
-          <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
-      </select>
-      </div>
-      <div class="form-group col-sm-4 ">
-        <label for="street">تاريخ المغادرة</label> <span class="red">*</span>
-        <input  class="date" type="date" formControlName="departureDate" class="form-control">
-    </div>
-    <div class="form-group col-sm-4 ">
-      <label for="street">الوجهة</label> <span class="red">*</span>
-      <input  class="checkbox" type="text" formControlName="destination" class="form-control">
-  </div>
-      <div class="form-group col-sm-12 ">
-        <label for="street">الملاحظات</label>
-        <input  class="checkbox" type="text" formControlName="notes" class="form-control">
-    </div>
-    </div>
-
-    <div class=" borderSection row   col-sm-12">   
-    <div class="form-group col-sm-6 payment">
-      <label for="street">غرامة التغيير لشركة الطيران</label> <span class="red">*</span>
-      <input  class="date" type="text" formControlName="fineTicketSystem" class="form-control">
-  </div>
-  <div class="form-group col-sm-6 payment">
-    <label for="street">عمولة االتغيير لنا</label> <span class="red">*</span>
-    <input  class="checkbox" type="text" formControlName="fineTicketCompany" class="form-control">
-  </div>
-</div>
-        </div>
-        <div class="buttons margin-top-10">
-          <input type="submit"  (click)="submitChangeFlightTicket(changeFlightTicketForm)" class=" btn btn-primary submit " value="حفظ">
-      </div>
-  </form> -->
-
- <!--Sales TICKET-->
-
-    <!-- <form  *ngIf="sales" [formGroup]="salesFlightTicketForm"  novalidate>
-
-      <div class="row">
-        <div class=" borderSection row  col-sm-12"> 
-            <div class="form-group col-lg-4 col-sm-4">
-                  <label for="street">شركة الطيران</label><span class="red">*</span>
-                  <select  class="form-control" data-size="7" formControlName="airlineAccount"  >
-                    <option *ngFor="let flightTicketsCompany of flightTicketsCompanies"  [ngValue]="flightTicketsCompany">{{flightTicketsCompany.name}}</option>
-                </select>
-            </div>
-                <div class="form-group  col-lg-4  col-sm-4">
-                  <label for="street">اسم الشركة</label><span class="red">*</span>
-                  <select class="form-control" data-size="7" formControlName="companyAccount"  >
-                    <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
-                </select>
-            </div>
-        
-        <div class="form-group col-sm-4">
-          <label for="street">رقم pnr</label><span class="red">*</span>
-          <input  class="text" type="text" formControlName="pnrNumber" class="form-control">
-      </div>
-    <div class="form-group col-sm-4">
-      <label for="street'">طريقة الدفع</label><span class="red">*</span>
-      <select class="form-control" data-size="7" formControlName="paymentMethod"  >
-        <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
-    </select>
-    </div>
-    <div class="form-group col-sm-4 ">
-      <label for="street">تاريخ المغادرة</label> <span class="red">*</span>
-      <input  class="date" type="date" formControlName="departureDate" class="form-control">
-  </div>
-  <div class="form-group col-sm-4 ">
-    <label for="street">الوجهة</label> <span class="red">*</span>
-    <input  class="checkbox" type="text" formControlName="destination" class="form-control">
-  </div>
-    <div class="form-group col-sm-12 ">
-      <label for="street">الملاحظات</label>
-      <input  class="checkbox" type="text" formControlName="notes" class="form-control">
-  </div>
-  </div>
-
-  <div class=" borderSection row   col-sm-12">   
-  <div class="form-group col-sm-3 payment">
-    <label for="street">العدد</label> <span class="red">*</span>
-  <input  class="date" type="text" formControlName="adultNumber"  (keyup)="onadultNKeyUp($event)" class="form-control" placeholder="البالغين">
-  <input  class="date" type="text" formControlName="childrenNumber" (keyup)="onChildrenNKeyUp($event)" class="form-control" placeholder="الأطفال"> 
-  <input  class="date" type="text" formControlName="infantNumber" (keyup)="onaInfantNKeyUp($event)"  class="form-control"placeholder="الرضع"> 
-  <br/>
-  <input  class="date" type="text" formControlName="totalNumber"  value={{totalNumbers}} class="form-control">
-  </div>
-  <div class="form-group col-sm-3 payment">
-    <label for="street">الشراء</label> <span class="red">*</span>
-    <input  class="date" type="text" formControlName="adultTicketCost" (keyup)="onadultCKeyUp($event)" class="form-control" placeholder="البالغين">
-    <input  class="date" type="text" formControlName="childrenTicketCost" (keyup)="onChildrenCKeyUp($event)" class="form-control" placeholder="الأطفال">
-    <input  class="date" type="text" formControlName="infantTicketCost" (keyup)="onaInfantCKeyUp($event)" class="form-control" placeholder="الرضع">
-    <br/>
-    <input  class="date" type="text" formControlName="totalCost" value={{totalCost}} class="form-control">
-  </div>
-  <div class="form-group col-sm-3 payment">
-    <label for="street">البيع</label> <span class="red">*</span>
-    <input  class="date" type="text" formControlName="adultTicketsellingPrice" (keyup)="onadultSKeyUp($event)" class="form-control" placeholder="البالغين">
-    <input  class="date" type="text" formControlName="childrenTicketsellingPrice" (keyup)="onChildrenSKeyUp($event)" class="form-control" placeholder="الأطفال">
-    <input  class="date" type="text" formControlName="infantTicketsellingPrice" (keyup)="onInfantSKeyUp($event)" class="form-control" placeholder="الرضع">
-    <br/>
-    <input  class="date" type="text" formControlName="totalSellingPrice" value={{totalSellingPrice}} class="form-control">
-  </div>
-  <div class="form-group col-sm-3 payment">
-    <label for="street">الربح</label> <span class="red">*</span>
-    <input  class="date" type="text" formControlName="adultTicketProfit" (keyup)="onadultPKeyUp($event)" class="form-control">
-    <input  class="date" type="text" formControlName="childrenTicketProfit" (keyup)="onChildrenPKeyUp($event)" class="form-control" >
-    <input  class="date" type="text" formControlName="infantTicketProfit" (keyup)="onInfantPKeyUp($event)" class="form-control">
-    <br/>
-    <input  class="date" type="text" formControlName="totalTicketProfit"  value={{totalTicketProfit}} class="form-control">
-  </div>
-  </div>
-      </div>
-      <div class="buttons margin-top-10">
-        <input type="submit"  (click)="submitSalesFlightTicket(salesFlightTicketForm)" class=" btn btn-primary submit " value="حفظ">
-    </div>
-  </form> -->
-
-    <!--NEW TICKET  with comm-->
-
-    <!-- <form  *ngIf="salesTicket" [formGroup]="noCommFlightTicketForm"  novalidate>
-
-      <div class="buttons margin-top-10"   *ngIf="ticketsArray.length > 0">
-        <input type="submit"  (click)="submitNewFlightNotCommTicket(noCommFlightTicketForm)" class=" btn btn-primary submit " value="حفظ">
-    </div>
-      
-        <div class="row">
-          <div class=" borderSection row  col-sm-12"> 
-              <div class="form-group col-lg-4 col-sm-4">
-                    <label for="street">شركة الطيران</label><span class="red">*</span>
-                    <select  class="form-control" data-size="7" formControlName="airlineAccount"  >
-                      <option *ngFor="let flightTicketsCompany of flightTicketsCompanies"  [ngValue]="flightTicketsCompany">{{flightTicketsCompany.name}}</option>
-                  </select>
-              </div>
-                  <div class="form-group  col-lg-4  col-sm-4">
-                    <label for="street">اسم الشركة</label><span class="red">*</span>
-                    <select class="form-control" data-size="7" formControlName="companyAccount"  >
-                      <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
-                  </select>
-              </div>
-              <div class="form-group col-sm-4">
-                <label for="street'">طريقة الدفع</label><span class="red">*</span>
-                <select class="form-control" data-size="7" formControlName="paymentMethod"  >
-                  <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
-              </select>
-              </div>
-              
-            <div class="form-group col-sm-4 payment">
-              <label for="street">الوجهة</label> <span class="red">*</span>
-              <input  class="checkbox" type="text" formControlName="destination" class="form-control">
-          </div>
-              <div class="form-group col-sm-4 payment">
-                <label for="street">تاريخ المغادرة</label> <span class="red">*</span>
-                <input  class="date" type="date" formControlName="departureDate" class="form-control">
-             </div>
-              <div class="form-group col-sm-4 payment">
-                <label for="street">الملاحظات</label>
-                <input  class="checkbox" type="text" formControlName="notes" class="form-control">
-            </div>
-    </div>
- 
-    <div class=" borderSection "  formArrayName="travellers"> 
-        <input type="submit"  (click)="addNewTravellersButtonClick()" class=" btn btn-primary submit " value=" اضافة مسافر جديد">
-      <div class="keywords-container" *ngFor="let item of noCommFlightTicketForm.get('travellers')['controls']; let i = index;">
-        <div class="keyword-input-container row" [formGroupName]='i'>
-            <div class="form-group col-sm-3">
-              <label for="street">أسم المسافر</label><span class="red">*</span>
-              <input type="text"  formControlName="travellerFirstName" class="form-control">
-          </div>
-          <div class="form-group col-sm-3">
-            <label for="street">الاسم الأخير</label><span class="red">*</span>
-            <input type="text"  formControlName="travellerLastName" class="form-control">
-          </div>
-          <div class="form-group col-sm-3">
-            <label for="street">نوع المسافر</label><span class="red">*</span>
-            <select  class="form-control" data-size="7" formControlName="travellerType"  >
-              <option *ngFor="let type of types"  [ngValue]="type">{{type}}</option>
-          </select>
-        </div>
-        <div class="form-group col-sm-3 ">
-          <label for="street">رقم pnr</label> <span class="red">*</span>
-          <input  class="checkbox" type="text" formControlName="pnrNumber" class="form-control">
-        </div>
-        <div class="form-group col-sm-3">
-          <label for="street">رقم الجواز</label><span class="red">*</span>
-          <input type="text"  formControlName="passportNumber" class="form-control">
-      </div>
-      <div class="form-group col-sm-3">
-        <label for="street"> سعر التكلفة</label><span class="red">*</span>
-        <input type="text"  formControlName="ticketCostPrice" class="form-control">
-    </div>
-    <div class="form-group col-sm-3">
-      <label for="street">سعر البيع</label><span class="red">*</span>
-      <input type="text"  formControlName="ticketSellingPrice" class="form-control">
-  </div>
-      </div>
-      </div> 
-       <div  class="form-group col-sm-3"><input type="submit" [disabled]="!noCommFlightTicketForm.get('travellers').valid"  (click)="addNewTravellers()" class=" btn btn-primary submit " value="حفظ"></div>
-    </div>
-  
-        </div>
-  </form> -->
 
         </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-12 col-lg-12"  *ngIf="ticketsArray.length> 0" >
+  <div class="col-xl-12 col-lg-12"  *ngIf="ticketsArray.length > 0" >
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0">تذاكر الطيران</h4>
       </div>
+
+    
       <div class="card-content">
         <div class="card-body">
           <p-table  #dt [value]="ticketsArray" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','ticketSellingPrice' ]">
+          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','ticketSellingPrice','netCost','netComm' ,'totalPrice' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -439,6 +173,9 @@
                 <th pSortableColumn="pnrNumber">رقم الجواز  <p-sortIcon field="passportNumber"></p-sortIcon></th>
                 <th pSortableColumn="ticketCostPrice"> سعرالفير <p-sortIcon field="ticketCostPrice"></p-sortIcon></th>
                 <th pSortableColumn="ticketSellingPrice">   سعر البيع   <p-sortIcon field="ticketSellingPrice"></p-sortIcon></th>
+                <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
+                <th pSortableColumn="totalPrice">    المبلغ المدفوع    <p-sortIcon field="totalPrice"></p-sortIcon></th>
+                <th pSortableColumn="netComm">     صافي العمولة    <p-sortIcon field="netComm"></p-sortIcon></th>
                 <th >التعديل</th> 
                 <th >الحذف</th>  
             </tr>
@@ -451,7 +188,9 @@
                 <td>{{ticket?.passportNumber}}</td> 
                 <td>{{ticket?.ticketCostPrice}}</td>  
                 <td>{{ticket?.ticketSellingPrice}}</td>  
-  
+                <td>{{ticket?.netCost}}</td> 
+                <td>{{ticket?.totalPrice}}</td>  
+                <td>{{ticket?.netComm}}</td>  
                 <td>
                   <div class="blueTiltle"  (click)="editTraveller( ticket)">
                     <i class="ft-edit-2 ft icon"></i> التعديل
@@ -467,10 +206,10 @@
         </p-table>
 
             <!--Update traveller-->
-            <p-dialog [(visible)]="editFlightTicketDialog" [style]="{width: '850px', textAlign :'right'}" header=" معلومات الشركة" [modal]="true" styleClass="p-fluid"   [dismissableMask]="false" 
+            <!-- <p-dialog [(visible)]="editFlightTicketDialog" [style]="{width: '850px', textAlign :'right'}" header=" معلومات الشركة" [modal]="true" styleClass="p-fluid"   [dismissableMask]="false" 
             [modal]="true"
             [appendTo]="'body'">       
-           <!--start edit -->
+          
 
             <div class="container-box " >
              <form [formGroup]="noCommEditFlightTicketForm"  novalidate>
@@ -517,129 +256,12 @@
 </form>
                            
                         </div>
-            </p-dialog> 
+            </p-dialog>  -->
         </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-12 col-lg-12"  *ngIf="travellers> 0" >
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title mb-0">تذاكر الطيران</h4>
-      </div>
-      <div class="card-content">
-        <div class="card-body">
-          <p-table  #dt [value]="travellers" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
-          [style]="{'width':'100%','overflow':'auto!important'}"
-          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
-          [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','ticketSellingPrice' ]">
-          <ng-template pTemplate="caption">
-            <div class="ui-table-globalfilter-container">
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr>
-                <th pSortableColumn="travellerFirstName"> اسم المسافر <p-sortIcon field="travellerFirstName"></p-sortIcon></th>
-                <th pSortableColumn="pnrNumber">رقم التذكرة  <p-sortIcon field="pnrNumber"></p-sortIcon></th>
-                <th pSortableColumn="pnrNumber">رقم الجواز  <p-sortIcon field="passportNumber"></p-sortIcon></th>
-                <th pSortableColumn="ticketCostPrice"> سعرالفير <p-sortIcon field="ticketCostPrice"></p-sortIcon></th>
-                 <th *ngIf="ticket.ticketvatPrice" pSortableColumn="ticketvatPrice"> الضريبة    <p-sortIcon field="ticketvatPrice"></p-sortIcon></th> 
-                <th pSortableColumn="ticketSellingPrice">   سعر البيع   <p-sortIcon field="ticketSellingPrice"></p-sortIcon></th>
-                <th >التعديل</th> 
-                <th >الحذف</th>  
-            </tr>
-         </ng-template>
-          <ng-template pTemplate="body" let-ticket>
-            <tr>
-                <!-- <td>{{user.user_id}}</td> -->
-                <td>{{ticket?.travellerFirstName}}  {{ticket?.travellerLastName}}</td>  
-                <td>{{ticket?.pnrNumber}}</td>  
-                <td>{{ticket?.passportNumber}}</td> 
-                <td>{{ticket?.ticketCostPrice}}</td>  
-                 <td  *ngIf="ticket.ticketvatPrice">{{ticket?.ticketvatPrice}}</td>   
-                <td>{{ticket?.ticketSellingPrice}}</td>  
 
-                <td>{{ticket?.bookingUser}}</td>  
-  
-                <td>
-                  <div class="blueTiltle"  (click)="editTraveller( ticket)">
-                    <i class="ft-edit-2 ft icon"></i> التعديل
-                  </div>  
-                </td> 
-                <td>
-                  <div class="redTiltle" (click)="deleteTraveller(ticket)">
-                    <i class="ft-trash-2 ft icon"></i>
-                  </div>  
-                </td>         
-          </tr>
-          </ng-template>
-        </p-table>
-
-            <!--Update traveller-->
-            <p-dialog [(visible)]="editFlightTicketDialog" [style]="{width: '850px', textAlign :'right'}" header=" معلومات الشركة" [modal]="true" styleClass="p-fluid"   [dismissableMask]="false" 
-            [modal]="true"
-            [appendTo]="'body'">       
-           <!--start edit -->
-
-            <div class="container-box " >
-             <form [formGroup]="noCommEditFlightTicketForm"  novalidate>
-              <div class="submit-field" formArrayName="travellers">
-                <div class="keywords-container"  *ngFor="let ticket of noCommEditFlightTicketForm.get('travellers')['controls']; let i = index;">
-                    <div class="keyword-input-container row" [formGroupName]='i'>   
-                                        
-                    <div class="form-group col-sm-3">
-                        <label for="street">أسم المسافر</label><span class="red">*</span>
-                        <input type="text"  formControlName="travellerFirstName" class="form-control" >
-                    </div>
-                    <div class="form-group col-sm-3">
-                      <label for="street">الاسم الأخير</label><span class="red">*</span>
-                      <input type="text"  formControlName="travellerLastName" class="form-control" >
-                    </div>
-                    <div class="form-group col-sm-3">
-                      <label for="street">نوع المسافر</label><span class="red">*</span>
-                      <select  class="form-control" data-size="7" formControlName="travellerType"  >
-                        <option *ngFor="let type of types"  [ngValue]="type">{{type}}</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-sm-3 ">
-                    <label for="street">رقم pnr</label> <span class="red">*</span>
-                    <input  class="checkbox" type="text" formControlName="pnrNumber" class="form-control">
-                  </div>
-                  <div class="form-group col-sm-3">
-                    <label for="street">رقم الجواز</label><span class="red">*</span>
-                    <input type="text"  formControlName="passportNumber" class="form-control">
-                </div>
-                <div class="form-group col-sm-3">
-                  <label for="street"> سعر التكلفة</label><span class="red">*</span>
-                  <input type="text"  formControlName="ticketCostPrice" class="form-control">
-               </div>
-               <div class="form-group col-sm-3">
-                <label for="street">سعر البيع</label><span class="red">*</span>
-                <input type="text"  formControlName="ticketSellingPrice" class="form-control">
-               </div>
-            </div>       
-        </div>
-    </div>
-<div>
-    <input type="submit"  (click)="updateTravellerButton(noCommEditFlightTicketForm)" class=" btn btn-primary submit " value="حفظ">
-  </div>
-</form>
-                           
-                        </div>
-            </p-dialog> 
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 <div class="row" matchHeight="card">
    <div>
@@ -655,4 +277,3 @@
 
 
 
-                                                                                                 

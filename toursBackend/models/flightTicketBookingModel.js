@@ -46,7 +46,38 @@ const flightTicketBooking = new mongoose.Schema({
             type: String,
            
         },
+
+        comm: {
+            type: Number,
+           
+        },
+        netCost: {
+            type: Number,
+            required: true,
+        },
+        discount: {
+            type: Number,
+           
+        },
+        netComm: {
+            type: Number,
+           
+        },
+        totalPrice: {
+            type: Number,
+            required: true,
+        },
+        receivedAmount: {
+            type: Number,
+           
+        },
+        remainingAmount: {
+            type: Number,
+           
+        },
+    
     }],
+
     
     ratio: {
         type: Number,
@@ -67,6 +98,15 @@ const flightTicketBooking = new mongoose.Schema({
     notes: {
         type: String,
         required: false,
+    },
+    totalNetSellingPrice: {
+        type: Number, default: 0,
+    },
+    totalNetCostPrice: {
+        type: Number, default: 0,
+    },
+    totalNetComm: {
+        type: Number, default: 0,
     },
 
 

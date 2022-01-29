@@ -40,9 +40,9 @@ export class FlightTicketsService {
 
 
     
-    public createflightTicketBooking(data:any): Observable<any> {
+    public createflightTicketBooking(data:any ,travellers): Observable<any> {
         debugger;
-      return this.http.post('/api/v1/flightTickets/booking', { data});
+      return this.http.post('/api/v1/flightTickets/booking', { data ,travellers});
     }
 
     public getflightTicketsBooking(): Observable<any> {

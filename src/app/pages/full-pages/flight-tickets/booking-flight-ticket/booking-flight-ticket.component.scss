@@ -52,3 +52,26 @@ color:blue;
     padding-top: 10px;
     padding-bottom:10px;
 }
+label{
+    text-align: right;
+    clear: both;
+    float: left;
+    padding: 6px;
+    border-radius: 0px;
+    background-color: #1976d2;
+    color: white !important;
+    margin-right: 15px;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    border-radius: 0;
+    vertical-align: middle;
+}
+.label{
+    width:120px !important;
+    height: 35px !important
+}
+.submit{
+    color:white !important
+}

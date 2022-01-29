@@ -19,14 +19,16 @@ const Invoice = require('../models/invoiceModel');
 exports.createFlightTicketBooking = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
-  const itemArray = req.body.data.travellers;
  console.log("data" ,data); 
- const pnrArray = req.body.data.travellers;
- console.log("pnrArray" , pnrArray);
-let pnrNumber =[];
- for (let i = 0; i < pnrArray.length; i++) {
- pnrNumber += pnrArray[i].pnrNumber+ ",";
-  console.log("pnrNumber" , pnrNumber);
+ console.log("travellers" ,req.body.travellers); 
+
+//  const pnrArray = req.body.data.travellers;
+//  console.log("pnrArray" , pnrArray);
+// let pnrNumber =[];
+//  for (let i = 0; i < pnrArray.length; i++) {
+//  pnrNumber += pnrArray[i].pnrNumber+ ",";
+//   console.log("pnrNumber" , pnrNumber);
+ }
 
   // const companyId = req.body.data.companyAccount._id;
   // const flightTicketId= req.body.data.airlineAccount._id ;
@@ -129,7 +131,7 @@ let pnrNumber =[];
  
  
 
-}
+
 });
 
  exports.refundFlightTickets = catchAsync(async(req, res) => {
