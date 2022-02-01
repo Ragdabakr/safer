@@ -37,15 +37,10 @@ const companySchema = new mongoose.Schema({
         debit: {type: Number},
         credit :{type: Number},
         date :{type: Date},
-        companyName :{type: String},
-        destination :{type: String},
-        note :{type: String},
-        airlineName :{type: String},
-        type :{type: String},
-        pnrNumber: {type:String},
+        description :{type: String},
+        name :{type: String},
         user :{type: String},
-       paymentMethod :{type: String},
-       notes:{type:String}
+      
 
      }]
    

@@ -37,6 +37,10 @@ export class SafeboxService {
         debugger;
         return this.http.delete(`/api/v1/safeboxes/${id}`);
     }
+    public deleteSafeboxes(): Observable<any> {
+        debugger;
+        return this.http.delete(`/api/v1/safeboxes`);
+    }
 
     public addpermissions(id:any , data:any): Observable<any> {
         debugger;

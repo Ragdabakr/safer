@@ -12,13 +12,13 @@ const router = express.Router();
 router
     .route('/')
     .get(companyController.getAllCompanies)
-    .post(companyController.createCompany);
+    .post(authController.protect ,companyController.createCompany);
 
 router
     .route('/:id')
     .get(companyController.getCompany)
-    .patch(companyController.updateCompany)
-    .delete(companyController.deleteCompany);
+    .patch(authController.protect ,companyController.updateCompany)
+    .delete(authController.protect ,companyController.deleteCompany);
 
 
 module.exports = router;

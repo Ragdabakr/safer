@@ -2,13 +2,8 @@ const mongoose = require('mongoose');
 
 // select :false to any item hide it 
 
-const safeboxSchema = new mongoose.Schema({
+const safeboxsSchema = new mongoose.Schema({
 
-    name: {
-        type: String,
-        required: [true],
-       // unique: true,
-    },
     description: {
         type: String,
         required: [true]
@@ -25,12 +20,13 @@ const safeboxSchema = new mongoose.Schema({
     credit: {
         type: Number,
         
-    }
+    },
+   title :{type: String ,unique: false, },
 
 });
 
 
 
-const Safebox = mongoose.model('Safebox', safeboxSchema);
+const Safebox = mongoose.model('Safebox', safeboxsSchema);
 
 module.exports = Safebox;

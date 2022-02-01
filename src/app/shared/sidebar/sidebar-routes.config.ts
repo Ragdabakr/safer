@@ -68,6 +68,8 @@ export const ROUTES: RouteInfo[] = [
         path: '', title: 'كشف حساب', icon: 'ft-pie-chart', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             { path: '/full-layout/full-pages/companiesStatement', title: 'الشركات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/accountsBalanceComponent', title: ' أرصدة الحسابات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/commissionsComponent', title: ' العمولات والمصروفات ', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+
             
         ]
     },

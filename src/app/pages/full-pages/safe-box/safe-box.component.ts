@@ -34,7 +34,7 @@ export class SafeBoxComponent implements OnInit {
 
    this.dataForm = new FormGroup(
     {
-                name: new FormControl('', [
+                title: new FormControl('', [
                     Validators.required,
                 ]),
               
@@ -56,7 +56,7 @@ export class SafeBoxComponent implements OnInit {
 
         this.safeboxForm = new FormGroup(
           {
-            name: new FormControl('', [
+            title: new FormControl('', [
               Validators.required,
           ]),
          
@@ -124,7 +124,7 @@ editSafebox(safebox){
 updateSafebox(safebox){
   this.hotelId = safebox._id;
   this.dataForm.patchValue({
-    name: safebox.name,
+    title: safebox.title,
     date: safebox.date,
     description: safebox.description,
     credit: safebox.credit,
@@ -140,6 +140,20 @@ editSafeboxButton(dataForm){
   this.SafeboxService.updateSafebox(dataForm.value , this.hotelId ).subscribe(
     res =>{
       this.toastr.success('تم التعديل  بنجاح ');
+      this.editHotelDialog = false;
+      this.getSafeboxes();
+
+      },
+      err =>{
+      console.log(err);
+    }
+  )
+}
+
+deleteSafeboxes(){
+  this.SafeboxService.deleteSafeboxes( ).subscribe(
+    res =>{
+      this.toastr.success('تم الحذف  بنجاح ');
       this.editHotelDialog = false;
       this.getSafeboxes();
 

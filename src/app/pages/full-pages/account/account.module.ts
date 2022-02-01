@@ -22,13 +22,14 @@ import { SharedModule } from '../../../shared/shared.module';
 import { AccountComponent } from './account.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { AccountsBalanceComponent } from './accounts-balance/accounts-balance.component';
+import { CommissionsComponent } from './commissions/commissions.component';
 
 
 
 
 
 @NgModule({
-  declarations: [ AccountComponent, CompaniesComponent, AccountsBalanceComponent],
+  declarations: [ AccountComponent, CompaniesComponent, AccountsBalanceComponent, CommissionsComponent],
   imports: [
     CommonModule,
     FormsModule,

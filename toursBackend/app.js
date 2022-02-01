@@ -135,6 +135,7 @@ const notificationRouter = require('./routes/notificationRoutes');
 const companyRouter = require('./routes/companyRoutes');
 const flightTicketRouter = require('./routes/flightTicketsRoutes');
 const safeboxRouter = require('./routes/safeboxRoutes');
+const commissionRouter = require('./routes/commissionRoutes');
 
 
 app.use('/api/v1/reviews', reviewRouter);
@@ -152,6 +153,7 @@ app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/companies', companyRouter);
 app.use('/api/v1/flightTickets', flightTicketRouter);
 app.use('/api/v1/safeboxes', safeboxRouter);
+app.use('/api/v1/commission', commissionRouter);
 //heroku deploy
 
 const appPath = path.join(__dirname,'..','dist');

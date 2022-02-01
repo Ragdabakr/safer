@@ -12,7 +12,7 @@
               <div class="row">
                   <div class="form-group col-sm-3">
                       <label for="street">وصف الحركة</label><span class="red">*</span>
-                      <input type="text"  formControlName="name" class="form-control">
+                      <input type="text"  formControlName="title" class="form-control">
                   </div>
                   <div class="form-group col-sm-3">
                       <label for="houseNumber">التاريخ</label><span class="red">*</span>
@@ -44,14 +44,17 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0"> حركة الصندوق</h4>
+        <div class="fonticon-wrap"  (click)="deleteSafeboxes()">
+          <i class="icon-pencil icon"></i>
+        </div> 
       </div>
       <div class="card-content">
         <div class="card-body">
-          <p-table  #dt [value]="safeboxes"  dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          <p-table  #dt [value]="safeboxes"  dataKey="title" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           currentPageReportTemplate="" [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['name','number','date','description' , 'credit'  ,'indebted']">
+          [filterDelay]="0" [globalFilterFields]="['title','number','date','description' , 'credit'  ,'indebted']">
           <ng-template pTemplate="caption"   >
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -67,7 +70,7 @@
           <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="number">القيد <p-sortIcon field="number"></p-sortIcon></th>
-                <th pSortableColumn="name"> وصف الحركة  <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="title"> وصف الحركة  <p-sortIcon field="title"></p-sortIcon></th>
                 <th pSortableColumn="date">التاريخ <p-sortIcon field="date"></p-sortIcon></th>
                 <th pSortableColumn="description">التفاصيل <p-sortIcon field="description"></p-sortIcon></th>
                 <th pSortableColumn="indebted">مدين <p-sortIcon field="indebted"></p-sortIcon></th>
@@ -79,7 +82,7 @@
             <tr>
                 <!-- <td></td> -->
                 <td>{{ rowIndex }}</td>
-                <td>{{safebox?.name }}</td>
+                <td>{{safebox?.title }}</td>
                 <td>{{safebox?.date | date}}</td>
                 <td>{{safebox?.description}}</td>
                 <td>{{safebox?.indebted}}</td>

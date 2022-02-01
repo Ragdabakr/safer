@@ -46,15 +46,10 @@
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
+              <th pSortableColumn="name"> وصف الحركة <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="debit"> مدين <p-sortIcon field="debit"></p-sortIcon></th>
                 <th pSortableColumn="credit">دائن  <p-sortIcon field="credit"></p-sortIcon></th>
-                <th pSortableColumn="airlineName">شركة الطيران <p-sortIcon field="airlineName"></p-sortIcon></th>
-                <th pSortableColumn="pnrNumber">  رقم التذكرة  <p-sortIcon field="pnrNumber"></p-sortIcon></th>
-                <th pSortableColumn="date "> معاد الرحلة<p-sortIcon field="date"></p-sortIcon></th>
-                <th pSortableColumn="destination"> الوجهة <p-sortIcon field="destination"></p-sortIcon></th>
-                <th pSortableColumn="paymentMethod">  طريقة الدفع <p-sortIcon field="paymentMethod"></p-sortIcon></th>
-                <th pSortableColumn="type"> نوع العملية <p-sortIcon field="type"></p-sortIcon></th>
-                <th pSortableColumn="note">   ملاحظات  <p-sortIcon field="note"></p-sortIcon></th>
+                <th pSortableColumn="description"> الملاحظات <p-sortIcon field="description"></p-sortIcon></th>
                 <th pSortableColumn="user">   الموظف  <p-sortIcon field="user"></p-sortIcon></th>
                
                  
@@ -63,22 +58,10 @@
           <ng-template pTemplate="body" let-ticket>
             <tr>
                 <!-- <td>{{user.user_id}}</td> -->
+                <td>{{ticket?.name}}</td> 
                 <td>{{ticket?.debit}}</td>  
                 <td>{{ticket?.credit}}</td>  
-                <td>{{ticket?.airlineName}}</td> 
-                <td>{{ticket?.pnrNumber}}</td>
-                <td>{{ticket?.date | date}}</td>  
-                <td>{{ticket?.destination}}</td>  
-                <td>{{ticket?.paymentMethod}}</td>
-                <td >
-                  <p  class="badge badge-pill badge-danger" *ngIf="ticket.type === 'refundFlightTickets' ">استرجاع تذكرة</p>
-                  <p  class="badge badge-pill badge-success"*ngIf="ticket.type === 'fairFlightTickets' ">تذكرة جديدة</p>
-                  <p  class="badge badge-pill badge-warning"*ngIf="ticket.type === 'changeFlightTickets' ">تعديل تذكرة</p>
-                  <p  class="badge badge-pill badge-info"*ngIf="ticket.type === 'noCommFlightTickets' "> تذكرة جديدة بدون عمولة</p>
-                  
-                </td>
-                  
-                <td>{{ticket?.note}}</td>  
+                <td>{{ticket?.description}}</td>  
                 <td>{{ticket?.user}}</td>  
              </tr>
 

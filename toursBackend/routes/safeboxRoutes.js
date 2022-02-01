@@ -1,6 +1,6 @@
 const express = require('express');
 const safeboxController = require('./../controllers/safeboxController');
-const Safebox = require('./../models/safeboxModel');
+const Safebox = require('../models/safeboxsModel');
 const authController = require('./../controllers/authController');
 
 const router = express.Router();
@@ -12,13 +12,16 @@ const router = express.Router();
 router
     .route('/')
     .get(safeboxController.getAllsafeboxes)
-    .post(safeboxController.createSafebox);
+    .post(authController.protect ,safeboxController.createSafebox)
+    .delete(authController.protect ,safeboxController.deleteSafeboxes)
+
+    
 
 router
     .route('/:id')
-    .get(safeboxController.getSafebox)
-    .patch(safeboxController.updateSafebox)
-    .delete(safeboxController.deleteSafebox);
+    .get(authController.protect ,safeboxController.getSafebox)
+    .patch(authController.protect ,safeboxController.updateSafebox)
+    .delete(authController.protect ,safeboxController.deleteSafebox);
 
 
 module.exports = router;

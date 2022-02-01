@@ -36,6 +36,7 @@ import { GroupsReportComponent } from './reports/groups-report/groups-report.com
 import { GroupReportComponent } from './reports/group-report/group-report.component';
 import { SafeBoxComponent } from './safe-box/safe-box.component';
 import { AccountsBalanceComponent } from './account/accounts-balance/accounts-balance.component';
+import { CommissionsComponent } from './account/commissions/commissions.component';
 
 const routes: Routes = [
   {
@@ -175,6 +176,13 @@ const routes: Routes = [
                       title: ' AccountsBalanceComponent '
                       }
                     },
+                    {
+                      path: 'commissionsComponent',
+                      component: CommissionsComponent,
+                      data: {
+                        title: ' CommissionsComponent '
+                        }
+                      },
                   {
                     path: 'companiesStatement',
                     component:CompaniesComponent,
