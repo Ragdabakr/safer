@@ -44,6 +44,10 @@ export class FlightTicketsService {
         debugger;
       return this.http.post('/api/v1/flightTickets/booking', { data ,travellers});
     }
+    public getFlightTicketsList(): Observable<any> {
+        debugger;
+      return this.http.get('/api/v1/flightTickets/booked');
+    }
 
     public getflightTicketsBooking(): Observable<any> {
         debugger;
@@ -61,6 +65,9 @@ export class FlightTicketsService {
         debugger;
         return this.http.delete(`/api/v1/booking/flightTickets/${id}`);
     }
+
+
+    
    public refundflightTicketBooking(data : any): Observable<any> {
     debugger;
     return this.http.post('/api/v1/flightTickets/refundFlightTicket', {data});
@@ -79,6 +86,18 @@ public createNoCommFlightTicketBooking(data : any): Observable<any> {
     debugger;
     return this.http.post('/api/v1/flightTickets/noCommFlightTicketBooking', {data});
 }
+
+
+public createflightTicketInvoice(data:any ): Observable<any> {
+    debugger;
+  return this.http.post('/api/v1/flightTickets/invoice', { data});
+}
+public getInvoiceById(id:any): Observable<any> {
+    debugger;
+    return this.http.get(`/api/v1/flightTickets/invoice/${id}`);
+}
+
+
 
 
 

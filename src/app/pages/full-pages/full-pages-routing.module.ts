@@ -37,6 +37,8 @@ import { GroupReportComponent } from './reports/group-report/group-report.compon
 import { SafeBoxComponent } from './safe-box/safe-box.component';
 import { AccountsBalanceComponent } from './account/accounts-balance/accounts-balance.component';
 import { CommissionsComponent } from './account/commissions/commissions.component';
+import { FlightTicketsListComponent } from './flight-tickets/flight-tickets-list/flight-tickets-list.component';
+import { InvoiceComponent } from './flight-tickets/invoice/invoice.component';
 
 const routes: Routes = [
   {
@@ -170,6 +172,13 @@ const routes: Routes = [
                     }
                   },
                   {
+                    path: 'invoices/:invoiceId',
+                    component:InvoiceComponent,
+                    data: {
+                      title: 'Invoice'
+                      }
+                    },
+                  {
                     path: 'accountsBalanceComponent',
                     component: AccountsBalanceComponent,
                     data: {
@@ -190,8 +199,14 @@ const routes: Routes = [
                       title: 'CompaniesStatement '
                       }
                     },
-                   
-        
+                    {
+                      path: 'flightTicketsList',
+                      component: FlightTicketsListComponent,
+                      data: {
+                        title: 'FlightTicketsList'
+                        }
+                      },
+
           {
             path: 'toursReport',
             component:ToursReportComponent ,

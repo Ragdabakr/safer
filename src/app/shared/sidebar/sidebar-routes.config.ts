@@ -18,26 +18,29 @@ export const ROUTES: RouteInfo[] = [
             
         ]
     },
-   
+  
     {
         path: '', title: 'البرامج السياحية', icon: 'ft-globe', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+            { path: '/full-layout/full-pages/booking', title: 'حجوزات البرامج السياحية', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/createBooking', title: 'إضافة حجز لبرنامج سياحي', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/tours', title: 'الرحلات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/createTour', title: 'إضافة رحلة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             
         ]
     },
+
     {
-        path: '', title: 'الحجوزات', icon: 'ft-calendar', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-            { path: '/full-layout/full-pages/booking', title: 'حجوزات البرامج السياحية', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { path: '/full-layout/full-pages/createBooking', title: 'إضافة حجز لبرنامج سياحي', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+        path: '', title: 'تذاكر الطيران', icon: 'ft-calendar', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+           
             { path: '/full-layout/full-pages/bookingFlightTickets', title: 'حجز تذاكر الطيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            
+            { path: '/full-layout/full-pages/flightTicketsList', title: ' التذاكر', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
     },
     {
         path: '', title: 'المالية', icon: 'ft-package', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             {path:  '/full-layout/full-pages/safeBox', title: 'حركة الصندوق', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
             { path: '/full-layout/full-pages/flightTickets', title: 'شركات الطيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+           
             
         ]
     },

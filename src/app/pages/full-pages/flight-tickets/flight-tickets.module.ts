@@ -20,11 +20,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../../shared/shared.module';
 import { BookingFlightTicketComponent } from './booking-flight-ticket/booking-flight-ticket.component';
+import { FlightTicketsListComponent } from './flight-tickets-list/flight-tickets-list.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 
 
 @NgModule({
-  declarations: [BookingFlightTicketComponent],
+  declarations: [BookingFlightTicketComponent, FlightTicketsListComponent, InvoiceComponent],
   imports: [
     CommonModule,
     FormsModule,

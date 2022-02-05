@@ -85,6 +85,7 @@ export class BookingFlightTicketComponent implements OnInit {
   allTravellers = [];
   dataSource: any[];
   noCommEditFlightTicketForm: FormGroup;
+  num: number;
   // Prevent panel toggle code
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === '2') {
@@ -109,10 +110,11 @@ export class BookingFlightTicketComponent implements OnInit {
           { field: 'ticketSellingPrice', header: ' سعرالبيع' },
          
       ];
-    
+
 
    this.flightTicketForm = new FormGroup(
          {
+            number: new FormControl(''),
             bookingFrom: new FormControl('', [ Validators.required,]),
             bookingTo: new FormControl('', [ Validators.required,]),
        
@@ -126,6 +128,9 @@ export class BookingFlightTicketComponent implements OnInit {
             totalNetSellingPrice: new FormControl(''),
             totalNetCostPrice: new FormControl(''),
             totalNetComm: new FormControl(''),
+            totalReceivedAmount: new FormControl(''),
+            totalRemainingAmount: new FormControl(''),
+
             
             bookingUser: new FormControl(''),
             bookingTime: new FormControl(''),
@@ -174,6 +179,8 @@ export class BookingFlightTicketComponent implements OnInit {
     var totalNetSellingPrice = 0;
     var totalNetCostPrice = 0 ;
     var totalNetComm = 0;
+    var  totalReceivedAmount = 0;
+    var  totalRemainingAmount =0;
    
    
 
@@ -189,6 +196,7 @@ export class BookingFlightTicketComponent implements OnInit {
       const ratio  = this.ticket.ratio;
       const discount  = this.ticket.travellers[i].discount;
       const ratioPresntage =  parseInt(ratio) / 100;
+     
 
 
       // console.log("this.sellingPrice" , sellingPrice); 
@@ -210,15 +218,19 @@ export class BookingFlightTicketComponent implements OnInit {
       const ratio  = this.ticket.ratio;
       const discount  = this.ticketsArray[i].discount;
       const ratioPresntage =  parseInt(ratio) / 100;
+  
 
       const comm = (costPrice* ratioPresntage) ;
       const netCost = sellingPrice - comm;
       const netComm = comm - discount;
       const totalPrice = sellingPrice - discount;
 
+
       totalNetSellingPrice += totalPrice ;
       totalNetCostPrice += netCost; 
       totalNetComm += netComm; 
+       totalReceivedAmount += this.ticketsArray[i].receivedAmount;
+      totalRemainingAmount +=this.ticketsArray[i].remainingAmount;
   
       console.log("this.totalSellingPrice" , totalNetSellingPrice); 
       console.log("this.totalNetCostPrice" , totalNetCostPrice); 
@@ -228,6 +240,8 @@ export class BookingFlightTicketComponent implements OnInit {
         totalNetSellingPrice: totalNetSellingPrice,
         totalNetCostPrice: totalNetCostPrice,
         totalNetComm:totalNetComm,
+        totalReceivedAmount:totalReceivedAmount,
+        totalRemainingAmount:totalRemainingAmount,
        
       });
 
@@ -287,6 +301,8 @@ addTraveller(): FormGroup {
   }
 
 
+
+
   calculate(){
     
     for (let i = 0; i < this.flightTicketForm.value.travellers.length; i++) {
@@ -314,10 +330,18 @@ addTraveller(): FormGroup {
       }]
    });
 
+   const min = 0;
+   const max =8000;
+  this.num =  Math.floor(Math.random() * (max - min + 1)) + min;
+  this.num.toString().padStart(6, "0");
+  //  console.log( " this.num",this.num);
+  
    this.flightTicketForm.patchValue({
     bookingUser:this.user,
     bookingTime:Date.now(),
+    number:this.num
   });
+
 
 
     }
@@ -336,29 +360,13 @@ addTraveller(): FormGroup {
   }
 this.flightTicketsService.createflightTicketBooking(flightTicketForm.value , this.ticketsArray).subscribe(
       res =>{
-      //   this.flightTicketForm.reset();
-      //   this.toastr.success('تم الاضافة بنجاح ');
-      //   this.getflightTickets();
-      //   this.invoice = res.invoice.invoice;
-      //   console.log('invoice >>',this.invoice);
-      //   console.log('invoiceId >>',this.invoice._id);
-      //   setTimeout(() => {
-      //     window.location.href = `/full-layout/full-pages/flightTicketInvoice/${this.invoice._id}`
-      //   }, 1000);
-
-      //   this.invoiceService.getFlightInvoiceById(this.invoice._id).subscribe({
-      //     next: response => {
-      //         this.foundInvoice = response.data.docs;
-      //         console.log(" this.invoice>>>" ,  this.invoice);
-      //     },
-    
-      //     error: err => {
-      //         console.log(err);
-      //     }
-      // });
-
-
-        },
+        this.flightTicketForm.reset();
+        this.toastr.success('تم الاضافة بنجاح ');
+        this.getflightTickets();
+        setTimeout(() => {
+          window.location.href = '/full-layout/full-pages/flightTicketsList';
+        }, 1000);
+   },
         err =>{
         console.log(err);
       }

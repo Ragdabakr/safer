@@ -24,42 +24,75 @@ exports.createFlightTicketBooking = catchAsync(async(req, res) => {
  console.log("data" ,data); 
  console.log("travellers" ,req.body.travellers); 
 
+ const newFlightTicketBooking = await FlightTicketBooking.create(req.body.data);
+ console.log('newFlightTicketBooking', newFlightTicketBooking);
+ newFlightTicketBooking.travellers = [];
 
-const safebox =  new Safebox();
-safebox.title = 'تذكرة';
-safebox.description = req.body.data.notes;
-safebox.date = Date.now();
-safebox.indebted = req.body.data.totalNetSellingPrice;
-safebox.credit = 0;
- safebox.save();
+ for (let i = 0; i < req.body.travellers.length; i++) {
+  newFlightTicketBooking.travellers.push({
+    travellerFirstName :req.body.travellers[i].travellerFirstName ,
+    travellerLastName :req.body.travellers[i].travellerLastName ,
+    pnrNumber:req.body.travellers[i].pnrNumber ,
+    travellerType :req.body.travellers[i].travellerType ,
+    passportNumber :req.body.travellers[i].passportNumber ,
+    ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
+    ticketCostPrice :req.body.travellers[i].ticketCostPrice ,
+    ticketSellingPrice :req.body.travellers[i].ticketSellingPrice ,
+    comm :req.body.travellers[i].comm ,
+    netCost :req.body.travellers[i].netCost ,
+    netComm:req.body.travellers[i].netComm ,
+    totalPrice :req.body.travellers[i].totalPrice ,
+    receivedAmount:req.body.travellers[i].receivedAmount ,
+    remainingAmount :req.body.travellers[i].remainingAmount ,
+  })
+  newFlightTicketBooking.save();
+  console.log('newFlightTicketBooking with travellers >>>>>', newFlightTicketBooking);
+ 
+ }
 
-const commission =  new Commission();
-commission.name = 'عمولة حجز تذكرة';
-commission.description = req.body.data.notes;
-commission.date = Date.now();
-commission.debit = 0;
-commission.credit = req.body.data.totalNetComm;
-commission.user = user.name;
-// console.log("commission  >>>>>>" , commission);
- commission.save();
+// const safebox =  new Safebox();
+// safebox.title = 'تذكرة';
+// safebox.description = req.body.data.notes;
+// safebox.date = Date.now();
+// safebox.indebted = req.body.data.totalNetSellingPrice;
+// safebox.credit = 0;
+//  safebox.save();
+
+// const commission =  new Commission();
+// commission.name = 'عمولة حجز تذكرة';
+// commission.description = req.body.data.notes;
+// commission.date = Date.now();
+// commission.debit = 0;
+// commission.credit = req.body.data.totalNetComm;
+// commission.user = user.name;
+// // console.log("commission  >>>>>>" , commission);
+//  commission.save();
 
 
-  Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
-                 if (err) {console.log(err); 
-                }
+//   Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
+//                  if (err) {console.log(err); 
+//                 }
 
-                console.log("foundCompany >>>>>" , foundCompany);
-                foundCompany.credit = foundCompany.credit + req.body.data.totalNetCostPrice;
-                foundCompany.companyReport.push({
-                    debit :0 ,
-                    credit :req.body.data.totalNetCostPrice, 
-                    name:'استحقاق الي',
-                    description : req.body.data.notes,
-                    date : Date.now(),
-                    user : req.user.name,
-                 });
+//                 console.log("foundCompany >>>>>" , foundCompany);
+//                 foundCompany.credit = foundCompany.credit + req.body.data.totalNetCostPrice;
+//                 foundCompany.companyReport.push({
+//                     debit :0 ,
+//                     credit :req.body.data.totalNetCostPrice, 
+//                     name:'استحقاق الي',
+//                     description : req.body.data.notes,
+//                     date : Date.now(),
+//                     user : req.user.name,
+//                  });
                  
-                 foundCompany.save();
+//                  foundCompany.save();
+// });
+
+res.status(201).json({
+  status: 'success',
+  data: {
+      data: newFlightTicketBooking
+  }
+});
 
 
 });
@@ -69,7 +102,6 @@ commission.user = user.name;
  
 
 
-});
 
  exports.refundFlightTickets = catchAsync(async(req, res) => {
   const user = req.user;
@@ -334,18 +366,18 @@ exports.salesFlightTickes = catchAsync(async(req, res) => {
 
 
 
-exports.getAllflightTicketsBooking = factory.getAll(FlightTicketBooking );
+exports.getFlightTicketsBookingList = factory.getAll(FlightTicketBooking);
+
+
 exports.getFlightTicketBooking= factory.getOne(FlightTicketBooking );
-// exports.createFlightTicket= factory.createOne(FlightTicket);
 exports.updateFlightTicketBooking= factory.updateOne(FlightTicketBooking);
 exports.deleteFlightTicketBooking= factory.deleteOne(FlightTicketBooking);
 
 
-exports.getAllflightTickets = factory.getAll(FlightTicket );
-exports.getFlightTicket= factory.getOne(FlightTicket );
-exports.createFlightTicket= factory.createOne(FlightTicket);
-exports.updateFlightTicket= factory.updateOne(FlightTicket);
-exports.deleteFlightTicket= factory.deleteOne(FlightTicket);
+exports.getAllflightTicketsInvoices = factory.getAll(FlightTicketBookingInvoice);
+exports.getFlightTicketInvoice= factory.getOne(FlightTicketBookingInvoice);
+exports.createFlightTicketInvoice= factory.createOne(FlightTicketBookingInvoice);
+exports.deleteFlightTicketInvoice= factory.deleteOne(FlightTicketBookingInvoice);
 
 
 

@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 // select :false to any item hide it 
 
 const flightTicketBooking = new mongoose.Schema({
-
+    number: {
+        type: Number,
+    },
     bookingFrom: {
         type: String,
         required: [true],
@@ -15,32 +17,32 @@ const flightTicketBooking = new mongoose.Schema({
     travellers:[{
         travellerFirstName: {
             type: String,
-            required: true,
+           
         },
         travellerLastName: {
             type: String,
-            required: true,
+            
         },
         travellerType: {
             type: String,
-            required: true,
+           
         },
            
         passportNumber: {
             type: String,
-            required: true,
+            
         }, 
         ticketCostPrice: {
             type: Number,
-            required: true,
+            
         },
         ticketSellingPrice: {
             type: Number,
-            required: true,
+           
         },
         pnrNumber: {
             type: String,
-            required: true,
+           
         },
         ticketvatPrice: {
             type: String,
@@ -53,7 +55,7 @@ const flightTicketBooking = new mongoose.Schema({
         },
         netCost: {
             type: Number,
-            required: true,
+         
         },
         discount: {
             type: Number,
@@ -65,7 +67,7 @@ const flightTicketBooking = new mongoose.Schema({
         },
         totalPrice: {
             type: Number,
-            required: true,
+            
         },
         receivedAmount: {
             type: Number,
@@ -108,9 +110,12 @@ const flightTicketBooking = new mongoose.Schema({
     totalNetComm: {
         type: Number, default: 0,
     },
-
-
-
+    totalReceivedAmount: {
+        type: Number, default: 0,
+    },
+    totalRemainingAmount: {
+        type: Number, default: 0,
+    },
 
     
 
