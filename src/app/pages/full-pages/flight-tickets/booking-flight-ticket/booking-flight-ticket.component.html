@@ -24,13 +24,13 @@
                     <div class="form-group  col-sm-4">
                           <label for="street"> القطع من</label>
                           <select  class="form-control" data-size="7" formControlName="bookingFrom"  >
-                            <option *ngFor="let company of companies"  [ngValue]="company.name">{{company.name}}</option>
+                            <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
                         </select><span class="red">*</span>
                     </div>
                         <div class="form-group col-sm-4">
                           <label for="street"> القطع الي</label>
                           <select class="form-control" data-size="7" formControlName="bookingTo"  >
-                            <option *ngFor="let company of companies"  [ngValue]="company.name">{{company.name}}</option>
+                            <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
                         </select><span class="red">*</span>
                     </div>
                 
@@ -55,12 +55,12 @@
             </div>
             <div class="form-group col-sm-12 ">
               <label for="street">الملاحظات</label>
-              <input  class="checkbox" type="text" formControlName="notes" class="form-control">
+              <input  class="checkbox" type="text" formControlName="notes" class="form-control"><span class="red">*</span>
           </div>
             </div>
          
           <div class=" borderSection row form-inline"  formArrayName="travellers"> 
-            <div  class="form-group "><input type="submit"   (click)="calculate()" class=" btn btn-danger submit " value="الحساب"></div>
+            <div ><i class="icon-calculator"  (click)="calculate()"></i></div>
               <!-- <input type="submit"  (click)="addTravellerButtonClick()" class=" btn btn-danger submit " value="اضافة مسافر"> -->
             <div class="keywords-container " *ngFor="let item of flightTicketForm.get('travellers')['controls']; let i = index;">
               <div class="keyword-input-container  row" [formGroupName]='i'>
@@ -110,21 +110,21 @@
               <label  class="label" for="street">صافي العمولة</label>
               <input type="text"  formControlName="netComm" class="form-control"><span class="red">*</span>
             </div>
-          <div class="form-group col-sm-4 payment">
+          <!-- <div class="form-group col-sm-4 payment">
             <label  class="label" for="street">الضريبة</label>
             <input type="text"  formControlName="ticketvatPrice" class="form-control">
-        </div>
+        </div> -->
           <div class="form-group col-sm-4 payment">
             <label  class="label" for="street">المجموع </label>
             <input type="text"  formControlName="totalPrice" class="form-control"><span class="red">*</span>
         </div>
         <div class="form-group col-sm-4 payment">
           <label class="label"  for="street"> المبلغ الواصل</label>
-          <input type="text"  formControlName="receivedAmount" class="form-control">
+          <input type="text"  formControlName="receivedAmount" class="form-control"><span class="red">*</span>
       </div>
       <div class="form-group col-sm-4 payment">
         <label  class="label" for="street"> المبلغ الباقي</label>
-        <input type="text"  formControlName="remainingAmount" class="form-control">
+        <input type="text"  formControlName="remainingAmount" class="form-control"><span class="red">*</span>
     </div>
             </div>
             </div> 
@@ -192,7 +192,7 @@
                 <td>{{ticket?.totalPrice}}</td>  
                 <td>{{ticket?.netComm}}</td>  
                 <td>
-                  <div class="blueTiltle"  (click)="editTraveller( ticket)">
+                  <div class="blueTiltle"  (click)="editTraveller(ticket)">
                     <i class="ft-edit-2 ft icon"></i> التعديل
                   </div>  
                 </td> 

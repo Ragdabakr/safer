@@ -7,12 +7,14 @@ const flightTicketBooking = new mongoose.Schema({
         type: Number,
     },
     bookingFrom: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
+        ref: 'Company',
         required: [true],
     },
     bookingTo: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.ObjectId,
+        ref: 'Company',
+        required: [true],
     },
     travellers:[{
         travellerFirstName: {
@@ -116,6 +118,10 @@ const flightTicketBooking = new mongoose.Schema({
     totalRemainingAmount: {
         type: Number, default: 0,
     },
+    createdInvoice: {
+        type: Boolean, default: false
+    },
+    createdAt :{type: Date, default: Date.now()}
 
     
 

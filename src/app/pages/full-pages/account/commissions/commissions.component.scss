@@ -1,0 +1,30 @@
+label{
+    text-align: right;
+    clear: both;
+    float: left;
+    padding: 6px;
+    border-radius: 0px;
+    background-color: #1976d2;
+    color: white;
+    margin-right: 15px;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    border-radius: 0;
+    vertical-align: middle;
+}
+.btn-default{
+    margin-top: 1%;
+    margin-left: 10px;
+}
+.btn-raised{
+    background-color: #312662 !important;
+}
+.csv{
+    background-color: #e02365 !important;
+    color: white !important;
+}
+.ui-toolbar {
+    margin-top: 2% !important;
+}

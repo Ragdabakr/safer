@@ -33,13 +33,15 @@ const companySchema = new mongoose.Schema({
     notes: {
         type: String,
     },
+    createdAt :{type: Date, default: Date.now()},
     companyReport:[{
-        debit: {type: Number},
-        credit :{type: Number},
+        debit: {type: Number , default: 0,},
+        credit :{type: Number , default: 0},
         date :{type: Date},
         description :{type: String},
         name :{type: String},
         user :{type: String},
+        createdAt :{type: Date, default: Date.now()}
       
 
      }]

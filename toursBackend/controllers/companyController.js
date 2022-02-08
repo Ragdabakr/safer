@@ -19,7 +19,7 @@ exports.createCompany = catchAsync(async (req, res) => {
    foundCompany.companyReport.push({
     debit :req.body.data.debit ,
     credit :req.body.data.credit, 
-     name :"دائن / له",
+     name :" اضافة شركة /عميل",
     description :req.body.data.notes, 
       user :user.name
    });
@@ -38,8 +38,9 @@ exports.createCompany = catchAsync(async (req, res) => {
 
 
 
+
   exports.getAllCompanies = factory.getAll(Company);
   exports.getCompany = factory.getOne(Company);
-  exports.updateCompany = factory.updateOne(Company); 
+   exports.updateCompany = factory.updateOne(Company); 
   exports.deleteCompany = factory.deleteOne(Company);
   exports.deleteAllCompanies = factory.deleteMany(Company);

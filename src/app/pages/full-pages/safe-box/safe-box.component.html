@@ -1,6 +1,18 @@
 
 <div class="row" matchHeight="card">
   <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <div>
+            <button (click)="exportCSV()" class=" btn btn-default csv left" >
+              <i class="icon-share-alt icon"></i>  CSV
+            </button>
+            <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الخزنة " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="fa fa-paper-plane-o"></i> طباعة</button>
+        </div>
+      </div>
+</div>
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0"> إضافة مبلغ</h4>
@@ -40,10 +52,10 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-12 col-lg-12">
+  <div class="col-xl-12 col-lg-12" id="print-section">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title mb-0"> حركة الصندوق</h4>
+        <h4 class="card-title mb-0"> حركة الخزنة</h4>
         <div class="fonticon-wrap"  (click)="deleteSafeboxes()">
           <i class="icon-pencil icon"></i>
         </div> 
@@ -147,6 +159,8 @@
 <div class="row" matchHeight="card">
 
 </div>
+
+
 
 
 

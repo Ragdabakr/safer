@@ -67,7 +67,7 @@ export class FlightTicketsService {
     }
 
 
-    
+
    public refundflightTicketBooking(data : any): Observable<any> {
     debugger;
     return this.http.post('/api/v1/flightTickets/refundFlightTicket', {data});
@@ -95,6 +95,10 @@ public createflightTicketInvoice(data:any ): Observable<any> {
 public getInvoiceById(id:any): Observable<any> {
     debugger;
     return this.http.get(`/api/v1/flightTickets/invoice/${id}`);
+}
+public getflightTicketInvoices(): Observable<any> {
+    debugger;
+  return this.http.get('/api/v1/flightTickets/invoice');
 }
 
 

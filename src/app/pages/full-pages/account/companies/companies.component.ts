@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CompanyService } from 'app/shared/services/company.service';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ExportToCsv } from 'export-to-csv-file';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-companies',
@@ -25,7 +27,7 @@ export class CompaniesComponent implements OnInit {
   refundFlightTickets;
   fairFlightTickets;
 
-  constructor(private flightTicketsService :FlightTicketsService  , private companyService: CompanyService) { }
+  constructor(private flightTicketsService :FlightTicketsService  , private companyService: CompanyService , private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
    this.getCompanies();
@@ -53,7 +55,7 @@ export class CompaniesComponent implements OnInit {
           this.reportArray = this.company[i].companyReport;
           console.log("this.reportArray>>> " , this.reportArray);
           this.chosenCompany=this.company[i];
-          this.totalCredit = this.chosenCompany.incoming - this.chosenCompany.outgoing;
+          this.totalCredit = this.chosenCompany.debit - this.chosenCompany.credit;
           }
        
       },
@@ -96,6 +98,25 @@ export class CompaniesComponent implements OnInit {
           console.log(err);
       }
   });
+}
+
+exportCSV(){
+  const options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: 'تقرير حساب الشركة',
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    headers: ['name','debit','credit','user','createdAt' ,'description'  ] 
+  };
+ 
+const csvExporter = new ExportToCsv(options);
+ 
+csvExporter.generateCsv(this.reportArray);
 }
 
 }

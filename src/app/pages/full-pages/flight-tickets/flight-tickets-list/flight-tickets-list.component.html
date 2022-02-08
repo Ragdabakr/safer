@@ -28,8 +28,8 @@
           <ng-template pTemplate="header">
             <tr>
                 <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
-                <th pSortableColumn="number">رقم الفاتورة  <p-sortIcon field="number"></p-sortIcon></th>
-                <th pSortableColumn="bookingFrom">القطع من  <p-sortIcon field="bookingFrom"></p-sortIcon></th>
+                <th   pSortableColumn="number">رقم الفاتورة  <p-sortIcon field="number"></p-sortIcon></th>
+                <!-- <th pSortableColumn="bookingFrom">القطع من  <p-sortIcon field="bookingFrom"></p-sortIcon></th> -->
                 <th pSortableColumn="city"> عدد المسافرين <p-sortIcon field="city"></p-sortIcon></th>
                 <th pSortableColumn="city">  المسافرين <p-sortIcon field="city"></p-sortIcon></th>
                 <th pSortableColumn="departureDate">تاريخ المغادرة <p-sortIcon field="departureDate"></p-sortIcon></th>
@@ -38,14 +38,16 @@
                 <th pSortableColumn="totalNetSellingPrice">  السعر الكلي  <p-sortIcon field="totalNetSellingPrice"></p-sortIcon></th>
 
                 <!-- <th pSortableColumn="address">العنوان <p-sortIcon field="address"></p-sortIcon></th> -->
-                <th >التعديل</th>  
+                <th  >أصدار فاتورة</th>  
             </tr>
          </ng-template>
           <ng-template pTemplate="body" let-ticket>
             <tr>
                 <!-- <td>{{user.user_id}}</td> -->
-                <td ><a href="/full-layout/full-pages/invoices/{{ticket?._id}}">#{{ticket?.number}}</a></td>
-                <td>{{ticket?.bookingFrom}}</td>
+                {{invoiceId}}
+                <td ><a *ngIf="ticket.createdInvoice === true"  href="/full-layout/full-pages/invoices/{{ticket?._id}}">#{{ticket?.number}}</a>
+                <p  *ngIf="ticket.createdInvoice === false">#</p></td>
+                <!-- <td>{{ticket?.bookingFrom}}</td> -->
                 <td>{{ticket?.travellers.length }}</td>
                 <td>
                   <ul *ngFor="let traveller of ticket.travellers ; let i = index">
@@ -57,9 +59,13 @@
                 <td>{{ticket?.paymentMethod}}</td>
                 <td>{{ticket?.totalNetSellingPrice}}</td>
                 <td>               
-                <div  (click)="getInvoice(ticket)">
-                  <i class="icon-pencil icon"></i> اصدار فاتورة
+                <div   *ngIf="ticket.createdInvoice === false" (click)="getInvoice(ticket)">
+                  <i class="icon-printer icon"></i> 
                 </div> 
+                <div   *ngIf="ticket.createdInvoice === true" >
+                 تم اصدار فاتورة
+                </div> 
+
               
                 </td>
              </tr>

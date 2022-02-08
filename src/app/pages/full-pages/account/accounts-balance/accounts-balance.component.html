@@ -1,11 +1,22 @@
 
+
 <div class="row" matchHeight="card">
   <div class="col-xl-12 col-lg-12">
-    <div class="card card-add">
-      <div class="card-header">
+    <div class="card card-add" >
+      <div class="card-header"  >
         <h4 class="card-title mb-0"> أرصدة الحسابات</h4>
+        <div>
+            <button (click)="exportCSV()" class=" btn btn-default csv left" >
+              <i class="icon-share-alt icon"></i>  CSV
+            </button>
+            <button type="button" class="btn btn-primary btn-raised my-1" printTitle="حسابات الشركة" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="fa fa-paper-plane-o"></i> طباعة</button>
+        </div>
       </div>
-      <div class="card-content completed-tours">
+</div>
+<div class="row" matchHeight="card" id="print-section">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-content completed-tours" >
         <div class="card-body add-items"  >
           <div class="row form-inline">
             <div class="form-group col-sm-4">
@@ -32,12 +43,14 @@
         <h4 class="card-title mb-0">  حسابات الشركات</h4>
       </div>
       <div class="card-content">
-        <div class="card-body">
+       
+        <div class="card-body"  >
+
           <p-table  #dt [value]="companies" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['name' ,'type' ,'debit' ,'credit' ,'notes','PINCompanyCode' ]">
+          [filterDelay]="0" [globalFilterFields]="['name' ,'type' ,'debit' ,'credit' ,'notes','PINCompanyCode' ,'createdAt' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -54,6 +67,7 @@
             <tr>
               <th pSortableColumn="number">القيد <p-sortIcon field="number"></p-sortIcon></th>
               <th pSortableColumn="PINCompanyCode">رقم الحساب <p-sortIcon field="PINCompanyCode"></p-sortIcon></th>
+              <th pSortableColumn="createdAt "> التاريخ  <p-sortIcon field="createdAt"></p-sortIcon></th>
                 <th pSortableColumn="name">الاسم <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="type">نوع العميل <p-sortIcon field="type"></p-sortIcon></th>
                 <th pSortableColumn="debit">المدين <p-sortIcon field="debit"></p-sortIcon></th>
@@ -65,6 +79,7 @@
             <tr>
                 <td>{{ rowIndex }}</td>
                 <td>{{company?.PINCompanyCode}}</td>  
+                <td>{{company?.createdAt | date}}</td>  
                 <td>{{company?.name}}</td>  
                 <td>{{company?.type}}</td>  
                 <td>{{company?.debit}}</td>  
@@ -79,9 +94,7 @@
     </div>
   </div>
 </div>
-<div class="row" matchHeight="card">
 
-</div>
 
 
 

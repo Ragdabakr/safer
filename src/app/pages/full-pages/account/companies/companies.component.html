@@ -5,6 +5,7 @@
       <div class="card-header">
         <h4 class="card-title mb-0"> الاستعلام عن كشف حساب شركة</h4>
       </div>
+    
       <div class="card-content completed-tours">
         <div class="card-body add-items" >
           <div class="form-group col-sm-6"  *ngIf="companiesName.length > 0">
@@ -23,15 +24,22 @@
   <div class="col-xl-12 col-lg-12"   *ngIf="reportArray.length > 0">
     <div class="card">
       <div class="card-header">
+        <p-toolbar class="toolbar" >
+         
+          <button (click)="exportCSV()" class=" btn btn-default csv left" >
+            <i class="icon-share-alt icon"></i>  CSV
+          </button>
+          <button type="button" class="btn btn-primary btn-raised my-1" printTitle="كشف حساب شركة" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="fa fa-paper-plane-o"></i> طباعة</button>
+        </p-toolbar> 
         <h4 class="card-title mb-0">التقارير</h4>
       </div>
-      <div class="card-content">
+      <div id="print-section" class="card-content">
         <div class="card-body">
           <p-table  #dt [value]="reportArray" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['debit','airlineName','destination','date','pnrNumber','credit','user' ,'paymentMethod' ,'type' ]">
+          [filterDelay]="0" [globalFilterFields]="['debit','name','credit','user','createdAt' ,'description' ,'type' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -47,6 +55,7 @@
           <ng-template pTemplate="header">
             <tr>
               <th pSortableColumn="name"> وصف الحركة <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="createdAt"> التاريخ  <p-sortIcon field="createdAt"></p-sortIcon></th>
                 <th pSortableColumn="debit"> مدين <p-sortIcon field="debit"></p-sortIcon></th>
                 <th pSortableColumn="credit">دائن  <p-sortIcon field="credit"></p-sortIcon></th>
                 <th pSortableColumn="description"> الملاحظات <p-sortIcon field="description"></p-sortIcon></th>
@@ -59,6 +68,7 @@
             <tr>
                 <!-- <td>{{user.user_id}}</td> -->
                 <td>{{ticket?.name}}</td> 
+                <td>{{ticket?.createdAt | date}}</td> 
                 <td>{{ticket?.debit}}</td>  
                 <td>{{ticket?.credit}}</td>  
                 <td>{{ticket?.description}}</td>  
@@ -70,9 +80,9 @@
         </p-table>
 
         <div  class="row borderSection">
-          <div class="col-sm-3" ><span class="badge">  اجمالي الوارد:</span> {{this.chosenCompany.incoming}}</div>
-          <div class="col-sm-3" ><span class="badge"> اجمالي الصادر:</span> {{this.chosenCompany.outgoing}}</div>
-          <div class="col-sm-3" ><span class="badge"> الرصيد:</span> {{totalCredit}}</div>
+          <div class="col-sm-3" ><span class="badge">  اجمالي الوارد:</span> {{chosenCompany.debit}}</div>
+          <div class="col-sm-3" ><span class="badge"> اجمالي الصادر:</span> {{chosenCompany.credit}}</div>
+         
         </div>
 
         </div>

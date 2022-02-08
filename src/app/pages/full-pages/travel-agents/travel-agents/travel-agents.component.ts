@@ -56,12 +56,20 @@ export class TravelAgentsComponent implements OnInit {
           type: new FormControl('', [
             Validators.required,
         ]),
-          credit: new FormControl(' '),
-          debit: new FormControl(' '),
-          notes: new FormControl(''),
+          credit:new FormControl('', [
+            Validators.required,
+        ]),
+          debit: new FormControl('', [
+            Validators.required,
+        ]),
+          notes: new FormControl('', [
+            Validators.required,
+        ]),
           phone: new FormControl(''),
           email: new FormControl(''),
-          PINCompanyCode: new FormControl(''),
+          PINCompanyCode: new FormControl('', [
+            Validators.required,
+        ]),
           
           }
         );
@@ -119,7 +127,7 @@ updateCompanyForm(company){
   credit: company.credit,
   notes: company.notes,
   accountName: company.accountName,
-  PINCompanyCode: company.PINCompanyCode,
+  // PINCompanyCode: company.PINCompanyCode,
  }); 
 }
 updateCompanyButton(companyForm){

@@ -173,8 +173,9 @@ export class BookingFlightTicketComponent implements OnInit {
   //  }
     addNewTraveller(){
 
+
     this.ticket= this.flightTicketForm.value;
-    console.log("this.ticket" , this.ticket); 
+    // console.log("this.ticket" , this.ticket); 
 
     var totalNetSellingPrice = 0;
     var totalNetCostPrice = 0 ;
@@ -208,7 +209,7 @@ export class BookingFlightTicketComponent implements OnInit {
       const netComm = comm - discount;
       const totalPrice = sellingPrice - discount;
 
-    console.log("this.ticketsArray" , this.ticketsArray); 
+    // console.log("this.ticketsArray" , this.ticketsArray); 
 
 
 
@@ -229,12 +230,14 @@ export class BookingFlightTicketComponent implements OnInit {
       totalNetSellingPrice += totalPrice ;
       totalNetCostPrice += netCost; 
       totalNetComm += netComm; 
-       totalReceivedAmount += this.ticketsArray[i].receivedAmount;
-      totalRemainingAmount +=this.ticketsArray[i].remainingAmount;
+       totalReceivedAmount += parseInt(this.ticketsArray[i].receivedAmount);
+      totalRemainingAmount +=parseInt(this.ticketsArray[i].remainingAmount);
   
-      console.log("this.totalSellingPrice" , totalNetSellingPrice); 
-      console.log("this.totalNetCostPrice" , totalNetCostPrice); 
-      console.log("this.totalNetComm" ,totalNetComm);
+      // console.log("this.totalSellingPrice" , totalNetSellingPrice); 
+      // console.log("this.totalNetCostPrice" , totalNetCostPrice); 
+      // console.log("this.totalNetComm" ,totalNetComm);
+       console.log("this.totalReceivedAmount" , totalReceivedAmount); 
+     console.log("this.totalRemainingAmount" ,totalRemainingAmount);
 
       this.flightTicketForm.patchValue({
         totalNetSellingPrice: totalNetSellingPrice,
@@ -246,6 +249,7 @@ export class BookingFlightTicketComponent implements OnInit {
       });
 
     }
+   
   }
 
 
@@ -267,18 +271,18 @@ addTraveller(): FormGroup {
         travellerLastName: ['', [Validators.required]],
         travellerType: ['', [Validators.required]],
         passportNumber: ['', [Validators.required]],
-        ticketvatPrice:  ['', [Validators.required]],
+        // ticketvatPrice:  ['', [Validators.required]],
         ticketCostPrice: ['', [Validators.required]],
         ticketSellingPrice: ['', [Validators.required]],
 
         comm: ['', [Validators.required]],
         netCost: ['', [Validators.required]],
-        discount: [''],
+        discount: ['', [Validators.required]],
         netComm: ['', [Validators.required]],
         totalPrice: ['', [Validators.required]],
 
-        receivedAmount: [''],
-        remainingAmount: [''],
+        receivedAmount: ['', [Validators.required]],
+        remainingAmount: ['', [Validators.required]],
 
     });
 }
@@ -351,7 +355,7 @@ addTraveller(): FormGroup {
 
   submitNewFlightTicket(flightTicketForm){
 
-    console.log("flightTicketForm 0000" , flightTicketForm.value);
+
 
     const travellers = {
 
@@ -360,17 +364,18 @@ addTraveller(): FormGroup {
   }
 this.flightTicketsService.createflightTicketBooking(flightTicketForm.value , this.ticketsArray).subscribe(
       res =>{
-        this.flightTicketForm.reset();
+        // this.flightTicketForm.reset();
         this.toastr.success('تم الاضافة بنجاح ');
-        this.getflightTickets();
-        setTimeout(() => {
-          window.location.href = '/full-layout/full-pages/flightTicketsList';
-        }, 1000);
+        // this.getflightTickets();
+        // setTimeout(() => {
+        //   window.location.href = '/full-layout/full-pages/flightTicketsList';
+        // }, 1000);
    },
         err =>{
         console.log(err);
       }
     )
+   
   }
 
 

@@ -23,6 +23,7 @@ import { AccountComponent } from './account.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { AccountsBalanceComponent } from './accounts-balance/accounts-balance.component';
 import { CommissionsComponent } from './commissions/commissions.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 
@@ -49,6 +50,7 @@ import { CommissionsComponent } from './commissions/commissions.component';
     DialogModule,
     AgmCoreModule,
     Ng2TelInputModule,
+    NgxPrintModule,
 
 
 ],

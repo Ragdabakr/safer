@@ -9,6 +9,7 @@ const commissionSchema = new mongoose.Schema({
     description :{type: String},
     name :{type: String},
     user :{type: String},
+    createdAt :{type: Date, default: Date.now()}
 
 });
 

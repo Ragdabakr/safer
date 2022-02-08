@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommissionService } from 'app/shared/services/commission.service';
 import { CompanyService } from 'app/shared/services/company.service';
+import { ExportToCsv } from 'export-to-csv-file';
 
 
 @Component({
@@ -40,6 +41,24 @@ export class CommissionsComponent implements OnInit {
   });
 };
 
+exportCSV(){
+  const options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: 'تقرير العمولات',
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    headers: ['name' ,'type' ,'debit' ,'credit' ,'notes','PINCompanyCode' ,'createdAt' ] 
+  };
+ 
+const csvExporter = new ExportToCsv(options);
+ 
+csvExporter.generateCsv(this.commissions);
+}
 
 
 

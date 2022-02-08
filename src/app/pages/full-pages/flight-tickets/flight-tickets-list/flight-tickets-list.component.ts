@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./flight-tickets-list.component.scss']
 })
 export class FlightTicketsListComponent implements OnInit {
-
+  Invoice :boolean = false;
   tickets = [];
   cols: { field: string; header: string; }[];
   dataForm: FormGroup;
@@ -22,11 +22,13 @@ export class FlightTicketsListComponent implements OnInit {
   hotelId: any;
   hotelForm: FormGroup;
   invoiceId: any;
+  Invoices: any;
 
   constructor( private flightTicketsService: FlightTicketsService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
 
   ngOnInit() {
   this.getTickets();
+  this.getInvoices();
         this.cols = [
           { field: 'name', header: 'اسم الفندق ' },
           { field: 'phone', header: 'الهاتف' },
@@ -35,6 +37,19 @@ export class FlightTicketsListComponent implements OnInit {
     
   
     }
+
+
+    getInvoices(){
+        
+      this.flightTicketsService.getflightTicketInvoices().subscribe({
+        next: response => {
+            this.Invoices = response.data.docs.reverse();
+        },
+        error: err => {
+            console.log(err);
+        }
+    });
+}
 
   getTickets(){
         
@@ -50,11 +65,9 @@ export class FlightTicketsListComponent implements OnInit {
   }
 
   getInvoice(ticket){
-
   const bookingId = ticket.id;
-  const data = {
-    bookingInfo : bookingId
-  }
+
+
   this.flightTicketsService.createflightTicketInvoice(ticket).subscribe(
     res =>{
       let data = res['data'];

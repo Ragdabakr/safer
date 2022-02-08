@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SafeboxService } from 'app/shared/services/safebox.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { ExportToCsv } from 'export-to-csv-file';
 
 @Component({
   selector: 'app-safe-box',
@@ -174,6 +175,25 @@ validateAllFormFields(formGroup: FormGroup) {
           this.validateAllFormFields(control);
       }
   });
+}
+
+exportCSV(){
+  const options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: 'تقرير  الخزنة',
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    headers: ['title','number','date','description' , 'credit'  ,'indebted'] 
+  };
+ 
+const csvExporter = new ExportToCsv(options);
+ 
+csvExporter.generateCsv(this.safeboxes);
 }
 
 }

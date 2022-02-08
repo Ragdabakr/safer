@@ -22,6 +22,7 @@ const safeboxsSchema = new mongoose.Schema({
         
     },
    title :{type: String ,unique: false, },
+   createdAt :{type: Date, default: Date.now()}
 
 });
 
