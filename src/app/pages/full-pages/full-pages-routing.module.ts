@@ -39,6 +39,10 @@ import { AccountsBalanceComponent } from './account/accounts-balance/accounts-ba
 import { CommissionsComponent } from './account/commissions/commissions.component';
 import { FlightTicketsListComponent } from './flight-tickets/flight-tickets-list/flight-tickets-list.component';
 import { InvoiceComponent } from './flight-tickets/invoice/invoice.component';
+import { CancelFlightTicketComponent } from './flight-tickets/cancel-flight-ticket/cancel-flight-ticket.component';
+import { BondsComponent } from './bonds/bonds.component';
+import { BondsInvoiceComponent } from './bonds/bonds-invoice/bonds-invoice.component';
+
 
 const routes: Routes = [
   {
@@ -157,6 +161,13 @@ const routes: Routes = [
                 title: 'bookingFlightTickets'
                 }
               },
+              {
+                path: 'cancelFlightTicket',
+                component:  CancelFlightTicketComponent,
+                data: {
+                  title: 'cancelFlightTicket'
+                  }
+                },
               {
                 path: 'flightTicketsInvoices',
                 component:FlightTicketsInvoicesListComponent,
@@ -305,6 +316,21 @@ const routes: Routes = [
               title: 'Safe Box'
               }
             },
+            {
+              path: 'bonds',
+              component: BondsComponent,
+              data: {
+                title: 'Bonds'
+                }
+              },
+              
+              {
+                path: 'bonds/:bondId',
+                component: BondsInvoiceComponent,
+                data: {
+                  title: 'bondInvoice'
+                  }
+                },
 
         // {
         //     path: 'tours',

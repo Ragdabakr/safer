@@ -1,0 +1,211 @@
+
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> حجز تذكرة جديدة</h4>
+      </div>
+      <div class="card-content completed-tours">
+        <div class="card-body add-items">
+
+      
+
+      <!--NEW TICKET  with comm-->
+      <form   [formGroup]="flightTicketForm"  novalidate>
+
+          <div class="row">
+            <div class=" borderSection form-inline"> 
+
+              <div class="form-group  col-sm-4 ">
+                <label for="street"> رقم الحجز</label>
+                <select (change)='onTicketNumberSelected($event)' class="form-control" data-size="7" formControlName="companyAccount"  >
+                  <option *ngFor="let ticket of tickets"   [ngValue]="ticket.number">{{ticket.number}}</option>
+              </select><span class="red">*</span>
+              </div>
+
+                <div class="form-group  col-sm-4 ">
+                      <label for="street"> القطع من</label>
+                      <input type="text"  formControlName="bookingFrom" class="form-control ">
+                </div>
+
+                <div class="form-group col-sm-4 ">
+                  <label for="street"> القطع الي</label>
+                  <input type="text"  formControlName="bookingTo" class="form-control">
+                </div>
+            
+                <div class="form-group col-sm-4 ">
+                  <label for="street"> النسبة</label>
+                  <input type="text"  formControlName="ratio" class="form-control ">%
+                </div>
+                <div class="form-group col-sm-4 payment">
+                  <label for="street">طريقة الدفع</label>
+                  <input type="text"  formControlName="paymentMethod" class="form-control ">
+                </div>
+                <div class="form-group col-sm-4 payment">
+                  <label for="street">تاريخ المغادرة</label> 
+                  <input  class="date" type="text" formControlName="departureDate" class="form-control ">
+              </div>
+              <div class="form-group col-sm-4 payment">
+                <label for="street">الوجهة</label> 
+                <input  class="checkbox" type="text" formControlName="destination" class="form-control ">
+              </div>
+              <div class="form-group col-sm-4 payment">
+                <label for="street">الملاحظات</label>
+                <input  class="" type="text" formControlName="notes" class="form-control ">
+             </div>
+        </div>
+          </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12"  *ngIf="ticketsArray.length > 0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">تذاكر الطيران</h4>
+      </div>
+
+    
+      <div class="card-content">
+        <div class="card-body">
+          <p-table  #dt [value]="ticketsArray" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          [style]="{'width':'100%','overflow':'auto!important'}"
+          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+          [responsive]="true" selectionMode="single"
+          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','ticketSellingPrice','netCost','netComm' ,'totalPrice' ]">
+          <ng-template pTemplate="caption">
+            <div class="ui-table-globalfilter-container">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+                <th>القيد</th>
+                <th pSortableColumn="travellerFirstName"> اسم المسافر <p-sortIcon field="travellerFirstName"></p-sortIcon></th>
+                <th pSortableColumn="pnrNumber">رقم التذكرة  <p-sortIcon field="pnrNumber"></p-sortIcon></th>
+                <th pSortableColumn="pnrNumber">رقم الجواز  <p-sortIcon field="passportNumber"></p-sortIcon></th>
+                <th pSortableColumn="ticketCostPrice"> سعرالفير <p-sortIcon field="ticketCostPrice"></p-sortIcon></th>
+                <th pSortableColumn="ticketSellingPrice">   سعر البيع   <p-sortIcon field="ticketSellingPrice"></p-sortIcon></th>
+                <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
+                <th pSortableColumn="totalPrice">    المبلغ المدفوع    <p-sortIcon field="totalPrice"></p-sortIcon></th>
+                <th pSortableColumn="netComm">     صافي العمولة    <p-sortIcon field="netComm"></p-sortIcon></th>
+            </tr>
+         </ng-template>
+          <ng-template pTemplate="body" let-ticket let-rowIndex="rowIndex">
+            <tr>
+                <td>{{rowIndex}}</td>
+                <td>{{ticket?.travellerFirstName}}  {{ticket?.travellerLastName}}</td>  
+                <td>{{ticket?.pnrNumber}}</td>  
+                <td>{{ticket?.passportNumber}}</td> 
+                <td>{{ticket?.ticketCostPrice}}</td>  
+                <td>{{ticket?.ticketSellingPrice}}</td>  
+                <td>{{ticket?.netCost}}</td> 
+                <td>{{ticket?.totalPrice}}</td>  
+                <td>{{ticket?.netComm}}</td>          
+          </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="row" matchHeight="card" class="refund">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> خيارات استرجاع التذكرة (نقدا و أجل )</h4>
+        </div>
+      <div class="row">
+        <div class="col-sm-12  col-md-6 form-inline">
+          <div class="form-group payment">
+            <input type="radio"  name="ticketCancelWithComm" value="withComm" (change)="checkCheckBoxvalue($event)">
+            <label for="vehicle1" class="form-control label">   إرجاع عمولة التذكرة كاملة للمسافر </label>
+          </div>
+          <div class="form-group payment">
+            <input type="radio"  name="ticketCancel" value="noComm" (change)="checkCheckBoxvalue($event)">
+            <label for="vehicle2" class="form-control label">عدم إرجاع عمولة التذكرة للمسافر وعدم فرض غرامة</label>
+          </div>
+          <div class="form-group payment">
+            <input type="radio"  name="ticketCancel" value="partOfComm" (change)="checkCheckBoxvalue($event)" >
+            <label for="vehicle3" class="form-control label">إرجاع قسم من العمولة للمسافر</label>
+          </div>
+          </div>
+          <div class="col-sm-12  col-md-6 form-inline">
+          <div class="form-group payment">
+            <input type="radio"  name="ticketCancel" value="fineWithComm" (change)="checkCheckBoxvalue($event)">
+            <label for="vehicle1" class="form-control label"> فرض غرامة مع إرجاع عمولة كاملة للمسافر</label>
+          </div>
+          <div class="form-group payment">
+            <input type="radio"  name="ticketCancel" value="fineNoComm" (change)="checkCheckBoxvalue($event)">
+          <label for="vehicle2" class="form-control label"> فرض غرامة مع عدم إرجاع عمولة المسافر</label>
+          </div>
+          <div class="form-group payment">
+            <input type="radio"  name="ticketCancel" value="fineWithPartOfComm" (change)="checkCheckBoxvalue($event)" >
+          <label for="vehicle3" class="form-control label">فرض غرامة مع ارجاع قسم من العمولة للمسافر</label>
+          </div>
+          </div>
+    
+      </div>    
+    </div>
+  </div>
+</div>
+
+<div class="row" matchHeight="card" >
+  <div class="col-md-12">
+    <div class="card card-add" >
+      <div class="row">
+
+      <form   [formGroup]="flightTicketForm"  novalidate>
+      <div class="col-sm-12 form-inline">
+        <div class="form-group col-sm-8 payment">
+            <label for="street">المبلغ المسترجع من الشركة (القطع من )</label> 
+            <input  class="date" type="text" formControlName="totalRefundNetCostPrice" class="form-control ">
+        </div>
+        <div class="form-group col-sm-4 payment">
+          <label for="street">العمولة المسترجعة</label> 
+          <input  class="date" type="text" formControlName="totalRefundNetComm" class="form-control ">
+      </div>
+        <div class="form-group col-sm-8 payment">
+            <label for="street">المبلغ المسترجع من الشركة او الزبون (القطع الي )</label> 
+            <input  class="date" type="text" formControlName="totalRefundNetSellingPrice" class="form-control ">
+        </div>
+        
+        <div class="form-group col-sm-4 payment">
+          <label for="street">الغرامة</label> 
+          <input  class="date" type="text" formControlName="fine" class="form-control ">
+      </div>
+
+      <div class="buttons margin-top-10">
+        <input type="submit"  (click)="submitCancelFlightTicket(flightTicketForm)" class=" btn btn-primary submit " value="حفظ">
+    </div>
+      </div>
+
+    
+      </form>
+  
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+

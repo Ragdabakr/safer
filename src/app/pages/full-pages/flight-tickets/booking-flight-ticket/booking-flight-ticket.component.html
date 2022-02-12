@@ -3,14 +3,11 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add">
       <div class="card-header">
-        <h4 class="card-title mb-0"> حجز تذكرة جديدة</h4>
+        <h4 class="card-title mb-0">   الغاء تذكرة طيران</h4>
       </div>
       <div class="card-content completed-tours">
         <div class="card-body add-items">
 
-      
-
-      <!--NEW TICKET  with comm-->
 
           <form   [formGroup]="flightTicketForm"  novalidate>
 
@@ -176,7 +173,7 @@
                 <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
                 <th pSortableColumn="totalPrice">    المبلغ المدفوع    <p-sortIcon field="totalPrice"></p-sortIcon></th>
                 <th pSortableColumn="netComm">     صافي العمولة    <p-sortIcon field="netComm"></p-sortIcon></th>
-                <th >التعديل</th> 
+                <!-- <th >التعديل</th>  -->
                 <th >الحذف</th>  
             </tr>
          </ng-template>
@@ -191,11 +188,11 @@
                 <td>{{ticket?.netCost}}</td> 
                 <td>{{ticket?.totalPrice}}</td>  
                 <td>{{ticket?.netComm}}</td>  
-                <td>
+                <!-- <td>
                   <div class="blueTiltle"  (click)="editTraveller(ticket)">
                     <i class="ft-edit-2 ft icon"></i> التعديل
                   </div>  
-                </td> 
+                </td>  -->
                 <td>
                   <div class="redTiltle" (click)="deleteTraveller(ticket)">
                     <i class="ft-trash-2 ft icon"></i>

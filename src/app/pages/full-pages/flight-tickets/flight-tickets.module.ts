@@ -22,11 +22,13 @@ import { SharedModule } from '../../../shared/shared.module';
 import { BookingFlightTicketComponent } from './booking-flight-ticket/booking-flight-ticket.component';
 import { FlightTicketsListComponent } from './flight-tickets-list/flight-tickets-list.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { CancelFlightTicketComponent } from './cancel-flight-ticket/cancel-flight-ticket.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 
 @NgModule({
-  declarations: [BookingFlightTicketComponent, FlightTicketsListComponent, InvoiceComponent],
+  declarations: [BookingFlightTicketComponent, FlightTicketsListComponent, InvoiceComponent, CancelFlightTicketComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -46,6 +48,8 @@ import { InvoiceComponent } from './invoice/invoice.component';
     DialogModule,
     AgmCoreModule,
     Ng2TelInputModule,
+    NgxPrintModule,
+
 
 
 ],

@@ -67,6 +67,12 @@ export class FlightTicketsService {
     }
 
 
+    public cancelflightTicket(data:any): Observable<any> {
+        debugger;
+      return this.http.post('/api/v1/flightTickets/cancelBooking', { data});
+    }
+
+
 
    public refundflightTicketBooking(data : any): Observable<any> {
     debugger;

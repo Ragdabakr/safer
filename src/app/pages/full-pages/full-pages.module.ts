@@ -50,6 +50,9 @@ import { AccountComponent } from './account/account.component';
 import { AccountModule } from './account/account.module';
 import { TabsComponent } from 'app/components/bootstrap/tabs/tabs.component';
 import { SafeBoxComponent } from './safe-box/safe-box.component';
+import { BondsComponent } from './bonds/bonds.component';
+import { BondsInvoiceComponent } from './bonds/bonds-invoice/bonds-invoice.component';
+
 
 
 
@@ -110,6 +113,9 @@ import { SafeBoxComponent } from './safe-box/safe-box.component';
         FlightTicketInvoiceComponent,
         TabsComponent,
         SafeBoxComponent,
+        BondsComponent,
+        BondsInvoiceComponent,
+
 
 
         

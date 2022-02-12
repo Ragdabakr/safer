@@ -3,6 +3,7 @@
 
 const FlightTicket = require('./../models/flightTicketsModel');
 const FlightTicketBooking = require('../models/flightTicketBookingModel');
+FlightTicketCancelBooking= require('../models/flightTicketCancelBookingModel');
 const FlightTicketBookingInvoice= require('./../models/flightTicketBookingInvoiceModel');
 const Commission = require('./../models/commissionModel');
 
@@ -244,275 +245,79 @@ exports.createFlightTicketInvoice = catchAsync(async(req, res) => {
 
  
 
+// ------- refund Ticket with comm ------//
 
-
- exports.refundFlightTickets = catchAsync(async(req, res) => {
+exports.refundFlightTickets = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
-  console.log("user" ,user);
-  console.log("data" ,data);
-  const companyId = req.body.data.companyAccount._id;
-  const flightTicketId= req.body.data.airlineAccount._id ;
+  // console.log("user" ,user);
+  // console.log("data" ,data);
+  const newCancelFlightTicket = await FlightTicketCancelBooking.create(req.body.data);
 
-  Company.findById({_id:companyId}, async function(err,foundCompany){
-                 if (err) {console.log(err); }
-                // console.log("foundCompany" , foundCompany);
-                 foundCompany.outgoing = foundCompany.outgoing + req.body.data.totalRefundCostCompany;
-                 foundCompany.companyReport.push({
-                  debit :0,
-                  credit :req.body.data.totalRefundCostCompany,
-                  date:req.body.data.departureDate ,
-                  companyName :req.body.data.companyAccount.name ,
-                  destination :req.body.data.destination ,
-                  note :req.body.data.notes ,
-                  airlineName :req.body.data.airlineAccount.name ,
-                  type : "refundFlightTickets",
-                  user :user.name ,
-                  paymentMethod: req.body.data.paymentMethod,
-                  pnrNumber: req.body.data.pnrNumber,
-                  notes: req.body.data.note,
+const commission =  new Commission();
+commission.name = 'عمولة استرجاع تذكرة';
+commission.description = req.body.data.notes;
+commission.date = Date.now();
+commission.debit = req.body.data.totalRefundNetComm;
+commission.credit = 0;
+commission.user = req.user.name;
+// console.log("commission  >>>>>>" , commission);
+ commission.save();
 
-                });
 
-               // console.log("   foundCompanyReport  >>" ,    foundCompany );
-                foundCompany.save();
+ Company.findById({_id:req.body.data.bookingFrom}, async function(err,foundCompany){
+  if (err) {console.log(err); 
+ }
+
+ foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalRefundNetCostPrice);
+ foundCompany.companyReport.push({
+     debit :req.body.data.totalRefundNetCostPrice ,
+     credit :0, 
+     name:'استحقاق عليه / استرجاع تذكرة',
+     description : req.body.data.notes,
+     date : Date.now(),
+     user : req.user.name,
   });
-
-  FlightTicket.findById({_id:flightTicketId}, async function(err,foundFlightTicket){
-                if (err) {console.log(err); }
-                  foundFlightTicket.outgoing = foundFlightTicket.outgoing + req.body.data.totalRefundCostAirlineCompany;
-                  console.log("  foundFlightTicket.incoming  >>" ,   foundFlightTicket.incoming );
-
-                  foundFlightTicket.airlineReport.push({
-                    debit :0,
-                    credit :  req.body.data.totalRefundCostAirlineCompany,
-                    date:req.body.data.departureDate ,
-                    companyName :req.body.data.companyAccount.name ,
-                    destination :req.body.data.destination ,
-                    note :req.body.data.notes ,
-                    airlineName :req.body.data.airlineAccount.name ,
-                    type : "refundFlightTickets",
-                    user :user.name ,
-                    paymentMethod: req.body.data.paymentMethod,
-                    pnrNumber: req.body.data.pnrNumber,
-                    notes: req.body.data.note,
-
-                  });
-
-                 // console.log("foundFlightTicketReport  >>" ,    foundFlightTicket );
-                   foundFlightTicket.save();
-                });
-                const newFlightTicket = await FlightTicketBooking.create(req.body.data);
-
-              console.log('newFlightTicket >>',  newFlightTicket);
-                const getRandomId = (min = 0, max = 500000) => {
-                    min = Math.ceil(min);
-                    max = Math.floor(max);
-                    const num =  Math.floor(Math.random() * (max - min + 1)) + min;
-                    return num.toString().padStart(5, "0");
-                  };
-
-                  const invoice =  new FlightTicketBookingInvoice();
-                  //invoice.flightTicketInfo = newFlightTicket._id;
-                  invoice.companyAccount = req.body.data.companyAccount.name;
-                  invoice.airlineAccount = req.body.data.airlineAccount.name;
-                  invoice.paymentMethod = req.body.data.paymentMethod;
-                  invoice.totalPrice = req.body.data.totalRefundCostCompany;
-                  invoice.pnrNumber = req.body.data.pnrNumber;
-                  invoice.completed = true;
-                  invoice.note = req.body.data.notes;
-                  invoice.type = "refundFlightTickets";
-                  invoice.number = getRandomId();
-                  invoice.createdAt= Date.now();
-                  invoice.date = req.body.data.departureDate ,
-                  invoice.destination = req.body.data.destination ,
-                  invoice.save();
-
-               console.log('new Invoice', invoice);
-                res.status(201).json({
-                status: 'success',
-               // data: { newFlightTicket },
-                invoice:{invoice }
-                }); 
+  
+ await foundCompany.save();
 });
 
-exports.changeFlightTickets = catchAsync(async(req, res) => {
-  const user = req.user;
-  const data= req.body.data;
-  console.log("data" ,data);
-  const companyId = req.body.data.companyAccount._id;
-  const flightTicketId= req.body.data.airlineAccount._id ;
-  Company.findById({_id:companyId}, async function(err,foundCompany){
-                 if (err) {console.log(err); }
-                console.log("foundCompany >>" , foundCompany);
-                 foundCompany.incoming = foundCompany.incoming+  parseInt(req.body.data.fineTicketSystem)+ parseInt(req.body.data.fineTicketCompany);
-                 foundCompany.companyReport.push({
-                  debit : parseInt(req.body.data.fineTicketSystem)+ parseInt(req.body.data.fineTicketCompany),
-                  credit :0,
-                  date:req.body.data.departureDate ,
-                  companyName :req.body.data.companyAccount.name ,
-                  destination :req.body.data.destination ,
-                  note :req.body.data.notes ,
-                  airlineName :req.body.data.airlineAccount.name ,
-                  type : "changeFlightTickets",
-                  user :user.name ,
-                  paymentMethod: req.body.data.paymentMethod,
-                  pnrNumber: req.body.data.pnrNumber,
-                  notes: req.body.data.note,
+Company.findById({_id:req.body.data.bookingTo}, async function(err,foundCompany){
+  if (err) {console.log(err); 
+ }
 
-                });
-
-              console.log("   foundCompanyReport  >>" ,    foundCompany );
-               foundCompany.save();
+ foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
+ foundCompany.companyReport.push({
+     debit :0,
+     credit :req.body.data.totalRefundNetSellingPrice, 
+     name:' استحقاق له / استرجاع تذكرة',
+     description : req.body.data.notes,
+     date : Date.now(),
+     user : req.user.name,
   });
-
-  FlightTicket.findById({_id:flightTicketId}, async function(err,foundFlightTicket){
-                if (err) {console.log(err); }
-                  foundFlightTicket.incoming = foundFlightTicket.incoming +parseInt(req.body.data.fineTicketSystem);
-                  console.log("  foundFlightTicket.incomingjj  >>" ,   foundFlightTicket.incoming );
-
-                  foundFlightTicket.airlineReport.push({
-                    debit : parseInt(req.body.data.fineTicketSystem),
-                    credit : 0,
-                    date:req.body.data.departureDate ,
-                    companyName :req.body.data.companyAccount.name ,
-                    destination :req.body.data.destination ,
-                    note :req.body.data.notes ,
-                    airlineName :req.body.data.airlineAccount.name ,
-                    type : "changeFlightTickets",
-                    user :user.name ,
-                    notes: req.body.data.note,
-
-                  });
-
-                 console.log("foundFlightTicketReport  >>" ,    foundFlightTicket );
-                  foundFlightTicket.save();
-                });
-                const getRandomId = (min = 0, max = 500000) => {
-                    min = Math.ceil(min);
-                    max = Math.floor(max);
-                    const num =  Math.floor(Math.random() * (max - min + 1)) + min;
-                    return num.toString().padStart(5, "0");
-                  };
-
-                  const invoice =  new FlightTicketBookingInvoice();
-                  invoice.companyAccount = req.body.data.companyAccount.name;
-                  invoice.airlineAccount = req.body.data.airlineAccount.name;
-                  invoice.paymentMethod = req.body.data.paymentMethod;
-                  invoice.totalPrice = parseInt(req.body.data.fineTicketSystem)+ parseInt(req.body.data.fineTicketCompany);
-                  invoice.pnrNumber = req.body.data.pnrNumber;
-                  invoice.completed = true;
-                  invoice.note = req.body.data.notes;
-                  invoice.type = "changeFlightTickets";
-                  invoice.number = getRandomId();
-                  invoice.date = req.body.data.departureDate ,
-                  invoice.destination = req.body.data.destination ,
-                  invoice.createdAt= Date.now();
-                 
-                   invoice.save();
-
-                console.log('new Invoice', invoice);
-                res.status(201).json({
-                status: 'success',
-                invoice:{invoice }
-                }); 
+  
+ await foundCompany.save();
 });
 
-exports.salesFlightTickes = catchAsync(async(req, res) => {
-  const user = req.user;
-  const data= req.body.data;
- console.log("data" ,data); 
+res.status(201).json({
+status: 'success',
+data: {
+data: newCancelFlightTicket
+}
 
-  const companyId = req.body.data.companyAccount._id;
-  const flightTicketId= req.body.data.airlineAccount._id ;
-  Company.findById({_id:companyId}, async function(err,foundCompany){
-                 if (err) {console.log(err); }
-               
-                 foundCompany.incoming = parseInt(foundCompany.incoming) + parseInt(req.body.data.totalSellingPrice);
+});
 
-                  foundCompany.companyReport.push({
-                    debit : parseInt(req.body.data.totalSellingPrice),
-                    credit : 0 ,
-                    date:req.body.data.departureDate ,
-                    companyName :req.body.data.companyAccount.name ,
-                    destination :req.body.data.destination ,
-                    note :req.body.data.notes ,
-                    airlineName :req.body.data.airlineAccount.name ,
-                    type : "salesFlightTickets",
-                    user :user.name ,
-                    pnrNumber : req.body.data.pnrNumber,
-                    paymentMethod: req.body.data.paymentMethod,
-
-                  });
-             
-
-               console.log("   foundCompanyReport  >>" ,    foundCompany );
-               // foundCompany.save();
-  });
-
-  FlightTicket.findById({_id:flightTicketId}, async function(err,foundFlightTicket){
-                if (err) {console.log(err); }
-                  foundFlightTicket.incoming = foundFlightTicket.incoming + (req.body.data.totalSellingPrice - req.body.data.totalTicketProfit);
-                  console.log("  foundFlightTicket.incoming  >>" ,   foundFlightTicket.incoming );
-
-                  foundFlightTicket.airlineReport.push({
-                    debit :0,
-                    credit :  req.body.data.totalSellingPrice - req.body.data.totalTicketProfit ,
-                    date:req.body.data.departureDate ,
-                    companyName :req.body.data.companyAccount.name ,
-                    destination :req.body.data.destination ,
-                    note :req.body.data.notes ,
-                    airlineName :req.body.data.airlineAccount.name ,
-                    type : "salesFlightTickets",
-                    user :user.name ,
-                    paymentMethod: req.body.data.paymentMethod,
-                    pnrNumber : req.body.data.pnrNumber,
-
-                  });
-
-                console.log("   foundFlightTicketReport  >>" ,    foundFlightTicket );
-                   //foundFlightTicket.save();
-
-                });
-        
-
-               // console.log('newFlightTicket >>',  newFlightTicket);
-                const getRandomId = (min = 0, max = 500000) => {
-                    min = Math.ceil(min);
-                    max = Math.floor(max);
-                    const num =  Math.floor(Math.random() * (max - min + 1)) + min;
-                    return num.toString().padStart(5, "0");
-                  };
-                  const newFlightTicket = await FlightTicketBooking.create(req.body.data);
-                  const invoice =  new FlightTicketBookingInvoice();
-                  invoice.flightTicketInfo = newFlightTicket._id;
-                  invoice.companyAccount = req.body.data.companyAccount.name;
-                  invoice.airlineAccount = req.body.data.airlineAccount.name;
-                  invoice.paymentMethod = req.body.data.paymentMethod;
-                  invoice.totalPrice = req.body.data.totalSellingPrice;
-                  invoice.completed = true;
-                  invoice.type = "salesFlightTickets";
-                  invoice.number = getRandomId();
-                  invoice.createdAt= Date.now();
-                  //invoice.save();
-               console.log("invoice >> " , invoice);
-             
-                res.status(201).json({
-                status: 'success',
-               data: { newFlightTicket },
-                invoice:{invoice }
-                }); 
- 
- 
-
+  
 });
 
 
 
-exports.getFlightTicketsBookingList = factory.getAll(FlightTicketBooking);
 
 
-exports.getFlightTicketBooking= factory.getOne(FlightTicketBooking );
+exports.getFlightTicketsBookingList = factory.getAll(FlightTicketBooking, {path:'bookingFrom ,bookingTo'});
+
+
+exports.getFlightTicketBooking= factory.getOne(FlightTicketBooking , {path:'bookingFrom ,bookingTo'});
 exports.updateFlightTicketBooking= factory.updateOne(FlightTicketBooking);
 exports.deleteFlightTicketBooking= factory.deleteOne(FlightTicketBooking);
 

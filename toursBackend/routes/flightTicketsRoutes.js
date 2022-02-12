@@ -13,15 +13,16 @@ const router = express.Router();
 //      .get(authController.protect ,flightTicketController.getAllflightTickets)
 //      .post(authController.protect ,flightTicketController.createFlightTicket);
 
-router
-    .route('/refundFlightTicket')
-    .post(authController.protect ,flightTicketController.refundFlightTickets);
-    
 
 
     router
     .route('/booking')
     .post(authController.protect ,flightTicketController.createFlightTicketBooking);
+
+    router
+    .route('/cancelBooking')
+    .post(authController.protect ,flightTicketController.refundFlightTickets);
+
 
     router
     .route('/booked')

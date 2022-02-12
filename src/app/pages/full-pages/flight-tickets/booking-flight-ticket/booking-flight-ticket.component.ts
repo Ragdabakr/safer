@@ -236,8 +236,7 @@ export class BookingFlightTicketComponent implements OnInit {
       // console.log("this.totalSellingPrice" , totalNetSellingPrice); 
       // console.log("this.totalNetCostPrice" , totalNetCostPrice); 
       // console.log("this.totalNetComm" ,totalNetComm);
-       console.log("this.totalReceivedAmount" , totalReceivedAmount); 
-     console.log("this.totalRemainingAmount" ,totalRemainingAmount);
+   
 
       this.flightTicketForm.patchValue({
         totalNetSellingPrice: totalNetSellingPrice,
@@ -355,8 +354,6 @@ addTraveller(): FormGroup {
 
   submitNewFlightTicket(flightTicketForm){
 
-
-
     const travellers = {
 
        travellers: <FormArray>this.flightTicketForm.controls["travellers"].value,
@@ -380,56 +377,51 @@ this.flightTicketsService.createflightTicketBooking(flightTicketForm.value , thi
 
 
 
-editTraveller(ticket){
-  this.foundTicket = this.ticketsArray.filter(a => a.pnrNumber === ticket.pnrNumber);
-    this.noCommEditFlightTicketForm.patchValue({
-    travellers: [{
-      pnrNumber: this.foundTicket[0].pnrNumber,
-      travellerFirstName: this.foundTicket[0].travellerFirstName,
-      travellerLastName: this.foundTicket[0].travellerLastName,
-      travellerType: this.foundTicket[0].travellerType,
-      passportNumber: this.foundTicket[0].passportNumber,
-      ticketCostPrice: this.foundTicket[0].ticketCostPrice,
-      ticketSellingPrice: this.foundTicket[0].ticketSellingPrice,
-    }]
-  });
-  // console.log("this.foundTicket" , this.foundTicket);
-  // console.log("this.ticketsArray" , this.ticketsArray);
-  this.editFlightTicketDialog = true;
-  // console.log("dataSource00" , this.dataSource);
-  // console.log("this.ticketsArrayنن" , this.ticketsArray);
+// editTraveller(ticket){
+//   this.foundTicket = this.ticketsArray.filter(a => a.pnrNumber === ticket.pnrNumber);
+//     this.noCommEditFlightTicketForm.patchValue({
+//     travellers: [{
+//       pnrNumber: this.foundTicket[0].pnrNumber,
+//       travellerFirstName: this.foundTicket[0].travellerFirstName,
+//       travellerLastName: this.foundTicket[0].travellerLastName,
+//       travellerType: this.foundTicket[0].travellerType,
+//       passportNumber: this.foundTicket[0].passportNumber,
+//       ticketCostPrice: this.foundTicket[0].ticketCostPrice,
+//       ticketSellingPrice: this.foundTicket[0].ticketSellingPrice,
+//     }]
+//   });
+//   // console.log("this.foundTicket" , this.foundTicket);
+//   // console.log("this.ticketsArray" , this.ticketsArray);
+//   this.editFlightTicketDialog = true;
+//   // console.log("dataSource00" , this.dataSource);
+//   // console.log("this.ticketsArrayنن" , this.ticketsArray);
 
-}
-
-
+// }
 
 
+// updateTravellerButton(item){
+//   console.log("item"  , item);
+//   this.editFlightTicketDialog = false;
+//   this.ticketsArray = item.value.travellers;
+//   console.log("ticketsArray"  ,this.ticketsArray);
+//   this.noCommFlightTicketForm.patchValue({
+//     travellers: this.ticketsArray
+//   });
+// this.foundTicket = [];
+//   console.log("  this.noCommFlightTicketForm"  ,  this.noCommFlightTicketForm);
 
-
-updateTravellerButton(item){
-  console.log("item"  , item);
-  this.editFlightTicketDialog = false;
-  this.ticketsArray = item.value.travellers;
-  console.log("ticketsArray"  ,this.ticketsArray);
-  this.noCommFlightTicketForm.patchValue({
-    travellers: this.ticketsArray
-  });
-this.foundTicket = [];
-  console.log("  this.noCommFlightTicketForm"  ,  this.noCommFlightTicketForm);
-
- }
+//  }
 
 
  // Delete  Traveller 
 deleteTraveller(traveller){
   console.log("traveller >>>" , traveller);
-  let deletedTicket =  this.ticketsArray.filter(a=> a.pnrNumber !== traveller.pnrNumber );
+ 
+  let deletedTicket =  this.ticketsArray.filter(a=> a.passportNumber !== traveller.passportNumber );
   console.log("deletedTicket >>>" , deletedTicket);
-  this.ticketsArray = deletedTicket;
-  this.noCommFlightTicketForm.patchValue({
-    travellers: deletedTicket
-  });
- deletedTicket = [];
+   this.ticketsArray = deletedTicket;
+
+
 
 }
 
