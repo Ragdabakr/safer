@@ -86,6 +86,7 @@ export class BookingFlightTicketComponent implements OnInit {
   dataSource: any[];
   noCommEditFlightTicketForm: FormGroup;
   num: number;
+
   // Prevent panel toggle code
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === '2') {
@@ -130,52 +131,34 @@ export class BookingFlightTicketComponent implements OnInit {
             totalNetComm: new FormControl(''),
             totalReceivedAmount: new FormControl(''),
             totalRemainingAmount: new FormControl(''),
-
-            
             bookingUser: new FormControl(''),
             bookingTime: new FormControl(''),
-
-           
-
             travellers: new FormArray([this.addTraveller()]),
           
           }
         );
-
-
-
-
-
-     
-        
-         
+      
   }
 
   getCompanies(){
     this.companyService.getcompanies().subscribe({
       next: response => {
           this.companies = response.data.docs;
-          console.log(" this.companies>>>" ,  this.companies);
+          // console.log(" this.companies>>>" ,  this.companies);
       },
-
       error: err => {
           console.log(err);
       }
   });
 }
 
-   // Add traveller
-
-  //  addTravellerButtonClick(): void {
-  //   this.travellers = this.flightTicketForm.controls.travellers as FormArray;
-  //   this.travellersArray =this.travellers.value;
-  //   this.travellers.push(this.addTraveller());
-  //  }
+// Add new traveller
     addNewTraveller(){
-
-
+      if(this.flightTicketForm.invalid){
+        this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
+        this.validateAllFormFields(this.flightTicketForm); // Triger postForm validation
+      }else{
     this.ticket= this.flightTicketForm.value;
-    // console.log("this.ticket" , this.ticket); 
 
     var totalNetSellingPrice = 0;
     var totalNetCostPrice = 0 ;
@@ -183,26 +166,14 @@ export class BookingFlightTicketComponent implements OnInit {
     var  totalReceivedAmount = 0;
     var  totalRemainingAmount =0;
    
-   
-
     for (let i = 0; i < this.ticket.travellers.length; i++) {
-
-
     this.ticketsArray.push(this.ticket.travellers[i]);
-
-   
     
       const sellingPrice = this.ticket.travellers[i].ticketSellingPrice;
       const costPrice  = this.ticket.travellers[i].ticketCostPrice ;
       const ratio  = this.ticket.ratio;
       const discount  = this.ticket.travellers[i].discount;
       const ratioPresntage =  parseInt(ratio) / 100;
-     
-
-
-      // console.log("this.sellingPrice" , sellingPrice); 
-      // console.log("this.costPrice" , costPrice); 
-      // console.log("this.discount" ,discount); 
 
       const comm = (costPrice* ratioPresntage) ;
       const netCost = sellingPrice - comm;
@@ -211,32 +182,23 @@ export class BookingFlightTicketComponent implements OnInit {
 
     // console.log("this.ticketsArray" , this.ticketsArray); 
 
-
-
     for (let i = 0; i < this.ticketsArray.length; i++) {
       const sellingPrice = this.ticketsArray[i].ticketSellingPrice;
       const costPrice  = this.ticketsArray[i].ticketCostPrice ;
       const ratio  = this.ticket.ratio;
       const discount  = this.ticketsArray[i].discount;
       const ratioPresntage =  parseInt(ratio) / 100;
-  
 
       const comm = (costPrice* ratioPresntage) ;
       const netCost = sellingPrice - comm;
       const netComm = comm - discount;
       const totalPrice = sellingPrice - discount;
 
-
       totalNetSellingPrice += totalPrice ;
       totalNetCostPrice += netCost; 
       totalNetComm += netComm; 
-       totalReceivedAmount += parseInt(this.ticketsArray[i].receivedAmount);
+      totalReceivedAmount += parseInt(this.ticketsArray[i].receivedAmount);
       totalRemainingAmount +=parseInt(this.ticketsArray[i].remainingAmount);
-  
-      // console.log("this.totalSellingPrice" , totalNetSellingPrice); 
-      // console.log("this.totalNetCostPrice" , totalNetCostPrice); 
-      // console.log("this.totalNetComm" ,totalNetComm);
-   
 
       this.flightTicketForm.patchValue({
         totalNetSellingPrice: totalNetSellingPrice,
@@ -247,8 +209,8 @@ export class BookingFlightTicketComponent implements OnInit {
        
       });
 
+      }
     }
-   
   }
 
 
@@ -257,9 +219,6 @@ export class BookingFlightTicketComponent implements OnInit {
         for(let i = control.length-1; i >= 0; i--) {
             control.reset(i)
     }
-
-
-
  }
 
 
@@ -276,22 +235,17 @@ addTraveller(): FormGroup {
 
         comm: ['', [Validators.required]],
         netCost: ['', [Validators.required]],
-        discount: ['', [Validators.required]],
+        discount: ['0', [Validators.required]],
         netComm: ['', [Validators.required]],
         totalPrice: ['', [Validators.required]],
 
         receivedAmount: ['', [Validators.required]],
-        remainingAmount: ['', [Validators.required]],
+        remainingAmount: ['0', [Validators.required]],
 
     });
 }
 
-
-
- 
-
-
-
+     // Get Flight Tickets
   getflightTickets(){
           this.flightTicketsService.getflightTicketsBooking().subscribe({
             next: response => {
@@ -303,11 +257,13 @@ addTraveller(): FormGroup {
         });
   }
 
-
-
-
+ // calculation
   calculate(){
-    
+
+    if(!this.flightTicketForm.get('ratio').value){
+      this.toastr.error('الرجاء التأكد من ادخال قيمة النسبة المطلوبة');
+    }else{
+
     for (let i = 0; i < this.flightTicketForm.value.travellers.length; i++) {
     
     const sellingPrice = this.flightTicketForm.value.travellers[i].ticketSellingPrice;
@@ -335,94 +291,59 @@ addTraveller(): FormGroup {
 
    const min = 0;
    const max =8000;
-  this.num =  Math.floor(Math.random() * (max - min + 1)) + min;
-  this.num.toString().padStart(6, "0");
+   this.num =  Math.floor(Math.random() * (max - min + 1)) + min;
+   this.num.toString().padStart(6, "0");
   //  console.log( " this.num",this.num);
-  
-   this.flightTicketForm.patchValue({
+    this.flightTicketForm.patchValue({
     bookingUser:this.user,
     bookingTime:Date.now(),
     number:this.num
-  });
-
-
-
+    });
     }
-
-
+   }
   }
 
+   // Submit new Flight ticket
   submitNewFlightTicket(flightTicketForm){
-
+    if (
+      !this.flightTicketForm.get('bookingFrom').value ||
+      !this.flightTicketForm.get('bookingTo').value ||
+      !this.flightTicketForm.get('ratio').value ||
+      !this.flightTicketForm.get('notes').value ||
+      !this.flightTicketForm.get('departureDate').value||
+      !this.flightTicketForm.get('destination').value ||
+      !this.flightTicketForm.get('totalReceivedAmount').value ||
+      !this.flightTicketForm.get('totalNetSellingPrice').value ||
+      !this.flightTicketForm.get('totalRemainingAmount').value
+      ){
+        this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
+    }else{
     const travellers = {
-
        travellers: <FormArray>this.flightTicketForm.controls["travellers"].value,
-     
   }
 this.flightTicketsService.createflightTicketBooking(flightTicketForm.value , this.ticketsArray).subscribe(
       res =>{
-        // this.flightTicketForm.reset();
+        this.flightTicketForm.reset();
         this.toastr.success('تم الاضافة بنجاح ');
-        // this.getflightTickets();
-        // setTimeout(() => {
-        //   window.location.href = '/full-layout/full-pages/flightTicketsList';
-        // }, 1000);
+        this.getflightTickets();
+        setTimeout(() => {
+          window.location.href = '/full-layout/full-pages/flightTicketsList';
+        }, 1000);
    },
         err =>{
         console.log(err);
       }
     )
-   
+    }
   }
-
-
-
-// editTraveller(ticket){
-//   this.foundTicket = this.ticketsArray.filter(a => a.pnrNumber === ticket.pnrNumber);
-//     this.noCommEditFlightTicketForm.patchValue({
-//     travellers: [{
-//       pnrNumber: this.foundTicket[0].pnrNumber,
-//       travellerFirstName: this.foundTicket[0].travellerFirstName,
-//       travellerLastName: this.foundTicket[0].travellerLastName,
-//       travellerType: this.foundTicket[0].travellerType,
-//       passportNumber: this.foundTicket[0].passportNumber,
-//       ticketCostPrice: this.foundTicket[0].ticketCostPrice,
-//       ticketSellingPrice: this.foundTicket[0].ticketSellingPrice,
-//     }]
-//   });
-//   // console.log("this.foundTicket" , this.foundTicket);
-//   // console.log("this.ticketsArray" , this.ticketsArray);
-//   this.editFlightTicketDialog = true;
-//   // console.log("dataSource00" , this.dataSource);
-//   // console.log("this.ticketsArrayنن" , this.ticketsArray);
-
-// }
-
-
-// updateTravellerButton(item){
-//   console.log("item"  , item);
-//   this.editFlightTicketDialog = false;
-//   this.ticketsArray = item.value.travellers;
-//   console.log("ticketsArray"  ,this.ticketsArray);
-//   this.noCommFlightTicketForm.patchValue({
-//     travellers: this.ticketsArray
-//   });
-// this.foundTicket = [];
-//   console.log("  this.noCommFlightTicketForm"  ,  this.noCommFlightTicketForm);
-
-//  }
 
 
  // Delete  Traveller 
 deleteTraveller(traveller){
-  console.log("traveller >>>" , traveller);
- 
+  // console.log("traveller >>>" , traveller);
   let deletedTicket =  this.ticketsArray.filter(a=> a.passportNumber !== traveller.passportNumber );
-  console.log("deletedTicket >>>" , deletedTicket);
+  // console.log("deletedTicket >>>" , deletedTicket);
    this.ticketsArray = deletedTicket;
-
-
-
 }
 
   // To validate all form fields, we need to iterate throughout all form controls:

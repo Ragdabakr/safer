@@ -69,7 +69,7 @@ exports.updateOne = Model => catchAsync(async (req, res) => {
       let query = Model.findById(req.params.id);
       if(popOptions) query = query.populate(popOptions);
       const doc = await query;
-      console.log("companyAccount" , doc);
+      // console.log("companyAccount" , doc);
       if(!doc){
         return next(new AppError ('no document found with this id', 404));
       }

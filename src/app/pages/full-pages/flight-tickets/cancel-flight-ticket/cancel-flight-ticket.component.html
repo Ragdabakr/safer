@@ -3,12 +3,10 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add">
       <div class="card-header">
-        <h4 class="card-title mb-0"> حجز تذكرة جديدة</h4>
+        <h4 class="card-title mb-0">الغاء حجز تذكرة طيران</h4>
       </div>
       <div class="card-content completed-tours">
         <div class="card-body add-items">
-
-      
 
       <!--NEW TICKET  with comm-->
       <form   [formGroup]="flightTicketForm"  novalidate>
@@ -43,20 +41,19 @@
                 </div>
                 <div class="form-group col-sm-4 payment">
                   <label for="street">تاريخ المغادرة</label> 
-                  <input  class="date" type="text" formControlName="departureDate" class="form-control ">
+                  <input  class="date" type="text" formControlName="departureDate" class="form-control">
               </div>
               <div class="form-group col-sm-4 payment">
                 <label for="street">الوجهة</label> 
-                <input  class="checkbox" type="text" formControlName="destination" class="form-control ">
+                <input  class="checkbox" type="text" formControlName="destination" class="form-control">
               </div>
               <div class="form-group col-sm-4 payment">
                 <label for="street">الملاحظات</label>
-                <input  class="" type="text" formControlName="notes" class="form-control ">
-             </div>
-        </div>
-          </div>
+                <input  class="" type="text" formControlName="notes" class="form-control"><span class="red">*</span>
+              </div>
+            </div>
+           </div>
           </form>
-
         </div>
       </div>
     </div>
@@ -66,7 +63,6 @@
       <div class="card-header">
         <h4 class="card-title mb-0">تذاكر الطيران</h4>
       </div>
-
     
       <div class="card-content">
         <div class="card-body">
@@ -120,48 +116,39 @@
 
 </div>
 </div>
-<div class="row" matchHeight="card" class="refund">
+<div class="row" matchHeight="card" class="refund" *ngIf="ticketsArray.length > 0">
   <div class="col-xl-12 col-lg-12">
-    <div class="card card-add" >
+    <div class="card cancelSection card-add" >
       <div class="card-header"  >
         <h4 class="card-title mb-0"> خيارات استرجاع التذكرة (نقدا و أجل )</h4>
         </div>
       <div class="row">
         <div class="col-sm-12  col-md-6 form-inline">
           <div class="form-group payment">
-            <input type="radio"  name="ticketCancelWithComm" value="withComm" (change)="checkCheckBoxvalue($event)">
-            <label for="vehicle1" class="form-control label">   إرجاع عمولة التذكرة كاملة للمسافر </label>
+            <input type="radio" [(ngModel)]="cancelType"  name="ticketCancelWithComm" value="withComm" (change)="checkCheckBoxvalue($event)">
+            <label for="vehicle1" class="form-control label">  إرجاع عمولة التذكرة كاملة للمسافر </label>
           </div>
           <div class="form-group payment">
-            <input type="radio"  name="ticketCancel" value="noComm" (change)="checkCheckBoxvalue($event)">
+            <input type="radio" [(ngModel)]="cancelType"   name="ticketCancel" value="noComm" (change)="checkCheckBoxvalue($event)">
             <label for="vehicle2" class="form-control label">عدم إرجاع عمولة التذكرة للمسافر وعدم فرض غرامة</label>
-          </div>
-          <div class="form-group payment">
-            <input type="radio"  name="ticketCancel" value="partOfComm" (change)="checkCheckBoxvalue($event)" >
-            <label for="vehicle3" class="form-control label">إرجاع قسم من العمولة للمسافر</label>
           </div>
           </div>
           <div class="col-sm-12  col-md-6 form-inline">
           <div class="form-group payment">
-            <input type="radio"  name="ticketCancel" value="fineWithComm" (change)="checkCheckBoxvalue($event)">
+            <input type="radio" [(ngModel)]="cancelType" id="cansel"    name="ticketCancel" value="fineWithComm" (change)="checkCheckBoxvalue($event)">
             <label for="vehicle1" class="form-control label"> فرض غرامة مع إرجاع عمولة كاملة للمسافر</label>
           </div>
           <div class="form-group payment">
-            <input type="radio"  name="ticketCancel" value="fineNoComm" (change)="checkCheckBoxvalue($event)">
+            <input type="radio" [(ngModel)]="cancelType"  id="cansel" name="ticketCancel" value="fineNoComm" (change)="checkCheckBoxvalue($event)">
           <label for="vehicle2" class="form-control label"> فرض غرامة مع عدم إرجاع عمولة المسافر</label>
           </div>
-          <div class="form-group payment">
-            <input type="radio"  name="ticketCancel" value="fineWithPartOfComm" (change)="checkCheckBoxvalue($event)" >
-          <label for="vehicle3" class="form-control label">فرض غرامة مع ارجاع قسم من العمولة للمسافر</label>
-          </div>
-          </div>
-    
+        </div>
       </div>    
     </div>
   </div>
 </div>
 
-<div class="row" matchHeight="card" >
+<div class="row" matchHeight="card" *ngIf="ticketsArray.length > 0">
   <div class="col-md-12">
     <div class="card card-add" >
       <div class="row">
@@ -170,7 +157,7 @@
       <div class="col-sm-12 form-inline">
         <div class="form-group col-sm-8 payment">
             <label for="street">المبلغ المسترجع من الشركة (القطع من )</label> 
-            <input  class="date" type="text" formControlName="totalRefundNetCostPrice" class="form-control ">
+            <input  class="date" type="text" formControlName="totalRefundNetCostPrice" class="form-control "><span class="red">*</span>
         </div>
         <div class="form-group col-sm-4 payment">
           <label for="street">العمولة المسترجعة</label> 
@@ -178,7 +165,7 @@
       </div>
         <div class="form-group col-sm-8 payment">
             <label for="street">المبلغ المسترجع من الشركة او الزبون (القطع الي )</label> 
-            <input  class="date" type="text" formControlName="totalRefundNetSellingPrice" class="form-control ">
+            <input  class="date" type="text" formControlName="totalRefundNetSellingPrice" class="form-control "><span class="red">*</span>
         </div>
         
         <div class="form-group col-sm-4 payment">
@@ -187,7 +174,7 @@
       </div>
 
       <div class="buttons margin-top-10">
-        <input type="submit"  (click)="submitCancelFlightTicket(flightTicketForm)" class=" btn btn-primary submit " value="حفظ">
+        <input type="submit"  (click)="submitCancelFlightTicket(flightTicketForm)" class=" btn saveButton submit " value="حفظ">
     </div>
       </div>
 

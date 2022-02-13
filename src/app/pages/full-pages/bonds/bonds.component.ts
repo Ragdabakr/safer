@@ -27,6 +27,7 @@ export class BondsComponent implements OnInit {
   types= [ "سند صرف","سند قبض"]
   num: number;
 
+
   constructor( private bondService: BondService,private toastr:ToastrService , private companyService: CompanyService,) { }
 
   ngOnInit() {

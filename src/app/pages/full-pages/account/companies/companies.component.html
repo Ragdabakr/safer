@@ -67,7 +67,14 @@
           <ng-template pTemplate="body" let-ticket>
             <tr>
                 <!-- <td>{{user.user_id}}</td> -->
-                <td>{{ticket?.name}}</td> 
+                <td>
+                  <!-- <span class="badge badge-primary  mr-1" *ngIf="ticket?.name === 'استحقاق له / استرجاع تذكرة'"> {{ticket?.name}}</span>
+                  <span class="badge badge-warning  mr-1" *ngIf="ticket?.name === 'صرف مبلغ'"> {{ticket?.name}}</span>
+                  <span class="badge badge-default  mr-1" *ngIf="ticket?.name === 'حجز تذكرة نقدا'"> {{ticket?.name}}</span>
+                  <span class="badge badge-warning  mr-1" *ngIf="ticket?.name === 'استحقاق الي'"> {{ticket?.name}}</span>
+                  <span class="badge badge-danger  mr-1" *ngIf="ticket?.name === 'استحقاق عليه / استرجاع تذكرة'"> {{ticket?.name}}</span> -->
+                  {{ticket?.name}}
+                  </td> 
                 <td>{{ticket?.createdAt | date}}</td> 
                 <td>{{ticket?.debit}}</td>  
                 <td>{{ticket?.credit}}</td>  

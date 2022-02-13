@@ -19,12 +19,14 @@
           </div>
           <div class="col-md-12 col-sm-12 text-center text-md-right">
             <p><span class="text-muted">رقم الفاتورة</span> : # {{invoice?.number}}</p>
-            <p><span class="text-muted">تاريخ الفاتورة </span> :{{invoice?.createdAt | date }}</p>
-            <p><span class="text-muted">الحساب</span>:{{invoice?.accountName.name}}</p>
+            <p><span class="text-muted">تاريخ الفاتورة </span> : {{invoice?.createdAt | date }}</p>
+            <p><span class="text-muted">الحساب</span>: {{invoice?.accountName.name}}</p>
             <p><span class="text-muted">نوع السند</span> : {{invoice?.type}}</p>
-            <p><span class="text-muted">المبلغ</span>: # {{invoice?.amount}}</p>
+            <p><span class="text-muted">المبلغ</span>:  {{invoice?.amount}}  ريال </p>
             <p><span class="text-muted">البيان</span>: {{invoice?.notes}}</p>
-            <p><span class="text-muted">الموظف</span>: {{invoice?.user}}</p>
+            <p>ختم الشركة</p>
+                <img   *ngIf="companyAccount[0].active === true && !selectedFile" class="photo" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{companyAccount[0]?.imageCover.imageVersion}}/{{companyAccount[0]?.imageCover.imageId}}.jpg" alt="Card image cap">
+              
         
           </div>
         </div>

@@ -12,7 +12,7 @@
           currentPageReportTemplate="إظهار {first} الى {last} من  {totalUsers} الفنادق" [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['bookingFrom','number','departureDate','destination','paymentMethod','totalNetSellingPrice' ]">
+          [filterDelay]="0" [globalFilterFields]="['bookingFrom','number','departureDate','destination','cancel','paymentMethod','totalNetSellingPrice' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -36,15 +36,14 @@
                 <th pSortableColumn="destination">الوجهة  <p-sortIcon field="destination"></p-sortIcon></th>
                 <th pSortableColumn="paymentMethod">طريقة الدفع  <p-sortIcon field="paymentMethod"></p-sortIcon></th>
                 <th pSortableColumn="totalNetSellingPrice">  السعر الكلي  <p-sortIcon field="totalNetSellingPrice"></p-sortIcon></th>
-
                 <!-- <th pSortableColumn="address">العنوان <p-sortIcon field="address"></p-sortIcon></th> -->
-                <th  >أصدار فاتورة</th>  
+                <th  >أصدار فاتورة</th> 
+                <th pSortableColumn="cancel"> حالة التذكرة  <p-sortIcon field="totalNetSellingPrice"></p-sortIcon></th>
+ 
             </tr>
          </ng-template>
           <ng-template pTemplate="body" let-ticket>
             <tr>
-                <!-- <td>{{user.user_id}}</td> -->
-                {{invoiceId}}
                 <td ><a *ngIf="ticket.createdInvoice === true"  href="/full-layout/full-pages/invoices/{{ticket?._id}}">#{{ticket?.number}}</a>
                 <p  *ngIf="ticket.createdInvoice === false">#</p></td>
                 <!-- <td>{{ticket?.bookingFrom}}</td> -->
@@ -65,8 +64,11 @@
                 <div   *ngIf="ticket.createdInvoice === true" >
                  تم اصدار فاتورة
                 </div> 
-
-              
+                </td>
+                <td>
+                  <span class="badge badge-success  mr-1" *ngIf="ticket?.cancel === false"> الحجز قائم</span>
+                  <span class="badge badge-warning  mr-1" *ngIf="ticket?.cancel === true"> تم الغاء الحجز</span>
+                
                 </td>
              </tr>
           </ng-template>

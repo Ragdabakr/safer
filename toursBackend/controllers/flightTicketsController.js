@@ -88,24 +88,24 @@ commission.user = user.name;
                 await  foundCompany.save();
 });
 
-Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
-  if (err) {console.log(err); 
- }
+// Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
+//   if (err) {console.log(err); 
+//  }
 
 
- foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalReceivedAmount);
+//  foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalReceivedAmount);
 
- foundCompany.companyReport.push({
-     debit :  req.body.data.totalRemainingAmount,
-     credit :req.body.data.totalReceivedAmount, 
-     name:' حجز تذكرة نقدا',
-     description : req.body.data.notes,
-     date : Date.now(),
-     user : req.user.name,
-  });
+//  foundCompany.companyReport.push({
+//      debit :  req.body.data.totalRemainingAmount,
+//      credit :req.body.data.totalReceivedAmount, 
+//      name:' حجز تذكرة نقدا',
+//      description : req.body.data.notes,
+//      date : Date.now(),
+//      user : req.user.name,
+//   });
   
-  await foundCompany.save();
-});
+//   await foundCompany.save();
+// });
 
 res.status(201).json({
   status: 'success',
@@ -251,7 +251,7 @@ exports.refundFlightTickets = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
   // console.log("user" ,user);
-  // console.log("data" ,data);
+   console.log("data999" ,data);
   const newCancelFlightTicket = await FlightTicketCancelBooking.create(req.body.data);
 
 const commission =  new Commission();
@@ -264,8 +264,16 @@ commission.user = req.user.name;
 // console.log("commission  >>>>>>" , commission);
  commission.save();
 
+ FlightTicketBooking.findOne({number:req.body.data.number}, async function(err,foundFlightTicketBooking){
+  if (err) {console.log(err); 
+ }
+ console.log("foundFlightTicketBooking" , foundFlightTicketBooking);
+ foundFlightTicketBooking.cancel = true;
+  await foundFlightTicketBooking.save();
+});
 
- Company.findById({_id:req.body.data.bookingFrom}, async function(err,foundCompany){
+
+ Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
   if (err) {console.log(err); 
  }
 
@@ -282,7 +290,7 @@ commission.user = req.user.name;
  await foundCompany.save();
 });
 
-Company.findById({_id:req.body.data.bookingTo}, async function(err,foundCompany){
+Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
   if (err) {console.log(err); 
  }
 

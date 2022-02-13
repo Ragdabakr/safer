@@ -121,7 +121,10 @@ const flightTicketBooking = new mongoose.Schema({
     createdInvoice: {
         type: Boolean, default: false
     },
-    createdAt :{type: Date, default: Date.now()}
+    createdAt :{type: Date, default: Date.now()},
+    cancel: {
+        type: Boolean, default: false
+    },
 
     
 

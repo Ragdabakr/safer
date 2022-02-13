@@ -14,6 +14,8 @@ export class CancelFlightTicketComponent implements OnInit {
   ticket;
   ticketsArray = [];
   ticketValue: any[];
+  ticketNumber: any[];
+  cancelType;
 
   constructor(private flightTicketsService: FlightTicketsService,private toastr:ToastrService ,private fb: FormBuilder ,) { }
 
@@ -47,7 +49,7 @@ export class CancelFlightTicketComponent implements OnInit {
             refundType:new FormControl('', [ Validators.required,]),
             totalRefundNetCostPrice: new FormControl('', [ Validators.required,]),
             totalRefundNetSellingPrice: new FormControl('', [ Validators.required,]),
-            totalRefundNetComm: new FormControl('', [ Validators.required,]),
+            totalRefundNetComm: new FormControl('0', [ Validators.required,]),
             fine: new FormControl('', [ Validators.required,]),
      }
    );
@@ -57,7 +59,7 @@ export class CancelFlightTicketComponent implements OnInit {
   getTickets(){
     this.flightTicketsService.getFlightTicketsList().subscribe({
       next: response => {
-          this.tickets = response.data.docs.reverse();
+          this.tickets = response.data.docs.reverse().filter(a => a.cancel  === false );
           console.log("tickets >>>" ,this.tickets);
       },
       error: err => {
@@ -99,7 +101,6 @@ onTicketNumberSelected(event){
       console.log("x3 >>> " , ticketNumber);
       // console.log("event.target.value >>> " , event.target.value);
         this.tickets = response.data.docs;
-      //   console.log("this.tickets >>> " , this.tickets);
         this.ticketValue =  this.tickets.filter(a => a.number  === ticketNumber );
         this.patchFormValues(this.ticketValue);
 
@@ -125,10 +126,9 @@ patchFormValues(ticketValue){
        paymentMethod : this.ticket[0].paymentMethod,
        departureDate :  this.ticket[0].departureDate,
        destination : this.ticket[0].destination,
+       number : this.ticket[0].number,
 
    });
-   console.log("this.flightTicketForm" ,this.flightTicketForm.value);
-
  }
 
  checkCheckBoxvalue(event){
@@ -138,13 +138,76 @@ patchFormValues(ticketValue){
   this.flightTicketForm.patchValue({
     refundType : "withComm",
     totalRefundNetCostPrice :  this.ticket[0].totalNetCostPrice,
-    totalRefundNetSellingPrice : this.ticket[0].totalNetSellingPrice,
+    totalRefundNetSellingPrice : this.ticket[0].totalReceivedAmount,
     totalRefundNetComm : this.ticket[0].totalNetComm,
+    fine:0
   });
  }
+ 
+ if(event.target.value === "noComm"){
+  this.flightTicketForm.patchValue({
+    refundType : "noComm",
+    totalRefundNetCostPrice :  this.ticket[0].totalNetCostPrice,
+    totalRefundNetSellingPrice : this.ticket[0].totalReceivedAmount - this.ticket[0].totalNetComm ,
+    totalRefundNetComm : 0,
+    fine:0
+  });
  }
+ 
+ if(event.target.value === "fineWithComm"){
+   const fine = this.flightTicketForm.get('fine').value;
+    if(!fine){
+       this.toastr.error('الرجاء ادخال قيمة الغرامة ');
+       event.target.value =null;
+    }else{
+      this.flightTicketForm.patchValue({
+        refundType : "fineWithComm",
+        totalRefundNetCostPrice :  this.ticket[0].totalNetCostPrice - fine,
+        totalRefundNetSellingPrice : this.ticket[0].totalNetSellingPrice - fine ,
+        totalRefundNetComm : this.ticket[0].totalNetComm,
+        fine:fine
+      });
+      }
+}
+ 
+
+ if(event.target.value === "fineNoComm"){
+  const fine = this.flightTicketForm.get('fine').value;
+    if(!fine){
+      this.toastr.error('الرجاء ادخال قيمة الغرامة ');
+      event.target.value =null;
+    }else{
+    this.flightTicketForm.patchValue({
+      refundType : "fineWithComm",
+      totalRefundNetCostPrice :  this.ticket[0].totalNetCostPrice - fine,
+      totalRefundNetSellingPrice : (this.ticket[0].totalReceivedAmount - this.ticket[0].totalNetComm) -fine ,
+      totalRefundNetComm : 0,
+      fine:fine
+    });
+    }
+   }
+}
+
 
  submitCancelFlightTicket(flightTicketForm){
+  if(!this.flightTicketForm.get('number').value ){
+    this.toastr.error('الرجاء التأكد من اختيار رقم الحجز');
+  }
+  else if(!this.flightTicketForm.get('notes').value ){
+    this.toastr.error(' الرجاء التأكد من كتابة الملاحظات المطلوبة');
+  }
+  else if(!this.cancelType){
+    this.toastr.error('الرجاء التأكد من اختيار احدي خيارات استرجاع التذكرة');
+  }
+  else if(!this.flightTicketForm.get('totalRefundNetSellingPrice').value  || !this.flightTicketForm.get('totalRefundNetCostPrice').value ){
+    this.toastr.error(' الرجاء التأكد من  ملئ الحقول المطلوبة المطلوبة');
+  }
+  
+  else {
+  this.flightTicketForm.patchValue({
+    bookingFrom :  this.ticket[0].bookingFrom,
+    bookingTo : this.ticket[0].bookingTo,
+});
   this.flightTicketsService.cancelflightTicket(flightTicketForm.value).subscribe(
     res =>{
       // this.flightTicketForm.reset();
@@ -160,5 +223,5 @@ patchFormValues(ticketValue){
   )
  
  }
-
+}
 }

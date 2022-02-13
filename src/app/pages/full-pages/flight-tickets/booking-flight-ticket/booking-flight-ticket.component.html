@@ -3,7 +3,7 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add">
       <div class="card-header">
-        <h4 class="card-title mb-0">   الغاء تذكرة طيران</h4>
+        <h4 class="card-title mb-0"> حجز تذكرة طيران جديدة</h4>
       </div>
       <div class="card-content completed-tours">
         <div class="card-body add-items">
@@ -12,7 +12,7 @@
           <form   [formGroup]="flightTicketForm"  novalidate>
 
             <div class="buttons margin-top-10">
-              <input type="submit"  (click)="submitNewFlightTicket(flightTicketForm)" class=" btn btn-primary submit " value="حفظ">
+              <input type="submit"  (click)="submitNewFlightTicket(flightTicketForm)" class=" btn saveButton submit " value="حفظ">
           </div>
             
               <div class="row">
@@ -101,7 +101,7 @@
             </div>
             <div class="form-group col-sm-4 payment">
               <label  class="label" for="street">الخصم</label>
-              <input type="text"  formControlName="discount" class="form-control">
+              <input type="text"  formControlName="discount" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-4 payment">
               <label  class="label" for="street">صافي العمولة</label>
@@ -201,70 +201,13 @@
           </tr>
           </ng-template>
         </p-table>
-
-            <!--Update traveller-->
-            <!-- <p-dialog [(visible)]="editFlightTicketDialog" [style]="{width: '850px', textAlign :'right'}" header=" معلومات الشركة" [modal]="true" styleClass="p-fluid"   [dismissableMask]="false" 
-            [modal]="true"
-            [appendTo]="'body'">       
-          
-
-            <div class="container-box " >
-             <form [formGroup]="noCommEditFlightTicketForm"  novalidate>
-              <div class="submit-field" formArrayName="travellers">
-                <div class="keywords-container"  *ngFor="let ticket of noCommEditFlightTicketForm.get('travellers')['controls']; let i = index;">
-                    <div class="keyword-input-container row" [formGroupName]='i'>   
-                                        
-                    <div class="form-group col-sm-3">
-                        <label for="street">أسم المسافر</label><span class="red">*</span>
-                        <input type="text"  formControlName="travellerFirstName" class="form-control" >
-                    </div>
-                    <div class="form-group col-sm-3">
-                      <label for="street">الاسم الأخير</label><span class="red">*</span>
-                      <input type="text"  formControlName="travellerLastName" class="form-control" >
-                    </div>
-                    <div class="form-group col-sm-3">
-                      <label for="street">نوع المسافر</label><span class="red">*</span>
-                      <select  class="form-control" data-size="7" formControlName="travellerType"  >
-                        <option *ngFor="let type of types"  [ngValue]="type">{{type}}</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-sm-3 ">
-                    <label for="street">رقم pnr</label> <span class="red">*</span>
-                    <input  class="checkbox" type="text" formControlName="pnrNumber" class="form-control">
-                  </div>
-                  <div class="form-group col-sm-3">
-                    <label for="street">رقم الجواز</label><span class="red">*</span>
-                    <input type="text"  formControlName="passportNumber" class="form-control">
-                </div>
-                <div class="form-group col-sm-3">
-                  <label for="street"> سعر التكلفة</label><span class="red">*</span>
-                  <input type="text"  formControlName="ticketCostPrice" class="form-control">
-               </div>
-               <div class="form-group col-sm-3">
-                <label for="street">سعر البيع</label><span class="red">*</span>
-                <input type="text"  formControlName="ticketSellingPrice" class="form-control">
-               </div>
-            </div>       
-        </div>
-    </div>
-<div>
-    <input type="submit"  (click)="updateTravellerButton(noCommEditFlightTicketForm)" class=" btn btn-primary submit " value="حفظ">
-  </div>
-</form>
-                           
-                        </div>
-            </p-dialog>  -->
         </div>
       </div>
     </div>
   </div>
 
 </div>
-<div class="row" matchHeight="card">
-   <div>
 
-   </div>
-</div>
 
 
 
