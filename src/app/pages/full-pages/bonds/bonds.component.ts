@@ -107,15 +107,11 @@ export class BondsComponent implements OnInit {
         },
         (error: HttpErrorResponse) =>{
           console.log("error" , error);
-          // if(error.error.message === 'You do not have permission to perform this action'){
-          //     this.toastr.error(' ليس لديك صلاحية إضافة رحلة جديدة');
-          //    }
-          //  if(error.error.errors.title === "Invalid  name!"){
-          //     this.toastr.error(' هذا الوصف  مستخدم من قبل');
-          // }
-            }
-    )
-  }
+          if(error.error.message === 'You do not have permission to perform this action'){
+              this.toastr.error(' ليس لديك صلاحية إضافة رحلة جديدة');
+             }
+          })
+        }
 
 
 editBond(bond){

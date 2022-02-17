@@ -83,11 +83,11 @@ exports.updateOne = Model => catchAsync(async (req, res) => {
 
 
     exports.getAll = ( Model , popOptions) => catchAsync(async (req, res) => {
-      console.log("user44" , req.user);
+      // console.log("user44" , req.user);
       let query = Model.find();
        if(popOptions) query = query.populate(popOptions);
       const docs = await query;
-       console.log(" companyAccount " , docs);
+      //  console.log(" companyAccount " , docs);
 
       // For get reviews
     //  let filter = {};

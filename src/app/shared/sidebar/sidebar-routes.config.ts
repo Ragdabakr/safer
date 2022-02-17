@@ -42,6 +42,14 @@ export const ROUTES: RouteInfo[] = [
         ]
     },
     {
+        path: '', title: ' التأشيرات', icon: 'ft-flag', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+            
+            { path: '/full-layout/full-pages/bookingVisa', title: 'حجز تأشيرة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/cancelVisa', title: ' الغاء حجز تأشيرة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/visaList', title: ' التأشيرات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+        ]
+    },
+    {
         path: '', title: 'المالية', icon: 'ft-package', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             {path:  '/full-layout/full-pages/safeBox', title: 'الخزنة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
             { path: '/full-layout/full-pages/bonds', title: 'السندات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

@@ -3,19 +3,19 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add">
       <div class="card-header">
-        <h4 class="card-title mb-0"> حجز تذكرة طيران جديدة</h4>
+        <h4 class="card-title mb-0"> حجز تأشيرة جديدة</h4>
       </div>
       <div class="card-content completed-tours">
         <div class="card-body add-items">
 
-          <form   [formGroup]="flightTicketForm"  novalidate>
+          <form   [formGroup]="visaForm"  novalidate>
             <div class="buttons margin-top-10">
-              <input type="submit"  (click)="submitNewFlightTicket(flightTicketForm)" class=" btn saveButton submit " value="حفظ">
+              <input type="submit"  (click)="submitNewVisa(visaForm)" class=" btn saveButton submit " value="حفظ">
           </div>
             
               <div class="row">
                 <div class=" borderSection form-inline"> 
-                    <div class="form-group  col-sm-12 col-md-4">
+                    <div class="form-group  col-sm-12  col-md-4">
                           <label for="street"> القطع من</label>
                           <select  class="form-control" data-size="7" formControlName="bookingFrom"  >
                             <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
@@ -27,36 +27,27 @@
                             <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
                         </select><span class="red">*</span>
                     </div>
-                
-                <div class="form-group col-sm-12 col-md-4">
-                  <label for="street"> النسبة</label>
-                  <input type="text"  formControlName="ratio" class="form-control">%<span class="red">*</span>
-            </div>
-            <div class="form-group col-sm-12 col-md-4">
-              <label for="street">طريقة الدفع</label>
-              <select class="form-control" data-size="7" formControlName="paymentMethod"  >
-                <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
-            </select><span class="red">*</span>
-            </div>
 
-                <div class="form-group col-sm-12 col-md-4 payment">
-                  <label for="street">تاريخ المغادرة</label> 
-                  <input  class="date" type="date" formControlName="departureDate" class="form-control"><span class="red">*</span>
-              </div>
-              <div class="form-group col-sm-12 col-md-4 payment">
-                <label for="street">الوجهة</label> 
-                <input  class="checkbox" type="text" formControlName="destination" class="form-control"><span class="red">*</span>
-            </div>
-            <div class="form-group col-sm-12 ">
-              <label for="street">الملاحظات</label>
-              <input  class="checkbox" type="text" formControlName="notes" class="form-control"><span class="red">*</span>
-          </div>
+                    <div class="form-group col-sm-12 col-md-4">
+                      <label for="street">طريقة الدفع</label>
+                      <select class="form-control" data-size="7" formControlName="paymentMethod"  >
+                        <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
+                    </select><span class="red">*</span>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-4 payment">
+                      <label for="street">الوجهة</label> 
+                      <input  class="checkbox" type="text" formControlName="destination" class="form-control"><span class="red">*</span>
+                  </div>
+                  <div class="form-group col-sm-12 col-md-4 payment">
+                    <label for="street">الملاحظات</label>
+                    <input  class="checkbox" type="text" formControlName="notes" class="form-control"><span class="red">*</span>
+                </div>
             </div>
          
           <div class=" borderSection row form-inline"  formArrayName="travellers"> 
             <div ><i class="icon-calculator"  (click)="calculate()"></i></div>
               <!-- <input type="submit"  (click)="addTravellerButtonClick()" class=" btn btn-danger submit " value="اضافة مسافر"> -->
-            <div class="keywords-container " *ngFor="let item of flightTicketForm.get('travellers')['controls']; let i = index;">
+            <div class="keywords-container " *ngFor="let item of visaForm.get('travellers')['controls']; let i = index;">
               <div class="keyword-input-container  row" [formGroupName]='i'>
                   <div class="form-group col-sm-12 col-md-4 payment">
                     <label class="label" for="street">اسم المسافر</label>
@@ -73,20 +64,16 @@
                 </select><span class="red">*</span>
               </div>
               <div class="form-group col-sm-12 col-md-4 payment">
-                <label  class="label" for="street">رقم pnr</label>
-                <input  class="checkbox" type="text" formControlName="pnrNumber" class="form-control"><span class="red">*</span>
-              </div>
-              <div class="form-group col-sm-12 col-md-4 payment">
                 <label  class="label" for="street">رقم الجواز</label>
                 <input type="text"  formControlName="passportNumber" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
               <label  class="label" for="street">سعر البيع</label>
-              <input type="text"  formControlName="ticketSellingPrice" class="form-control"><span class="red">*</span>
-          </div>
+              <input type="text"  formControlName="sellingPrice" class="form-control"><span class="red">*</span>
+            </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street">مبلغ الفير</label>
-              <input type="text"  formControlName="ticketCostPrice" class="form-control"><span class="red">*</span>
+              <label  class="label" for="street">سعر الفير</label>
+              <input type="text"  formControlName="costPrice" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
               <label  class="label" for="street"> العمولة</label>
@@ -97,57 +84,38 @@
               <input type="text"  formControlName="netCost" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street">الخصم</label>
-              <input type="text"  formControlName="discount" class="form-control"><span class="red">*</span>
+                <label class="label"  for="street"> المبلغ الواصل</label>
+                <input type="text"  formControlName="receivedAmount" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street">صافي العمولة</label>
-              <input type="text"  formControlName="netComm" class="form-control"><span class="red">*</span>
+              <label  class="label" for="street"> المبلغ الباقي</label>
+              <input type="text"  formControlName="remainingAmount" class="form-control"><span class="red">*</span>
             </div>
-          <!-- <div class="form-group col-sm-12 col-md-4 payment">
-            <label  class="label" for="street">الضريبة</label>
-            <input type="text"  formControlName="ticketvatPrice" class="form-control">
-        </div> -->
-          <div class="form-group col-sm-12 col-md-4 payment">
-            <label  class="label" for="street">المجموع </label>
-            <input type="text"  formControlName="totalPrice" class="form-control"><span class="red">*</span>
-        </div>
-        <div class="form-group col-sm-12 col-md-4 payment">
-          <label class="label"  for="street"> المبلغ الواصل</label>
-          <input type="text"  formControlName="receivedAmount" class="form-control"><span class="red">*</span>
-      </div>
-      <div class="form-group col-sm-12 col-md-4 payment">
-        <label  class="label" for="street"> المبلغ الباقي</label>
-        <input type="text"  formControlName="remainingAmount" class="form-control"><span class="red">*</span>
-    </div>
-            </div>
-            </div> 
-             <div  class="form-group col-sm-3"><input type="submit"   (click)="addNewTraveller()" class=" btn btn-danger submit " value="حفظ"></div>
-            
           </div>
-        
-              </div>
-        </form>
-
-
+        </div> 
+      <div  class="form-group col-sm-3"><input type="submit"   (click)="addNewTraveller()" class=" btn btn-danger submit " value="حفظ"></div> 
+    </div>
+  </div>
+ </form>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-12 col-lg-12"  *ngIf="ticketsArray.length > 0" >
+
+  <div class="col-xl-12 col-lg-12"  >
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title mb-0">تذاكر الطيران</h4>
+        <h4 class="card-title mb-0"> التأشيرات</h4>
       </div>
 
     
       <div class="card-content">
         <div class="card-body">
-          <p-table  #dt [value]="ticketsArray" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          <p-table  #dt [value]="visasArray" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','ticketSellingPrice','netCost','netComm' ,'totalPrice' ]">
+          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','','','ticketSellingPrice','netCost','netComm' ,'totalPrice' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -163,28 +131,28 @@
           <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="travellerFirstName"> اسم المسافر <p-sortIcon field="travellerFirstName"></p-sortIcon></th>
-                <th pSortableColumn="pnrNumber">رقم التذكرة  <p-sortIcon field="pnrNumber"></p-sortIcon></th>
                 <th pSortableColumn="passportNumber">رقم الجواز  <p-sortIcon field="passportNumber"></p-sortIcon></th>
-                <th pSortableColumn="ticketCostPrice"> سعرالفير <p-sortIcon field="ticketCostPrice"></p-sortIcon></th>
-                <th pSortableColumn="ticketSellingPrice">   سعر البيع   <p-sortIcon field="ticketSellingPrice"></p-sortIcon></th>
+                <th pSortableColumn="costPrice"> سعرالفير <p-sortIcon field="costPrice"></p-sortIcon></th>
+                <th pSortableColumn="sellingPrice">   سعر البيع   <p-sortIcon field="sellingPrice"></p-sortIcon></th>
                 <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
-                <th pSortableColumn="totalPrice">    المبلغ المدفوع    <p-sortIcon field="totalPrice"></p-sortIcon></th>
-                <th pSortableColumn="netComm">     صافي العمولة    <p-sortIcon field="netComm"></p-sortIcon></th>
+                <th pSortableColumn="receivedAmount">    المبلغ المدفوع    <p-sortIcon field="receivedAmount"></p-sortIcon></th>
+                <th pSortableColumn="remainingAmount">    المبلغ المتبقي    <p-sortIcon field="remainingAmount"></p-sortIcon></th>
+                <th pSortableColumn="comm">     صافي العمولة    <p-sortIcon field="comm"></p-sortIcon></th>
                 <!-- <th >التعديل</th>  -->
                 <th >الحذف</th>  
             </tr>
          </ng-template>
-          <ng-template pTemplate="body" let-ticket>
+          <ng-template pTemplate="body" let-visa>
             <tr>
                 <!-- <td>{{user.user_id}}</td> -->
-                <td>{{ticket?.travellerFirstName}}  {{ticket?.travellerLastName}}</td>  
-                <td>{{ticket?.pnrNumber}}</td>  
-                <td>{{ticket?.passportNumber}}</td> 
-                <td>{{ticket?.ticketCostPrice}}</td>  
-                <td>{{ticket?.ticketSellingPrice}}</td>  
-                <td>{{ticket?.netCost}}</td> 
-                <td>{{ticket?.totalPrice}}</td>  
-                <td>{{ticket?.netComm}}</td>  
+                <td>{{visa?.travellerFirstName}}  {{visa?.travellerLastName}}</td>   
+                <td>{{visa?.passportNumber}}</td> 
+                <td>{{visa?.costPrice}}</td>  
+                <td>{{visa?.sellingPrice}}</td>  
+                <td>{{visa?.netCost}}</td> 
+                <td>{{visa?.receivedAmount}}</td>  
+                <td>{{visa?.remainingAmount}}</td>  
+                <td>{{visa?.comm}}</td>  
                 <!-- <td>
                   <div class="blueTiltle"  (click)="editTraveller(ticket)">
                     <i class="ft-edit-2 ft icon"></i> التعديل

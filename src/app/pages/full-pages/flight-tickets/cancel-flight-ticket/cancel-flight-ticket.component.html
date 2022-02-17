@@ -70,7 +70,7 @@
           [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','ticketSellingPrice','netCost','netComm' ,'totalPrice' ]">
+          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','receivedAmount','netCost','netComm' ,'totalPrice' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -92,7 +92,8 @@
                 <th pSortableColumn="ticketCostPrice"> سعرالفير <p-sortIcon field="ticketCostPrice"></p-sortIcon></th>
                 <th pSortableColumn="ticketSellingPrice">   سعر البيع   <p-sortIcon field="ticketSellingPrice"></p-sortIcon></th>
                 <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
-                <th pSortableColumn="totalPrice">    المبلغ المدفوع    <p-sortIcon field="totalPrice"></p-sortIcon></th>
+                <th pSortableColumn="receivedAmount">    المبلغ المدفوع    <p-sortIcon field="receivedAmount"></p-sortIcon></th>
+                <th pSortableColumn="remainingAmount">    المبلغ المتبقي    <p-sortIcon field="remainingAmount"></p-sortIcon></th>
                 <th pSortableColumn="netComm">     صافي العمولة    <p-sortIcon field="netComm"></p-sortIcon></th>
             </tr>
          </ng-template>
@@ -105,7 +106,8 @@
                 <td>{{ticket?.ticketCostPrice}}</td>  
                 <td>{{ticket?.ticketSellingPrice}}</td>  
                 <td>{{ticket?.netCost}}</td> 
-                <td>{{ticket?.totalPrice}}</td>  
+                <td>{{ticket?.receivedAmount}}</td>  
+                <td>{{ticket?.remainingAmount}}</td> 
                 <td>{{ticket?.netComm}}</td>          
           </tr>
           </ng-template>
@@ -125,7 +127,7 @@
       <div class="row">
         <div class="col-sm-12  col-md-6 form-inline">
           <div class="form-group payment">
-            <input type="radio" [(ngModel)]="cancelType"  name="ticketCancelWithComm" value="withComm" (change)="checkCheckBoxvalue($event)">
+            <input type="radio" [(ngModel)]="cancelType"  name="ticketCancel" value="withComm" (change)="checkCheckBoxvalue($event)">
             <label for="vehicle1" class="form-control label">  إرجاع عمولة التذكرة كاملة للمسافر </label>
           </div>
           <div class="form-group payment">
@@ -135,7 +137,7 @@
           </div>
           <div class="col-sm-12  col-md-6 form-inline">
           <div class="form-group payment">
-            <input type="radio" [(ngModel)]="cancelType" id="cansel"    name="ticketCancel" value="fineWithComm" (change)="checkCheckBoxvalue($event)">
+            <input type="radio" [(ngModel)]="cancelType"       name="ticketCancel" value="fineWithComm" (change)="checkCheckBoxvalue($event)">
             <label for="vehicle1" class="form-control label"> فرض غرامة مع إرجاع عمولة كاملة للمسافر</label>
           </div>
           <div class="form-group payment">

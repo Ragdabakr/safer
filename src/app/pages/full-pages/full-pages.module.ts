@@ -52,6 +52,10 @@ import { TabsComponent } from 'app/components/bootstrap/tabs/tabs.component';
 import { SafeBoxComponent } from './safe-box/safe-box.component';
 import { BondsComponent } from './bonds/bonds.component';
 import { BondsInvoiceComponent } from './bonds/bonds-invoice/bonds-invoice.component';
+import { BookingVisaComponent } from './visa/booking-visa/booking-visa.component';
+import { VisaListComponent } from './visa/visa-list/visa-list.component';
+import { VisaInvoiceComponent } from './visa/visa-invoice/visa-invoice.component';
+import { CancelVisaComponent } from './visa/cancel-visa/cancel-visa.component';
 
 
 
@@ -115,6 +119,10 @@ import { BondsInvoiceComponent } from './bonds/bonds-invoice/bonds-invoice.compo
         SafeBoxComponent,
         BondsComponent,
         BondsInvoiceComponent,
+        BookingVisaComponent,
+        VisaListComponent,
+        VisaInvoiceComponent,
+        CancelVisaComponent,
 
 
 

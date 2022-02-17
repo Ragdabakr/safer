@@ -3,9 +3,11 @@
 
 const FlightTicket = require('./../models/flightTicketsModel');
 const FlightTicketBooking = require('../models/flightTicketBookingModel');
-FlightTicketCancelBooking= require('../models/flightTicketCancelBookingModel');
+ FlightTicketCancelBooking= require('../models/flightTicketCancelBookingModel');
 const FlightTicketBookingInvoice= require('./../models/flightTicketBookingInvoiceModel');
 const Commission = require('./../models/commissionModel');
+const VisaBooking = require('./../models/visaBookingModel');
+const VisaBookingInvoice = require('./../models/visaBookingInvoiceModel');
 
 const Company = require('./../models/companyModel');
 const User = require('./../models/userModel');
@@ -18,23 +20,22 @@ const Invoice = require('../models/invoiceModel');
 const Safebox = require('../models/safeboxsModel');
 
 
-// ------- Booking new Ticket  ------//
+// ------- Booking new Visa  ------//
 
-exports.createFlightTicketBooking = catchAsync(async(req, res) => {
+exports.createVisaBooking = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
-//  console.log("data" ,data.totalReceivedAmount); 
+ console.log("data" ,data); 
 
  if(req.body.data.paymentMethod === "نقدا"){
 
-  const newFlightTicketBooking = await FlightTicketBooking.create(req.body.data);
+  const newVisaBooking = await VisaBooking.create(req.body.data);
   // console.log('newFlightTicketBooking', newFlightTicketBooking);
-  newFlightTicketBooking.travellers = [];
+  newVisaBooking.travellers = [];
  for (let i = 0; i < req.body.travellers.length; i++) {
-  newFlightTicketBooking.travellers.push({
+    newVisaBooking.travellers.push({
     travellerFirstName :req.body.travellers[i].travellerFirstName ,
     travellerLastName :req.body.travellers[i].travellerLastName ,
-    pnrNumber:req.body.travellers[i].pnrNumber ,
     travellerType :req.body.travellers[i].travellerType ,
     passportNumber :req.body.travellers[i].passportNumber ,
     ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
@@ -43,25 +44,24 @@ exports.createFlightTicketBooking = catchAsync(async(req, res) => {
     comm :req.body.travellers[i].comm ,
     netCost :req.body.travellers[i].netCost ,
     netComm:req.body.travellers[i].netComm ,
-    totalPrice :req.body.travellers[i].totalPrice ,
     receivedAmount:req.body.travellers[i].receivedAmount ,
     remainingAmount :req.body.travellers[i].remainingAmount ,
   })
-  await newFlightTicketBooking.save();
+  await newVisaBooking.save();
   // console.log('newFlightTicketBooking with travellers >>>>>', newFlightTicketBooking);
  
  }
 
 const safebox =  new Safebox();
-safebox.title = 'تذكرة';
+safebox.title = 'فيزا';
 safebox.description = req.body.data.notes;
 safebox.date = Date.now();
-safebox.indebted = req.body.data.totalNetSellingPrice;
+safebox.indebted = req.body.data.totalReceivedAmount;
 safebox.credit = 0;
  safebox.save();
 
 const commission =  new Commission();
-commission.name = 'عمولة حجز تذكرة';
+commission.name = 'عمولة حجز فيزا';
 commission.description = req.body.data.notes;
 commission.date = Date.now();
 commission.debit = 0;
@@ -74,7 +74,7 @@ commission.user = user.name;
   Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
                  if (err) {console.log(err); 
                 }
-                foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalNetCostPrice);
+                foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalReceivedAmount);
                
                 foundCompany.companyReport.push({
                     debit :0 ,
@@ -110,7 +110,7 @@ commission.user = user.name;
 res.status(201).json({
   status: 'success',
   data: {
-      data: newFlightTicketBooking
+      data: newVisaBooking
   }
 
 });
@@ -120,15 +120,14 @@ res.status(201).json({
 
   // console.log("agel payment");
 
-  const newFlightTicketBooking = await FlightTicketBooking.create(req.body.data);
+  const newVisaBooking = await VisaBooking.create(req.body.data);
   // console.log('newFlightTicketBooking', newFlightTicketBooking);
-  newFlightTicketBooking.travellers = [];
+  newVisaBooking.travellers = [];
 
   for (let i = 0; i < req.body.travellers.length; i++) {
-    newFlightTicketBooking.travellers.push({
+    newVisaBooking.travellers.push({
       travellerFirstName :req.body.travellers[i].travellerFirstName ,
       travellerLastName :req.body.travellers[i].travellerLastName ,
-      pnrNumber:req.body.travellers[i].pnrNumber ,
       travellerType :req.body.travellers[i].travellerType ,
       passportNumber :req.body.travellers[i].passportNumber ,
       ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
@@ -137,16 +136,15 @@ res.status(201).json({
       comm :req.body.travellers[i].comm ,
       netCost :req.body.travellers[i].netCost ,
       netComm:req.body.travellers[i].netComm ,
-      totalPrice :req.body.travellers[i].totalPrice ,
       receivedAmount:req.body.travellers[i].receivedAmount ,
       remainingAmount :req.body.travellers[i].remainingAmount ,
     })
-    await newFlightTicketBooking.save();
+    await newVisaBooking.save();
    
    }
   
   const safebox =  new Safebox();
-  safebox.title = 'تذكرة';
+  safebox.title = 'فيزا';
   safebox.description = req.body.data.notes;
   safebox.date = Date.now();
   safebox.indebted = req.body.data.totalReceivedAmount;
@@ -154,7 +152,7 @@ res.status(201).json({
    safebox.save();
   
   const commission =  new Commission();
-  commission.name = 'عمولة حجز تذكرة';
+  commission.name = 'عمولة حجز فيزا';
   commission.description = req.body.data.notes;
   commission.date = Date.now();
   commission.debit = 0;
@@ -194,7 +192,7 @@ res.status(201).json({
                   foundCompany.companyReport.push({
                       debit :req.body.data.totalNetSellingPrice,
                       credit :req.body.data.totalReceivedAmount, 
-                      name:' حجز تذكرة بالاجل',
+                      name:' حجز فيزا بالاجل',
                       description : req.body.data.notes,
                       date : Date.now(),
                       user : req.user.name,
@@ -206,7 +204,7 @@ res.status(201).json({
   res.status(201).json({
     status: 'success',
     data: {
-        data: newFlightTicketBooking
+        data: newVisaBooking
     }
   
   });
@@ -220,13 +218,13 @@ res.status(201).json({
 
 // ------- create invoice  ------//
 
-exports.createFlightTicketInvoice = catchAsync(async(req, res) => {
+exports.createVisaInvoice = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
   console.log('data666', data);
-  
-  const newFlightTicketBookingInvoice = await FlightTicketBookingInvoice.create(req.body.data);
-  FlightTicketBooking.findOne({number:newFlightTicketBookingInvoice.number}, async function(err,foundBooking){ 
+
+  const newVisaBookingInvoice = await VisaBookingInvoice.create(req.body.data);
+  VisaBooking.findOne({number:newVisaBookingInvoice.number}, async function(err,foundBooking){ 
     if (err) {console.log(err); }
       foundBooking.createdInvoice = true;
      foundBooking.save();
@@ -235,9 +233,7 @@ exports.createFlightTicketInvoice = catchAsync(async(req, res) => {
     data: {
         data: foundBooking
     }
-    
-  
-  });
+    });
   });
 });
 
@@ -247,94 +243,83 @@ exports.createFlightTicketInvoice = catchAsync(async(req, res) => {
 
 // ------- refund Ticket with comm ------//
 
-exports.refundFlightTickets = catchAsync(async(req, res) => {
-  const user = req.user;
-  const data= req.body.data;
-  // console.log("user" ,user);
-   console.log("data999" ,data);
-  const newCancelFlightTicket = await FlightTicketCancelBooking.create(req.body.data);
+// exports.refundFlightTickets = catchAsync(async(req, res) => {
+//   const user = req.user;
+//   const data= req.body.data;
+//   // console.log("user" ,user);
+//    console.log("data999" ,data);
+//   const newCancelFlightTicket = await FlightTicketCancelBooking.create(req.body.data);
 
-const commission =  new Commission();
-commission.name = 'عمولة استرجاع تذكرة';
-commission.description = req.body.data.notes;
-commission.date = Date.now();
-commission.debit = req.body.data.totalRefundNetComm;
-commission.credit = 0;
-commission.user = req.user.name;
-// console.log("commission  >>>>>>" , commission);
- commission.save();
+// const commission =  new Commission();
+// commission.name = 'عمولة استرجاع تذكرة';
+// commission.description = req.body.data.notes;
+// commission.date = Date.now();
+// commission.debit = req.body.data.totalRefundNetComm;
+// commission.credit = 0;
+// commission.user = req.user.name;
+// // console.log("commission  >>>>>>" , commission);
+//  commission.save();
 
- FlightTicketBooking.findOne({number:req.body.data.number}, async function(err,foundFlightTicketBooking){
-  if (err) {console.log(err); 
- }
+//  FlightTicketBooking.findOne({number:req.body.data.number}, async function(err,foundFlightTicketBooking){
+//   if (err) {console.log(err); 
+//  }
 
- foundFlightTicketBooking.cancel = true;
-  await foundFlightTicketBooking.save();
-});
+//  foundFlightTicketBooking.cancel = true;
+//   await foundFlightTicketBooking.save();
+// });
 
 
- Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
-  if (err) {console.log(err); 
- }
+//  Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
+//   if (err) {console.log(err); 
+//  }
 
- foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalRefundNetCostPrice);
- foundCompany.companyReport.push({
-     debit :req.body.data.totalRefundNetCostPrice ,
-     credit :0, 
-     name:'استحقاق عليه / استرجاع تذكرة',
-     description : req.body.data.notes,
-     date : Date.now(),
-     user : req.user.name,
-  });
+//  foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalRefundNetCostPrice);
+//  foundCompany.companyReport.push({
+//      debit :req.body.data.totalRefundNetCostPrice ,
+//      credit :0, 
+//      name:'استحقاق عليه / استرجاع تذكرة',
+//      description : req.body.data.notes,
+//      date : Date.now(),
+//      user : req.user.name,
+//   });
   
- await foundCompany.save();
-});
+//  await foundCompany.save();
+// });
 
-Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
-  if (err) {console.log(err); 
- }
+// Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
+//   if (err) {console.log(err); 
+//  }
 
- foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
- foundCompany.companyReport.push({
-     debit :0,
-     credit :req.body.data.totalRefundNetSellingPrice, 
-     name:' استحقاق له / استرجاع تذكرة',
-     description : req.body.data.notes,
-     date : Date.now(),
-     user : req.user.name,
-  });
+//  foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
+//  foundCompany.companyReport.push({
+//      debit :0,
+//      credit :req.body.data.totalRefundNetSellingPrice, 
+//      name:' استحقاق له / استرجاع تذكرة',
+//      description : req.body.data.notes,
+//      date : Date.now(),
+//      user : req.user.name,
+//   });
   
- await foundCompany.save();
-});
+//  await foundCompany.save();
+// });
 
-res.status(201).json({
-status: 'success',
-data: {
-data: newCancelFlightTicket
-}
+// res.status(201).json({
+// status: 'success',
+// data: {
+// data: newCancelFlightTicket
+// }
 
-});
-
-  
-});
+// });
+// });
 
 
+exports.getVisaBookingList = factory.getAll(VisaBooking, {path:'bookingFrom ,bookingTo'});
 
+exports.getVisaBooking= factory.getOne(VisaBooking , {path:'bookingFrom ,bookingTo'});
+exports.updateVisaBooking= factory.updateOne(VisaBooking);
+exports.deleteVisaBooking= factory.deleteOne(VisaBooking);
 
-
-exports.getFlightTicketsBookingList = factory.getAll(FlightTicketBooking, {path:'bookingFrom ,bookingTo'});
-
-
-exports.getFlightTicketBooking= factory.getOne(FlightTicketBooking , {path:'bookingFrom ,bookingTo'});
-exports.updateFlightTicketBooking= factory.updateOne(FlightTicketBooking);
-exports.deleteFlightTicketBooking= factory.deleteOne(FlightTicketBooking);
-
-
-exports.getAllflightTicketsInvoices = factory.getAll(FlightTicketBookingInvoice);
-exports.getFlightTicketInvoice= factory.getOne(FlightTicketBookingInvoice);
-// exports.createFlightTicketInvoice= factory.createOne(FlightTicketBookingInvoice);
-exports.deleteFlightTicketInvoice= factory.deleteOne(FlightTicketBookingInvoice);
-
-
-
+exports.getAllVisaBookingsInvoices = factory.getAll(VisaBookingInvoice);
+exports.getVisaBookingInvoice= factory.getOne(VisaBookingInvoice);
+exports.deleteVisaBookingInvoice= factory.deleteOne(VisaBookingInvoice);
 

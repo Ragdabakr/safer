@@ -1,20 +1,20 @@
 
-
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { TourService } from 'app/shared/services/tour.service';
+import { VisaService } from 'app/shared/services/visa.service';
 import { ExportToCsv } from 'export-to-csv-file';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-flight-tickets-list',
-  templateUrl: './flight-tickets-list.component.html',
-  styleUrls: ['./flight-tickets-list.component.scss']
+  selector: 'app-visa-list',
+  templateUrl: './visa-list.component.html',
+  styleUrls: ['./visa-list.component.scss']
 })
-export class FlightTicketsListComponent implements OnInit {
+export class VisaListComponent implements OnInit {
   Invoice :boolean = false;
   tickets = [];
   cols: { field: string; header: string; }[];
@@ -24,19 +24,14 @@ export class FlightTicketsListComponent implements OnInit {
   hotelForm: FormGroup;
   invoiceId: any;
   Invoices: any;
+  visas: any;
 
-  constructor( private flightTicketsService: FlightTicketsService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
+  constructor( private flightTicketsService: FlightTicketsService,private visaService: VisaService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
 
   ngOnInit() {
-  this.getTickets();
+  this.getVisas();
   this.getInvoices();
-        this.cols = [
-          { field: 'name', header: 'اسم الفندق ' },
-          { field: 'phone', header: 'الهاتف' },
-          { field: 'city', header: ' المدينة' },
-      ];
-    
-  
+
     }
 
 
@@ -52,11 +47,11 @@ export class FlightTicketsListComponent implements OnInit {
     });
 }
 
-  getTickets(){
+  getVisas(){
         
-          this.flightTicketsService.getFlightTicketsList().subscribe({
+          this.visaService.getVisasList().subscribe({
             next: response => {
-                this.tickets = response.data.docs.reverse();
+                this.visas = response.data.docs.reverse();
                 //console.log("tickets >>>" ,this.tickets);
             },
             error: err => {
@@ -67,13 +62,11 @@ export class FlightTicketsListComponent implements OnInit {
 
   getInvoice(ticket){
   const bookingId = ticket.id;
-
-
-  this.flightTicketsService.createflightTicketInvoice(ticket).subscribe(
+  this.visaService.createVisaInvoice(ticket).subscribe(
     res =>{
       let data = res['data'];
       this.invoiceId = data.data._id
-      window.location.href = `/full-layout/full-pages/invoices/${this.invoiceId}`;
+      window.location.href = `/full-layout/full-pages/visas/${this.invoiceId}`;
       },
       (error: HttpErrorResponse) =>{
         if(error.error.message === 'You do not have permission to perform this action'){

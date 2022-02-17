@@ -2,15 +2,15 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
-        <h4 class="card-title mb-0"> تذاكر الطيران</h4>
+        <h4 class="card-title mb-0">التأشيرات</h4>
         <div>
             <button (click)="exportCSV()" class=" btn btn-default csv left" >
               <i class="icon-share-alt icon"></i>  CSV
             </button>
-            <button type="button" class="btn btn-primary btn-raised my-1" printTitle=" حجوزات تذاكر الطيران " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
-            <button  class=" btn btn-green my-1" ><a href="/full-layout/full-pages/bookingFlightTickets"> <i class="icon-check icon">  اضافة حجز جديد</i></a>
+            <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الفيز " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
+            <button  class=" btn btn-green my-1" ><a href="/full-layout/full-pages/bookingVisa"> <i class="icon-check icon">  اضافة حجز جديد</i></a>
             </button>
-            <button  class=" btn btn-red my-1" ><a href="/full-layout/full-pages/cancelFlightTicket"> <i class="icon-close icon">  الغاء حجز تذكرة</i></a>
+            <button  class=" btn btn-red my-1" ><a href="/full-layout/full-pages/cancelVisa"> <i class="icon-close icon">  الغاء حجز فيزا</i></a>
             </button>
          
           </div>
@@ -26,11 +26,11 @@
       </div>
       <div class="card-content">
         <div class="card-body">
-          <p-table  #dt [value]="tickets" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
-          currentPageReportTemplate="تذاكر الطيران" [style]="{'width':'100%','overflow':'auto!important'}"
+          <p-table  #dt [value]="visas" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          currentPageReportTemplate=" التأشيرات" [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['bookingFrom','number','departureDate','destination','cancel','paymentMethod','totalNetSellingPrice','totalRemainingAmount' , 'totalRemainingAmount' ]">
+          [filterDelay]="0" [globalFilterFields]="['bookingFrom','number','destination','cancel','paymentMethod','totalNetSellingPrice','totalRemainingAmount' , 'totalRemainingAmount' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -50,45 +50,43 @@
                 <!-- <th pSortableColumn="bookingFrom">القطع من  <p-sortIcon field="bookingFrom"></p-sortIcon></th> -->
                 <th pSortableColumn="city"> عدد المسافرين <p-sortIcon field="city"></p-sortIcon></th>
                 <th pSortableColumn="city">  المسافرين <p-sortIcon field="city"></p-sortIcon></th>
-                <th pSortableColumn="departureDate">تاريخ المغادرة <p-sortIcon field="departureDate"></p-sortIcon></th>
                 <th pSortableColumn="destination">الوجهة  <p-sortIcon field="destination"></p-sortIcon></th>
                 <th pSortableColumn="paymentMethod">طريقة الدفع  <p-sortIcon field="paymentMethod"></p-sortIcon></th>
                 <th pSortableColumn="totalNetSellingPrice">  السعر الكلي  <p-sortIcon field="totalNetSellingPrice"></p-sortIcon></th>
                 <th pSortableColumn="totalReceivedAmount">المبلغ المدفوع <p-sortIcon field="totalReceivedAmount"></p-sortIcon></th>
                  <th pSortableColumn="totalRemainingAmount">المبلغ المتبقي <p-sortIcon field="totalRemainingAmount"></p-sortIcon></th> 
                 <th  >أصدار فاتورة</th> 
-                <th pSortableColumn="cancel"> حالة التذكرة  <p-sortIcon field="totalNetSellingPrice"></p-sortIcon></th>
+                <th pSortableColumn="cancel"> حالة الفيزة  <p-sortIcon field="totalNetSellingPrice"></p-sortIcon></th>
  
             </tr>
          </ng-template>
-          <ng-template pTemplate="body" let-ticket>
+          <ng-template pTemplate="body" let-visa>
             <tr>
-                <td ><a *ngIf="ticket.createdInvoice === true"  href="/full-layout/full-pages/invoices/{{ticket?._id}}">#{{ticket?.number}}</a>
-                <p  *ngIf="ticket.createdInvoice === false">#</p></td>
-                <!-- <td>{{ticket?.bookingFrom}}</td> -->
-                <td>{{ticket?.travellers.length }}</td>
+                <td ><a *ngIf="visa.createdInvoice === true"  href="/full-layout/full-pages/visas/{{visa?._id}}">#{{visa?.number}}</a>
+                <p  *ngIf="visa.createdInvoice === false">#</p></td>
+                <!-- <td>{{visa?.bookingFrom}}</td> -->
+                <td>{{visa?.travellers.length }}</td>
                 <td>
-                  <ul *ngFor="let traveller of ticket.travellers ; let i = index">
+                  <ul *ngFor="let traveller of visa.travellers ; let i = index">
                     <li>{{traveller.travellerFirstName}} {{traveller.travellerLastName}}</li>
                   </ul>
                 </td>
-                <td>{{ticket?.departureDate | date}}</td>
-                <td>{{ticket?.destination}}</td>
-                <td>{{ticket?.paymentMethod}}</td>
-                <td>{{ticket?.totalNetSellingPrice}}</td>
-                <td>{{ticket?.totalReceivedAmount}}</td>
-                <td>{{ticket?.totalRemainingAmount}}</td>
+                <td>{{visa?.destination}}</td>
+                <td>{{visa?.paymentMethod}}</td>
+                <td>{{visa?.totalNetSellingPrice}}</td>
+                <td>{{visa?.totalReceivedAmount}}</td>
+                <td>{{visa?.totalRemainingAmount}}</td>
                 <td>               
-                <div   *ngIf="ticket.createdInvoice === false" (click)="getInvoice(ticket)">
+                <div   *ngIf="visa.createdInvoice === false" (click)="getInvoice(visa)">
                   <i class="icon-printer icon printer"></i> 
                 </div> 
-                <div   *ngIf="ticket.createdInvoice === true" >
+                <div   *ngIf="visa.createdInvoice === true" >
                  تم اصدار فاتورة
                 </div> 
                 </td>
                 <td>
-                  <span class="badge badge-success  mr-1" *ngIf="ticket?.cancel === false"> الحجز قائم</span>
-                  <span class="badge badge-warning  mr-1" *ngIf="ticket?.cancel === true"> تم الغاء الحجز</span>
+                  <span class="badge badge-success  mr-1" *ngIf="visa?.cancel === false"> الحجز قائم</span>
+                  <span class="badge badge-warning  mr-1" *ngIf="visa?.cancel === true"> تم الغاء الحجز</span>
                 
                 </td>
              </tr>

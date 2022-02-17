@@ -42,6 +42,11 @@ import { InvoiceComponent } from './flight-tickets/invoice/invoice.component';
 import { CancelFlightTicketComponent } from './flight-tickets/cancel-flight-ticket/cancel-flight-ticket.component';
 import { BondsComponent } from './bonds/bonds.component';
 import { BondsInvoiceComponent } from './bonds/bonds-invoice/bonds-invoice.component';
+import { VisaComponent } from './visa/visa.component';
+import { BookingVisaComponent } from './visa/booking-visa/booking-visa.component';
+import { VisaListComponent } from './visa/visa-list/visa-list.component';
+import { VisaInvoiceComponent } from './visa/visa-invoice/visa-invoice.component';
+import { CancelVisaComponent } from './visa/cancel-visa/cancel-visa.component';
 
 
 const routes: Routes = [
@@ -217,6 +222,21 @@ const routes: Routes = [
                         title: 'FlightTicketsList'
                         }
                       },
+                      {
+                        path: 'bookingVisa',
+                        component:BookingVisaComponent,
+                        data: {
+                          title: 'Booking Visa '
+                          }
+                        },
+                        {
+                          path: 'visaList',
+                          component:VisaListComponent,
+                          data: {
+                            title: 'Visa list '
+                            }
+                          },
+                        
 
           {
             path: 'toursReport',
@@ -325,12 +345,20 @@ const routes: Routes = [
               },
               
               {
-                path: 'bonds/:bondId',
-                component: BondsInvoiceComponent,
+                path: 'visas/:invoiceId',
+                component: VisaInvoiceComponent,
                 data: {
-                  title: 'bondInvoice'
+                  title: 'visaInvoice'
                   }
                 },
+                {
+                  path: 'cancelVisa',
+                  component: CancelVisaComponent,
+                  data: {
+                    title: 'cansel visa'
+                    }
+                  },
+                
 
         // {
         //     path: 'tours',

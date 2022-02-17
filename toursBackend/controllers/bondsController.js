@@ -7,27 +7,24 @@ const User = require('./../models/userModel');
 const async = require('async');
 const catchAsync = require('./../utils/catchAsync');
 
-// ------- refund Ticket with comm ------//
+// ------- create Bond With Invoice ------//
 
 exports.createBond = catchAsync(async(req, res) => {
     const user = req.user;
     const data= req.body.data;
-    // console.log("user" ,user);
-  console.log("data" ,data);
+
     const newBond = await Bond.create(req.body.data);
-    console.log("newBond kkk" ,newBond);
+    // console.log("newBond kkk" ,newBond);
     const newBondInvoice = await BondInvoice.create(req.body.data);
     Company.findById({_id:req.body.data.accountName._id}, async function(err,foundCompany){
         if (err) {console.log(err); 
        }
-
-       console.log("foundCompany kkk" ,foundCompany);
        foundCompany.debit = foundCompany.debit +parseInt(req.body.data.amount);
 
        foundCompany.companyReport.push({
            debit :req.body.data.amount,
            credit :0, 
-           name:' صرف مبلغ',
+           name:req.body.data.type,
            description : req.body.data.notes,
            date : Date.now(),
            user : req.user.name,
@@ -35,8 +32,15 @@ exports.createBond = catchAsync(async(req, res) => {
         
         await foundCompany.save();
     });
-});
 
+    res.status(201).json({
+      status: 'success',
+      data: {
+          data: newBond
+      }
+    });
+});
+// ------- Get Bond Invoice------//
 exports.getBondInvoice = catchAsync(async(req, res) => {
     const id= req.params.id;
   console.log("data" ,id);

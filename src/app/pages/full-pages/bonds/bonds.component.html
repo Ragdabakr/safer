@@ -67,7 +67,7 @@
           currentPageReportTemplate="" [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['title','number','date','description' , 'credit'  ,'indebted']">
+          [filterDelay]="0" [globalFilterFields]="['title','number','date','notes','type']">
           <ng-template pTemplate="caption"   >
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -88,7 +88,7 @@
                 <th pSortableColumn="createdAt">التاريخ <p-sortIcon field="createdAt"></p-sortIcon></th>
                 <th pSortableColumn="amount">قيمة السند <p-sortIcon field="amount"></p-sortIcon></th>
                 <th pSortableColumn="notes">التفاصيل <p-sortIcon field="notes"></p-sortIcon></th>
-                <th pSortableColumn="acountType">اسم الحساب <p-sortIcon field="acountType"></p-sortIcon></th> 
+                <th pSortableColumn="accountType">اسم الحساب <p-sortIcon field="accountType"></p-sortIcon></th> 
             </tr>
          </ng-template>
           <ng-template pTemplate="body" let-bond  let-rowIndex="rowIndex">
@@ -96,7 +96,10 @@
                 <!-- <td></td> -->
                 <td>{{ rowIndex }}</td>
                 <td><a href="/full-layout/full-pages/bonds/{{bond.number}}">#{{bond?.number}}</a></td>
-                <td>{{bond?.type }}</td>
+                <td> 
+                  <span class="red" *ngIf="bond?.type === 'سند صرف'"> {{bond?.type}}</span> 
+                  <span class="green" *ngIf="bond?.type === 'سند قبض'"> {{bond?.type}}</span>
+                 </td>
                 <td>{{bond?.createdAt | date}}</td>
                 <td>{{bond?.amount}}</td>
                 <td>{{bond?.notes}}</td>

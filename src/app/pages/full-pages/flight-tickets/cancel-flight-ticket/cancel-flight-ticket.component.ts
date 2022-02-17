@@ -15,7 +15,7 @@ export class CancelFlightTicketComponent implements OnInit {
   ticketsArray = [];
   ticketValue: any[];
   ticketNumber: any[];
-  cancelType;
+  cancelType = null;
 
   constructor(private flightTicketsService: FlightTicketsService,private toastr:ToastrService ,private fb: FormBuilder ,) { }
 
@@ -60,7 +60,7 @@ export class CancelFlightTicketComponent implements OnInit {
     this.flightTicketsService.getFlightTicketsList().subscribe({
       next: response => {
           this.tickets = response.data.docs.reverse().filter(a => a.cancel  === false );
-          console.log("tickets >>>" ,this.tickets);
+          //console.log("tickets >>>" ,this.tickets);
       },
       error: err => {
           console.log(err);
@@ -92,20 +92,17 @@ addTraveller(): FormGroup {
 }
 
 onTicketNumberSelected(event){
-  console.log("selected");
 
   this.flightTicketsService.getFlightTicketsList().subscribe({
     next: response => {
       const x =  event.target.value.slice(2);
       const ticketNumber =  parseInt(x.slice(1));
-      console.log("x3 >>> " , ticketNumber);
+      //console.log("x3 >>> " , ticketNumber);
       // console.log("event.target.value >>> " , event.target.value);
         this.tickets = response.data.docs;
         this.ticketValue =  this.tickets.filter(a => a.number  === ticketNumber );
         this.patchFormValues(this.ticketValue);
-
         this.ticketsArray = this.ticket[0].travellers;
-        console.log("this.ticket >>> " , this.ticketsArray);
     },
     error: err => {
         console.log(err);
@@ -117,8 +114,6 @@ onTicketNumberSelected(event){
 
 patchFormValues(ticketValue){
   this.ticket = ticketValue;
-
-  console.log("adwfwef" ,ticketValue);
     this.flightTicketForm.patchValue({
        bookingFrom :  this.ticket[0].bookingFrom.name,
        bookingTo : this.ticket[0].bookingTo.name,
@@ -132,7 +127,7 @@ patchFormValues(ticketValue){
  }
 
  checkCheckBoxvalue(event){
- console.log("checkCheckBoxvalue >>> " , event.target.value);
+ //console.log("checkCheckBoxvalue >>> " , event.target.value);
 
  if(event.target.value === "withComm"){
   this.flightTicketForm.patchValue({
@@ -158,12 +153,12 @@ patchFormValues(ticketValue){
    const fine = this.flightTicketForm.get('fine').value;
     if(!fine){
        this.toastr.error('الرجاء ادخال قيمة الغرامة ');
-       event.target.value =null;
+       this.cancelType = null;
     }else{
       this.flightTicketForm.patchValue({
         refundType : "fineWithComm",
         totalRefundNetCostPrice :  this.ticket[0].totalNetCostPrice - fine,
-        totalRefundNetSellingPrice : this.ticket[0].totalNetSellingPrice - fine ,
+        totalRefundNetSellingPrice : this.ticket[0].totalReceivedAmount - fine ,
         totalRefundNetComm : this.ticket[0].totalNetComm,
         fine:fine
       });
@@ -175,7 +170,7 @@ patchFormValues(ticketValue){
   const fine = this.flightTicketForm.get('fine').value;
     if(!fine){
       this.toastr.error('الرجاء ادخال قيمة الغرامة ');
-      event.target.value =null;
+      this.cancelType = null;
     }else{
     this.flightTicketForm.patchValue({
       refundType : "fineWithComm",
