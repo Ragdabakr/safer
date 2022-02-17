@@ -35,7 +35,15 @@ form label {float: right;}
 .toolbar{
     margin-top: 2%;
 }
-
-
 .icon{
     color: #fcfcfc;}
+.card .card-header {
+    padding: 1.5rem;
+    padding-bottom: 20px;
+}
+.card .header {
+    padding: 1.5rem;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+}

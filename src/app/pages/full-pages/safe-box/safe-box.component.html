@@ -3,12 +3,7 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
-        <div>
-            <button (click)="exportCSV()" class=" btn btn-default csv left" >
-              <i class="icon-share-alt icon"></i>  CSV
-            </button>
-            <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الخزنة " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
-        </div>
+        <h4 class="card-title mb-0"> الرئيسية / المالية / الخزنة</h4>
       </div>
 </div>
 <div class="row" matchHeight="card">
@@ -22,20 +17,20 @@
           <form [formGroup]="safeboxForm"  novalidate>
             
               <div class="row">
-                  <div class="form-group col-sm-3">
+                  <div class="form-group col-sm-12 col-md-3">
                       <label for="street">وصف الحركة</label><span class="red">*</span>
                       <input type="text"  formControlName="title" class="form-control">
                   </div>
-                  <div class="form-group col-sm-3">
+                  <div class="form-group col-sm-12 col-md-3">
                       <label for="houseNumber">التاريخ</label><span class="red">*</span>
                       <input type="date" formControlName="date" class="form-control">
                   </div>
                  
-                  <div class="form-group col-sm-3">
+                  <div class="form-group col-sm-12 col-md-3">
                     <label for="postalCode">مدين</label><span class="red">*</span>
                     <input type="text" formControlName="indebted" class="form-control">
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-12 col-md-3">
                   <label for="postalCode">دائن</label><span class="red">*</span>
                   <input type="text" formControlName="credit" class="form-control">
               </div>
@@ -54,8 +49,12 @@
   </div>
   <div class="col-xl-12 col-lg-12" id="print-section">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title mb-0"> حركة الخزنة</h4>
+      <div class="header">
+          <button (click)="exportCSV()" class=" btn btn-default csv left" >
+            <i class="icon-share-alt icon"></i>  CSV
+          </button>
+          <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الخزنة " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
+       
         <div class="fonticon-wrap"  (click)="deleteSafeboxes()">
           <i class="icon-pencil icon"></i>
         </div> 

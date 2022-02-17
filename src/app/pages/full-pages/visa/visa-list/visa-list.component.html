@@ -2,18 +2,7 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
-        <h4 class="card-title mb-0">التأشيرات</h4>
-        <div>
-            <button (click)="exportCSV()" class=" btn btn-default csv left" >
-              <i class="icon-share-alt icon"></i>  CSV
-            </button>
-            <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الفيز " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
-            <button  class=" btn btn-green my-1" ><a href="/full-layout/full-pages/bookingVisa"> <i class="icon-check icon">  اضافة حجز جديد</i></a>
-            </button>
-            <button  class=" btn btn-red my-1" ><a href="/full-layout/full-pages/cancelVisa"> <i class="icon-close icon">  الغاء حجز فيزا</i></a>
-            </button>
-         
-          </div>
+        <h4 class="card-title mb-0">الرئيسية / التأشيرات</h4>
       </div>
 </div>
 
@@ -21,7 +10,18 @@
 
   <div class="col-xl-12 col-lg-12">
     <div class="card">
-      <div class="card-header">
+      <div class="header">
+        <div>
+          <button (click)="exportCSV()" class=" btn btn-default csv left" >
+            <i class="icon-share-alt icon"></i>  CSV
+          </button>
+          <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الفيز " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
+          <button  class=" btn btn-green my-1" > <i class="icon-plus icon"></i><a href="/full-layout/full-pages/bookingVisa">  اضافة حجز جديد</a>
+          </button>
+          <button  class=" btn btn-red my-1" ><i class="icon-close icon"></i>  <a href="/full-layout/full-pages/cancelVisa"> الغاء حجز فيزا</a>
+          </button>
+       
+        </div>
   
       </div>
       <div class="card-content">
@@ -47,6 +47,7 @@
             <tr>
                 <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
                 <th   pSortableColumn="number">رقم الفاتورة  <p-sortIcon field="number"></p-sortIcon></th>
+                <th   pSortableColumn=""> الفاتورة  <p-sortIcon field=""></p-sortIcon></th>
                 <!-- <th pSortableColumn="bookingFrom">القطع من  <p-sortIcon field="bookingFrom"></p-sortIcon></th> -->
                 <th pSortableColumn="city"> عدد المسافرين <p-sortIcon field="city"></p-sortIcon></th>
                 <th pSortableColumn="city">  المسافرين <p-sortIcon field="city"></p-sortIcon></th>
@@ -62,8 +63,9 @@
          </ng-template>
           <ng-template pTemplate="body" let-visa>
             <tr>
-                <td ><a *ngIf="visa.createdInvoice === true"  href="/full-layout/full-pages/visas/{{visa?._id}}">#{{visa?.number}}</a>
-                <p  *ngIf="visa.createdInvoice === false">#</p></td>
+              <td>{{visa?.number}}</td>
+                <td ><a *ngIf="visa.createdInvoice === true"  href="/full-layout/full-pages/visas/{{visa?._id}}">الفاتورة</a>
+                <p  *ngIf="visa.createdInvoice === false">لم يتم اصدار فاتوره</p></td>
                 <!-- <td>{{visa?.bookingFrom}}</td> -->
                 <td>{{visa?.travellers.length }}</td>
                 <td>

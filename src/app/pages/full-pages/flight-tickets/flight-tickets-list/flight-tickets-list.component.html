@@ -2,18 +2,7 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
-        <h4 class="card-title mb-0"> تذاكر الطيران</h4>
-        <div>
-            <button (click)="exportCSV()" class=" btn btn-default csv left" >
-              <i class="icon-share-alt icon"></i>  CSV
-            </button>
-            <button type="button" class="btn btn-primary btn-raised my-1" printTitle=" حجوزات تذاكر الطيران " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
-            <button  class=" btn btn-green my-1" ><a href="/full-layout/full-pages/bookingFlightTickets"> <i class="icon-check icon">  اضافة حجز جديد</i></a>
-            </button>
-            <button  class=" btn btn-red my-1" ><a href="/full-layout/full-pages/cancelFlightTicket"> <i class="icon-close icon">  الغاء حجز تذكرة</i></a>
-            </button>
-         
-          </div>
+        <h4 class="card-title mb-0"> الرئيسية / تذاكر الطيران</h4>
       </div>
 </div>
 
@@ -21,8 +10,17 @@
 
   <div class="col-xl-12 col-lg-12">
     <div class="card">
-      <div class="card-header">
-  
+      <div class="header">
+        <div>
+          <button (click)="exportCSV()" class=" btn btn-default csv left" >
+              CSV <i class="icon-share-alt icon"></i>
+          </button>
+          <button type="button" class="btn btn-primary btn-raised my-1" printTitle=" حجوزات تذاكر الطيران " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
+          <button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/bookingFlightTickets">  اضافة حجز جديد</a>
+          </button>
+          <button  class=" btn btn-red my-1" ><i class="icon-close icon"> </i><a href="/full-layout/full-pages/cancelFlightTicket">  الغاء حجز تذكرة</a>
+          </button>
+        </div>
       </div>
       <div class="card-content">
         <div class="card-body">
@@ -45,8 +43,8 @@
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
-                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
-                <th   pSortableColumn="number">رقم الفاتورة  <p-sortIcon field="number"></p-sortIcon></th>
+              <th   pSortableColumn="number"> رقم الحجز  <p-sortIcon field="number"></p-sortIcon></th>
+                <th   pSortableColumn="number">الفاتورة  <p-sortIcon field="number"></p-sortIcon></th>
                 <!-- <th pSortableColumn="bookingFrom">القطع من  <p-sortIcon field="bookingFrom"></p-sortIcon></th> -->
                 <th pSortableColumn="city"> عدد المسافرين <p-sortIcon field="city"></p-sortIcon></th>
                 <th pSortableColumn="city">  المسافرين <p-sortIcon field="city"></p-sortIcon></th>
@@ -63,8 +61,9 @@
          </ng-template>
           <ng-template pTemplate="body" let-ticket>
             <tr>
-                <td ><a *ngIf="ticket.createdInvoice === true"  href="/full-layout/full-pages/invoices/{{ticket?._id}}">#{{ticket?.number}}</a>
-                <p  *ngIf="ticket.createdInvoice === false">#</p></td>
+                <td>{{ticket?.number}}</td>
+                <td ><a *ngIf="ticket.createdInvoice === true"  href="/full-layout/full-pages/invoices/{{ticket?._id}}">الفاتورة</a>
+                <p  *ngIf="ticket.createdInvoice === false">لم يتم اصدار فاتورة</p></td>
                 <!-- <td>{{ticket?.bookingFrom}}</td> -->
                 <td>{{ticket?.travellers.length }}</td>
                 <td>

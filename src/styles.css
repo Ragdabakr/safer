@@ -1,6 +1,8 @@
 
 
 @import 'intl-tel-input/build/css/intlTelInput.css';
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400&family=Tajawal:wght@200&display=swap');
+
 
 /* phone flags path*/
 .iti__flag {background-image: url("../node_modules/intl-tel-input/build/img/flags.png");} 
@@ -39,7 +41,7 @@ span{
 
 }
 body {
-    font-family: auto;
+    font-family: 'Almarai', sans-serif !important;
 
 }
 
@@ -49,7 +51,7 @@ form label {
     text-transform: uppercase;
     letter-spacing: 0;
     font-weight: 500;
-    font-family: auto;
+    font-family: 'Almarai', sans-serif !important;
 }
 aw-wizard-navigation-bar.horizontal.large-empty-symbols ul.steps-indicator li:not(:last-child):before {
     background-color: #e6e6e6;
@@ -121,14 +123,14 @@ form label {
     font-size: 1.1rem !important;
     letter-spacing: 0px !important;
     font-weight: 500;
-    font-family: sans-serif;
+    font-family: 'Almarai', sans-serif !important;
 }
 .card h1.card-title, .card h2.card-title, .card h3.card-title, .card h4.card-title, .card h5.card-title, .card h6.card-title {
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 0.05rem;
     font-size: 1.25rem;
-    font-family: sans-serif;
+    font-family: 'Almarai', sans-serif !important;
     margin-bottom: 0.25rem;
 }
 .card-add {
@@ -138,4 +140,11 @@ form label {
     color: #fff;
     background-color: #007ad9 !important;
     border-color: #007ad9 !important;
+}
+.card-title {
+    font-size: 1.2rem !important;
+}
+.card .card-header {
+    padding: 1.5rem;
+    padding-bottom: 20px !important;
 }

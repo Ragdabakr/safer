@@ -82,8 +82,8 @@ export class SafeBoxComponent implements OnInit {
           // Get Tours Hotels
           this.SafeboxService.getSafeboxes().subscribe({
             next: response => {
-                this.safeboxes = response.data.docs;
-                console.log("safeboxes >>>" ,this.safeboxes);
+                this.safeboxes = response.data.docs.reverse();
+               // console.log("safeboxes >>>" ,this.safeboxes);
             },
             error: err => {
                 console.log(err);

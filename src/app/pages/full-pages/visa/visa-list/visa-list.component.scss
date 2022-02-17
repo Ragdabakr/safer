@@ -45,3 +45,18 @@ label{
     color:white;
     margin-right: 10px;
 }
+a {
+    color:white
+}
+.card .card-header {
+    padding: 1.5rem;
+    padding-bottom: 15px;
+    border-bottom: none;
+    background-color: transparent;
+}
+.card .header {
+    padding: 1.5rem;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+}

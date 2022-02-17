@@ -30,6 +30,7 @@ label{
 }
 .icon{
     color: #fcfcfc;
+    padding-left: 20px;
 }
 .btn-green{
     background-color: #028a8d;
@@ -44,4 +45,14 @@ label{
 .printer{
     color:rgb(0, 4, 255) !important;
     font-size: 2em;
+}
+a {
+    color:white
+}
+
+.card .header {
+    padding: 1.5rem;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
 }
