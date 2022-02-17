@@ -8,6 +8,7 @@ const FlightTicketBookingInvoice= require('./../models/flightTicketBookingInvoic
 const Commission = require('./../models/commissionModel');
 const VisaBooking = require('./../models/visaBookingModel');
 const VisaBookingInvoice = require('./../models/visaBookingInvoiceModel');
+const VisaCancelBooking = require('./../models/visaCancelBookingModel');
 
 const Company = require('./../models/companyModel');
 const User = require('./../models/userModel');
@@ -183,8 +184,6 @@ res.status(201).json({
     Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
                    if (err) {console.log(err); 
                   }
-         
-       
                   foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalReceivedAmount);
 
                   // console.log("foundCompany credit 33>>>>>" , foundCompany.credit);
@@ -241,76 +240,76 @@ exports.createVisaInvoice = catchAsync(async(req, res) => {
 
  
 
-// ------- refund Ticket with comm ------//
+// ------- refund Visa------//
 
-// exports.refundFlightTickets = catchAsync(async(req, res) => {
-//   const user = req.user;
-//   const data= req.body.data;
-//   // console.log("user" ,user);
-//    console.log("data999" ,data);
-//   const newCancelFlightTicket = await FlightTicketCancelBooking.create(req.body.data);
+exports.refundVisa = catchAsync(async(req, res) => {
+  const user = req.user;
+  const data= req.body.data;
+  // console.log("user" ,user);
+   console.log("data999" ,data);
+  const newCancelVisa = await VisaCancelBooking.create(req.body.data);
 
-// const commission =  new Commission();
-// commission.name = 'عمولة استرجاع تذكرة';
-// commission.description = req.body.data.notes;
-// commission.date = Date.now();
-// commission.debit = req.body.data.totalRefundNetComm;
-// commission.credit = 0;
-// commission.user = req.user.name;
-// // console.log("commission  >>>>>>" , commission);
-//  commission.save();
+const commission =  new Commission();
+commission.name = 'عمولة استرجاع تأشيرة';
+commission.description = req.body.data.notes;
+commission.date = Date.now();
+commission.debit = req.body.data.totalRefundNetComm;
+commission.credit = 0;
+commission.user = req.user.name;
+// console.log("commission  >>>>>>" , commission);
+ commission.save();
 
-//  FlightTicketBooking.findOne({number:req.body.data.number}, async function(err,foundFlightTicketBooking){
-//   if (err) {console.log(err); 
-//  }
+ VisaBooking.findOne({number:req.body.data.number}, async function(err,foundVisaBooking){
+  if (err) {console.log(err); 
+ }
 
-//  foundFlightTicketBooking.cancel = true;
-//   await foundFlightTicketBooking.save();
-// });
+ foundVisaBooking.cancel = true;
+  await foundVisaBooking.save();
+});
 
 
-//  Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
-//   if (err) {console.log(err); 
-//  }
+ Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
+  if (err) {console.log(err); 
+ }
 
-//  foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalRefundNetCostPrice);
-//  foundCompany.companyReport.push({
-//      debit :req.body.data.totalRefundNetCostPrice ,
-//      credit :0, 
-//      name:'استحقاق عليه / استرجاع تذكرة',
-//      description : req.body.data.notes,
-//      date : Date.now(),
-//      user : req.user.name,
-//   });
+ foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalRefundNetCostPrice);
+ foundCompany.companyReport.push({
+     debit :req.body.data.totalRefundNetCostPrice ,
+     credit :0, 
+     name:'استحقاق عليه / استرجاع تأشيرة',
+     description : req.body.data.notes,
+     date : Date.now(),
+     user : req.user.name,
+  });
   
-//  await foundCompany.save();
-// });
+ await foundCompany.save();
+});
 
-// Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
-//   if (err) {console.log(err); 
-//  }
+Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
+  if (err) {console.log(err); 
+ }
 
-//  foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
-//  foundCompany.companyReport.push({
-//      debit :0,
-//      credit :req.body.data.totalRefundNetSellingPrice, 
-//      name:' استحقاق له / استرجاع تذكرة',
-//      description : req.body.data.notes,
-//      date : Date.now(),
-//      user : req.user.name,
-//   });
+ foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
+ foundCompany.companyReport.push({
+     debit :0,
+     credit :req.body.data.totalRefundNetSellingPrice, 
+     name:' استحقاق له / استرجاع تأشيرة',
+     description : req.body.data.notes,
+     date : Date.now(),
+     user : req.user.name,
+  });
   
-//  await foundCompany.save();
-// });
+ await foundCompany.save();
+});
 
-// res.status(201).json({
-// status: 'success',
-// data: {
-// data: newCancelFlightTicket
-// }
+res.status(201).json({
+status: 'success',
+data: {
+data: newCancelVisa
+}
 
-// });
-// });
+});
+});
 
 
 exports.getVisaBookingList = factory.getAll(VisaBooking, {path:'bookingFrom ,bookingTo'});

@@ -3,7 +3,12 @@ import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
       
     { path: '/full-layout/dashboard/dashboard1', title: 'لوحة التحكم', icon: 'ft-home', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
-   
+ 
+    {
+        path: '', title: 'ادارة الحسابات', icon: 'ft-package', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+            {path:  '/full-layout/full-pages/companies', title: 'الحسابات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
+            { path: '/full-layout/full-pages/flightTickets', title: 'شركات الطيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+              
     {
         path: '', title: 'إعدادات الحساب', icon: 'ft-user', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             { path: '/full-layout/full-pages/account-settings', title: 'الإعدادات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false ,submenu: [] },
@@ -11,16 +16,12 @@ export const ROUTES: RouteInfo[] = [
            
         ]
     },
-    {
-        path: '', title: 'ادارة الحسابات', icon: 'ft-package', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-            {path:  '/full-layout/full-pages/companies', title: 'الحسابات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
-            { path: '/full-layout/full-pages/flightTickets', title: 'شركات الطيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             
         ]
     },
   
     {
-        path: '', title: 'البرامج السياحية', icon: 'ft-globe', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+        path: '', title: 'البرامج السياحية', icon: 'ft-more-vertical', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             { path: '/full-layout/full-pages/createTour', title: 'إضافة رحلة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/createBooking', title: 'إضافة حجز لبرنامج سياحي', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/booking', title: 'حجوزات البرامج السياحية', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
@@ -34,7 +35,7 @@ export const ROUTES: RouteInfo[] = [
     },
 
     {
-        path: '', title: 'تذاكر الطيران', icon: 'ft-calendar', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+        path: '', title: 'تذاكر الطيران', icon: 'ft-globe', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             
             { path: '/full-layout/full-pages/bookingFlightTickets', title: 'حجز تذاكر الطيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/cancelFlightTicket', title: ' الغاء حجز  تذكرة طيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
@@ -54,18 +55,18 @@ export const ROUTES: RouteInfo[] = [
             {path:  '/full-layout/full-pages/safeBox', title: 'الخزنة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
             { path: '/full-layout/full-pages/bonds', title: 'السندات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             
-      {path: '', title: 'كشف حساب', icon: 'ft-pie-chart', class: 'has-sub', badge: '2', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-                { path: '/full-layout/full-pages/companiesStatement', title: 'الشركات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-                { path: '/full-layout/full-pages/accountsBalanceComponent', title: ' أرصدة الحسابات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-                { path: '/full-layout/full-pages/commissionsComponent', title: ' العمولات والمصروفات ', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      
-                
-            ]
-        }
            
             
         ]
     },
+    {path: '', title: 'كشف حساب', icon: 'ft-pie-chart', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+        { path: '/full-layout/full-pages/companiesStatement', title: 'الشركات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+        { path: '/full-layout/full-pages/accountsBalanceComponent', title: ' أرصدة الحسابات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+        { path: '/full-layout/full-pages/commissionsComponent', title: ' العمولات والمصروفات ', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+
+        
+    ]
+},
     {
         path: '', title: 'الموظفين', icon: 'ft-users', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             { path: '/full-layout/full-pages/roles', title: 'الصلاحيات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

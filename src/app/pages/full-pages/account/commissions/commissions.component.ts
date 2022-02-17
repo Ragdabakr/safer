@@ -27,7 +27,7 @@ export class CommissionsComponent implements OnInit {
   getCompanies(){
     this.commissionService.getCommissions().subscribe({
       next: response => {
-          this.commissions = response.data.docs;
+          this.commissions = response.data.docs.reverse();
           for (let i = 0; i < this.commissions.length; i++) {
             this.totalDebitNumber += parseInt(this.commissions[i].debit);
             }

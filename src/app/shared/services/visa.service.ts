@@ -67,10 +67,7 @@ export class VisaService {
 //     }
 
 
-//     public cancelflightTicket(data:any): Observable<any> {
-//         debugger;
-//       return this.http.post('/api/v1/flightTickets/cancelBooking', { data});
-//     }
+
 
 
 
@@ -79,19 +76,7 @@ export class VisaService {
 //     return this.http.post('/api/v1/flightTickets/refundFlightTicket', {data});
 // }
 
-// public changeFlightTicketBooking(data : any): Observable<any> {
-//     debugger;
-//     return this.http.post('/api/v1/flightTickets/changeFlightTickets', {data});
-// }
-// public salesFlightTicketBooking(data : any): Observable<any> {
-//     debugger;
-//     return this.http.post('/api/v1/flightTickets/salesFlightTickets', {data});
-// }
 
-// public createNoCommFlightTicketBooking(data : any): Observable<any> {
-//     debugger;
-//     return this.http.post('/api/v1/flightTickets/noCommFlightTicketBooking', {data});
-// }
 
 
 public createVisaInvoice(data:any ): Observable<any> {
@@ -101,6 +86,10 @@ public createVisaInvoice(data:any ): Observable<any> {
 public getInvoiceById(id:any): Observable<any> {
     debugger;
     return this.http.get(`/api/v1/visa/invoice/${id}`);
+}
+public cancelVisa(data:any): Observable<any> {
+        debugger;
+      return this.http.post('/api/v1/visa/cancelBooking', { data});
 }
 // public getflightTicketInvoices(): Observable<any> {
 //     debugger;

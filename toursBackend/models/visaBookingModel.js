@@ -112,6 +112,23 @@ const visaBooking = new mongoose.Schema({
     }],
 });
 
+//1) get flightTicketBooking with bookingFrom ,bookingTo
+visaBooking.pre(/^find/, function (next) {
+    this.populate({
+        path: 'bookingFrom',
+        path: 'bookingTo',
+
+    });
+    next();
+});
+//1) get flightTicketBooking with bookingFrom ,bookingTo
+visaBooking.pre(/^findOne/, function (next) {
+    this.populate({
+        path: 'bookingFrom',
+        path: 'bookingTo',
+    });
+    next();
+});
 
 
 const VisaBooking = mongoose.model('VisaBooking', visaBooking);

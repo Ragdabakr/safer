@@ -23,9 +23,9 @@ const router = express.Router();
     .route('/booked')
     .get(authController.protect ,visaController.getVisaBookingList)
 
-//     router
-//     .route('/cancelBooking')
-//     .post(authController.protect ,visaController.refundVisas);
+    router
+    .route('/cancelBooking')
+    .post(authController.protect ,visaController.refundVisa);
 
 
 

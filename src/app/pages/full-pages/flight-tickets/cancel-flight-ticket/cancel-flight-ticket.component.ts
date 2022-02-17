@@ -205,12 +205,11 @@ patchFormValues(ticketValue){
 });
   this.flightTicketsService.cancelflightTicket(flightTicketForm.value).subscribe(
     res =>{
-      // this.flightTicketForm.reset();
-      this.toastr.success('تم الاضافة بنجاح ');
-      // this.getflightTickets();
-      // setTimeout(() => {
-      //   window.location.href = '/full-layout/full-pages/flightTicketsList';
-      // }, 1000);
+      this.flightTicketForm.reset();
+      this.toastr.success('تم الغاء بنجاح ');
+      setTimeout(() => {
+        window.location.href = '/full-layout/full-pages/flightTicketsList';
+      }, 1000);
  },
       err =>{
       console.log(err);

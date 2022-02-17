@@ -74,6 +74,8 @@
                   <span class="blue  mr-1" *ngIf="ticket?.name === ' اضافة شركة /عميل'"> {{ticket?.name}}</span> 
                   <span class="green  mr-1" *ngIf="ticket?.name === 'استحقاق الي'"> {{ticket?.name}}</span> 
                   <span class="pink mr-1" *ngIf="ticket?.name === ' استحقاق له / استرجاع تذكرة'"> {{ticket?.name}}</span> 
+                  <span class="blue-2 mr-1" *ngIf="ticket?.name === 'استحقاق عليه / استرجاع تأشيرة'"> {{ticket?.name}}</span> 
+                  <span class="blue-3 mr-1" *ngIf="ticket?.name === ' استحقاق له / استرجاع تأشيرة'"> {{ticket?.name}}</span> 
                   <!-- {{ticket?.name}} -->
                   </td> 
                 <td>{{ticket?.createdAt | date}}</td> 

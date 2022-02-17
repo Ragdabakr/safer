@@ -13,11 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class CompaniesComponent implements OnInit {
   companies: any;
   companyReports = [];
-  airlineCompanies = [];
-  airlines =[];
-  airlineArray =[];
   companiesName = [];
-  airlineName: string;
   form: FormGroup;
   selectedOpts: any;
   reportArray=[];
@@ -43,17 +39,13 @@ export class CompaniesComponent implements OnInit {
     this.companyService.getcompanies().subscribe({
       next: response => {
         const x =  event.target.value.slice(2);
-        console.log("x3 >>> " , x.slice(1));
-        this.airlineName = '"'+ x.slice(1) +'"' ;
-        console.log("event.target.value >>> " , event.target.value);
-        console.log("airlineName >>> " , this.airlineName);
+        //console.log("x3 >>> " , x.slice(1));
+       // console.log("event.target.value >>> " , event.target.value);
           this.companies = response.data.docs;
-          console.log("this.companies >>> " , this.companies);
           this.company =  this.companies.filter(a => a.name  === x.slice(1)  );
-          console.log("this.company >>> " , this.company);
           for (let i = 0; i < this.company.length; i++) {
-          this.reportArray = this.company[i].companyReport;
-          console.log("this.reportArray>>> " , this.reportArray);
+          this.reportArray = this.company[i].companyReport.reverse();
+         // console.log("this.reportArray>>> " , this.reportArray);
           this.chosenCompany=this.company[i];
           this.totalCredit = this.chosenCompany.debit - this.chosenCompany.credit;
           }
@@ -83,22 +75,6 @@ export class CompaniesComponent implements OnInit {
   });
 }
 
-  getAirlines(){
-    this.flightTicketsService.getflightTickets().subscribe({
-      next: response => {
-          this.airlineCompanies = response.data.docs;
-          console.log("companieskk >>> " , this.airlineCompanies);
-          for (let i = 0; i < this.airlineCompanies.length; i++) {
-            //  const airliness = this.airlineCompanies[i].name;
-            // this.airlines.push(airliness);
-            // console.log(" this.airlines mm >>> " ,  this.airlines);
-            }
-      },
-      error: err => {
-          console.log(err);
-      }
-  });
-}
 
 exportCSV(){
   const options = { 
