@@ -1,4 +1,10 @@
-
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> الموظفين</h4>
+      </div>
+</div>
   <section id="ngx">
   <div class="card">
       <div class="card-content">
@@ -9,18 +15,15 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
-            
-            <i class="fa fa-align-justify"></i> الموظفين
-         </div>
-          <div class="card-body">
-            <p-toolbar class="toolbar" >
-              <button (click)="createNewUser()" class=" btn btn-default" >
+            <button (click)="exportCSV()" class=" btn btn-default csv " >
+              CSV    <i class="icon-share-alt icon"></i> 
+              </button>
+              <button (click)="createNewUser()" class=" btn btn-green" >
                 <i class="icon-plus icon"></i>  اضافة موظف 
               </button>
-              <button (click)="exportCSV()" class=" btn btn-default left" >
-                <i class="icon-share-alt icon"></i>  CSV
-              </button>
-            </p-toolbar> 
+              <button type="button" class="btn btn-primary btn-raised " printTitle="الرحلات" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button> 
+         </div>
+          <div class="card-body">
           <p-table #dt [value]="users" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
            [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"

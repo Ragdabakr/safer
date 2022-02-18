@@ -22,6 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../../shared/shared.module';
 import { TourListComponent } from './tour-list/tour-list.component';
 import { EditTourComponent } from './edit-tour/edit-tour.component';
+import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [CreateTourComponent, TourListComponent, EditTourComponent ],
@@ -43,7 +44,8 @@ import { EditTourComponent } from './edit-tour/edit-tour.component';
       ToolbarModule,
       TableModule,
       DialogModule,
-      AgmCoreModule
+      AgmCoreModule,
+      NgxPrintModule,
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

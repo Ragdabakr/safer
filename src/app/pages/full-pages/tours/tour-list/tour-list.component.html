@@ -1,3 +1,10 @@
+<div class="row" matchHeight="card">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> الرحلات</h4>
+      </div>
+</div>
 
 <div class="row">
 </div>
@@ -11,18 +18,18 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-header">
-          <i class="fa fa-align-justify"></i> الرحلات
+        <div class="header">
+          <button (click)="exportCSV()" class=" btn btn-default csv " >
+          CSV    <i class="icon-share-alt icon"></i> 
+          </button>
+          <button (click)="createNewTour()" class=" btn btn-green" >
+            <i class="icon-plus icon"></i>  اضافة رحلة 
+          </button>
+          <button type="button" class="btn btn-primary btn-raised " printTitle="الرحلات" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button> 
+         
         </div>
-        <div class="card-body">
-          <p-toolbar class="toolbar" >
-            <button (click)="createNewTour()" class=" btn btn-default" >
-              <i class="icon-plus icon"></i>  اضافة رحلة 
-            </button>
-            <button (click)="exportCSV()" class=" btn btn-default right" >
-              <i class="icon-share-alt icon"></i>  CSV
-            </button>
-          </p-toolbar> 
+        <div class="card-body" id="print-section">
+          
         <p-table #dt [value]="tours" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
         currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
         [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"

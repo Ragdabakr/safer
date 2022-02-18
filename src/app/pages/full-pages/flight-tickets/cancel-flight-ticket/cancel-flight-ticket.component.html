@@ -2,14 +2,14 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
-        <h4 class="card-title mb-0">  الرئيسية / تذاكر الطيران / الغاء حجز تذكرة  </h4>
+        <h4 class="card-title mb-0">   الغاء حجز تذكرة  </h4>
       </div>
    </div>
   </div>
 </div>
 <div class="row" matchHeight="card">
   <div class="col-xl-12 col-lg-12">
-    <div class="card card-add">
+    <div class="card">
       <div class="card-content completed-tours">
         <div class="card-body add-items">
 
@@ -60,72 +60,74 @@
            </div>
           </form>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title mb-0">تذاكر الطيران</h4>
+          </div>
+        
+          <div class="card-content">
+            <div class="card-body">
+              <p-table  #dt [value]="ticketsArray" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+              [style]="{'width':'100%','overflow':'auto!important'}"
+              [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+              [responsive]="true" selectionMode="single"
+              [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','receivedAmount','netCost','netComm' ,'totalPrice' ]">
+              <ng-template pTemplate="caption">
+                <div class="ui-table-globalfilter-container">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                    <th>القيد</th>
+                    <th pSortableColumn="travellerFirstName"> اسم المسافر <p-sortIcon field="travellerFirstName"></p-sortIcon></th>
+                    <th pSortableColumn="pnrNumber">رقم التذكرة  <p-sortIcon field="pnrNumber"></p-sortIcon></th>
+                    <th pSortableColumn="pnrNumber">رقم الجواز  <p-sortIcon field="passportNumber"></p-sortIcon></th>
+                    <th pSortableColumn="ticketCostPrice"> سعرالفير <p-sortIcon field="ticketCostPrice"></p-sortIcon></th>
+                    <th pSortableColumn="ticketSellingPrice">   سعر البيع   <p-sortIcon field="ticketSellingPrice"></p-sortIcon></th>
+                    <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
+                    <th pSortableColumn="receivedAmount">    المبلغ المدفوع    <p-sortIcon field="receivedAmount"></p-sortIcon></th>
+                    <th pSortableColumn="remainingAmount">    المبلغ المتبقي    <p-sortIcon field="remainingAmount"></p-sortIcon></th>
+                    <th pSortableColumn="netComm">     صافي العمولة    <p-sortIcon field="netComm"></p-sortIcon></th>
+                </tr>
+             </ng-template>
+              <ng-template pTemplate="body" let-ticket let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{rowIndex}}</td>
+                    <td>{{ticket?.travellerFirstName}}  {{ticket?.travellerLastName}}</td>  
+                    <td>{{ticket?.pnrNumber}}</td>  
+                    <td>{{ticket?.passportNumber}}</td> 
+                    <td>{{ticket?.ticketCostPrice}}</td>  
+                    <td>{{ticket?.ticketSellingPrice}}</td>  
+                    <td>{{ticket?.netCost}}</td> 
+                    <td>{{ticket?.receivedAmount}}</td>  
+                    <td>{{ticket?.remainingAmount}}</td> 
+                    <td>{{ticket?.netComm}}</td>          
+              </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
   <div class="col-sm-12"  *ngIf="ticketsArray.length > 0">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title mb-0">تذاكر الطيران</h4>
-      </div>
-    
-      <div class="card-content">
-        <div class="card-body">
-          <p-table  #dt [value]="ticketsArray" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
-          [style]="{'width':'100%','overflow':'auto!important'}"
-          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
-          [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','pnrNumber','ticketvatPrice','receivedAmount','netCost','netComm' ,'totalPrice' ]">
-          <ng-template pTemplate="caption">
-            <div class="ui-table-globalfilter-container">
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr>
-                <th>القيد</th>
-                <th pSortableColumn="travellerFirstName"> اسم المسافر <p-sortIcon field="travellerFirstName"></p-sortIcon></th>
-                <th pSortableColumn="pnrNumber">رقم التذكرة  <p-sortIcon field="pnrNumber"></p-sortIcon></th>
-                <th pSortableColumn="pnrNumber">رقم الجواز  <p-sortIcon field="passportNumber"></p-sortIcon></th>
-                <th pSortableColumn="ticketCostPrice"> سعرالفير <p-sortIcon field="ticketCostPrice"></p-sortIcon></th>
-                <th pSortableColumn="ticketSellingPrice">   سعر البيع   <p-sortIcon field="ticketSellingPrice"></p-sortIcon></th>
-                <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
-                <th pSortableColumn="receivedAmount">    المبلغ المدفوع    <p-sortIcon field="receivedAmount"></p-sortIcon></th>
-                <th pSortableColumn="remainingAmount">    المبلغ المتبقي    <p-sortIcon field="remainingAmount"></p-sortIcon></th>
-                <th pSortableColumn="netComm">     صافي العمولة    <p-sortIcon field="netComm"></p-sortIcon></th>
-            </tr>
-         </ng-template>
-          <ng-template pTemplate="body" let-ticket let-rowIndex="rowIndex">
-            <tr>
-                <td>{{rowIndex}}</td>
-                <td>{{ticket?.travellerFirstName}}  {{ticket?.travellerLastName}}</td>  
-                <td>{{ticket?.pnrNumber}}</td>  
-                <td>{{ticket?.passportNumber}}</td> 
-                <td>{{ticket?.ticketCostPrice}}</td>  
-                <td>{{ticket?.ticketSellingPrice}}</td>  
-                <td>{{ticket?.netCost}}</td> 
-                <td>{{ticket?.receivedAmount}}</td>  
-                <td>{{ticket?.remainingAmount}}</td> 
-                <td>{{ticket?.netComm}}</td>          
-          </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    </div>
-  </div>
+
 
 </div>
 </div>
-<div class="row" matchHeight="card" class="refund" *ngIf="ticketsArray.length > 0">
+<div class="row" matchHeight="card"  *ngIf="ticketsArray.length > 0">
   <div class="col-xl-12 col-lg-12">
-    <div class="card cancelSection card-add" >
+    <div class="card cancelSection" >
       <div class="card-header"  >
         <h4 class="card-title mb-0"> خيارات استرجاع التذكرة (نقدا و أجل )</h4>
         </div>
@@ -150,49 +152,40 @@
           <label for="vehicle2" class="form-control label"> فرض غرامة مع عدم إرجاع عمولة المسافر</label>
           </div>
         </div>
+
+        <form   [formGroup]="flightTicketForm"  novalidate>
+          <div class="col-sm-12 form-inline">
+            <div class="form-group col-sm-7 payment">
+                <label for="street">المبلغ المسترجع من الشركة (القطع من )</label> 
+                <input  class="date" type="text" formControlName="totalRefundNetCostPrice" class="form-control "><span class="red">*</span>
+            </div>
+            <div class="form-group col-sm-5 payment">
+              <label for="street">العمولة المسترجعة</label> 
+              <input  class="date" type="text" formControlName="totalRefundNetComm" class="form-control ">
+          </div>
+            <div class="form-group col-sm-7 payment">
+                <label for="street">المبلغ المسترجع من الشركة او الزبون (القطع الي )</label> 
+                <input  class="date" type="text" formControlName="totalRefundNetSellingPrice" class="form-control "><span class="red">*</span>
+            </div>
+            
+            <div class="form-group col-sm-5 payment">
+              <label for="street">الغرامة</label> 
+              <input  class="date" type="text" formControlName="fine" class="form-control ">
+          </div>
+    
+          <div class="buttons margin-top-10">
+            <input type="submit"  (click)="submitCancelFlightTicket(flightTicketForm)" class=" btn saveButton submit " value="حفظ">
+        </div>
+          </div>
+    
+        
+          </form>
       </div>    
     </div>
   </div>
 </div>
 
-<div class="row" matchHeight="card" *ngIf="ticketsArray.length > 0">
-  <div class="col-md-12">
-    <div class="card card-add" >
-      <div class="row">
 
-      <form   [formGroup]="flightTicketForm"  novalidate>
-      <div class="col-sm-12 form-inline">
-        <div class="form-group col-sm-8 payment">
-            <label for="street">المبلغ المسترجع من الشركة (القطع من )</label> 
-            <input  class="date" type="text" formControlName="totalRefundNetCostPrice" class="form-control "><span class="red">*</span>
-        </div>
-        <div class="form-group col-sm-4 payment">
-          <label for="street">العمولة المسترجعة</label> 
-          <input  class="date" type="text" formControlName="totalRefundNetComm" class="form-control ">
-      </div>
-        <div class="form-group col-sm-8 payment">
-            <label for="street">المبلغ المسترجع من الشركة او الزبون (القطع الي )</label> 
-            <input  class="date" type="text" formControlName="totalRefundNetSellingPrice" class="form-control "><span class="red">*</span>
-        </div>
-        
-        <div class="form-group col-sm-4 payment">
-          <label for="street">الغرامة</label> 
-          <input  class="date" type="text" formControlName="fine" class="form-control ">
-      </div>
-
-      <div class="buttons margin-top-10">
-        <input type="submit"  (click)="submitCancelFlightTicket(flightTicketForm)" class=" btn saveButton submit " value="حفظ">
-    </div>
-      </div>
-
-    
-      </form>
-  
-      </div>
-     
-    </div>
-  </div>
-</div>
 
 
 

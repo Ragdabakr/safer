@@ -108,3 +108,42 @@ form label {
 .submit-field {
  margin-bottom: 20px;
 }
+
+.btn{
+    margin-left: 5px;
+}
+.btn-raised{
+    background-color: #312662 !important;
+    color:white
+}
+.csv{
+    background-color: #e02365 !important;
+    color: white !important;
+}
+.icon{
+    color: #fcfcfc;
+}
+
+.printer{
+    color:rgb(0, 4, 255) !important;
+    font-size: 2em;
+}
+.btn-green{
+    background-color: #028a8d;
+    color:white !important;
+}
+
+a {
+    color:white
+}
+.card .header {
+    padding: 1.5rem;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+}
+.icon{
+    color: #fcfcfc;
+    padding-left: 20px;
+    background-color: none;
+}

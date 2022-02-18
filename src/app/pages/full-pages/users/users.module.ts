@@ -19,6 +19,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UsersRoutingModule } from './users-routing.modules';
 import { RolesComponent } from './roles/roles.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { RolesComponent } from './roles/roles.component';
    ToolbarModule,
    TableModule,
    DialogModule,
+   NgxPrintModule,
   ]
 })
 export class UsersModule { }

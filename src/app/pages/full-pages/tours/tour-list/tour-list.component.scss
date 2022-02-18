@@ -16,10 +16,7 @@
 .left{
     float:left;
 }
-.btn{
-    color: #0372c7;
-    margin-left: 10px;
-}
+
 .control-label{
     float:right;
 }
@@ -44,7 +41,7 @@
 }
 
 .icon{
-    background-color: #b2d1eb;
+  
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -160,4 +157,42 @@ agm-map {
     background-color: inherit;
     font-size: medium;
     border: 1px solid #c8c8c8;
+}
+.btn{
+    margin-left: 5px;
+}
+.btn-raised{
+    background-color: #312662 !important;
+    color:white
+}
+.csv{
+    background-color: #e02365 !important;
+    color: white !important;
+}
+.icon{
+    color: #fcfcfc;
+}
+
+.printer{
+    color:rgb(0, 4, 255) !important;
+    font-size: 2em;
+}
+.btn-green{
+    background-color: #028a8d;
+    color:white !important;
+}
+
+a {
+    color:white
+}
+.card .header {
+    padding: 1.5rem;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+}
+.icon{
+    color: #fcfcfc;
+    padding-left: 20px;
+    background-color: none;
 }
