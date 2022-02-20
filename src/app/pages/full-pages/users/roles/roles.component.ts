@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from 'app/shared/services/role.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-roles',
@@ -22,6 +23,7 @@ export class RolesComponent implements OnInit {
   //Acoordion
   acc: any;
   permissionForm: FormGroup;
+  userApp: any;
   // Prevent panel toggle code
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === '2') {
@@ -33,16 +35,11 @@ export class RolesComponent implements OnInit {
   };
 
 
-  constructor( private roleServices: RoleService,private toastr:ToastrService ) { }
+  constructor( private roleServices: RoleService,private toastr:ToastrService, private authService:AuthService ) { }
 
   ngOnInit() {
-  this.getroles();
-        this.cols = [
-          { field: 'name', header: 'نوع الوظيفة' },
-      ];
-    
-  
-
+   this.getroles();
+   this.userApp =this.authService.getUser();
    this.roleForm = new FormGroup(
          {
           name: new FormControl('', [
@@ -55,72 +52,38 @@ export class RolesComponent implements OnInit {
     this.permissionForm = new FormGroup(
             {
               userPermissions: new FormGroup({
-                addUser: new FormControl(''),
-                editUser: new FormControl(''),
-                activeUser: new FormControl(''),
+                addUser: new FormControl(false),
+                editUser: new FormControl(false),
+                deleteUser: new FormControl(false),
               }),
               settingPermissions: new FormGroup({
-                addPartner: new FormControl(''),
-                addFlightTickets: new FormControl(''),
-                addHotel: new FormControl(''),
-                addTour:new FormControl(''),
-                addVisa:new FormControl(''),
-                addCompany:new FormControl(''),
-              
-                activePartner: new FormControl(''),
-                activeFlightTickets: new FormControl(''),
-                activeHotel: new FormControl(''),
-                activeTour:new FormControl(''),
-                activeVisa:new FormControl(''),
-                activeCompany:new FormControl(''),
-              
-                editPartner: new FormControl(''),
-                editFlightTickets: new FormControl(''),
-                editHotel: new FormControl(''),
-                editour:new FormControl(''),
-                ediVisa:new FormControl(''),
-                editCompany:new FormControl(''),
-              
-                allPartners: new FormControl(''),
-                allFlightTickets: new FormControl(''),
-                allHotels: new FormControl(''),
-                allTours:new FormControl(''),
-                allVisas:new FormControl(''),
-                allCompanies:new FormControl(''),
-                
-               backup: new FormControl(''),
+                addVisa: new FormControl(false),
+                addFlightTickets: new FormControl(false),
+                addHotel: new FormControl(false),
+                addTour:new FormControl(false),
+                addCompany:new FormControl(false),
               }),
-
               dashboardPermissions:new FormGroup({
-                tours: new FormControl(''),
-                reports: new FormControl(''),
-                flightTickets: new FormControl(''),
-                hotels: new FormControl(''),
-                companies: new FormControl(''),
-                users: new FormControl(''),
-                accountStatement:new FormControl(''),
+                bookTour:new FormControl(false),
+                bookVisa:new FormControl(false),
+                addCompany:new FormControl(false),
+                bookFlightTickets:new FormControl(false),
+                bookHotel: new FormControl(false),
               }),
              sidebarPermissions:new FormGroup({
-                tours: new FormControl(''),
-                reports: new FormControl(''),
-                flightTickets: new FormControl(''),
-                hotels: new FormControl(''),
-                transports: new FormControl(''),
-                users: new FormControl(''),
-                accounting: new FormControl(''),
-                companies: new FormControl(''),
+                tours: new FormControl(false),
+                reports: new FormControl(false),
+                flightTickets: new FormControl(false),
+                hotels: new FormControl(false),
+                users: new FormControl(false),
+                safeBox: new FormControl(false),
+                companies: new FormControl(false),
+                accountStatement:new FormControl(false),
+                visas: new FormControl(false),
               }),
              reportPermissions:new FormGroup({
-                toursProfits: new FormControl(''),
-                companyProfits: new FormControl(''),
-                flightTicketsProfits: new FormControl(''),
-                hotelsProfits: new FormControl(''),
-                visaProfits: new FormControl(''),
-                tourProfits: new FormControl(''),
-                tourReport: new FormControl(''),
-                accountingReport: new FormControl(''),
-                
-        
+                tourReport: new FormControl(false),
+                accountingReport: new FormControl(false),
               }),
             
             }
@@ -134,7 +97,7 @@ export class RolesComponent implements OnInit {
           this.roleServices.getroles().subscribe({
             next: response => {
                 this.roles = response.data.docs;
-                // console.log("roles >>>" ,this.roles);
+                console.log("roles >>>" ,this.roles);
             },
             error: err => {
                 console.log(err);
@@ -211,28 +174,6 @@ updatePermissionForm(role){
       addVisa:role.settingPermissions.addVisa,
       addCompany:role.settingPermissions.addCompany,
     
-      activePartner: role.settingPermissions.activePartner,
-      activeFlightTickets: role.settingPermissions.activeFlightTickets,
-      activeHotel: role.settingPermissions.activeHotel,
-      activeTour:role.settingPermissions.activeTour,
-      activeVisa:role.settingPermissions.activeVisa,
-      activeCompany:role.settingPermissions.activeCompany,
-    
-      editPartner: role.settingPermissions.editPatner,
-      editFlightTickets: role.settingPermissions.editFlightTickets,
-      editHotel:role.settingPermissions.editHotel,
-      editour:role.settingPermissions.editour,
-      ediVisa:role.settingPermissions.ediVisa,
-      editCompany:role.settingPermissions.editCompany,
-    
-      allPartners: role.settingPermissions.allPartners,
-      allFlightTickets: role.settingPermissions.allFlightTickets,
-      allHotels: role.settingPermissions.allHotels,
-      allTours:role.settingPermissions.allTours,
-      allVisas:role.settingPermissions.allVisas,
-      allCompanies:role.settingPermissions.allCompanies,
-      
-     backup: role.settingPermissions.backup,
     },
 
     dashboardPermissions:{
@@ -270,7 +211,7 @@ updatePermissionForm(role){
 
 }
 addPermissionsButton(permissionForm){
-  // console.log("permissionForm22" , permissionForm.value);
+  console.log("permissionForm22" , permissionForm.value);
   this.roleServices.addpermissions(this.roleId , permissionForm.value ).subscribe(
     res =>{
       this.toastr.success('تم تحديث صلاحيات الوظيفة بنجاح ');

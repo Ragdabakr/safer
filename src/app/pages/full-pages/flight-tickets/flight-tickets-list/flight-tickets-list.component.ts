@@ -3,6 +3,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { TourService } from 'app/shared/services/tour.service';
@@ -24,19 +25,14 @@ export class FlightTicketsListComponent implements OnInit {
   hotelForm: FormGroup;
   invoiceId: any;
   Invoices: any;
+  user: any;
 
-  constructor( private flightTicketsService: FlightTicketsService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
+  constructor(private authService:AuthService , private flightTicketsService: FlightTicketsService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
 
   ngOnInit() {
+  this.user = this.authService.getUser();
   this.getTickets();
   this.getInvoices();
-        this.cols = [
-          { field: 'name', header: 'اسم الفندق ' },
-          { field: 'phone', header: 'الهاتف' },
-          { field: 'city', header: ' المدينة' },
-      ];
-    
-  
     }
 
 
@@ -67,8 +63,6 @@ export class FlightTicketsListComponent implements OnInit {
 
   getInvoice(ticket){
   const bookingId = ticket.id;
-
-
   this.flightTicketsService.createflightTicketInvoice(ticket).subscribe(
     res =>{
       let data = res['data'];
@@ -95,9 +89,7 @@ exportCSV(){
     useKeysAsHeaders: true,
     headers: ['bookingFrom','number','departureDate','destination','cancel','paymentMethod','totalNetSellingPrice','totalRemainingAmount' , 'totalRemainingAmount' ] 
   };
- 
 const csvExporter = new ExportToCsv(options);
- 
 csvExporter.generateCsv(this.tickets);
 }
 

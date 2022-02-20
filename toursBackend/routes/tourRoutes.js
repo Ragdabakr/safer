@@ -37,7 +37,6 @@ router
   .route('/')
   .get(authController.protect ,tourController.getAllTours)
   .post(authController.protect ,
-        authController.restrictTo('أدمن' , 'مشرف'), 
         tourController.createTour)
 
 
@@ -51,7 +50,7 @@ router
         //         authController.restrictTo('أدمن' , 'مشرف'), 
         //         tourController.deleteAllTours);
 
-router.use(authController.protect ,  authController.restrictTo('أدمن' , 'مشرف'));
+// router.use(authController.protect ,  authController.restrictTo('أدمن' , 'مشرف'));
 
 router
   .route('/:id')

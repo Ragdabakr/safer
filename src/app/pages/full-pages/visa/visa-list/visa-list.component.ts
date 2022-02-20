@@ -2,6 +2,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { TourService } from 'app/shared/services/tour.service';
@@ -25,13 +26,14 @@ export class VisaListComponent implements OnInit {
   invoiceId: any;
   Invoices: any;
   visas: any;
+  user: string;
 
-  constructor( private flightTicketsService: FlightTicketsService,private visaService: VisaService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
+  constructor(private authService:AuthService , private flightTicketsService: FlightTicketsService,private visaService: VisaService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
 
   ngOnInit() {
   this.getVisas();
   this.getInvoices();
-
+  this.user =this.authService.getUser();
     }
 
 

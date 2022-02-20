@@ -8,6 +8,7 @@ import * as intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 
 
@@ -67,12 +68,14 @@ export class BookingListComponent implements OnInit {
   adultPrice: any;
   childPrice: any;
   infantPrice: any;
+  user: any;
 
   constructor(
-    private fb: FormBuilder ,  private tourService:TourService, private bookingService:BookingService,
+    private fb: FormBuilder ,  private tourService:TourService, private bookingService:BookingService,private authService:AuthService ,
     private toastr:ToastrService , private invoiceService:InvoiceService) { }
 
   ngOnInit() {
+    this.user =this.authService.getUser();
     this.getBookings();
     this.getTours();
     //  this.getTourDates();

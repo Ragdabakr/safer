@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 import { VisaService } from 'app/shared/services/visa.service';
 import { ToastrService } from 'ngx-toastr';
@@ -23,12 +24,13 @@ export class CancelVisaComponent implements OnInit {
   visaValue: any;
   visa: any;
   visaArray: any;
+  user: string;
 
-  constructor(private flightTicketsService: FlightTicketsService,private visaService: VisaService,private toastr:ToastrService ,private fb: FormBuilder ,) { }
+  constructor(private authService:AuthService ,private flightTicketsService: FlightTicketsService,private visaService: VisaService,private toastr:ToastrService ,private fb: FormBuilder ,) { }
 
   ngOnInit( ) {
     this.getVisas();
-
+    this.user =this.authService.getUser();
     
    this.visaForm = new FormGroup(
     {

@@ -1,7 +1,15 @@
-
-<div class="row" matchHeight="card">
+<div class="row" matchHeight="card"  *ngIf="userApp.role.sidebarPermissions.users === true">
   <div class="col-xl-12 col-lg-12">
-    <div class="card card-add">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> الوظائف والصلاحيات</h4>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card"  *ngIf="userApp.role.sidebarPermissions.users === true">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0"> اضافة وظيفة جديدة</h4>
       </div>
@@ -25,9 +33,6 @@
   </div>
   <div class="col-xl-12 col-lg-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title mb-0"> الوظائف والصلاحيات</h4>
-      </div>
       <div class="card-content">
         <div class="card-body">
           <p-table  #dt [value]="roles" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
@@ -111,26 +116,26 @@
         [appendTo]="'body'">       
                               <!--start edit -->
                               <div class="container-box " >
-                                  <form [formGroup]="permissionForm"  novalidate>
+                                  <form [formGroup]="permissionForm"  class="form-inline" novalidate>
                                       <div>
                                         <div class=" text-right">
                                           <div class="col-md-12 col-lg-12">
                                            
                                             <br/>
-                                            <h4 class="blueTiltle">صلاحيات المستخدمين</h4>
+                                            <h4 class="blueTiltle"> المستخدمين</h4>
                                             <hr>
                                             <div class="row"  formGroupName="userPermissions">
-                                              <div class=" col-lg-4  col-md-4 col-sm-12">
+                                              <div class=" col-lg-4  col-md-4 col-sm-12 form-group">
                                                 <input  class="checkbox" type="checkbox" formControlName="addUser">
                                                 <label for="street"> إضافة موظف</label> 
                                               </div>
-                                            <div class=" col-lg-4  col-md-4 col-sm-12">
-                                              <input  class="checkbox" type="checkbox"  formControlName="activeUser" >
-                                              <label for="street"> حذف موظف</label>
-                                            </div>
-                                            <div class="col-lg-4  col-md-4 col-sm-12">
+                                            <div class="col-lg-4  col-md-4 col-sm-12 form-group">
                                               <input  class="checkbox" type="checkbox"  formControlName="editUser" >
                                               <label for="street"> تعديل موظف</label>
+                                            </div>
+                                            <div class="col-lg-4  col-md-4 col-sm-12 form-group">
+                                              <input  class="checkbox" type="checkbox"  formControlName="deleteUser" >
+                                              <label for="street"> حذف موظف</label>
                                             </div>
                                           </div>
                                           
@@ -138,246 +143,116 @@
                                           <h4 class="blueTiltle">إعدادات البرنامج</h4>
                                           <hr>
                                           <div  class="row" formGroupName="settingPermissions">
-                                            <div class="col-lg-3">
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="activePartner">
-                                                <label for="street"> حذف شريك</label> 
-                                              </div>
-                                              <div>
-                                                <input class="checkbox" type="checkbox" formControlName="activeCompany">
-                                                <label for="street"> حذف شركة</label> 
-                                              </div>
-                                              
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="activeFlightTickets">
-                                                <label for="street">  حجز تذاكر طيران حذف</label> 
-                                              </div>
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="activeHotel">
-                                                <label for="street"> حذف فندق</label> 
-                                              </div>
-                                              
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="addTour">
-                                                  <label for="street"> حذف برنامج سياحي</label> 
+                                             
+                                                <div class="col-md-4 col-sm-12 form-group">
+                                                  <input  class="checkbox" type="checkbox" formControlName="bookTour">
+                                                  <label for="street"> حجز برنامج سياحي</label> 
                                                 </div>
 
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="activeVisa">
-                                                  <label for="street"> حذف فيزا</label> 
+                                                <div class="col-md-4 col-sm-12 form-group">
+                                                  <input  class="checkbox" type="checkbox" formControlName="boodVisa">
+                                                  <label for="street"> حجز تأشيرة</label> 
                                                 </div>
-                                            </div>
-                                            
-                                            <div class="col-lg-3" >
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="editPartner">
-                                                <label> تعديل شريك</label> 
-                                              </div>
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="editCompany">
-                                                <label> تعديل شركة</label> 
-                                              </div>
-                                              
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="editFlightTickets">
-                                                <label>  تعديل حجز تذاكر طيران </label> 
-                                              </div>
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="editHotel">
-                                                <label> تعديل فندق</label> 
-                                              </div>
-                                              
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="editTour">
-                                                  <label> تعديل برنامج سياحي</label> 
-                                                </div>
-
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="editVisa">
-                                                  <label > تعديل فيزا</label> 
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3" >
-                                              <div>  
-                                                <input  class="checkbox" type="checkbox" formControlName="addPartner">
-                                                <label for="street"> إضافة شريك</label> 
-                                              </div>
-                                              <div>
+                                           
+                                              <div class="col-md-4 col-sm-12 form-group">
                                                 <input  class="checkbox" type="checkbox" formControlName="addCompany">
                                                 <label for="street"> إضافة شركة</label> 
                                               </div>
                                               
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="addFlightTickets">
+                                              <div class="col-md-4 col-sm-12 form-group">
+                                                <input  class="checkbox" type="checkbox" formControlName="bookFlightTickets">
                                                 <label for="street">  حجز تذاكر طيران</label> 
                                               </div>
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="addHotel">
-                                                <label for="street"> إضافة فندق</label> 
+                                              <div class="col-md-4 col-sm-12 form-group">
+                                                <input  class="checkbox" type="checkbox" formControlName="bookHotel">
+                                                <label for="street"> حجز فندق </label> 
                                               </div>
-                                              
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="addTour">
-                                                  <label for="street"> إضافة برنامج سياحي</label> 
-                                                </div>
-
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="addVisa">
-                                                  <label for="street"> إضافة فيزا</label> 
-                                                </div>
-                                            </div>
-                                         
-                                            <div class="col-lg-3" >
-                                              <div>  
-                                                <input  class="checkbox" type="checkbox" formControlName="allPartners">
-                                                <label for="street">  الشركاء</label> 
-                                              </div>
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="allCompanies">
-                                                <label for="street">  الشركات</label> 
-                                              </div>
-                                              
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="allFlightTickets">
-                                                <label for="street"> تذاكر الطيران</label> 
-                                              </div>
-                                              <div>
-                                                <input  class="checkbox" type="checkbox" formControlName="allHotels">
-                                                <label for="street">  الفنادق</label> 
-                                              </div>
-                                              
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="allTours">
-                                                  <label for="street">   البرامج السياحية</label> 
-                                                </div>
-
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="allVisas">
-                                                  <label for="street">  الفيز</label> 
-                                                </div>
-
-                                                <div>
-                                                  <input  class="checkbox" type="checkbox" formControlName="backup">
-                                                  <label for="street">  النسخة الإحتياطي</label> 
-                                                </div>
-                                            </div>
-                                             
-                                        </div>
-
-                                                    
+                                            </div>       
                                         <br/>
-                                        <h4 class="blueTiltle">صلاحيات التقارير</h4>
+                                        <h4 class="blueTiltle"> التقارير</h4>
                                         <hr>
                                         <div class="row"  formGroupName="reportPermissions">
-                                          <div class=" col-lg-4  col-md-4 col-sm-12">
-                                            <input  class="checkbox" type="checkbox" formControlName="toursProfits">
-                                            <label for="street">  أرباح البرامج السياحية</label> 
-                                          </div>
-                                        <div class=" col-lg-4  col-md-4 col-sm-12">
-                                          <input  class="checkbox" type="checkbox"  formControlName="companyProfits" >
-                                          <label for="street"> أرباح الشركات</label>
-                                        </div>
-                                        <div class="col-lg-4  col-md-4 col-sm-12">
-                                          <input  class="checkbox" type="checkbox"  formControlName="flightTicketsProfits" >
-                                          <label for="street"> أرباح تذاكر الطيران</label>
-                                        </div>
-                                        <div class=" col-lg-4  col-md-4 col-sm-12">
-                                          <input  class="checkbox" type="checkbox" formControlName="hotelsProfits">
-                                          <label for="street">أرباح الفنادق</label> 
-                                        </div>
-                                      <div class=" col-lg-4  col-md-4 col-sm-12">
-                                        <input  class="checkbox" type="checkbox"  formControlName="visaProfits" >
-                                        <label for="street"> أرباح الفيز</label>
-                                      </div>
-                                      <div class="col-lg-4  col-md-4 col-sm-12">
-                                        <input  class="checkbox" type="checkbox"  formControlName="tourProfits" >
-                                        <label for="street"> أرباح برنامج سياحي</label>
-                                      </div>
-                                      <div class=" col-lg-4  col-md-4 col-sm-12">
+
+                                      <div class="col-md-4 col-sm-12 form-group">
                                         <input  class="checkbox" type="checkbox"  formControlName="tourReport" >
                                         <label for="street"> تقارير برنامج سياحي</label>
                                       </div>
-                                      <div class="col-lg-4  col-md-4 col-sm-12">
+                                      <div class="col-md-4 col-sm-12 form-group">
                                         <input  class="checkbox" type="checkbox"  formControlName="accountingReport" >
                                         <label for="street"> تقارير الموازنه المالية</label>
                                       </div>
                                       </div>
 
                                       <br/>
-                                      <h4 class="blueTiltle">صلاحيات الشريط الجانبي</h4>
+                                      <h4 class="blueTiltle"> الشريط الجانبي</h4>
                                       <hr>
                                       <div class="row"  formGroupName="sidebarPermissions">
-                                        <div class=" col-lg-4  col-md-4 col-sm-12">
+                                        <div class=" col-md-4 col-sm-12 form-group">
                                           <input  class="checkbox" type="checkbox" formControlName="tours">
-                                          <label for="street"> السياحية البرامج </label> 
+                                          <label for="street">  البرامج السياحية </label> 
                                         </div>
-                                      <div class=" col-lg-4  col-md-4 col-sm-12">
+                                      <div class=" col-md-4 col-sm-12 form-group">
                                         <input  class="checkbox" type="checkbox"  formControlName="reports" >
                                         <label for="street"> التقارير</label>
                                       </div>
-                                      <div class="col-lg-4  col-md-4 col-sm-12">
+                                      <div class="col-md-4 col-sm-12 form-group">
                                         <input  class="checkbox" type="checkbox"  formControlName="flightTickets" >
                                         <label for="street">تذاكر الطيران</label>
                                       </div>
-                                      <div class=" col-lg-4  col-md-4 col-sm-12">
+                                      <div class="col-md-4 col-sm-12 form-group">
                                         <input  class="checkbox" type="checkbox" formControlName="hotels">
                                         <label for="street"> الفنادق</label> 
                                       </div>
-                                    <div class=" col-lg-4  col-md-4 col-sm-12">
-                                      <input  class="checkbox" type="checkbox"  formControlName="transports" >
-                                      <label for="street"> المواصلات</label>
+                                      <div class="col-md-4 col-sm-12 form-group">
+                                        <input  class="checkbox" type="checkbox" formControlName="visas">
+                                        <label for="street"> التأشيرات </label> 
+                                      </div>
+                                    <div class="col-md-4 col-sm-12 form-group">
+                                      <input  class="checkbox" type="checkbox" formControlName="safeBox">
+                                      <label for="street">المالية </label> 
                                     </div>
-                                    <div class="col-lg-4  col-md-4 col-sm-12">
-                                      <input  class="checkbox" type="checkbox"  formControlName="accounting" >
-                                      <label for="street"> المحاسبة</label>
-                                    </div>
-                                    <div class=" col-lg-4  col-md-4 col-sm-12">
+                                    <div class=" col-lg-4  col-md-4 col-sm-12 form-group">
                                       <input  class="checkbox" type="checkbox"  formControlName="companies" >
-                                      <label for="street">  الشركات</label>
+                                      <label for="street">  الحسابات</label>
                                     </div>
-                                    <div class="col-lg-4  col-md-4 col-sm-12">
+                                    <div class="col-lg-4  col-md-4 col-sm-12 form-group">
                                       <input  class="checkbox" type="checkbox"  formControlName="users" >
                                       <label for="street">  الموظفين</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 form-group">
+                                      <input  class="checkbox" type="checkbox" formControlName="accountStatement">
+                                      <label for="street"> كشف الحساب </label> 
                                     </div>
                                     </div>
 
                                     <br/>
-                                    <h4 class="blueTiltle">صلاحيات لوحة التحكم</h4>
+                                    <h4 class="blueTiltle"> لوحة التحكم</h4>
                                     <hr>
                                     <div class="row"  formGroupName="dashboardPermissions">
-                                      <div class=" col-lg-4  col-md-4 col-sm-12">
-                                        <input  class="checkbox" type="checkbox" formControlName="tours">
-                                        <label for="street">  البرامج السياحية</label> 
+                                
+                                      <div class="col-md-4 col-sm-12 form-group">
+                                        <input  class="checkbox" type="checkbox" formControlName="bookTour">
+                                        <label for="street"> حجز برنامج سياحي</label> 
                                       </div>
-                                    <div class=" col-lg-4  col-md-4 col-sm-12">
-                                      <input  class="checkbox" type="checkbox"  formControlName="reports" >
-                                      <label for="street"> التقارير</label>
-                                    </div>
-                                    <div class="col-lg-4  col-md-4 col-sm-12">
-                                      <input  class="checkbox" type="checkbox"  formControlName="flightTickets" >
-                                      <label for="street">  حجز الطيران</label>
-                                    </div>
-                                    <div class=" col-lg-4  col-md-4 col-sm-12">
-                                      <input  class="checkbox" type="checkbox" formControlName="hotels">
-                                      <label for="street"> الفنادق </label> 
-                                    </div>
+                                      <div class="col-md-4 col-sm-12 form-group">
+                                        <input  class="checkbox" type="checkbox" formControlName="bookVisa">
+                                        <label for="street">حجز تأشيرة</label> 
+                                      </div>
+                                      <div class="col-md-4 col-sm-12 form-group">
+                                        <input  class="checkbox" type="checkbox" formControlName="addCompany">
+                                        <label for="street">إضافة شركة</label> 
+                                      </div>
+                                      <div class="col-md-4 col-sm-12 form-group">
+                                        <input  class="checkbox" type="checkbox" formControlName="bookFlightTickets">
+                                        <label for="street">حجز تذاكر طيران</label> 
+                                      </div>
+                                      <div class="col-md-4 col-sm-12 form-group">
+                                        <input  class="checkbox" type="checkbox" formControlName="bookHotel">
+                                        <label for="street">حجز فندق </label> 
+                                      </div>
+                                    
                                   
-                                  <div class="col-lg-4  col-md-4 col-sm-12">
-                                    <input  class="checkbox" type="checkbox"  formControlName="accountStatement" >
-                                    <label for="street"> كشف الحساب </label>
-                                  </div>
-                                  <div class=" col-lg-4  col-md-4 col-sm-12">
-                                    <input  class="checkbox" type="checkbox"  formControlName="companies" >
-                                    <label for="street">  الشركات</label>
-                                  </div>
-                                  <div class="col-lg-4  col-md-4 col-sm-12">
-                                    <input  class="checkbox" type="checkbox"  formControlName="users" >
-                                    <label for="street">  إدارة الموظفين</label>
-                                  </div>
-                                  </div>
-
-                                          
+                                  </div>   
                                 </div>
                               </div>
                             </div>
@@ -394,8 +269,14 @@
     </div>
   </div>
 </div>
-<div class="row" matchHeight="card">
-
+<div class="row" matchHeight="card" *ngIf="userApp.role.sidebarPermissions.users === false">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> ليس لديك صلاحيات للموظفين</h4>
+      </div>
+   </div>
+  </div>
 </div>
 
 

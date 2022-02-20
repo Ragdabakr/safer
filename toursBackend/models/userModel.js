@@ -24,14 +24,14 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email']
   },
-    role: {
-      type: String,
+  role: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Role',
+    required: [true],
   },
- 
   active: {
     type: Boolean,
     default: true,
-    // select: false
     },
   password: {
     type: String,
@@ -100,12 +100,30 @@ this.find({ active:true });
   next();
 });
 
+
+//1) get role
+userSchema.pre(/^find/, function (next) {
+  this.populate({
+      path: 'role',
+
+  });
+  next();
+});
+//1) get role
+userSchema.pre(/^findOne/, function (next) {
+  this.populate({
+      path: 'role',
+  });
+  next();
+});
+
 userSchema.methods.correctPassword = async function(
   candidatePassword, //password enterd in body
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+
 
 userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   if (this.passwordChangedAt) {

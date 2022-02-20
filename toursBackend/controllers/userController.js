@@ -153,9 +153,9 @@ exports.uploadSingleImage = catchAsync(async (req, res) => {
   });
 
   //exports.createUserProfile = factory.updateOne(User);
-  exports.getAllUsers = factory.getAll(User);
+  exports.getAllUsers = factory.getAll(User,{path:'role'});
   exports.createUser = factory.createOne(User);
-  exports.getUser = factory.getOne(User);
+  exports.getUser = factory.getOne(User ,{path:'role'});
   exports.updateUser = factory.updateOne(User); //update all data except password
   exports.deleteUser = factory.deleteOne(User);
   exports.deleteAllUsers = factory.deleteMany(User);

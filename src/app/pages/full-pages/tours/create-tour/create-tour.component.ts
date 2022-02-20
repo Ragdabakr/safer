@@ -16,6 +16,7 @@ import { UserService } from '../../../../shared/services/user.service';
 import { TourService } from '../../../../shared/services/tour.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker.module';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'app/shared/auth/auth.service';
 const URL = 'http://localhost:3000/api/v1/image/upload-image';
 
 @Component({
@@ -87,12 +88,14 @@ controls:any;
     allGuidesCollection: any;
     removedImage: any;
     dataFormerror: boolean;
+    user: any;
 
-    constructor( private translate: TranslateService,private userService: UserService, private tourService: TourService, private fb: FormBuilder ,private toastr:ToastrService ,) {
+    constructor(private authService:AuthService , private translate: TranslateService,private userService: UserService, private tourService: TourService, private fb: FormBuilder ,private toastr:ToastrService ,) {
     }
 
     ngOnInit() {
         // Get Users
+        this.user = this.authService.getUser();
         this.userService.getUsers().subscribe({
             next: response => {
                 this.data = response.data.docs;

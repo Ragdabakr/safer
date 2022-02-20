@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -16,13 +17,13 @@ export class CancelFlightTicketComponent implements OnInit {
   ticketValue: any[];
   ticketNumber: any[];
   cancelType = null;
+  user: any;
 
-  constructor(private flightTicketsService: FlightTicketsService,private toastr:ToastrService ,private fb: FormBuilder ,) { }
+  constructor(private authService:AuthService ,private flightTicketsService: FlightTicketsService,private toastr:ToastrService ,private fb: FormBuilder ,) { }
 
   ngOnInit( ) {
     this.getTickets();
-
-    
+    this.user = this.authService.getUser();
    this.flightTicketForm = new FormGroup(
     {
       number: new FormControl(''),

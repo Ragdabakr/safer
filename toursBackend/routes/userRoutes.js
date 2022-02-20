@@ -30,7 +30,7 @@ router.delete('/deleteNotification/:id',userController.deleteNotification);
 router.route('/').get(authController.protect,userController.getAllUsers);
 
 // work with admin dashboard
-router.use(authController.restrictTo('أدمن'));
+// router.use(authController.restrictTo('أدمن'));
 router
   .route('/companyAccountInfo')
   .post(userController.companyAccountInfo)
@@ -48,7 +48,7 @@ router
   
 
 // work with admin dashboard
-router.use(authController.restrictTo('أدمن' , 'مشرف'));
+// router.use(authController.restrictTo('أدمن' , 'مشرف'));
 router
   .route('/')
   .post(userController.createUser)

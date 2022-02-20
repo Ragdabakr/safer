@@ -1,11 +1,13 @@
-<div class="row" matchHeight="card">
+<div class="row" matchHeight="card"  *ngIf="userApp.role.sidebarPermissions.users === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
         <h4 class="card-title mb-0"> الموظفين</h4>
       </div>
+    </div>
+  </div>
 </div>
-  <section id="ngx">
+  <section id="ngx" *ngIf="userApp.role.sidebarPermissions.users === true" >
   <div class="card">
       <div class="card-content">
           <div class="card-body">
@@ -18,7 +20,7 @@
             <button (click)="exportCSV()" class=" btn btn-default csv " >
               CSV    <i class="icon-share-alt icon"></i> 
               </button>
-              <button (click)="createNewUser()" class=" btn btn-green" >
+              <button (click)="createNewUser()" class=" btn btn-green" *ngIf="userApp.role.userPermissions.addUser === true">
                 <i class="icon-plus icon"></i>  اضافة موظف 
               </button>
               <button type="button" class="btn btn-primary btn-raised " printTitle="الرحلات" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button> 
@@ -47,9 +49,9 @@
                 <th pSortableColumn="name">اسم الموظف <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="email"> الايميل <p-sortIcon field="email"></p-sortIcon></th>
                 <th pSortableColumn="role">الوظيفة  <p-sortIcon field="role"></p-sortIcon></th>
-                <th pSortableColumn="active"> الحالة <p-sortIcon field="active"></p-sortIcon></th>
+                <th *ngIf="userApp.role.userPermissions.deleteUser === true" pSortableColumn="active"> الحالة <p-sortIcon field="active"></p-sortIcon></th>
               
-                <th >التعديل</th> 
+                <th *ngIf="userApp.role.userPermissions.editUser === true" >التعديل</th> 
                 
             </tr>
          </ng-template>
@@ -58,22 +60,22 @@
                 <!-- <td>{{user.user_id}}</td> -->
                 <td>{{user?.name}}</td>
                 <td>{{user?.email }}</td>
-                <td>{{user?.role}}</td>
+                <td>{{user?.role.name}}</td>
                 <!-- <td>{{user?.active}}</td> -->
                 <td>
                       <!-- Rounded switch -->
-                  <label class="switch" *ngIf='user.active === false' >
+                  <label class="switch" *ngIf='user.active === false  && userApp.role.userPermissions.deleteUser === true' >
                     <input type="checkbox" />
                     <span class="slider round"  (click)="enableUser(user._id)"></span>
                   </label>
-                  <label class="switch"  *ngIf="user.active === true">
+                  <label class="switch"  *ngIf="user.active === true && userApp.role.userPermissions.deleteUser === true" >
                     <input type="checkbox" checked >
                     <span class="slider round"  (click)="disableUser(user._id)"></span>
                   </label>
                 </td>
                 <td>               
-                <div class="fonticon-wrap" (click)="editUser(user)"  >
-                  <i class="icon-pencil icon"></i>
+                <div *ngIf="userApp.role.userPermissions.editUser === true" class="fonticon-wrap" (click)="editUser(user)" >
+                  <i class="icon-pencil icon edit"></i>
                 </div> 
               
                 </td>
@@ -121,12 +123,12 @@
                         </div>
                     </div>
   
-                        <div class="col-md-12">
+                      <div class="col-md-12">
                           <label for="street"> الوظيفة</label><span class="red">*</span>
                               <select  class="form-control" data-size="7" formControlName="role"  value='user.role' title="نوع المستخدم" >
-                                  <option *ngFor="let role of roles"   [ngValue]="role.name">{{ role.name}}</option>
+                                  <option *ngFor="let role of roles"   [ngValue]="role">{{ role.name}}</option>
                               </select>
-                        </div>
+                        </div>  
   
                       </div>
                 </div>
@@ -202,7 +204,7 @@
                         <div class="col-md-12">
                           <label for="street">الوظيفة</label><span class="red">*</span>
                               <select  class="form-control" data-size="7" formControlName="role"   title="نوع المستخدم" >
-                                  <option *ngFor="let role of roles"  [ngValue]="role.name">{{role.name}}</option>
+                                  <option *ngFor="let role of roles"  [ngValue]="role">{{role.name}}</option>
                               </select>
                         </div>
   
@@ -226,3 +228,12 @@
   </div>
   </div>
   </section>
+  <div class="row" matchHeight="card" *ngIf="userApp.role.sidebarPermissions.users === false">
+    <div class="col-xl-12 col-lg-12">
+      <div class="card card-add" >
+        <div class="card-header"  >
+          <h4 class="card-title mb-0"> ليس لديك صلاحيات للموظفين</h4>
+        </div>
+     </div>
+    </div>
+  </div>

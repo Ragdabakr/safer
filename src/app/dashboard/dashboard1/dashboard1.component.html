@@ -1,17 +1,17 @@
 
 <!--Statistics cards Starts-->
 
-<div class="row">
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
+<div class="row" >
+	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.addCompany === true">
 		<div class="card gradient-blackberry">
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							
-							<h3 class="font-large-1 mb-0"> ريال {{totalEarings}}</h3>
-							<p class="box-title">المدخلات</p>
-							<p class="box-title">{{this.data}}</p>
+						
+							<p class="box-title"> اضافة حساب </p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/companies">  اضافة حساب جديد</a>
+							</button>
 						</div>
 						<div class="media-right white text-right">
 							<i class="icon-wallet font-large-1"></i>
@@ -26,14 +26,15 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
+	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookFlightTickets === true" >
 		<div class="card gradient-ibiza-sunset">
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{totalBookings}}</h3>
-							<p class="box-title">عدد الحجوزات</p>
+							<p class="box-title">حجز  تذكرة طيران</p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/bookingFlightTickets">  اضافة حجز جديد</a>
+							</button>
 						</div>
 						<div class="media-right white text-right">
 							<i class="icon-calendar font-large-1"></i>
@@ -50,14 +51,15 @@
 		</div>
 	</div>
 	
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
+	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookTour === true" >
 		<div class="card gradient-green-tea">
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{totalTours}}</h3>
-							<p class="box-title">عدد الرحلات</p>
+							<p class="box-title">حجز برنامج سياحي</p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/createBooking">  اضافة حجز جديد</a>
+							</button>
 						</div>
 						<div class="media-right white text-right">
 							<i class="icon-plane font-large-1"></i>
@@ -72,14 +74,15 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
+	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookVisa === true" >
 		<div class="card gradient-pomegranate">
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{appUsers}}</h3>
-							<p class="box-title">عدد الموظفين</p>
+							<p class="box-title">حجز  تأشيرة</p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/bookingVisa">  اضافة حجز جديد</a>
+							</button>
 						</div>
 						<div class="media-right white text-right">
 							<i class="icon-users font-large-1"></i>
@@ -90,6 +93,91 @@
 					<x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options" [responsiveOptions]="WidgetlineChart.responsiveOptions"
 					 [events]="WidgetlineChart.events">
 					</x-chartist>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--Statistics cards Ends-->
+
+<!--Statistics cards Starts-->
+
+<div class="row">
+	<div class="col-xl-3 col-lg-6 col-md-6 col-12"  *ngIf="user.role.dashboardPermissions.addCompany === true">
+		<div class="card gradient-blackberry">
+			<div class="card-content">
+				<div class="card-body pt-2 pb-0">
+					<div class="media">
+						<div class="media-body white text-left">
+							
+							<h3 class="font-large-1 mb-0">  {{totalEarings}}</h3>
+							<p class="box-title"> اضافة حساب </p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/companies">  اضافة حساب جديد</a>
+							</button>
+						</div>
+						<div class="media-right white text-right">
+							<i class="icon-wallet font-large-1"></i>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookFlightTickets === true" >
+		<div class="card gradient-ibiza-sunset">
+			<div class="card-content">
+				<div class="card-body pt-2 pb-0">
+					<div class="media">
+						<div class="media-body white text-left">
+							<h3 class="font-large-1 mb-0">{{totalBookings}}</h3>
+							<p class="box-title">  التذاكر</p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/flightTicketsList">التذاكر</a>
+							</button>
+						</div>
+						<div class="media-right white text-right">
+							<i class="icon-calendar font-large-1"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookTour === true">
+		<div class="card gradient-green-tea">
+			<div class="card-content">
+				<div class="card-body pt-2 pb-0">
+					<div class="media">
+						<div class="media-body white text-left">
+							<h3 class="font-large-1 mb-0">{{totalTours}}</h3>
+							<p class="box-title">  البرامج السياحية</p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/tours"> الرحلات</a>
+							</button>
+						</div>
+						<div class="media-right white text-right">
+							<i class="icon-plane font-large-1"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookVisa === true">
+		<div class="card gradient-pomegranate">
+			<div class="card-content">
+				<div class="card-body pt-2 pb-0">
+					<div class="media">
+						<div class="media-body white text-left">
+							<h3 class="font-large-1 mb-0">{{appUsers}}</h3>
+							<p class="box-title">  التأشيرات</p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/visaList">  التأشيرات</a>
+							</button>
+						</div>
+						<div class="media-right white text-right">
+							<i class="icon-users font-large-1"></i>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -185,6 +273,8 @@
 		</div>
 	</div>
 </div>
+
+
 
 <div class="row" matchHeight ="card">
 	<div class="col-xl-8 col-lg-12 col-12">

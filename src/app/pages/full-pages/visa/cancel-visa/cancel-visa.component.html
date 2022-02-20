@@ -1,11 +1,13 @@
-<div class="row" matchHeight="card">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
         <h4 class="card-title mb-0">  الغاء تأشيرة</h4>
       </div>
+    </div>
+  </div>
 </div>
-<div class="row" matchHeight="card">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="card-header">
@@ -104,7 +106,7 @@
 
 </div>
 </div>
-<div class="row" matchHeight="card" class="refund" >
+<div class="row" matchHeight="card" class="refund" *ngIf="user.role.dashboardPermissions.bookVisa === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card cancelSection" >
       <div class="card-header"  >
@@ -136,7 +138,7 @@
   </div>
 </div>
 
-<div class="row" matchHeight="card" >
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="row">
@@ -172,6 +174,15 @@
       </div>
      
     </div>
+  </div>
+</div>
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === false">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> ليس لديك صلاحيات الغاء حجز تأشيرة </h4>
+      </div>
+   </div>
   </div>
 </div>
 

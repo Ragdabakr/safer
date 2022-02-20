@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from 'app/shared/services/user.service';
 import { ExportToCsv } from 'export-to-csv-file';
 import { RoleService } from 'app/shared/services/role.service';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class UsersListComponent implements OnInit {
   user: any;
   roles = [];
   rolesArray: any;
+  userApp: string;
 
 
 
@@ -49,6 +51,7 @@ export class UsersListComponent implements OnInit {
     private fb: FormBuilder,
     private toastr:ToastrService ,
     private roleServices: RoleService,
+    private authService:AuthService ,
 ) { }
 
    // Update User Form
@@ -73,15 +76,8 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    this.userApp =this.authService.getUser();
     this.getRoles();
-    this.cols = [
-      { field: 'name', header: 'اسم المستخدم ' },
-      { field: 'email', header: ' الايميل' },
-      { field: 'role', header: ' نوع المستخدم' },
-      { field: 'active', header: 'حالة المستخدم' },
-  ];
-
-
   }
 
 //Get tRoles
@@ -90,6 +86,7 @@ getRoles(){
     res =>{
       let data = res['data'];
       this.roles = data.docs;
+      console.log("roles >>> , this.roles")
       },
       err =>{
       console.log(err);
@@ -140,10 +137,9 @@ mapValues() {
 submitEdituserForm(userForm ,userId){
   this.editUserForm = userForm.value;
   const editData= {
-    //  userId :   userId ,
      name :  this.editUserForm.name,
      phone : this.editUserForm.phone,
-     address : this.editUserForm.address,
+     role : this.editUserForm.role,
      email: this.editUserForm.email,
   }
   this.submitted = true;

@@ -10,6 +10,7 @@ import { RoleService } from 'app/shared/services/role.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CompanyService } from 'app/shared/services/company.service';
+import { AuthService } from 'app/shared/auth/auth.service';
 @Component({
   selector: 'app-travel-agents',
   templateUrl: './travel-agents.component.html',
@@ -31,6 +32,7 @@ export class TravelAgentsComponent implements OnInit {
   addUpdateCompanyeDialog: boolean;
   companyId: any;
   rndInt: number;
+  user: any;
   // Prevent panel toggle code
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === '2') {
@@ -42,10 +44,11 @@ export class TravelAgentsComponent implements OnInit {
   };
 
 
-  constructor( private roleServices: RoleService,private toastr:ToastrService, private companyServices: CompanyService, ) { }
+  constructor(private authService:AuthService, private roleServices: RoleService,private toastr:ToastrService, private companyServices: CompanyService, ) { }
 
   ngOnInit() {
   this.getCompanies();
+  this.user = this.authService.getUser();
 
    this.companyForm = new FormGroup(
          {

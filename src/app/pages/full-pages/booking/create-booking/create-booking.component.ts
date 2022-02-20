@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import * as intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 
 
@@ -63,11 +64,13 @@ export class CreateBookingComponent implements OnInit {
     childPrice: any;
     infantPrice: any;
     infant: any;
+    userApp: string;
 
-  constructor(private fb: FormBuilder ,   private tourService:TourService, private bookingService:BookingService,
+  constructor(private fb: FormBuilder ,private authService:AuthService,   private tourService:TourService, private bookingService:BookingService,
      private toastr:ToastrService ) { }
 
   ngOnInit() {
+    this.userApp = this.authService.getUser();
     const input = document.querySelector("#phone");
     intlTelInput(input, {
         // any initialisation options go here

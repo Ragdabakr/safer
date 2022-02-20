@@ -10,6 +10,7 @@ import { TourService } from '../../../../shared/services/tour.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ExportToCsv } from 'export-to-csv-file';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 
 
@@ -51,6 +52,7 @@ export class TourListComponent implements OnInit {
   center: any;
   zoom:any;
   tourImages: [];
+  user: any;
 
   
 
@@ -58,10 +60,12 @@ export class TourListComponent implements OnInit {
     private tourService:TourService,
     private fb: FormBuilder,
     private toastr:ToastrService ,
+    private authService:AuthService ,
 ) { }
 
 
   ngOnInit(): void {
+    this.user = this.authService.getUser();
     this.getTours();
     this.cols = [
       { field: 'name', header: 'اسم الرحلة' },

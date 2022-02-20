@@ -1,7 +1,6 @@
-<div class="row">
-</div>
-<section id="ngx">
-    <div class="card">
+
+<section id="ngx" *ngIf="userApp.role.dashboardPermissions.bookTour === true" >
+    <div class="card" >
         <div class="card-content">
             <div class="card-body">
                 <p class="mb-0">
@@ -249,4 +248,12 @@
         </div>
     </div>
 </section>
-
+<div class="row" matchHeight="card" *ngIf="userApp.role.dashboardPermissions.bookTour === false">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> ليس لديك صلاحيات حجز رحلة سياحية </h4>
+      </div>
+   </div>
+  </div>
+</div>

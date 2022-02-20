@@ -113,10 +113,12 @@ export class UserService {
       }
 
     
-      public createUserForm(data: createDataUser ): Observable<any> {
+      public createUserForm(data: any ): Observable<any> {
+          debugger
         return this.http.post('/api/v1/users/signup', {data});
       }
-      public editUserForm(data: editDataUser , id: editId ): Observable<any> {
+      public editUserForm(data: any , id: editId ): Observable<any> {
+          debugger
         return this.http.patch(`/api/v1/users/${id}`, {data});
       }
       public activateUser(data: activateUser , id: editId ): Observable<any> {
