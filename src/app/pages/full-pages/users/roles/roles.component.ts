@@ -5,6 +5,7 @@ import { RoleService } from 'app/shared/services/role.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-roles',
@@ -40,7 +41,7 @@ export class RolesComponent implements OnInit {
   ngOnInit() {
    this.getroles();
    this.userApp =this.authService.getUser();
-   this.roleForm = new FormGroup(
+   this.dataForm = new FormGroup(
          {
           name: new FormControl('', [
               Validators.required,
@@ -93,30 +94,32 @@ export class RolesComponent implements OnInit {
   }
 
   getroles(){
-          // Get Tours roles
           this.roleServices.getroles().subscribe({
             next: response => {
                 this.roles = response.data.docs;
-                console.log("roles >>>" ,this.roles);
             },
             error: err => {
-                console.log(err);
+              this.toastr.error('يوجد خطأ ما');
             }
         });
   }
 
-  submitNewrole(roleForm){
-
-    this.roleServices.createrole(roleForm.value).subscribe(
+  submitNewrole(dataForm){
+    this.roleServices.createrole(dataForm.value).subscribe(
       res =>{
-        this.roleForm.reset();
+        this.dataForm.reset();
         this.toastr.success('تم اضافة الوظيفة بنجاح ');
         this.getroles();
         this.roleForm.reset();
         },
-        err =>{
-        console.log(err);
-      }
+        (error: HttpErrorResponse) =>{
+          if(error.error === 'This role added before'){
+           this.toastr.error('هذة الوظيفة مضافة من قبل');
+          }else{
+            this.toastr.error('حدث خطأ ما');
+          }
+        }
+     
     )
   }
 
@@ -132,21 +135,24 @@ updaterole(role){
     name: role.name,
   })
 }
-editRoleButton(dataForm){
+buttonEditRole(dataForm){
   if (this.dataForm.invalid) {
     this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
     this.validateAllFormFields(this.dataForm); // Triger postForm validation
   }
-
   this.roleServices.updaterole(this.roleId , dataForm.value ).subscribe(
     res =>{
       this.toastr.success('تم تحديث الوظيفة بنجاح ');
       this.editRoleDialog = false;
       this.getroles();
       },
-      err =>{
-      console.log(err);
-    }
+      (error: HttpErrorResponse) =>{
+        if(error.error === 'This role added before'){
+         this.toastr.error('هذة الوظيفة مضافة من قبل');
+        }else{
+          this.toastr.error('حدث خطأ ما');
+        }
+      }
   )
 }
 
@@ -199,10 +205,11 @@ updatePermissionForm(role){
    },
 
 });
-console.log("permissionForm >>>>" , this.permissionForm.value)
+//console.log("permissionForm >>>>" , this.permissionForm.value)
 }
+
+
 addPermissionsButton(permissionForm){
-  console.log("permissionForm22" , permissionForm.value);
   this.roleServices.addpermissions(this.roleId , permissionForm.value ).subscribe(
     res =>{
       this.toastr.success('تم تحديث صلاحيات الوظيفة بنجاح ');
@@ -210,20 +217,20 @@ addPermissionsButton(permissionForm){
       this.getroles();
       },
       err =>{
-      console.log(err);
+        this.toastr.error('يوجد خطأ ما');
     }
   )
 }
 
 deleteRole(role){
-  const roleId = role._id;
-  this.roleServices.deleterole(roleId).subscribe(
+  const roleName = role._id;
+  this.roleServices.deleterole(roleName).subscribe(
     res =>{
       this.toastr.success('تم التحديث بنجاح ');
       this.getroles();
       },
       err =>{
-      console.log(err);
+        this.toastr.error('يوجد خطأ ما');
     }
   )
 }

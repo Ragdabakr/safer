@@ -33,9 +33,9 @@ export class RoleService {
         debugger;
         return this.http.get(`/api/v1/roles/${id}`);
     }
-    public deleterole(id:any): Observable<any> {
+    public deleterole(name:any): Observable<any> {
         debugger;
-        return this.http.delete(`/api/v1/roles/${id}`);
+        return this.http.delete(`/api/v1/roles/${name}`);
     }
 
     public addpermissions(id:any , data:any): Observable<any> {

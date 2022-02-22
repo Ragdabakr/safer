@@ -15,7 +15,7 @@
       </div>
       <div class="card-content completed-tours">
         <div class="card-body add-items">
-          <form [formGroup]="roleForm"  novalidate>
+          <form [formGroup]="dataForm"  novalidate>
             
               <div class="row">
                   <div class="form-group col-sm-6">
@@ -24,7 +24,7 @@
                   </div>
               </div> 
           <div class="buttons margin-top-10">
-            <input type="submit"  (click)="submitNewrole(roleForm)" class=" btn btn-primary submit " value="حفظ">
+            <input type="submit"  (click)="submitNewrole(dataForm)" class=" btn btn-primary submit " value="حفظ">
         </div>
         </form>
         </div>
@@ -57,20 +57,20 @@
                 <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
                 <th pSortableColumn="name">نوع الوظيفة <p-sortIcon field="name"></p-sortIcon></th>
                 <th >الصلاحيات</th> 
-                <th >التعديل</th>  
+                <th>التعديل</th>  
             </tr>
          </ng-template>
           <ng-template pTemplate="body" let-role>
             <tr>
                 <!-- <td>{{user.user_id}}</td> -->
-                <td>{{role?.name}}</td>  
+                <td >{{role?.name}}</td>  
                 <td>
                   <div class="blueTiltle" (click)="openPermissions(role)">
                     <i class="ft-edit ft icon"></i> الصلاحيات
                   </div>  
                 </td>  
                 <td>
-                  <div class="blueTiltle" (click)="editRole(role)">
+                  <div *ngIf="role.name" class="blueTiltle" (click)="editRole(role)">
                     <i class="ft-edit-2 ft icon"></i> التعديل
                   </div> 
                 </td>   
@@ -101,7 +101,7 @@
                                           </div>
                                       </div>
                                   <div class="buttons margin-top-10  ">
-                                    <input type="submit"  (click)="editRoleButton(dataForm)" class=" btn btn-primary submit " value="تحديث">
+                                    <input type="submit"  (click)="buttonEditRole(dataForm)" class=" btn btn-primary submit " value="تحديث">
                                 </div>
                                 </form>
                              </div>
@@ -250,8 +250,6 @@
                                         <input  class="checkbox" type="checkbox" formControlName="bookHotel">
                                         <label for="street">حجز فندق </label> 
                                       </div>
-                                    
-                                  
                                   </div>   
                                 </div>
                               </div>

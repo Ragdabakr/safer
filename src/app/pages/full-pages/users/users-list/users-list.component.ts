@@ -93,7 +93,7 @@ getUsers(){
     this.userService.getUsers().subscribe(
       res =>{
         let data = res['data'];
-        this.users = data.docs;
+        this.users = data.docs.filter(a=> a.role !== null).reverse();
         this.totalUsers= this.users.length;
         },
         err =>{
@@ -150,7 +150,7 @@ submitEdituserForm(userForm ,userId){
      }
     }),
     err =>{
-      this.toastr.error(' لم يتم تعديل المستخدم  ');
+      this.toastr.error(' لم يتم تعديل المستخدم');
      }
     }
   }
