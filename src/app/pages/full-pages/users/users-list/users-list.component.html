@@ -7,7 +7,7 @@
     </div>
   </div>
 </div>
-  <section id="ngx" *ngIf="userApp.role.sidebarPermissions.users === true" >
+  <section id="ngx"  *ngIf="userApp.role.sidebarPermissions.users === true">
   <div class="card">
       <div class="card-content">
           <div class="card-body">
@@ -20,17 +20,17 @@
             <button (click)="exportCSV()" class=" btn btn-default csv " >
               CSV    <i class="icon-share-alt icon"></i> 
               </button>
-              <button (click)="createNewUser()" class=" btn btn-green" *ngIf="userApp.role.userPermissions.addUser === true">
+              <button (click)="createNewUser()" class=" btn btn-green" *ngIf="userApp.role.sidebarPermissions.users === true && userApp.role.userPermissions.addUser === true">
                 <i class="icon-plus icon"></i>  اضافة موظف 
               </button>
               <button type="button" class="btn btn-primary btn-raised " printTitle="الرحلات" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button> 
          </div>
-          <div class="card-body">
+          <div class="card-body" id="print-section">
           <p-table #dt [value]="users" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
            [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['name','email','role','active' ]">
+          [filterDelay]="0" [globalFilterFields]="['name','email','role.name','active' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -45,26 +45,25 @@
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
-                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                 <th pSortableColumn="user_id"> رقم القيد <p-sortIcon field="user_id"></p-sortIcon></th>
                 <th pSortableColumn="name">اسم الموظف <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="email"> الايميل <p-sortIcon field="email"></p-sortIcon></th>
                 <th pSortableColumn="role">الوظيفة  <p-sortIcon field="role"></p-sortIcon></th>
-                <th *ngIf="userApp.role.userPermissions.deleteUser === true" pSortableColumn="active"> الحالة <p-sortIcon field="active"></p-sortIcon></th>
+                <th *ngIf="userApp.role.userPermissions.deleteUser === true"  pSortableColumn="active"> الحالة <p-sortIcon field="active"></p-sortIcon></th>
               
                 <th *ngIf="userApp.role.userPermissions.editUser === true" >التعديل</th> 
                 
             </tr>
          </ng-template>
-          <ng-template pTemplate="body" let-user>
+          <ng-template pTemplate="body" let-user let-rowIndex="rowIndex">
             <tr>
-                <!-- <td>{{user.user_id}}</td> -->
+                 <td>{{rowIndex}}</td>
                 <td>{{user?.name}}</td>
                 <td>{{user?.email }}</td>
                 <td>{{user?.role.name}}</td>
-                <!-- <td>{{user?.active}}</td> -->
                 <td>
                       <!-- Rounded switch -->
-                  <label class="switch" *ngIf='user.active === false  && userApp.role.userPermissions.deleteUser === true' >
+                  <label class="switch" *ngIf="user.active === false && userApp.role.userPermissions.deleteUser === true" >
                     <input type="checkbox" />
                     <span class="slider round"  (click)="enableUser(user._id)"></span>
                   </label>
@@ -86,8 +85,8 @@
        </div>
      </div>
     <!-- Edit User Dialog-->
-     <p-dialog [visible]="userDialog" [style]="{width: '550px'}" header="تعديل الموظف"  appendToBody="true"  styleClass="p-fluid" [dismissableMask]="false"
-     [modal]="true"
+     <p-dialog [visible]="userDialog" [style]="{width: '550px'}" header="تعديل الموظف"  appendToBody="true"  styleClass="p-fluid" [dismissableMask]="true"
+     [modal]="true" [closable]="false"
      [appendTo]="'body'" >
       <!-- <ng-template pTemplate="content"> -->
       <form [formGroup]="userForm" >
@@ -124,9 +123,10 @@
                     </div>
   
                       <div class="col-md-12">
+                  
                           <label for="street"> الوظيفة</label><span class="red">*</span>
-                              <select  class="form-control" data-size="7" formControlName="role"  value='user.role' title="نوع المستخدم" >
-                                  <option *ngFor="let role of roles"   [ngValue]="role">{{ role.name}}</option>
+                              <select  class="form-control" data-size="7" formControlName="role"  value='user.role' title="رتبة الموظف" >
+                                  <option *ngFor="let role of roles"   [ngValue]="role">{{role.name}}</option>
                               </select>
                         </div>  
   
@@ -136,7 +136,7 @@
   
             <div class="buttons margin-top-10">
                 <input type="submit"  (click)="submitEdituserForm(userForm , user._id)" class=" btn btn-primary submit" value="حفظ">
-                <button pButton pRipple label="Cancel" icon="pi pi-times" class=" btn btn-danger submit " (click)="hideDialog()">اغلاق</button>
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class=" btn btn-danger submit " (click)="hideDialog()"> x </button>
             </div>
         </form>
        <!-- </ng-template> -->

@@ -41,51 +41,39 @@ const signToken = (id,email ,role ,name) =>
     res.json(token);
   };
   
+  //Signup new user
 exports.signup = catchAsync(async (req, res, next) => {
       const { email, password, name, passwordConfirmation ,role } = req.body.data;
-
-      console.log("credintails" , email, password, name, passwordConfirmation ,role );
-   
+     // console.log("credintails" , email, password, name, passwordConfirmation ,role );
     const user = await User.findOne({ email });
       if (user) {
-      return next (new AppError('This email belongs to another user', 401));
-      
+        res.status(400).send('This email belongs to another user') ;
     }
     const userName = await User.findOne({ name });
     if (userName) {
-      return next (new AppError('This name belongs to another user', 401));
-      
+      res.status(400).send('This name belongs to another user') ;
     }
     if (!name || !email || !password ||!role ) {
-      return next (new AppError('Make sure that you fill out all required fields', 401));
+      res.status(400).send('Make sure that you fill out all required fields') ;
     }
-
-
-
     const newUser = await User.create(req.body.data);
-
-    console.log('newUser',newUser);
-      const token = signToken(newUser._id);
-      console.log('token',token);
+    const token = signToken(newUser._id);
+    //  console.log('token',token);
     createSendToken(newUser, 200, res);
  });
 
+ //Login user
   exports.login = catchAsync(async (req, res, next) => {
      const { email, password } = req.body;
-    console.log(email ,password);
   // 1) Check if email and password exist
     if (!email || !password) {
-      return next(new AppError('Please provide email and password!', 400));
+      res.status(400).send('Please provide email and password!') ;
     }
   // 2) Check if user exists && password is correct
     const user = await User.findOne({ email }).select('+password');
-  
-    // console.log('user>>>',user);
-
     if (!user || !(await user.correctPassword(password, user.password))) {
-      return next(new AppError('Incorrect email or password', 401));
+      res.status(400).send('Incorrect email or password') ;
     }
-
     // 3) If everything ok, send token to client
         const token =signToken(user._id , user.email ,user.role ,user.name);
       //  console.log(token);
@@ -93,8 +81,8 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 });
 
+//Protect link
 exports.protect = catchAsync(async (req, res, next) => {
-
     const token1 = req.headers.authorization;
     // 1) Getting token and check of it's there
     let token;
@@ -103,52 +91,44 @@ exports.protect = catchAsync(async (req, res, next) => {
       req.headers.authorization.startsWith('Bearer')
     ) {
       token = req.headers.authorization.split(' ')[1];
-      console.log('protect Tokensss',token);
+      //console.log('protect Tokensss',token);
     }
-  
     if (!token) {
-        console.log('no token');
       return next(
-        new AppError('You are not logged in! Please log in to get access.', 401)
+        res.status(400).send('You are not logged in! Please log in to get access') 
       );
     }
 
       // 2) Verification token
       const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-     console.log('Decoded',decoded);
+     // console.log('Decoded',decoded);
       // 3) Check if user still exists
       const currentUser = await User.findById(decoded.id);
-     console.log('currentUser',currentUser.name);
       if (!currentUser) {
         return next(
-          new AppError(
-            'The user belonging to this token does no longer exist.',
-            401
-          )
+          res.status(400).send('The user belonging to this token does no longer exist.') 
         );
       }
-    
     //   // 4) Check if user changed password after the token was issued
       if (currentUser.changedPasswordAfter(decoded.iat)) {
-        return next(
-          new AppError('User recently changed password! Please log in again.', 401)
-        );
+        res.status(400).send('User recently changed password! Please log in again.') 
       }
       // GRANT ACCESS TO PROTECTED ROUTE
       req.user = currentUser;
       next();
 
   });
+
+
+
   // user roles permission
   exports.restrictTo = (...roles) => { // ... to create array of roles depends on route
     // roles = ['أدمن' , 'مشرف']
-  
     return (req,res,next ) => {
       // console.log("role" ,"'"+req.user.role+"'");
      if(!roles.includes(req.user.role)){
-      // console.log("role" , roles);
+      res.status(400).send('You do not have permission to perform this action') 
       // console.log("role" , roles.includes("'"+req.user.role+"'"));
-      return next(new AppError('You do not have permission to perform this action', 401));
      }
      next();
     }

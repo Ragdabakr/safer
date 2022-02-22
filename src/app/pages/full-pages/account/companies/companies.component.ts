@@ -4,6 +4,7 @@ import { FlightTicketsService } from 'app/shared/services/flightTickets.service'
 import { FormGroup, FormControl } from '@angular/forms';
 import { ExportToCsv } from 'export-to-csv-file';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-companies',
@@ -22,11 +23,13 @@ export class CompaniesComponent implements OnInit {
   totalCredit: number;
   refundFlightTickets;
   fairFlightTickets;
+  user: any;
 
-  constructor(private flightTicketsService :FlightTicketsService  , private companyService: CompanyService , private sanitizer: DomSanitizer) { }
+  constructor(private authService : AuthService ,private flightTicketsService :FlightTicketsService  , private companyService: CompanyService , private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
    this.getCompanies();
+   this.user = this.authService.getUser();
    //this.getAirlines();
 
    this.form = new FormGroup({

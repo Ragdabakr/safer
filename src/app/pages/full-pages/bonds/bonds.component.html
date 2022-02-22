@@ -1,13 +1,15 @@
 
-<div class="row" matchHeight="card">
+<div class="row" matchHeight="card" *ngIf="user.role.sidebarPermissions.safebox === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
         <h4 class="card-title mb-0">الرئيسية / المالية / السندات</h4>
       </div>
+    </div>
+  </div>
 </div>
-<div class="row" matchHeight="card">
-  <div class="col-xl-12 col-lg-12">
+<div class="row" matchHeight="card"  *ngIf="user.role.sidebarPermissions.safebox === true">
+  <div class="col-xl-12 col-lg-12" >
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0">  اضافة سند </h4>
@@ -48,7 +50,7 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-12 col-lg-12" id="print-section">
+  <div class="col-xl-12 col-lg-12" id="print-section" >
     <div class="card">
       <div class="header">
           <button (click)="exportCSV()" class=" btn btn-default csv left" >
@@ -114,8 +116,14 @@
     </div>
   </div>
 </div>
-<div class="row" matchHeight="card">
-
+<div class="row" matchHeight="card" *ngIf="user.role.sidebarPermissions.safeBox === false">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> ليس لديك صلاحيات للسندات</h4>
+      </div>
+   </div>
+  </div>
 </div>
 
 

@@ -1,5 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { CommissionService } from 'app/shared/services/commission.service';
 import { CompanyService } from 'app/shared/services/company.service';
 import { ExportToCsv } from 'export-to-csv-file';
@@ -15,11 +16,13 @@ export class CommissionsComponent implements OnInit {
   totalDebitNumber=0;
   totalCreditNumber=0;
   commissions: any;
+  user: string;
 
-  constructor( private companyServices: CompanyService ,private commissionService:CommissionService) { }
+  constructor( private authService : AuthService ,private companyServices: CompanyService ,private commissionService:CommissionService) { }
 
   ngOnInit() {
     this.getCompanies();
+    this.user = this.authService.getUser();
   }
 
 

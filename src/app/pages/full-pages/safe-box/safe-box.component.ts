@@ -5,6 +5,7 @@ import { SafeboxService } from 'app/shared/services/safebox.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { ExportToCsv } from 'export-to-csv-file';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-safe-box',
@@ -20,19 +21,13 @@ export class SafeBoxComponent implements OnInit {
   hotelId: any;
   safeboxForm: FormGroup;
   safeboxes: any;
+  user: any;
 
-  constructor( private SafeboxService: SafeboxService,private toastr:ToastrService ) { }
+  constructor(private authService:AuthService , private SafeboxService: SafeboxService,private toastr:ToastrService ) { }
 
   ngOnInit() {
   this.getSafeboxes();
-        this.cols = [
-          { field: 'name', header: 'اسم الفندق ' },
-          { field: 'phone', header: 'الهاتف' },
-          { field: 'city', header: ' المدينة' },
-      ];
-    
-  
-
+  this.user = this.authService.getUser();
    this.dataForm = new FormGroup(
     {
                 title: new FormControl('', [

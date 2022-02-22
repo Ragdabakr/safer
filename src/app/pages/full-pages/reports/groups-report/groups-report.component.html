@@ -1,5 +1,5 @@
     <!--Tabset Starts-->
-    <div class="col-md-12 col-lg-12">
+    <div class="col-md-12 col-lg-12" *ngIf="user.role.sidebarPermissions.reports === true">
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">تقارير الرحلات</h4>
@@ -9,7 +9,6 @@
             <ngb-tabset>
               <ngb-tab title="الرحلات المفتوحة">
                 <ng-template ngbTabContent>
-                   
                   <div class="card-body">
                     <!-- <p-toolbar class="toolbar" >
                       <button (click)="createNewTour()" class=" btn btn-default" >
@@ -200,10 +199,17 @@
               </ngb-tab>
             </ngb-tabset>
           </div>
-        </div>
-       
+        </div>      
       </div>
-
-
     </div>
     <!--Tabset Ends-->   
+    <div class="row" matchHeight="card" *ngIf="user.role.sidebarPermissions.reports === false">
+      <div class="col-xl-12 col-lg-12">
+        <div class="card card-add" >
+          <div class="card-header"  >
+            <h4 class="card-title mb-0"> ليس لديك صلاحيات للتقارير</h4>
+          </div>
+       </div>
+      </div>
+    </div>
+    

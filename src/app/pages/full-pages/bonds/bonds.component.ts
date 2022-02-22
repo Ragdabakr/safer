@@ -7,6 +7,7 @@ import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { ExportToCsv } from 'export-to-csv-file';
 import { BondService } from 'app/shared/services/bond.service';
 import { CompanyService } from 'app/shared/services/company.service';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-bonds',
@@ -26,16 +27,16 @@ export class BondsComponent implements OnInit {
   companies: any;
   types= [ "سند صرف","سند قبض"]
   num: number;
+  user: any;
+  length;
 
 
-  constructor( private bondService: BondService,private toastr:ToastrService , private companyService: CompanyService,) { }
+  constructor( private authService : AuthService ,private bondService: BondService,private toastr:ToastrService , private companyService: CompanyService,) { }
 
   ngOnInit() {
   this.getBonds();
   this.getCompanies();
-
-
-
+  this.user = this.authService.getUser();
 
         this.bondForm = new FormGroup(
           {

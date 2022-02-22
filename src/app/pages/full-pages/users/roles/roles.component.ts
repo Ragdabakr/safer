@@ -164,51 +164,42 @@ updatePermissionForm(role){
     userPermissions: {
       addUser: role.userPermissions.addUser,
       editUser: role.userPermissions.editUser,
-      activeUser: role.userPermissions.activeUser,
+      deleteUser: role.userPermissions.deleteUser,
     },
     settingPermissions:{
-      addPartner:role.settingPermissions.addPartner,
+      addVisa: role.settingPermissions.addVisa,
       addFlightTickets:role.settingPermissions.addFlightTickets,
-      addHotel:role.settingPermissions.addHotel,
+      addHotel: role.settingPermissions.addHotel,
       addTour:role.settingPermissions.addTour,
-      addVisa:role.settingPermissions.addVisa,
       addCompany:role.settingPermissions.addCompany,
-    
+  
     },
 
     dashboardPermissions:{
-      tours: role.dashboardPermissions.tours,
-      reports: role.dashboardPermissions.reports,
-      flightTickets: role.dashboardPermissions.flightTickets,
-      hotels: role.dashboardPermissions.hotels,
-      companies: role.dashboardPermissions.companies,
-      users: role.dashboardPermissions.users,
-      accountStatement:role.dashboardPermissions.accountStatement,
+      bookTour:role.dashboardPermissions.bookTour,
+      bookVisa:role.dashboardPermissions.bookVisa,
+      addCompany:role.dashboardPermissions.addCompany,
+      bookFlightTickets:role.dashboardPermissions.bookFlightTickets,
+      bookHotel: role.dashboardPermissions.bookHotel,
     },
    sidebarPermissions:{
-      tours: role.sidebarPermissions.tours,
-      reports: role.sidebarPermissions.reports,
-      flightTickets: role.sidebarPermissions.flightTickets,
-      hotels: role.sidebarPermissions.hotels,
-      transports: role.sidebarPermissions.transports,
-      users: role.sidebarPermissions.users,
-      accounting: role.sidebarPermissions.accounting,
-      companies: role.sidebarPermissions.companies,
+    tours: role.sidebarPermissions.tours,
+    reports: role.sidebarPermissions.reports,
+    flightTickets: role.sidebarPermissions.flightTickets,
+    hotels: role.sidebarPermissions.hotels,
+    users: role.sidebarPermissions.users,
+    safeBox: role.sidebarPermissions.safeBox,
+    companies: role.sidebarPermissions.companies,
+    accountStatement:role.sidebarPermissions.accountStatement,
+    visas: role.sidebarPermissions.visas,
     },
    reportPermissions:{
-      toursProfits: role.reportPermissions.toursProfits,
-      companyProfits: role.reportPermissions.companyProfits,
-      flightTicketsProfits: role.reportPermissions.flightTicketsProfits,
-      hotelsProfits: role.reportPermissions.hotelsProfits,
-      visaProfits:role.reportPermissions.visaProfits,
-      tourProfits: role.reportPermissions.tourProfits,
-      tourReport: role.reportPermissions.tourReport,
-      accountingReport: role.reportPermissions.accountingReport,
+    tourReport: role.reportPermissions.tourReport,
+     accountingReport: role.reportPermissions.accountingReport,
    },
 
-
 });
-
+console.log("permissionForm >>>>" , this.permissionForm.value)
 }
 addPermissionsButton(permissionForm){
   console.log("permissionForm22" , permissionForm.value);

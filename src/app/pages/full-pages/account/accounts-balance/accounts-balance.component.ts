@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { CompanyService } from 'app/shared/services/company.service';
 import { ExportToCsv } from 'export-to-csv-file';
 
@@ -12,11 +13,14 @@ export class AccountsBalanceComponent implements OnInit {
   companies: any;
   totalDebitNumber=0;
   totalCreditNumber=0;
+  user: string;
 
-  constructor( private companyServices: CompanyService) { }
+  constructor(private authService : AuthService ,  private companyServices: CompanyService) { }
 
   ngOnInit() {
     this.getCompanies();
+    this.user = this.authService.getUser();
+  
   }
 
 

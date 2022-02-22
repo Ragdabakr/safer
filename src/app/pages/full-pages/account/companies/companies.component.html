@@ -1,5 +1,5 @@
 
-<div class="row" matchHeight="card">
+<div class="row" matchHeight="card" *ngIf="user.role.sidebarPermissions.accountStatement === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add">
       <div class="card-header">
@@ -94,5 +94,14 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+<div class="row" matchHeight="card" *ngIf="user.role.sidebarPermissions.accountStatement === false">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> ليس لديك صلاحيات كشف الحساب</h4>
+      </div>
+   </div>
   </div>
 </div>

@@ -20,8 +20,6 @@ import { AuthService } from 'app/shared/auth/auth.service';
 })
 export class UsersListComponent implements OnInit {
 
-  // users:Tours[];
-  // selectedUser: Tours;
   cols: { field: string; header: string; }[];
   totalUsers: number;
   length:any;
@@ -30,8 +28,6 @@ export class UsersListComponent implements OnInit {
   userDialog: boolean;
   submitted:any;
   errors:any;
-
-
   editUserForm: any;
   newUserDialog: boolean;
   createUserForm: any;
@@ -54,24 +50,23 @@ export class UsersListComponent implements OnInit {
     private authService:AuthService ,
 ) { }
 
+    // Create New User Form
+    newUserForm = this.fb.group ({
+      name : ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      role : ['', [Validators.required]],
+      email: ['', [Validators.required , Validators.email]],
+      passwordConfirmation: ['',[Validators.required, Validators.minLength(8)]],
+      password: ['',[Validators.required, Validators.minLength(8)]],
+  
+    });
+
    // Update User Form
   userForm = this.fb.group ({
-    name : ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    name : ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     role : ['', [Validators.required]],
     email: ['', [Validators.required , Validators.email]],
 
   });
-
-  // Create New User Form
-  newUserForm = this.fb.group ({
-    name : ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-    role : ['', [Validators.required]],
-    email: ['', [Validators.required , Validators.email]],
-    passwordConfirmation: ['',[Validators.required, Validators.minLength(8)]],
-    password: ['',[Validators.required, Validators.minLength(8)]],
-
-  });
-
 
 
   ngOnInit(): void {
@@ -86,10 +81,9 @@ getRoles(){
     res =>{
       let data = res['data'];
       this.roles = data.docs;
-      console.log("roles >>> , this.roles")
       },
       err =>{
-      console.log(err);
+        this.toastr.error('يوجد خطأ ما');
     }
   )
 }
@@ -101,10 +95,9 @@ getUsers(){
         let data = res['data'];
         this.users = data.docs;
         this.totalUsers= this.users.length;
-        console.log('users >>>',this.users);
         },
         err =>{
-        console.log(err);
+          this.toastr.error('يوجد خطأ ما');
       }
     )
   }
@@ -112,7 +105,6 @@ getUsers(){
 
 // // update userform with user values
 editUser(user) {
-  console.log("user",user);
   this.user = user;
   this.userDialog = true;
   this.userForm.patchValue({
@@ -120,7 +112,7 @@ editUser(user) {
     role : user.role,
     email : user.email,
    });
-   console.log('userform',this.userForm);
+ //  console.log('userform',this.userForm);
 }
 hideDialog() {
   this.userDialog = false;
@@ -138,7 +130,6 @@ submitEdituserForm(userForm ,userId){
   this.editUserForm = userForm.value;
   const editData= {
      name :  this.editUserForm.name,
-     phone : this.editUserForm.phone,
      role : this.editUserForm.role,
      email: this.editUserForm.email,
   }
@@ -153,17 +144,13 @@ submitEdituserForm(userForm ,userId){
        this.toastr.success('تم تعديل المستخدم بنجاح');
     },
     (error: HttpErrorResponse) =>{
-        console.log("nnhn",error);
-        console.log("edit user");
-    
-     if(error.error.message === 'You do not have permission to perform this action'){
+     if(error.error === 'You do not have permission to perform this action'){
       this.toastr.error('ليس لديك صلاحية التعديل علي المستخدمين');
       this.userDialog = false;
      }
     }),
     err =>{
       this.toastr.error(' لم يتم تعديل المستخدم  ');
-       console.log(err);
      }
     }
   }
@@ -178,9 +165,8 @@ submitEdituserForm(userForm ,userId){
     this.getUsers();
   }
 
-//   // Submit Create user Form
+// Submit Create user Form
   submitCreateUserForm(newUserForm){
- console.log('newUserForm >>>',newUserForm.value);
   this.createUserForm = newUserForm.value;
   const createDataUser= {
      name :  this.createUserForm.name,
@@ -202,18 +188,15 @@ submitEdituserForm(userForm ,userId){
        this.getUsers();
        },
        (error: HttpErrorResponse) =>{
-        //  console.log(error);
-      
-       if(error.error.message === 'This email belongs to another user'){
-        this.toastr.error(' الايميل مستخدم من قبل');
-       }
-       
-     if(error.error.message === 'You do not have permission to perform this action'){
-      this.toastr.error('ليس لديك صلاحية انشاء مستخدم جديد');
-      this.newUserDialog = false;
+       // console.log("error >>>>" ,error);
+      if(error.error === 'This email belongs to another user'){
+      this.toastr.error(' الايميل مستخدم من قبل');
+    }
+      if(error.error === 'You do not have permission to perform this action'){
+        this.toastr.error('ليس لديك صلاحية انشاء مستخدم جديد');
+        this.newUserDialog = false;
      }
-
-       if(error.error.message === 'This name belongs to another user'){
+       if(error.error === 'This name belongs to another user'){
         this.toastr.error('الاسم غير متاح الرجاء اختيار اسم اخر');
        }
 
@@ -234,7 +217,7 @@ validateAllFormFields(formGroup: FormGroup) {
   });
   }
 
-
+//Export csv
   exportCSV(){
     const options = { 
       fieldSeparator: ',',
@@ -242,7 +225,7 @@ validateAllFormFields(formGroup: FormGroup) {
       decimalSeparator: '.',
       showLabels: true, 
       showTitle: true,
-      title: 'My Awesome CSV',
+      title: 'الموظفين',
       useTextFile: false,
       useBom: true,
       useKeysAsHeaders: true,
@@ -258,7 +241,6 @@ validateAllFormFields(formGroup: FormGroup) {
 
 //   // Disable User
   disableUser(userId){
-    console.log('userId' ,userId);
    const userData ={
       active : false 
    }
@@ -267,7 +249,7 @@ validateAllFormFields(formGroup: FormGroup) {
     this.toastr.success('تم تعديل  بنجاح');
    },
    (error: HttpErrorResponse) =>{
-  if(error.error.message === 'You do not have permission to perform this action'){
+  if(error.error === 'You do not have permission to perform this action'){
   this.toastr.error('ليس لديك صلاحية الغاء تفعيل مستخدم');
   this.getUsers();
   }
@@ -275,11 +257,10 @@ validateAllFormFields(formGroup: FormGroup) {
   });
     err =>{
       this.toastr.error(' لم يتم تعديل المستخدم');
-        console.log(err);
       }
     }
 
-//   //Enable user
+//Enable user
   enableUser(userId){
     const userData ={
        active : true 
@@ -289,34 +270,14 @@ validateAllFormFields(formGroup: FormGroup) {
      this.toastr.success('تم تعديل المستخدم بنجاح');
        } ,
       (error: HttpErrorResponse) =>{
-        if(error.error.message === 'You do not have permission to perform this action'){
+        if(error.error=== 'You do not have permission to perform this action'){
         this.toastr.error('ليس لديك صلاحية  تفعيل مستخدم');
         this.getUsers();
       }
-    
       });
      err =>{
-      this.toastr.error(' لم يتم تعديل المستخدم');
-         console.log(err);
-         
+      this.toastr.error(' لم يتم تعديل المستخدم'); 
        }
      }
-
-
-//   //Global Search
-//   onRowSelect(event) {
-//     this.newUser = false;
-//     this.user = this.cloneUser(event.data);
-//     this.displayDialog = true;
-// }
-
-//   cloneUser(u: User): User {
-
-//     for (let prop in u) {
-//         this.user[prop] = u[prop];
-//     }
-//     return this.user;
-
-//   }
 
 }

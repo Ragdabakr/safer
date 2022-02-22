@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { TourService } from 'app/shared/services/tour.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class GroupsReportComponent implements OnInit {
   detailsTourDialog: boolean =false;
   closedTours = [];
   toursSeats: any;
+  user: any;
 
 
 
@@ -32,10 +34,11 @@ export class GroupsReportComponent implements OnInit {
     }
   };
 
-  constructor( private tourService:TourService,private router: Router  , private route: ActivatedRoute) { }
+  constructor(private authService:AuthService, private tourService:TourService,private router: Router  , private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getTours();
+    this.user = this.authService.getUser();
   }
   // Get Tours
 getTours(){
