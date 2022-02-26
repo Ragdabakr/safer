@@ -56,10 +56,12 @@
                                           <div class="row">
 
                                               <div class="form-group col-sm-6">
-                                                  <app-input inputType="text"
+                                                <label>الرحلة</label>  <span class="red">*</span>
+                                                <input type="text" readOnly  class="form-control" [value]="tour.name"/>
+                                                  <!-- <app-input inputType="text" readOnly
                                                              label="اسم الرحلة"
                                                              value='tour.name'
-                                                             [control]="dataForm.get('name')"></app-input>
+                                                             [control]="dataForm.get('name')"></app-input> -->
                                               </div>
 
 
@@ -116,49 +118,6 @@
                                       </div>
 
                     
-
-                                      <!-- <div class="form-group col-sm-12 borderSection">
-                                          <label for="street">مكان التجمع</label>
-                                          <hr>
-                                          <div formGroupName="startLocation">
-                                              <div class="row">
-                                                  <div class="form-group col-sm-6">
-                                                      <label for="street">اليوم</label>
-                                                      <input type="text" formControlName="day" class="form-control">
-                                                  </div>
-                                                  <div class="form-group col-sm-6">
-                                                      <label for="houseNumber">العنوان</label>
-                                                      <input type="text" formControlName="address" class="form-control">
-                                                  </div>
-                
-                                                  <div class="form-group col-sm-6">
-                                                      <label for="postalCode">خط الطول</label>
-                                                      <span>
-                                                          <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
-                                                                  popoverTitle="خط الطول ( 21.596798)">
-                                                              ?
-                                                          </button>
-                                                      </span>
-                                                      <input type="text" formControlName="longitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
-                                                  </div>
-                                                  <div class="form-group col-sm-6">
-                                                      <label for="postalCode">خط العرض</label>
-                                                      <span>
-                                                          <button type="button" class="btn btn-outline-danger mr-1 mb-1" placement="top" ngbPopover="you can find this coordinates in google map location"
-                                                                  popoverTitle="خط العرض (39.162380 )">
-                                                              ?
-                                                          </button>
-                                                      </span>
-                                                      <input type="text" formControlName="latitude" class="keyword-input with-border form-control " placeholder="e.g. 21.596798, 39.162380" />
-                                                  </div>
-                                                  <div class="form-group col-sm-12">
-                                                      <label for="postalCode">عنوان التجمع</label>
-                                                      <input type="text" formControlName="description" class="form-control">
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div> -->
-
                                       <div class="borderSection">
                                           <div class="form-group">
                                               <div class="col-md-12"  [ngClass]="{'has-error': dataForm.get('description').errors &&
@@ -173,22 +132,8 @@
                                                 <p  *ngIf="dataForm.get('description').errors.maxLength"> أكثر عدد حروف 500</p>
                                             </div>
                                           </div>
-                                          <!-- <div class="form-group">
-                                              <div class="col-md-12" [ngClass]="{'has-error': dataForm.get('description').errors &&
-                                              (dataForm.get('description').touched || dataForm.get('description').dirty)}">
-                                                  <label class="label-control" for="userinput6">الملخص</label><span class="red">*</span>
-                                                  <textarea class="form-control" value="tour.summary"  formControlName="summary"  rows="4" cols="160"></textarea>
-                                              </div>
-                                              <div class="help-block"  *ngIf="dataForm.get('summary').errors &&
-                                              (dataForm.get('summary').touched || dataForm.get('summary').dirty)" class="ui pointing red basic label">
-                                                <p  *ngIf="dataForm.get('summary').errors.required">وصف الرحلة مطلوب </p>
-                                                <p   *ngIf="dataForm.get('summary').errors.minLength">اقل عدد حروف 9 </p>
-                                                <p  *ngIf="dataForm.get('summary').errors.maxLength"> أكثر عدد حروف 100</p>
-                                            </div>
-                                          </div> -->
                                       </div> 
-
-                                  </div>
+                                    </div>
                                   <button  (click)="editTourInformation(dataForm)" class="btn  btn-primary editbutton"><i class="fa fa-edit" aria-hidden="true"></i></button>
                               </div>
                           </div>
@@ -294,8 +239,6 @@
                         </div>
                       </div>
                       <!-- End tour trip Locations-->
-
-                      <!-- Edit tour trip locations-->
                       
                          <form *ngIf="editTripLocations && dataForm" [formGroup]="locationForm" class="editForm" novalidate>
                           

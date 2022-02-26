@@ -19,7 +19,7 @@
 						<div class="media-body white text-left">
 							
 							<h3 class="font-large-1 mb-0"> ريال {{totalEarings}}</h3>
-							<p class="box-title">مجموع المبيعات</p>
+							<p class="box-title">مجموع الوارد</p>
 							<p class="box-title"></p>
 						</div>
 						<div class="media-right white text-right">
@@ -38,8 +38,12 @@
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
-						<div class="media-body white text-left">
+						<div class="media-body white text-left" *ngIf="totalTourCosts > 0">
 							<h3 class="font-large-1 mb-0">ريال{{totalTourCosts}}</h3>
+							<p class="box-title"> مجموع التكلفة</p>
+						</div>
+            <div class="media-body white text-left" *ngIf="!totalTourCosts">
+							<h3 class="font-large-1 mb-0">0</h3>
 							<p class="box-title"> مجموع التكلفة</p>
 						</div>
 						<div class="media-right white text-right">
@@ -81,7 +85,7 @@
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{paymentArray.length}}</h3>
+							<h3 class="font-large-1 mb-0">{{totalRemaining}}</h3>
 							<p class="box-title"> ديون المسافرين</p>
 						</div>
 						<div class="media-right white text-right">
@@ -101,9 +105,9 @@
                    <button (click)="addCost()" class=" btn btn-default" >
                     <i class="icon-plus icon"></i>  اضافة كلفة 
                   </button>
-                  <!-- <button (click)="exportCSV()" class=" btn btn-default right" >
+                  <button (click)="exportCSV()" class=" btn btn-default right" >
                     <i class="icon-share-alt icon"></i>  CSV
-                  </button>  -->
+                  </button> 
 
                   <button *ngIf="paymentArray.length === 0" (click)="closeTour()" class=" btn btn-default" >
                     <i class="icon-plus icon"></i>   اغلاق الرحلة 
@@ -111,15 +115,13 @@
                   
                 </p-toolbar> 
 
-                <p *ngFor="let traveller of travellerInfo">
-                  {{traveller.firstName}}
-                </p>
+                
 
-             <p-table #dt [value]="bookings" dataKey="number" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
-              currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
-              [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
-              [responsive]="true" selectionMode="single"
-              [filterDelay]="0" [globalFilterFields]="['number','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
+                <p-table #dt [value]="bookings" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+                currentPageReportTemplate="الحجوزات" [style]="{'width':'100%','overflow':'auto!important'}"
+                [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
+                [responsive]="true" selectionMode="single"
+                [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
               <ng-template pTemplate="caption">
                 <div class="ui-table-globalfilter-container">
                   <div class="form-group">
@@ -136,12 +138,13 @@
                 <tr>
                    
                     <th pSortableColumn="number"> رقم الحجز <p-sortIcon field="number"></p-sortIcon></th>
-                    <th pSortableColumn="name">المسافر<p-sortIcon field="name"></p-sortIcon></th>
-                    <th pSortableColumn="name">جواز السفر<p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="traveller.firstName">المسافر<p-sortIcon field="traveller.firstName"></p-sortIcon></th>
+                    <th pSortableColumn="passportNo">جواز السفر<p-sortIcon field="passportNo"></p-sortIcon></th>
                     <th pSortableColumn="phone">الهاتف<p-sortIcon field="phone"></p-sortIcon></th>
                     <th pSortableColumn="email">البريد الالكتروني<p-sortIcon field="email"></p-sortIcon></th>
                     <th pSortableColumn="createdAt">تاريخ حجز الرحلة <p-sortIcon field="createdAt"></p-sortIcon></th>
-                    <th pSortableColumn="maxGroupSize">  المبلغ الكلي <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                    <th pSortableColumn="maxGroupSize">  المبلغ المدفوع <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                    <th pSortableColumn="maxGroupSize">  المبلغ المتبقي <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
                     <th pSortableColumn="tourInfo.adult">   نوع المسافرين <p-sortIcon field="tourInfo.adult"></p-sortIcon></th>
                     <th pSortableColumn="">  اتمام الدفع <p-sortIcon field=" "></p-sortIcon></th>
                 </tr>
@@ -164,7 +167,8 @@
                     <td>{{booking?.contactInfo.phone}}</td>
                     <td>{{booking?.contactInfo.email}}</td>
                     <td>{{booking?.createdAt | date}}</td>
-                    <td>{{booking?.paymentInfo.totalPrice}}</td>
+                    <td>{{booking?.paymentInfo.receivedAmount}}</td>
+                    <td>{{booking?.paymentInfo.remainingAmount}}</td>
                     <td> 
                       <p>البالغين: {{booking?.tourInfo.adult}}</p>
                       <p> الأطفال: {{booking?.tourInfo.child}}</p>
@@ -173,7 +177,7 @@
                     <td>
                       <span class="badge badge-success  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'تأكيد حجز المبلغ كامل'"> {{booking?.paymentInfo.orderStatus}}</span>
                       <span class="badge badge-warning  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'حجز بدون دفع'"> {{booking?.paymentInfo.orderStatus}}</span>
-                      <span class="badge badge-primary  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'دفع بتحويل بنكي'"> {{booking?.paymentInfo.orderStatus}}</span>
+                      <span class="badge badge-primary  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'حجز جزء من المبلغ'"> {{booking?.paymentInfo.orderStatus}}</span>
                       <span class="badge badge-danger  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'الغاء الحجز'"> {{booking?.paymentInfo.orderStatus}}</span>
                      </td>
             

@@ -28,10 +28,8 @@ const bookingSchema = new mongoose.Schema({
       tourPrice:Number,
       orderStatus: String,
       bankNo:String,
-      bankPaymentPhoto:{
-        imgVersion: { type: String, default: '1585916456' },
-        imageId: { type: String , default: 'uyrewqqaswdfgh'},
-    },
+      receivedAmount: Number,
+      remainingAmount: Number,
     },
     contactInfo: {
           fullName: { type: String },
@@ -39,6 +37,12 @@ const bookingSchema = new mongoose.Schema({
           email: String,
           address: String,
       },
+      cancel: {
+        type: Boolean, default: false
+    },
+    createdInvoice: {
+      type: Boolean, default: false
+  },
     travellerInfo: [{
         firstName: { type: String },
         lastName: String,
@@ -46,6 +50,8 @@ const bookingSchema = new mongoose.Schema({
         age: String,
     }],
   },
+
+
   
     {
         toJSON: { virtuals: true },

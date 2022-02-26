@@ -11,7 +11,7 @@ router
   .route('/')
   .get(authController.protect , bookingController.getAllBookings)
 
- router.use(authController.protect , authController.restrictTo('أدمن' , 'مشرف'));
+// router.use(authController.protect , authController.restrictTo('أدمن' , 'مشرف'));
 
 router
   .route('/')

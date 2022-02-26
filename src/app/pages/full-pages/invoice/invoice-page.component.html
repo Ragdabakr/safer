@@ -12,18 +12,18 @@
           <div class="col-md-12 col-sm-12 text-center text-md-left">
             <img  [src]="sanitizer.bypassSecurityTrustUrl('/assets/img/logos/travel.png')" alt="company logo" class="mb-2" width="80" height="80">
             <ul class="px-0 list-unstyled">
-              <li class="text-bold-800">شركة سفريات</li>
-              <li> 966551660577+ </li>
-              <li> جدة/ المملكة العربية السعودية</li>
+              <li class="text-bold-800">{{companyAccount[0].name}}</li>
+              <li> {{companyAccount[0].phone}} </li>
+              <li> {{companyAccount[0].address}}</li>
             </ul>
           </div>
           <div class="col-md-12 col-sm-12 text-center text-md-right">
-            <p><span class="text-muted">رقم الفاتورة :</span># {{invoice.number}}</p>
+            <p><span class="text-muted">رقم الفاتورة :</span># {{invoice?.number}}</p>
             <p><span class="text-muted">تاريخ الفاتورة :</span> {{invoice?.createdAt | date }}</p>
-            <p><span class="text-muted">طريقة الدفع :</span> {{invoice.bookingInfo.paymentInfo.paymentWay}}</p>
-            <p><span class="text-muted"> الاسم :</span> {{invoice.bookingInfo.contactInfo.fullName}}</p>
-            <p><span class="text-muted"> الايميل :</span>{{invoice.bookingInfo.contactInfo.email}}</p>
-            <p><span class="text-muted"> الجوال :</span>{{invoice.bookingInfo.contactInfo.phone}}</p>
+            <p><span class="text-muted">طريقة الدفع :</span> {{invoice?.paymentInfo.paymentWay}}</p>
+            <p><span class="text-muted"> الاسم :</span> {{invoice?.contactInfo.fullName}}</p>
+            <p><span class="text-muted"> الايميل :</span>{{invoice?.contactInfo.email}}</p>
+            <p><span class="text-muted"> الجوال :</span>{{invoice?.contactInfo.phone}}</p> 
           </div>
         </div>
         <!--/ Invoice Company Details -->
@@ -37,34 +37,37 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>#</th>
                     <th>  اسم الرحلة</th>
                     <th class="text-right">تاريخ الرحلة</th>
                     <th class="text-right">تاريخ الحجز</th>
                     <th class="text-right">عدد البالغين</th>
                     <th class="text-right">عدد الاطفال</th>
+                    <th class="text-right">عدد الرضع</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">1</th>
-                    <td><p class="text-left">{{invoice?.bookingInfo.tourName.name}}</p></td>
-                    <td ><p class="text-right">{{invoice?.bookingInfo.tourInfo.tourDate | date}}</p></td>
-                    <td ><p class="text-right">{{invoice?.bookingInfo.createdAt | date}}</p></td>
-                    <td><p class="text-right">{{invoice?.bookingInfo.tourInfo.adult}}</p></td>
+                    <td><p class="text-left">{{invoice?.tourName.name}}</p></td>
+                    <td ><p class="text-right">{{invoice?.tourInfo.tourDate | date}}</p></td>
+                    <td ><p class="text-right">{{invoice?.createdAt | date}}</p></td>
+                   <td><p class="text-right">{{invoice?.tourInfo.adult}}</p></td> 
                     <td>
                       <p class="text-right">
-                        <span *ngIf="invoice?.bookingInfo.tourInfo.child.length === 0"> 0 </span>
-                        <span *ngIf="invoice?.bookingInfo.tourInfo.child.length > 0"> {{invoice?.bookingInfo.tourInfo.child}} </span>
+                        <span > {{invoice?.tourInfo.child}} </span>
                       </p>
-                      </td>
+                    </td> 
+                    <td>
+                      <p class="text-right">
+                        <span > {{invoice?.tourInfo.infant}} </span>
+                      </p>
+                    </td> 
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12 col-sm-12 text-left" *ngIf="invoice?.bookingInfo.paymentInfo.paymentWay === 'تحويل بنكي'">
+            <div class="col-md-12 col-sm-12 text-left" *ngIf="invoice?.paymentInfo.paymentWay === 'تحويل بنكي'">
               <p class="lead">بيانات التحويل</p>
               <div class="row">
                 <div class="col-12">
@@ -73,7 +76,7 @@
                       <tr>
                         <td>صورة الوصل:</td>
                         <td class="text-right">
-                          <img class="full-img-top img-fluid" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{invoice.bookingInfo.paymentInfo.bankPaymentPhoto.imgVersion}}/{{invoice.bookingInfo.paymentInfo.bankPaymentPhoto.imageId}}.png" alt="Card image cap">
+                          <img class="full-img-top img-fluid" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{invoice.paymentInfo.bankPaymentPhoto.imgVersion}}/{{invoice.paymentInfo.bankPaymentPhoto.imageId}}.png" alt="Card image cap">
                         </td>
                       </tr>
                       
@@ -87,21 +90,22 @@
               <div class="table-responsive">
                 <table class="table">
                   <tbody>
-                    <tr>
-                      <td>سعر الرحلة</td>
-                      <td class="text-right">ريال {{invoice?.bookingInfo.paymentInfo.tourPrice}}</td>
-                    </tr>
+                  
                     <tr>
                       <td>السعر الكلي</td>
-                      <td class="text-right">ريال {{invoice?.bookingInfo.paymentInfo.totalPrice}}</td>
+                      <td class="text-right">ريال {{invoice?.paymentInfo.totalPrice}}</td>
                     </tr>
                     <tr>
                       <td>طريقة الدفع</td>
-                      <td class="pink text-right">{{invoice.bookingInfo.paymentInfo.paymentWay}}</td>
+                      <td class="pink text-right">{{invoice.paymentInfo.paymentWay}}</td>
                     </tr>
                     <tr class="bg-grey bg-lighten-4">
-                      <td class="text-bold-800">السعر الكلي</td>
-                      <td class="text-bold-800 text-right">ريال {{invoice?.bookingInfo.paymentInfo.totalPrice}}</td>
+                      <td class="text-bold-800"> المبلغ المدفوع</td>
+                      <td class="text-bold-800 text-right">ريال {{invoice?.paymentInfo.receivedAmount}}</td>
+                    </tr>
+                    <tr class="bg-grey bg-lighten-4">
+                      <td class="text-bold-800"> المبلغ المتبقي</td>
+                      <td class="text-bold-800 text-right">ريال {{invoice?.paymentInfo.remainingAmount}}</td>
                     </tr>
                   </tbody>
                 </table>

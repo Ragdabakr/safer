@@ -44,8 +44,6 @@ import { DialogModule } from 'primeng/dialog';
 import { TravelAgentsModule } from './travel-agents/travel-agents.module';
 import { FlightTicketsComponent } from './flight-tickets/flight-tickets.component';
 import { flightTicketsModule } from './flight-tickets/flight-tickets.module';
-import { FlightTicketsInvoicesListComponent } from './invoice/flight-tickets-invoices-list/flight-tickets-invoices-list.component';
-import { FlightTicketInvoiceComponent } from './invoice/flight-ticket-invoice/flight-ticket-invoice.component';
 import { AccountComponent } from './account/account.component';
 import { AccountModule } from './account/account.module';
 import { TabsComponent } from 'app/components/bootstrap/tabs/tabs.component';
@@ -113,8 +111,6 @@ import { CancelVisaComponent } from './visa/cancel-visa/cancel-visa.component';
         GuidesComponent,
         InvoiceListComponent,
         FlightTicketsComponent,
-        FlightTicketsInvoicesListComponent,
-        FlightTicketInvoiceComponent,
         TabsComponent,
         SafeBoxComponent,
         BondsComponent,

@@ -12,10 +12,12 @@ const catchAsync = require('./../utils/catchAsync');
 exports.createBond = catchAsync(async(req, res) => {
     const user = req.user;
     const data= req.body.data;
-
+ console.log("data kkk" ,data);
     const newBond = await Bond.create(req.body.data);
     // console.log("newBond kkk" ,newBond);
     const newBondInvoice = await BondInvoice.create(req.body.data);
+    if(req.body.data.accountName._id){
+      if(req.body.data.type === 'سند صرف'){
     Company.findById({_id:req.body.data.accountName._id}, async function(err,foundCompany){
         if (err) {console.log(err); 
        }
@@ -39,6 +41,42 @@ exports.createBond = catchAsync(async(req, res) => {
           data: newBond
       }
     });
+  }
+
+  if(req.body.data.type === 'سند قبض'){
+    Company.findById({_id:req.body.data.accountName._id}, async function(err,foundCompany){
+        if (err) {console.log(err); 
+       }
+       foundCompany.credit = foundCompany.credit +parseInt(req.body.data.amount);
+
+       foundCompany.companyReport.push({
+           debit :0,
+           credit :req.body.data.amount, 
+           name:req.body.data.type,
+           description : req.body.data.notes,
+           date : Date.now(),
+           user : req.user.name,
+        });
+        
+        await foundCompany.save();
+    });
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+          data: newBond
+      }
+    });
+  }
+
+  }else{
+    res.status(201).json({
+      status: 'success',
+      data: {
+          data: newBond
+      }
+    });
+  }
 });
 // ------- Get Bond Invoice------//
 exports.getBondInvoice = catchAsync(async(req, res) => {

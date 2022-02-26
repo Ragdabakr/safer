@@ -29,8 +29,6 @@ import { InvoiceListComponent } from './invoice/invoice-list/invoice-list.compon
 import { RolesComponent } from './users/roles/roles.component';
 import { FlightTicketsComponent } from './flight-tickets/flight-tickets.component';
 import { BookingFlightTicketComponent } from './flight-tickets/booking-flight-ticket/booking-flight-ticket.component';
-import { FlightTicketsInvoicesListComponent } from './invoice/flight-tickets-invoices-list/flight-tickets-invoices-list.component';
-import { FlightTicketInvoiceComponent } from './invoice/flight-ticket-invoice/flight-ticket-invoice.component';
 import { CompaniesComponent } from './account/companies/companies.component';
 import { GroupsReportComponent } from './reports/groups-report/groups-report.component';
 import { GroupReportComponent } from './reports/group-report/group-report.component';
@@ -173,20 +171,7 @@ const routes: Routes = [
                   title: 'cancelFlightTicket'
                   }
                 },
-              {
-                path: 'flightTicketsInvoices',
-                component:FlightTicketsInvoicesListComponent,
-                data: {
-                  title: 'FlightTicketsInvoices'
-                  }
-                },
-                {
-                  path: 'flightTicketInvoice/:invoiceId',
-                  component:FlightTicketInvoiceComponent,
-                  data: {
-                    title: 'FlightTicketInvoice'
-                    }
-                  },
+           
                   {
                     path: 'invoices/:invoiceId',
                     component:InvoiceComponent,

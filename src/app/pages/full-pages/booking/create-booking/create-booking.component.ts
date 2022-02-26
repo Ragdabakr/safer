@@ -36,8 +36,8 @@ export class CreateBookingComponent implements OnInit {
   travellerForm: FormGroup;
   tours: [];
   tourDates: [];
-  paymentWays = [{"name":"كاش"} , {"name":"تحويل بنكي"}];
-  bookingStatus = [  'دفع بتحويل بنكي' ,'حجز بدون دفع' , 'تأكيد حجز المبلغ كامل'  ];
+  paymentWays = [{"name":"نقدا"} , {"name":"أجل"}];
+  bookingStatus = [  'حجز جزء من المبلغ' ,'حجز بدون دفع' , 'تأكيد حجز المبلغ كامل'];
       //Alert
       error: boolean = false;
       alert: string;
@@ -64,13 +64,14 @@ export class CreateBookingComponent implements OnInit {
     childPrice: any;
     infantPrice: any;
     infant: any;
-    userApp: string;
+    user: string;
+    
 
   constructor(private fb: FormBuilder ,private authService:AuthService,   private tourService:TourService, private bookingService:BookingService,
      private toastr:ToastrService ) { }
 
   ngOnInit() {
-    this.userApp = this.authService.getUser();
+    this.user = this.authService.getUser();
     const input = document.querySelector("#phone");
     intlTelInput(input, {
         // any initialisation options go here
@@ -117,11 +118,11 @@ export class CreateBookingComponent implements OnInit {
                       tourDate: new FormControl('', [
                           Validators.required,
                       ]),
-                      adult: new FormControl('', [
+                      adult: new FormControl('0', [
                           Validators.required,
                       ]),
-                      child : new FormControl('', []),
-                      infant: new FormControl('', []),
+                      child : new FormControl('0', []),
+                      infant: new FormControl('0', []),
                   }),  
                   }
                 );
@@ -143,6 +144,10 @@ export class CreateBookingComponent implements OnInit {
                             orderStatus : new FormControl('', [
                                 Validators.required,
                             ]),
+                            receivedAmount:  new FormControl('0', [
+                                Validators.required,
+                            ]),
+                            remainingAmount: new FormControl('0'),
                         }),  
                         }
                       );
@@ -219,7 +224,6 @@ onTourChange(tourId: string): void {
     }
 }
 onPaymentChange(paymentWay: string): void {
-  console.log("paymentWay",paymentWay);
   this.paymentWayCheck = paymentWay;
 }
 
@@ -340,7 +344,7 @@ OnFileSelect(event) {
           this.error = true;
           setTimeout(() => {
               this.error = false;
-          }, 8000);
+          }, 1000);
       }
       else {
         var inputs = document.querySelector('#phone');
@@ -368,9 +372,10 @@ OnFileSelect(event) {
                   setTimeout(() => {
                       this.success = true;
                       window.location.href = '/full-layout/full-pages/booking';
-                  }, 2000);
+                  }, 1000);
               },
                   (error: HttpErrorResponse) =>{
+                      console.log("error >>>>" ,error);
                     //   if(error.error.errors[0].title === "Invalid tour name!"){
                     //       this.toastr.error('اسم الرحلة مستخدم من قبل');
                     //   }

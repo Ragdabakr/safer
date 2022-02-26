@@ -5,12 +5,6 @@ const reviewController = require('./../controllers/reviewController');
 const reviewRoutes = require('./../routes/reviewRoutes');
 const router = express.Router();
 
-// router
-//   .route('/:tourId/reviews')
-//   .post(
-//     authController.protect ,
-//     authController.restrictTo('user'),
-//     reviewController.createReview);
 
     router.use('/:tourId/reviews' , reviewRoutes);
 
@@ -22,7 +16,7 @@ router
   router.route('/tour-diffculty-stats').get(tourController.getTourDiffcultyStats);
   router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
   router.route('/weekly-plan/:year').get(tourController.getWeeklyPlan);
-  router.route('/test').get(tourController.getTest);
+
 
 
 
@@ -39,17 +33,6 @@ router
   .post(authController.protect ,
         tourController.createTour)
 
-
-        // router
-        // .route('/costs')
-        // .post(authController.protect ,
-        //       authController.restrictTo('أدمن' , 'مشرف'), 
-        //       tourController.createTourCost)
-      
-        // .delete(authController.protect ,
-        //         authController.restrictTo('أدمن' , 'مشرف'), 
-        //         tourController.deleteAllTours);
-
 // router.use(authController.protect ,  authController.restrictTo('أدمن' , 'مشرف'));
 
 router
@@ -57,8 +40,6 @@ router
   .get(tourController.getTour)
   .patch(tourController.updateTour)
   .delete(tourController.deleteTour);
-
-
 
   router
   .route('/costs/:tourId')
@@ -119,10 +100,6 @@ router
   router
   .route('/closeTour/:id')
   .patch(tourController.closeTour);
-  
 
-  // router
-  // .route('/:tourId/reviews/:reviewId')
-  // .patch(reviewController.updateReview );
 
 module.exports = router;

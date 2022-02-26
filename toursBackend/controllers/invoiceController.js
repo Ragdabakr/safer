@@ -17,36 +17,25 @@ cloudinary.config({
 // ---------------- Create new invoice---------------- 
 
 exports.createInvoice =  catchAsync(async (req, res) => {
-    const getRandomBookingId = (min = 0, max = 800000) => {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      const num =  Math.floor(Math.random() * (max - min + 1)) + min;
-      return num.toString().padStart(6, "0");
-    };
-
-    const newInvoice = await Invoice.create(req.body.data);
-    Booking.findOne({_id:newInvoice.bookingInfo}, async function(err,myBooking){
-        if (err) {
-            console.log(err);
-          }
-
-        //   console.log("myBooking >>>>" ,myBooking );
-        newInvoice.number = getRandomBookingId();
-        newInvoice. completed = true;
-        newInvoice.save();
-        res.status(201).json({
-        status: 'success',
-        data: {
-            data: newInvoice
-            }
-        });   
-    });
-
+  const user = req.user;
+  const data= req.body.data;
+  const newInvoice = await Invoice.create(req.body.data);
+  Booking.findOne({number:newInvoice.number}, async function(err,foundBooking){ 
+    if (err) {console.log(err); }
+      foundBooking.createdInvoice = true;
+     foundBooking.save();
+  res.status(201).json({
+    status: 'success',
+    data: {
+        data: foundBooking
+    }
+     });
+  });
  });
 
 
-exports.getInvoice = factory.getOne(Invoice ,  {path :'bookingInfo'});
-exports.getAllInvoices = factory.getAll(Invoice , {path :'bookingInfo'});
+exports.getInvoice = factory.getOne(Invoice ,  {path :'tourName'});
+exports.getAllInvoices = factory.getAll(Invoice , {path :'tourName'});
 exports.updateInvoice = factory.updateOne(Invoice);
 exports.deleteInvoice= factory.deleteOne(Invoice);
 

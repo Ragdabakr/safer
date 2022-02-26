@@ -1,6 +1,6 @@
 <div class="field">
     <label>{{ label }}</label>  <span class="red">*</span>
-    <input [type]="inputType"  [formControl]="control" class="form-control" />
+    <input [type]="inputType"  [formControl]="control" class="form-control" [disabled]="false" />
     <div *ngIf="showErrors()" class="ui pointing red basic label">
         <p *ngIf="control.errors.required">
              الخانة مطلوبة

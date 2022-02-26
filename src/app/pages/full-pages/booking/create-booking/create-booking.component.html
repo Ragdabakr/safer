@@ -1,4 +1,12 @@
-
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookTour === true">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> اضافة حجز برنامج سياحي </h4>
+      </div>
+    </div>
+  </div>
+</div>
 <section id="ngx" >
     <div class="card" >
         <div class="card-content">
@@ -11,7 +19,7 @@
                         <strong>!</strong> {{successAlert}}
                     </ngb-alert>
                 </p>
-                <aw-wizard #wizard navBarLayout="large-empty-symbols">
+                <aw-wizard #wizard navBarLayout="large-empty-symbols" >
                     <aw-wizard-step [stepTitle]="'المسافرين'" [navigationSymbol]="{ symbol: '&#xf013;', fontFamily: 'FontAwesome' }">
                         <form [formGroup]="travellerForm"  novalidate>
                             <!-- {{dataForm.value |json}} -->
@@ -26,7 +34,7 @@
                                                       <div class="keyword-input-container" [formGroupName]='i'>
                                                         <hr *ngIf="i>0">
                                                           <div class="row">
-                                                              <div class="form-group col-sm-6">
+                                                              <div class="form-group col-md-6   col-sm-12 ">
                                                                   <label class=" label-control" for="userinput6"> اسم المسافر</label><span class="red">*</span>
                                                                   <div class="input-group">
                                                                       <input class="form-control" type="text" name="dp" formControlName="firstName" >
@@ -35,7 +43,7 @@
                                                                    اسم المسافر مطلوب
                                                                   </span>
                                                               </div>
-                                                              <div class="form-group col-sm-6">
+                                                              <div class="form-group col-md-6   col-sm-12 ">
                                                                 <label class=" label-control" for="userinput6"> اسم العائلة </label><span class="red">*</span>
                                                                 <div class="input-group">
                                                                     <input class="form-control" type="text" name="dp" formControlName="lastName" >
@@ -44,7 +52,7 @@
                                                                     اسم العائلة مطلوب
                                                                 </span>
                                                             </div>
-                                                            <div class="form-group col-sm-6">
+                                                            <div class="form-group col-md-6   col-sm-12 ">
                                                               <label class=" label-control" for="userinput6"> رقم جواز السفر </label><span class="red">*</span>
                                                               <div class="input-group">
                                                                   <input class="form-control"    type="text"  name="dp" formControlName="passportNo" >
@@ -56,7 +64,7 @@
                                                                 رقم جواز السفر يجب ان يحتوي علي حرف كبير وأرقام فقط
                                                               </span> 
                                                           </div>
-                                                          <div class="form-group col-sm-6">
+                                                          <div class="form-group col-md-6   col-sm-12 ">
                                                             <label class=" label-control" for="userinput6"> السن </label><span class="red">*</span>
                                                             <div class="input-group">
                                                                 <input class="form-control" type="number"  name="dp" formControlName="age" >
@@ -153,20 +161,20 @@
                           </div>
                          <div formGroupName="tourInfo"> 
                             <div class="row">
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-md-6   col-sm-12 ">
                                   <label class="label-control" for="userinput6"> تاريخ الرحلة</label><span class="red">*</span>
                                   <ng-select [items]="tourDates"  bindLabel="date" bindValue="date" [multiple]="false" formControlName="tourDate">
                                   </ng-select>
                                 </div>
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-md-6   col-sm-12 ">
                                   <label for="street">عدد البالغين</label><span class="red">*</span>
                                   <input type="number" formControlName="adult" class="form-control">
                               </div>
-                              <div class="form-group col-sm-6">
+                              <div class="form-group col-md-6   col-sm-12 ">
                                 <label for="street">عدد الأطفال</label><span class="red">*</span>
                                 <input type="number" formControlName="child" class="form-control">
                               </div>
-                              <div class="form-group col-sm-6">
+                              <div class="form-group col-md-6   col-sm-12 ">
                                 <label for="street">عدد الرضع</label><span class="red">*</span>
                                 <input type="number" formControlName="infant" class="form-control">
                             </div>
@@ -200,25 +208,26 @@
                         <form [formGroup]="paymentForm"  novalidate>
                          <div formGroupName="paymentInfo"> 
                             <div class="row">
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-md-6   col-sm-12 ">
                                   <label class="label-control" for="userinput6"> طريقة الدفع</label><span class="red">*</span>
                                   <select  class="form-control" data-size="7"  (change)="onPaymentChange($event.target.value)" formControlName="paymentWay"> title="المستخدم" >
                                     <option *ngFor="let payment of paymentWays"  [value]="payment.name">{{payment.name}}</option>
                                 </select>
                                 </div>
-                               <div class="form-group col-sm-6"   *ngIf="paymentWayCheck === 'تحويل بنكي'">
-                                  <label for="street"> صورة التحويل البنكي</label>
-                                  <label class="mb-3 custom-file-upload-image input-group">
-                                    <img class="photo" [src]="selectedFile" file accept='image/*' />
-                                    <input type="file" formControlName="bankPaymentPhoto" ng2FileSelect [uploader]="uploader" (onFileSelected)="OnFileSelect($event)" accept="image/*   ">
-                                    <span> <p class="upload"><i class="fa fa-download" aria-hidden="true"></i>  اختار صورة  </p></span>
-                                   </label>
-                               </div>
-                                <div class="form-group col-sm-6">
+                              
+                                <div class="form-group col-md-6   col-sm-12 ">
                                   <label for="street">السعر الكلي</label><span class="red">*</span>
                                   <input type="number" readOnly value={{totalPrice}} formControlName="totalPrice" class="form-control">
                               </div>
-                              <div class="form-group col-sm-6">
+                              <div class="form-group col-sm-12 col-md-6 payment">
+                                <label class="label"  for="street"> المبلغ الواصل</label><span class="red">*</span>
+                                <input type="text"  formControlName="receivedAmount" class="form-control">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6 payment">
+                              <label  class="label" for="street"> المبلغ الباقي</label><span class="red">*</span>
+                              <input type="text"  formControlName="remainingAmount" class="form-control">
+                          </div>
+                              <div class="form-group col-md-6   col-sm-12 ">
                                 <label class="label-control" for="userinput6"> حالة الطلب</label><span class="red">*</span>
                                 <ng-select [items]="bookingStatus"  bindLabel="name" bindValue="name" [multiple]="false"  formControlName="orderStatus">
                                 </ng-select>
@@ -248,7 +257,7 @@
         </div>
     </div>
 </section>
-<div class="row" matchHeight="card" *ngIf="userApp.role.dashboardPermissions.bookTour === false">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookTour === false">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >

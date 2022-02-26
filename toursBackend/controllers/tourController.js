@@ -94,28 +94,6 @@ exports.createTour =  catchAsync(async  (req, res) => {
            newTour.save();
        });
    }
-
-    User.find({role:"أدمن"}, async function(err,foundUser){
-      // console.log("Found Admin " , foundUser );
-    if (err) {
-        console.log(err);
-      }
-      for (let i = 0; i < foundUser.length; i++) {
-        foundUser[i].notifications.push({
-           type:"tours",
-           name:newTour.name,
-           id:newTour._id,
-           createdAt:newTour.createdAt
-        });
-        foundUser[i].save();
-      // console.log("Found Admin with notifications" , foundUser );
-    }
-
-    // const notify = {data: newTour};
-    // io.on("connection" ,(socket) =>{
-    //   socket.emit('notification', notify);
-    //  });
-    });
   
         res.status(201).json({
             status: 'success',
@@ -274,9 +252,6 @@ exports.editTourLocation=  catchAsync(async  (req, res) => {
       foundTripLOcation[0].address = req.body.location.tripLocations[0].address;
       foundTripLOcation[0].description = req.body.location.tripLocations[0].description;
       foundTripLOcation[0].day = req.body.location.tripLocations[0].day;
-      // foundTripLOcation[0].buses = req.body.location.tripLocations[0].buses;
-      // foundTripLOcation[0].hotels = req.body.location.tripLocations[0].hotels;
-      // foundTripLOcation[0].guides = req.body.location.tripLocations[0].guides;
       foundTripLOcation[0].coordinates.push(parseFloat(req.body.location.tripLocations[0].longitude),parseFloat(req.body.location.tripLocations[0].latitude));
       foundTour.save();
 
@@ -474,9 +449,7 @@ exports.disableTour =  catchAsync(async  (req, res) => {
 });
 
 exports.getAllTours = factory.getAll(Tour , {path :'bookings'});
-// exports.getTour = factory.getOne(Tour , {path :'reviews'});
 exports.getTour = factory.getOne(Tour , {path :'bookings'});
-//  exports.createTour = factory.createOne(Tour);
 exports.updateTour = factory.updateOne(Tour);
 exports.deleteTour = factory.deleteOne(Tour);
 exports.deleteAllTours = factory.deleteMany(Tour);
@@ -712,39 +685,5 @@ exports.getDistances = catchAsync(async (req, res, next) => {
   });
 });
 
-//Testtttt
-exports.getTest = async (req, res) => {
-  try {
-    const myTours =await Tour.aggregate([
-      {
-        $match: { duration: { $gte: 7 } }
-      },
-      {
-        $group : {
-          _id:'$price',
-          maxSize: { $max :'$maxGroupSize'},
-          maxSizeGroupsNumber : { $sum : 1}
-        }
-      },
-      {
-        $addFields : {myGrropNumber : '$maxSizeGroupsNumber'}
-      }
-      
-    ]);
 
-    // SEND RESPONSE
-    res.status(200).json({
-      status: 'success',
-      results:myTours.length,
-      data: {
-        myTours
-      }
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err
-    });
-  }
-};
 

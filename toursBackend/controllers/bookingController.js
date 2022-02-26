@@ -1,4 +1,4 @@
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
@@ -6,6 +6,7 @@ const factory = require('./handlerFactory');
 const Invoice = require('../models/invoiceModel');
 const cloudinary = require('cloudinary');
 const router = require('../routes/invoiceRoutes');
+const Safebox = require('../models/safeboxsModel');
 
 // ---------------- Add Post---------------- 
 cloudinary.config({ 
@@ -47,75 +48,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.createBookingCheckout = catchAsync(async (req, res, next) => {
-//   // This is only TEMPORARY, because it's UNSECURE: everyone can make bookings without paying
-//   const { tour, user, price } = req.query;
-
-//   if (!tour && !user && !price) return next();
-//   await Booking.create({ tour, user, price });
-
-//   res.redirect(req.originalUrl.split('?')[0]);
-// });
-
-// Create New Booking with invoice
-
-exports.createBooking = catchAsync(async (req, res, next) => {
-  const getRandomBookingId = (min = 0, max = 800000) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    const num =  Math.floor(Math.random() * (max - min + 1)) + min;
-    return num.toString().padStart(6, "0");
-  };
-
-
-  const newBooking = await Booking.create(req.body.data);
-  Tour.findOne({_id:newBooking.tourName}, async function(err,foundTour){
-    if (err) { console.log(err) }
- 
-  if(foundTour.maxGroupSize =  foundTour.bookings){
-    foundTour.completed = true;
-  }
-  newBooking.number = getRandomBookingId();
-  if(newBooking.paymentInfo.paymentWay === 'تحويل بنكي'){
-    await cloudinary.uploader.upload(req.body.data.paymentInfo.bankPaymentPhoto , async (result) => {
-      newBooking.paymentInfo.bankPaymentPhoto.imageId = result.public_id;
-      newBooking.paymentInfo.bankPaymentPhoto.imgVersion = result.version;
-    //    console.log('images uploader result id >>>',result.public_id);
-    //  console.log('images uploader result version>>>',result.version);
-    });
-     
-    }
-
-  newBooking.save();
-  // const bookingNtification= await notification.create(newBooking);
-
-
-  if(newBooking.paymentInfo.paymentWay === 'تحويل بنكي'  || newBooking.paymentInfo.paymentWay === 'كاش'   ){
-
-    const getRandomId = (min = 0, max = 500000) => {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      const num =  Math.floor(Math.random() * (max - min + 1)) + min;
-      return num.toString().padStart(6, "0");
-    };
-    
-    const invoice =  new Invoice();
-    invoice.bookingInfo = newBooking.id;
-    invoice.completed = true;
-    invoice.number = getRandomId();
-    invoice.save();
-   
-  }
-
-    res.status(201).json({
-    status: 'success',
-    data: {
-      data: newBooking
-      }
- });  
-}); 
-}); 
-
 //update Booking
 
 exports.updateBooking = catchAsync(async (req, res) => {
@@ -124,25 +56,18 @@ exports.updateBooking = catchAsync(async (req, res) => {
   doc.paymentInfo.totalPrice = req.body.data.paymentInfo.totalPrice;
   doc.paymentInfo.tourPrice = req.body.data.paymentInfo.tourPrice;
   doc.paymentInfo.orderStatus = req.body.data.paymentInfo.orderStatus;
+  doc.paymentInfo.receivedAmount = req.body.data.paymentInfo.receivedAmount;
+  doc.paymentInfo.remainingAmount = req.body.data.paymentInfo.remainingAmount;
+
 
   doc.tourInfo.adult =  req.body.bookingData.tourInfo.adult;
   doc.tourInfo.child =  req.body.bookingData.tourInfo.child;
   doc.tourInfo.infant =  req.body.bookingData.tourInfo.infant;
 
   doc.save();
+  
 
-  console.log('doc >>>',doc);
-     if(doc.paymentInfo.paymentWay === 'تحويل بنكي'){
-      await cloudinary.uploader.upload( req.body.data.paymentInfo.bankPaymentPhoto , async (result) => {
-        console.log('result>>>',result);
-        doc.paymentInfo.bankPaymentPhoto.imageId = result.public_id;
-        doc.paymentInfo.bankPaymentPhoto.imgVersion = result.version;
-      //    console.log('images uploader result id >>>',result.public_id);
-      //  console.log('images uploader result version>>>',result.version);
-      });
-      doc.save();
-       
-      }
+ // console.log('doc >>>',doc);
 
       if(!doc){
         return next(new AppError ('no document found with this id', 404));
@@ -169,10 +94,10 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
        data: null
      });
 });
-// exports.createBooking = factory.createOne(Booking);
+
 exports.getBooking = factory.getOne(Booking);
 exports.getAllBookings = factory.getAll(Booking );
-// exports.updateBooking = factory.updateOne(Booking);
+
 
 
 // Get Tours by months Status
@@ -270,3 +195,48 @@ exports.getRemainingSeatsPlan = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+
+// Create New Booking 
+
+exports.createBooking = catchAsync(async (req, res, next) => {
+  const getRandomBookingId = (min = 0, max = 800000) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    const num =  Math.floor(Math.random() * (max - min + 1)) + min;
+    return num.toString().padStart(6, "0");
+  };
+  const newBooking = await Booking.create(req.body.data);
+  Tour.findOne({_id:req.body.data.tourName},async function(err,foundTour){
+    if (err) { console.log(err) }
+ 
+  if(foundTour.maxGroupSize =  foundTour.bookings){
+    foundTour.completed = true;
+  } 
+
+  newBooking.number = getRandomBookingId();
+  await newBooking.save();
+  if(newBooking.paymentInfo.orderStatus === 'تأكيد حجز المبلغ كامل' || newBooking.paymentInfo.orderStatus === 'حجز جزء من المبلغ'){
+  const safebox =  new Safebox();
+  safebox.title = 'حجز برنامج سياحي';
+  safebox.description = newBooking.contactInfo.fullName+' /حجز برنامج سياحي';
+  safebox.date = Date.now();
+  safebox.indebted = 0;
+  safebox.credit = newBooking.paymentInfo.receivedAmount;
+  await  safebox.save();
+  res.status(201).json({
+    status: 'success',
+    data: {
+        data: newBooking
+    }
+   });
+  }else{
+  res.status(201).json({
+      status: 'success',
+      data: {
+          data: newBooking
+      }
+     });
+    }
+  });
+}); 

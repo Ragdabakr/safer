@@ -27,11 +27,12 @@ export class GroupReportComponent implements OnInit {
   totalEarings: number;
   costForm: any;
   costs = [];
-  totalTourCosts: number;
+  totalTourCosts: number = 0;
   bookingsPayment: any;
   paymentArray = [];
   closedTours = [];
   totalTravellers =[];
+  totalRemaining: number;
 
 
   constructor( private tourService:TourService,private router: Router  ,private toastr:ToastrService, private route: ActivatedRoute , private bookingService:BookingService,) { }
@@ -41,22 +42,26 @@ export class GroupReportComponent implements OnInit {
         this.tourService.getTourById(this.tourId).subscribe((data) =>{
           this.tour = data.data.doc;
           this.bookings = data.data.doc.bookings;
-          console.log("this.bookings" , this.bookings);
+         // console.log("this.bookings" , this.bookings);
           this.bookingsNumber =  data.data.doc.bookings.length;
           const travellerInfoArray =  this.bookings.map((info) => {
            this.travellerInfo = info.travellerInfo;
-           console.log("this.travellerInfo999" , this.travellerInfo);
+          // console.log("this.travellerInfo999" , this.travellerInfo);
 
           
            var i;
-           var total = 0;
+           var totalRceivedAmount = 0;
+           var totalRemainingAmount = 0 ;
            for (i = 0; i < this.bookings.length; i++) {
-               total += this.bookings[i].paymentInfo.totalPrice;
-               this.totalEarings = total;
+               totalRceivedAmount += this.bookings[i].paymentInfo.receivedAmount;
+               this.totalEarings = totalRceivedAmount;
+
+               totalRemainingAmount += this.bookings[i].paymentInfo.remainingAmount;
+               this.totalRemaining = totalRemainingAmount;
            }
-              return total;
+              return totalRceivedAmount;return totalRemainingAmount;
            });
-           console.log("travellerInfoArray" , travellerInfoArray);
+          // console.log("travellerInfoArray" , travellerInfoArray);
         });
        this.getTours();
        this.getCosts();
@@ -92,7 +97,7 @@ export class GroupReportComponent implements OnInit {
           for (i = 0; i <  this.costs.length; i++) {
               total += this.costs[i].cost;
               this.totalTourCosts = total;
-              console.log('totalTourCosts >>>', this.totalTourCosts);
+             // console.log('totalTourCosts >>>', this.totalTourCosts);
           }
           return total;
 
@@ -110,14 +115,14 @@ getPaymentWay(){
   this.tourId = this.route.snapshot.paramMap.get('groupId');
   this.tourService.getTourById(this.tourId).subscribe((data) =>{
         this.bookingsPayment =  data.data.doc.bookings;
-        console.log(' this.bookingsPayment >>>',  this.bookingsPayment);        
+        //console.log(' this.bookingsPayment >>>',  this.bookingsPayment);        
     var x;
     var paymentWay = []  ;
     for (x = 0; x < this.bookingsPayment.length; x++) {
       paymentWay.push(this.bookingsPayment[x]);
        this.paymentArray  =  paymentWay.filter(a=> a.paymentInfo.orderStatus ==="حجز بدون دفع" );
-        console.log('paymentWay f9>>>', paymentWay);
-        console.log(' this.paymentArray >>>',  this.paymentArray );
+       // console.log('paymentWay f9>>>', paymentWay);
+       // console.log(' this.paymentArray >>>',  this.paymentArray );
     }
     return paymentWay;
 
@@ -139,7 +144,6 @@ getTours(){
       this.tours = data.docs.reverse();
       this.closedTours = data.docs.reverse().filter(a=> a.open === 'false');
       // this.totalTours = this.tours.length;
-      console.log('tours >>>',data.docs);
       },
       err =>{
       console.log(err);

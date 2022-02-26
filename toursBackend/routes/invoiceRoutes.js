@@ -4,7 +4,7 @@ const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
-router.use(authController.protect , authController.restrictTo('أدمن' , 'مشرف'));
+//router.use(authController.protect , authController.restrictTo('أدمن' , 'مشرف'));
 
 router
   .route('/')

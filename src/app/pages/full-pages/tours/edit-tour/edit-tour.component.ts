@@ -161,30 +161,6 @@ export class EditTourComponent implements OnInit {
               Validators.maxLength(500),
           ]),
           startDates: new FormArray([this.addStartDates()]),
-          // tripLocations: new FormArray([this.addLocations()]),
-         
-          // startLocation: new FormGroup(
-          //     {
-          //         // GeoJSON
-          //         description: new FormControl('', [
-          //             Validators.required,
-          //         ]),
-          //         day: new FormControl('', [
-          //             Validators.required,
-          //         ]),
-          //         address: new FormControl('', [
-          //             Validators.required,
-          //         ]),
-          //         latitude : new FormControl('', [
-          //             Validators.required,
-          //         ]),
-          //         longitude: new FormControl('', [
-          //             Validators.required,
-          //         ]),
-          //         coordinates: new FormArray([]),
-          //         type: new FormControl('Point')
-
-          //     }),
 
       });
 
@@ -304,9 +280,9 @@ editTourInformation(dataForm){
     this.getTour();
 },
     (error: HttpErrorResponse) =>{
-        if(error.error.errors[0].title === "Invalid tour name!"){
-            this.toastr.error(' اسم الرحلة مستخدم من قبل');
-        }
+        // if(error.error.errors[0].title === "Invalid tour name!"){
+        //     this.toastr.error(' اسم الرحلة مستخدم من قبل');
+        // }
   });
    }  
   }
@@ -494,17 +470,11 @@ get hasHotelsError() {
   onFileChange(event) {
       this.selectedImages = event.target.files;
       for (var i = 0; i < event.target.files.length; i++) {
-          //console.log('size', event.target.files[i].size);
-          // if (event.target.files[i].size > 1000000000000) {
-          //     this.fileAvalable = false;
-          //     alert('File is too big!');
-          // } else {
               this.ReadAsBase64(event.target.files[i]).then(result => {
                   this.selectedImageFile = result;
-                  console.log(" this.selectedImageFile>>" ,  this.selectedImageFile);
+                  //console.log(" this.selectedImageFile>>" ,  this.selectedImageFile);
                   this.myFiles.push(this.selectedImageFile);
               });
-          // }
       }
 
   }
@@ -549,10 +519,10 @@ get hasHotelsError() {
         this.getTour();
     },
     (error) => {
-      console.log(error);
+     // console.log(error);
       alert('الرجاء اختيار صورة أخري لان حجم الملف كبير');
       }
-  )
+     )
   }
 
   //delete upload image

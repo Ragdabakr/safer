@@ -49,7 +49,7 @@ export class BookingListComponent implements OnInit {
   adult: any;
   child: any;
   totalPrice: number;
-  paymentWays = [{"name":"كاش"} , {"name":"تحويل بنكي"}];
+  paymentWays = [{"name":"نقدا"} , {"name":"أجل"}];
   bookingStatus = [  'دفع بتحويل بنكي' ,'حجز بدون دفع', 'تأكيد حجز المبلغ كامل' ,'الغاء الحجز' ];
   display: boolean = false;
   closeDialog:boolean = false;
@@ -143,6 +143,10 @@ export class BookingListComponent implements OnInit {
                       orderStatus : new FormControl('', [
                           Validators.required,
                       ]),
+                      receivedAmount:  new FormControl('0', [
+                        Validators.required,
+                    ]),
+                    remainingAmount: new FormControl('0'),
                   }),  
                   }
                 );
@@ -337,8 +341,6 @@ onPaymentChange(paymentWay: string): void {
         this.adultPrice = tour.data.doc.adultPrice;
         this.childPrice = tour.data.doc.childPrice;
         this.infantPrice = tour.data.doc.infantPrice;
-        console.log("tour" , this.tour);
-        console.log("this.adultPrice" , this.adultPrice);
       });
 
     }
@@ -346,9 +348,7 @@ onPaymentChange(paymentWay: string): void {
 
 
     editTourInfoButton(tourForm){
-
-      console.log("tourForm" , tourForm.value);
-
+      //console.log("tourForm" , tourForm.value);
       this.adult = this.tourForm.get('tourInfo').value.adult;
       this.child = this.tourForm.get('tourInfo').value.child;
       this.infant = this.tourForm.get('tourInfo').value.infant;
@@ -417,6 +417,9 @@ onPaymentChange(paymentWay: string): void {
           totalPrice: Booking.paymentInfo.totalPrice,
           orderStatus: Booking.paymentInfo.orderStatus,
           bankNo: Booking.paymentInfo.bankNo,
+          receivedAmount: Booking.paymentInfo.receivedAmount,
+          remainingAmount: Booking.paymentInfo.remainingAmount,
+          
       },
        });
     }
@@ -587,13 +590,11 @@ OnFileSelect(event) {
   }
 
 }
+
+
 //print function
 printReaet(booking){
-  const bookingId = booking.id;
-  const data = {
-    bookingInfo : bookingId
-  }
-  this.invoiceService.createInvoice(data).subscribe(
+  this.invoiceService.createInvoice(booking).subscribe(
     res =>{
       let data = res['data'];
       this.invoiceId = data.data._id

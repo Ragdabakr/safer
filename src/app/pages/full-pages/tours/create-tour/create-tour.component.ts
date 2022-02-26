@@ -324,7 +324,7 @@ controls:any;
             this.dataFormerror = true;
             setTimeout(() => {
                 this.error = false;
-            }, 8000);
+            }, 1000);
         }
     }
     // // On submit link click
@@ -337,7 +337,7 @@ controls:any;
             this.error = true;
             setTimeout(() => {
                 this.error = false;
-            }, 8000);
+            }, 1000);
         }
     }
     onThirdSubmit() {
@@ -379,8 +379,8 @@ controls:any;
                     this.success = true;
                     setTimeout(() => {
                         this.success = true;
-                        // window.location.href = '/full-layout/full-pages/tours';
-                    }, 7000);
+                         window.location.href = '/full-layout/full-pages/tours';
+                    }, 1000);
                 },
                     (error: HttpErrorResponse) =>{
                         console.log("error" , error);

@@ -31,7 +31,7 @@
         <div class="card-body" id="print-section">
           
         <p-table #dt [value]="tours" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
-        currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
+        currentPageReportTemplate=" الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
         [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
         [responsive]="true" selectionMode="single"
         [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
@@ -74,9 +74,9 @@
               <td>{{tour?.type}}</td>
               <td>{{tour?.duration}} _ يوم</td>
               <td>{{tour?.createdAt | date}}</td>
-              <td>{{tour?.adultPrice}} ريال</td>
-              <td>{{tour?.childPrice}} ريال</td>
-              <td>{{tour?.infantPrice}} ريال</td>
+              <td>{{tour?.adultPrice}} </td>
+              <td>{{tour?.childPrice}} </td>
+              <td>{{tour?.infantPrice}} </td>
               <td>{{tour?.maxGroupSize}}</td>
               <td>{{tour?.bookings.length}}</td>
               <td> <img class="card-img-top img-fluid" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png" alt="Card image cap">
