@@ -7,6 +7,7 @@ const Invoice = require('../models/invoiceModel');
 const cloudinary = require('cloudinary');
 const router = require('../routes/invoiceRoutes');
 const Safebox = require('../models/safeboxsModel');
+const Budget = require('../models/budgetModel');
 
 // ---------------- Add Post---------------- 
 cloudinary.config({ 
@@ -15,38 +16,6 @@ cloudinary.config({
   api_secret: 'CWT6HwmwzFWHFvX0M_JVZtMsE9g' 
 });
 
-exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-  // 1) Get the currently booked tour
-  const tour = await Tour.findById(req.params.tourId);
-  console.log(tour);
-
-  // 2) Create checkout session
-//   const session = await stripe.checkout.sessions.create({
-//     payment_method_types: ['card'],
-//     success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${
-//       req.params.tourId
-//     }&user=${req.user.id}&price=${tour.price}`,
-//     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
-//     customer_email: req.user.email,
-//     client_reference_id: req.params.tourId,
-//     line_items: [
-//       {
-//         name: `${tour.name} Tour`,
-//         description: tour.summary,
-//         images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
-//         amount: tour.price * 100,
-//         currency: 'usd',
-//         quantity: 1
-//       }
-//     ]
-//   });
-
-  // 3) Create session as response
-  res.status(200).json({
-    status: 'success',
-    session
-  });
-});
 
 //update Booking
 
@@ -65,6 +34,14 @@ exports.updateBooking = catchAsync(async (req, res) => {
   doc.tourInfo.infant =  req.body.bookingData.tourInfo.infant;
 
   doc.save();
+
+  //Update our touR Group Budget
+  const budget =  new Budget();
+  budget.name = 'الجروبات السياحية';
+  budget.date = Date.now();
+  budget.totalReceivedAmount = doc.paymentInfo.receivedAmount;
+  budget.totalRemainingAmount = doc.paymentInfo.remainingAmount;
+  await  budget.save();
   
 
  // console.log('doc >>>',doc);
@@ -95,8 +72,8 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
      });
 });
 
-exports.getBooking = factory.getOne(Booking);
-exports.getAllBookings = factory.getAll(Booking );
+exports.getBooking = factory.getOne(Booking , {path:'tourName'});
+exports.getAllBookings = factory.getAll(Booking , {path:'tourName'});
 
 
 
@@ -216,10 +193,19 @@ exports.createBooking = catchAsync(async (req, res, next) => {
 
   newBooking.number = getRandomBookingId();
   await newBooking.save();
+ 
+
   if(newBooking.paymentInfo.orderStatus === 'تأكيد حجز المبلغ كامل' || newBooking.paymentInfo.orderStatus === 'حجز جزء من المبلغ'){
+    const budget =  new Budget();
+    budget.name = 'الجروبات السياحية';
+    budget.date = Date.now();
+    budget.totalReceivedAmount = newBooking.paymentInfo.receivedAmount;
+    budget.totalRemainingAmount = newBooking.paymentInfo.remainingAmount;
+    await  budget.save();
+
   const safebox =  new Safebox();
   safebox.title = 'حجز برنامج سياحي';
-  safebox.description = newBooking.contactInfo.fullName+' /حجز برنامج سياحي';
+  safebox.description = newBooking.tourName.name +' / حجز برنامج سياحي  /' + newBooking.contactInfo.fullName;
   safebox.date = Date.now();
   safebox.indebted = 0;
   safebox.credit = newBooking.paymentInfo.receivedAmount;

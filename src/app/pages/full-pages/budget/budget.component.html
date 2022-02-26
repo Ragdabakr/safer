@@ -1,0 +1,64 @@
+<div  matchHeight="card"  *ngIf="user.role.sidebarPermissions.reports === true">
+  <div class="col-md-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> الموازنة المالية </h4>
+      </div>
+    </div>
+  </div>
+</div>
+   <!--Tabset Starts-->
+    <div class="col-md-12 col-lg-12" *ngIf="user.role.sidebarPermissions.reports === true">
+      <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-content">
+          
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">الحركة</th>
+                  <th scope="col">المبلغ</th>
+                  <th scope="col">التفاصيل</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>مصاريف الجروبات السياحية</td>
+                  <td> {{totalTourCost}}</td>
+                  <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>مجموع الوارد من الجروبات السياحية</td>
+                  <td>{{totalCredit}}</td>
+                  <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>مجموع ديون المسافرين  من الجروبات السياحية</td>
+                  <td>{{totalDebit}}</td>
+                  <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
+              </tbody>
+            </table>
+          
+            
+          </div>
+        </div>      
+      </div>
+    </div>
+    <!--Tabset Ends-->   
+    <!-- <div class="row" matchHeight="card" *ngIf="user.role.sidebarPermissions.reports === false">
+      <div class="col-xl-12 col-lg-12">
+        <div class="card card-add" >
+          <div class="card-header"  >
+            <h4 class="card-title mb-0"> ليس لديك صلاحيات للتقارير</h4>
+          </div>
+       </div>
+      </div>
+    </div> -->
+    

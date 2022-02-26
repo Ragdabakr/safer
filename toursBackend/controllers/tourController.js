@@ -8,6 +8,7 @@ const AppError = require('./../utils/appError');
 const catchAsync = require('./../utils/catchAsync');
 const factory = require('./handlerFactory');
 const cloudinary = require('cloudinary');
+const Budget = require('../models/budgetModel');
 
 // socket io 
 const http = require('http');
@@ -166,7 +167,14 @@ exports.createTourCost=  catchAsync(async  (req, res) => {
         note:req.body.data.note,
         cost:req.body.data.cost,
      });
-    foundTour.save();
+      foundTour.save();
+
+      //Update our touR Group Budget
+      const budget =  new Budget();
+      budget.name = 'الجروبات السياحية';
+      budget.date = Date.now();
+      budget.tourCost = req.body.data.cost;
+      await  budget.save();
         res.status(201).json({
             status: 'success',
             data: {

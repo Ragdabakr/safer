@@ -54,6 +54,7 @@ import { BookingVisaComponent } from './visa/booking-visa/booking-visa.component
 import { VisaListComponent } from './visa/visa-list/visa-list.component';
 import { VisaInvoiceComponent } from './visa/visa-invoice/visa-invoice.component';
 import { CancelVisaComponent } from './visa/cancel-visa/cancel-visa.component';
+import { BudgetComponent } from './budget/budget.component';
 
 
 
@@ -119,6 +120,7 @@ import { CancelVisaComponent } from './visa/cancel-visa/cancel-visa.component';
         VisaListComponent,
         VisaInvoiceComponent,
         CancelVisaComponent,
+        BudgetComponent,
 
 
 

@@ -1,11 +1,96 @@
-    <!--Tabset Starts-->
+<div  matchHeight="card"  *ngIf="user.role.sidebarPermissions.reports === true">
+  <div class="col-md-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> تقارير الرحلات</h4>
+      </div>
+    </div>
+  </div>
+</div>
+   <!--Tabset Starts-->
     <div class="col-md-12 col-lg-12" *ngIf="user.role.sidebarPermissions.reports === true">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">تقارير الرحلات</h4>
         </div>
         <div class="card-content">
+          
           <div class="card-body">
+            <div class="row">
+              <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                <div class="card gradient-ibiza-sunset">
+                  <div class="card-content">
+                    <div class="card-body pt-2 pb-0">
+                      <div class="media">
+                        <div class="media-body white text-left" *ngIf="totalTourCost > 0">
+                          <h3 class="font-large-1 mb-0">{{totalTourCost}}</h3>
+                          <p class="box-title"> مجموع المصاريف</p>
+                        </div>
+                        <div class="media-body white text-left" *ngIf="!totalTourCost">
+                          <h3 class="font-large-1 mb-0">0</h3>
+                          <p class="box-title"> مجموع المصاريف</p>
+                        </div>
+                        <div class="media-right white text-right">
+                          <i class="icon-pie-chart font-large-1"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="Widget-line-chart" class="height-75 WidgetlineChart WidgetlineChartshadow mb-2">
+                    
+                    </div>
+            
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                <div class="card gradient-green-tea">
+                  <div class="card-content">
+                    <div class="card-body pt-2 pb-0">
+                      <div class="media">
+                        <div class="media-body white text-left" *ngIf="totalCredit > 0">
+                          <h3 class="font-large-1 mb-0">{{totalCredit}} </h3>
+                          <p class="box-title"> مجموع الوارد</p>
+                        </div>
+                        <div class="media-body white text-left" *ngIf="!totalCredit">
+                          <h3 class="font-large-1 mb-0">0</h3>
+                          <p class="box-title">  مجموع الوارد</p>
+                        </div>
+                        <div class="media-right white text-right">
+                          <i class="icon-bar-chart font-large-1"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="Widget-line-chart" class="height-75 WidgetlineChart WidgetlineChartshadow mb-2">
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                <div class="card gradient-pomegranate">
+                  <div class="card-content">
+                    <div class="card-body pt-2 pb-0">
+                      <div class="media">
+                        <div class="media-body white text-left" *ngIf="totalDebit >0">
+                          <h3 class="font-large-1 mb-0">{{totalDebit}}</h3>
+                          <p class="box-title"> ديون المسافرين</p>
+                        </div>
+                        <div class="media-body white text-left" *ngIf="!totalDebit">
+                          <h3 class="font-large-1 mb-0">0</h3>
+                          <p class="box-title">  ديون المسافرين</p>
+                        </div>
+                        <div class="media-right white text-right">
+                          <i class="icon-users font-large-1"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="Widget-line-chart" class="height-75 WidgetlineChart WidgetlineChartshadow mb-2">
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <ngb-tabset>
               <ngb-tab title="الرحلات المفتوحة">
                 <ng-template ngbTabContent>

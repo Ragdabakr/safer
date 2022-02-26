@@ -16,11 +16,15 @@
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
-						<div class="media-body white text-left">
+						<div class="media-body white text-left" *ngIf="totalEarings > 0">
 							
-							<h3 class="font-large-1 mb-0"> ريال {{totalEarings}}</h3>
+							<h3 class="font-large-1 mb-0">  {{totalEarings}}</h3>
 							<p class="box-title">مجموع الوارد</p>
 							<p class="box-title"></p>
+						</div>
+            <div class="media-body white text-left" *ngIf="!totalEarings">
+							<h3 class="font-large-1 mb-0">0</h3>
+							<p class="box-title"> مجموع الوارد</p>
 						</div>
 						<div class="media-right white text-right">
 							<i class="icon-wallet font-large-1"></i>
@@ -39,7 +43,7 @@
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left" *ngIf="totalTourCosts > 0">
-							<h3 class="font-large-1 mb-0">ريال{{totalTourCosts}}</h3>
+							<h3 class="font-large-1 mb-0">{{totalTourCosts}}</h3>
 							<p class="box-title"> مجموع التكلفة</p>
 						</div>
             <div class="media-body white text-left" *ngIf="!totalTourCosts">
@@ -64,9 +68,13 @@
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
-						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">ريال {{totalEarings - totalTourCosts}}</h3>
+						<div class="media-body white text-left" *ngIf="totalEarings > 0">
+							<h3 class="font-large-1 mb-0"> {{totalEarings - totalTourCosts}}</h3>
 							<p class="box-title"> مجموع الأرباح</p>
+						</div>
+            <div class="media-body white text-left" *ngIf="!totalEarings">
+							<h3 class="font-large-1 mb-0">0</h3>
+							<p class="box-title"> مجموع الارباح</p>
 						</div>
 						<div class="media-right white text-right">
 							<i class="icon-bar-chart font-large-1"></i>
@@ -84,8 +92,12 @@
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
-						<div class="media-body white text-left">
+						<div class="media-body white text-left"  *ngIf="totalRemaining">
 							<h3 class="font-large-1 mb-0">{{totalRemaining}}</h3>
+							<p class="box-title"> ديون المسافرين</p>
+						</div>
+            <div class="media-body white text-left" *ngIf="!totalRemaining">
+							<h3 class="font-large-1 mb-0">0</h3>
 							<p class="box-title"> ديون المسافرين</p>
 						</div>
 						<div class="media-right white text-right">

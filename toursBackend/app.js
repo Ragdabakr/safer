@@ -138,6 +138,7 @@ const safeboxRouter = require('./routes/safeboxRoutes');
 const commissionRouter = require('./routes/commissionRoutes');
 const bondRouter = require('./routes/bondRoutes');
 const visaRouter = require('./routes/visaRoutes');
+const budgetRouter = require('./routes/budgetRoutes');
 
 
 app.use('/api/v1/reviews', reviewRouter);
@@ -158,6 +159,8 @@ app.use('/api/v1/safeboxes', safeboxRouter);
 app.use('/api/v1/commission', commissionRouter);
 app.use('/api/v1/Bondes', bondRouter);
 app.use('/api/v1/visa', visaRouter);
+app.use('/api/v1/visa', visaRouter);
+app.use('/api/v1/budget', budgetRouter);
 //heroku deploy
 
 const appPath = path.join(__dirname,'..','dist');
