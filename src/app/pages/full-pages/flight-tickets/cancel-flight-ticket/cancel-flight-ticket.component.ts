@@ -3,11 +3,13 @@ import { NgForm, FormGroup, FormControl, Validators, FormBuilder, FormArray } fr
 import { AuthService } from 'app/shared/auth/auth.service';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cancel-flight-ticket',
   templateUrl: './cancel-flight-ticket.component.html',
-  styleUrls: ['./cancel-flight-ticket.component.scss']
+  styleUrls: ['./cancel-flight-ticket.component.scss'],
+  providers: [DatePipe]
 })
 export class CancelFlightTicketComponent implements OnInit {
   tickets = [];
@@ -19,7 +21,7 @@ export class CancelFlightTicketComponent implements OnInit {
   cancelType = null;
   user: any;
 
-  constructor(private authService:AuthService ,private flightTicketsService: FlightTicketsService,private toastr:ToastrService ,private fb: FormBuilder ,) { }
+  constructor(private authService:AuthService ,private datePipe: DatePipe,private flightTicketsService: FlightTicketsService,private toastr:ToastrService ,private fb: FormBuilder ,) { }
 
   ngOnInit( ) {
     this.getTickets();
@@ -54,6 +56,7 @@ export class CancelFlightTicketComponent implements OnInit {
             fine: new FormControl('', [ Validators.required,]),
      }
    );
+  
 
   }
 
@@ -90,6 +93,7 @@ addTraveller(): FormGroup {
       remainingAmount: ['', [Validators.required]],
 
   });
+  
 }
 
 onTicketNumberSelected(event){
@@ -120,7 +124,7 @@ patchFormValues(ticketValue){
        bookingTo : this.ticket[0].bookingTo.name,
        ratio : this.ticket[0].ratio,
        paymentMethod : this.ticket[0].paymentMethod,
-       departureDate :  this.ticket[0].departureDate,
+       departureDate :  this.datePipe.transform(this.ticket[0].departureDate, 'dd-MM-yyyy'),
        destination : this.ticket[0].destination,
        number : this.ticket[0].number,
 

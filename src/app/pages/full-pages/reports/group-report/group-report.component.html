@@ -4,11 +4,23 @@
         <div class="card-header">
           <h4 class="card-title">{{tour.name}}</h4>
         </div>
-        <div class="card-content">
-                   
-              <div class="card-body">
+        <div class="card-content">           
+      <div class="card-body">
+        <div class="toolbar" >
+          <button (click)="addCost()" class=" btn  btn-info" >
+           <i class="icon-plus icon"></i>  اضافة كلفة 
+         </button>
 
-                <!--Statistics cards Starts-->
+         <button (click)="exportCSV()" class=" btn btn-default csv " >
+           CSV    <i class="icon-share-alt icon"></i> 
+           </button>
+           <button  *ngIf="paymentArray.length === 0" (click)="closeTour()" class=" btn btn-green" >
+             <i class="icon-plus icon"></i>  اغلاق الرحلة
+           </button>
+           <button type="button" class="btn btn-primary btn-raised " printTitle="تقرير رحلة" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button> 
+          
+         
+         </div> 
 
 <div class="row">
 	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
@@ -112,22 +124,6 @@
 		</div>
 	</div>
 </div>
-<!--Statistics cards Ends-->
-                <p-toolbar class="toolbar" >
-                   <button (click)="addCost()" class=" btn btn-default" >
-                    <i class="icon-plus icon"></i>  اضافة كلفة 
-                  </button>
-                  <button (click)="exportCSV()" class=" btn btn-default right" >
-                    <i class="icon-share-alt icon"></i>  CSV
-                  </button> 
-
-                  <button *ngIf="paymentArray.length === 0" (click)="closeTour()" class=" btn btn-default" >
-                    <i class="icon-plus icon"></i>   اغلاق الرحلة 
-                  </button>
-                  
-                </p-toolbar> 
-
-                
 
                 <p-table #dt [value]="bookings" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
                 currentPageReportTemplate="الحجوزات" [style]="{'width':'100%','overflow':'auto!important'}"

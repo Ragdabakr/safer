@@ -9,6 +9,7 @@ import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import * as intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -20,7 +21,8 @@ const URL = 'http://localhost:3000/api/v1/image/upload-image';
 @Component({
   selector: 'app-create-booking',
   templateUrl: './create-booking.component.html',
-  styleUrls: ['./create-booking.component.scss']
+  styleUrls: ['./create-booking.component.scss'],
+  providers: [DatePipe]
 })
 export class CreateBookingComponent implements OnInit {
 
@@ -35,7 +37,7 @@ export class CreateBookingComponent implements OnInit {
   travellersArray: any;
   travellerForm: FormGroup;
   tours: [];
-  tourDates: [];
+  tourDates= [];
   paymentWays = [{"name":"نقدا"} , {"name":"أجل"}];
   bookingStatus = [  'حجز جزء من المبلغ' ,'حجز بدون دفع' , 'تأكيد حجز المبلغ كامل'];
       //Alert
@@ -65,10 +67,11 @@ export class CreateBookingComponent implements OnInit {
     infantPrice: any;
     infant: any;
     user: string;
+    datesArray=[];
     
 
   constructor(private fb: FormBuilder ,private authService:AuthService,   private tourService:TourService, private bookingService:BookingService,
-     private toastr:ToastrService ) { }
+     private toastr:ToastrService, private datePipe: DatePipe ) { }
 
   ngOnInit() {
     this.user = this.authService.getUser();
@@ -144,10 +147,10 @@ export class CreateBookingComponent implements OnInit {
                             orderStatus : new FormControl('', [
                                 Validators.required,
                             ]),
-                            receivedAmount:  new FormControl('0', [
+                            receivedAmount:  new FormControl('', [
                                 Validators.required,
                             ]),
-                            remainingAmount: new FormControl('0'),
+                            remainingAmount: new FormControl(''),
                         }),  
                         }
                       );
@@ -190,14 +193,17 @@ getTours(){
   )
 }
 onTourChange(tourId: string): void {
+  this.datesArray =[];
   this.tourService.getTourById(tourId).subscribe((data) =>{
        const foundTour = data.data.doc.startDates;
        this.tourId = data.data.doc.id;
        this.bookingsNumber =  data.data.doc.bookings.length;
-    //    console.log("this.bookingsNumber ",  this.bookingsNumber );
        this.toursMaxSize = data.data.doc.maxGroupSize;
-    //    console.log(" this.toursMaxSize",   this.toursMaxSize );
        this.tourDates = foundTour.map((i) => { i.date  ; return i; });
+      for (let i = 0; i < this.tourDates .length; i++) {
+        this.datesArray.push(this.datePipe.transform( this.tourDates[i].date, 'dd-MM-yyyy'));
+      }
+      
        this.adultPrice = data.data.doc.adultPrice;
        this.childPrice = data.data.doc.childPrice;
        this.infantPrice = data.data.doc.infantPrice;
@@ -227,53 +233,6 @@ onPaymentChange(paymentWay: string): void {
   this.paymentWayCheck = paymentWay;
 }
 
-
-  // Image upload  ReadAsBase64
-
-  ReadAsBase64(file): Promise<any> {
-    const reader = new FileReader();
-    const fileValue = new Promise((resolve, reject) => {
-        reader.addEventListener('load', () => {
-            resolve(reader.result);
-        });
-
-        reader.addEventListener('error', (event) => {
-            reject(event);
-        });
-        reader.readAsDataURL(file);
-    });
-    return fileValue;
-}
-
-//upload single image
-
-OnFileSelect(event) {
-
-    const file: File = event[0];
-    this.uploadedFile = file;
-    const sizeImage = file.size;
-    if (sizeImage > 10000000) {
-        this.fileAvalable = false;
-        alert('File is too big!');
-        const fileImage = '';
-        this.progress = false;
-        this.ReadAsBase64(fileImage).then(result => {
-            this.selectedFile = result;
-        }).catch(err => console.log(err));
-    } else {
-        this.ReadAsBase64(file).then(result => {
-            this.selectedFile = result;
-            this.paymentForm.patchValue({
-                paymentInfo:{
-                    bankPaymentPhoto: this.selectedFile
-                }
-            });
-        }).catch(err => console.log(err));
-    }
-
-}
-
-
     // On submit link click
     onFirstSubmit() {
 
@@ -287,7 +246,7 @@ OnFileSelect(event) {
           }, 8000);
       }
   }
-  // // On submit link click
+ // On submit link click
   onSecondSubmit() {
 
       if (this.dataForm.invalid) {

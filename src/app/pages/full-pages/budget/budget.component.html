@@ -28,19 +28,28 @@
                 <tr>
                   <th scope="row">1</th>
                   <td>مصاريف الجروبات السياحية</td>
-                  <td> {{totalTourCost}}</td>
+                  <td> 
+                     <p *ngIf="totalTourCost > 0">- {{totalTourCost}}</p>
+                     <p *ngIf="!totalTourCost">0</p>
+                  </td>
                   <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
                   <td>مجموع الوارد من الجروبات السياحية</td>
-                  <td>{{totalCredit}}</td>
+                  <td>
+                    <p *ngIf="totalCredit > 0"> {{totalCredit}}</p>
+                    <p *ngIf="!totalCredit">0</p>
+                  </td>
                   <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
                 </tr>
                 <tr>
                   <th scope="row">3</th>
                   <td>مجموع ديون المسافرين  من الجروبات السياحية</td>
-                  <td>{{totalDebit}}</td>
+                  <td>
+                    <p *ngIf="totalDebit > 0"> {{totalDebit}}</p>
+                    <p *ngIf="!totalDebit">0</p>
+                  </td>
                   <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
                 </tr>
               </tbody>

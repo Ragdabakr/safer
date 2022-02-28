@@ -3,48 +3,34 @@ const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
-const Invoice = require('../models/invoiceModel');
-const cloudinary = require('cloudinary');
-const router = require('../routes/invoiceRoutes');
 const Safebox = require('../models/safeboxsModel');
 const Budget = require('../models/budgetModel');
 
-// ---------------- Add Post---------------- 
-cloudinary.config({ 
-  cloud_name: 'reg1rego3', 
-  api_key: '277578515871442', 
-  api_secret: 'CWT6HwmwzFWHFvX0M_JVZtMsE9g' 
-});
-
-
-//update Booking
-
+// ---------------- Update Toor Booking---------------- 
 exports.updateBooking = catchAsync(async (req, res) => {
+
   const doc = await Booking.findById(req.params.id);
-  doc.paymentInfo.paymentWay = req.body.data.paymentInfo.paymentWay;
+ // console.log("doc 11" , doc);
+  console.log("data" , req.body.data);
+
+ doc.paymentInfo.paymentWay = req.body.data.paymentInfo.paymentWay;
   doc.paymentInfo.totalPrice = req.body.data.paymentInfo.totalPrice;
   doc.paymentInfo.tourPrice = req.body.data.paymentInfo.tourPrice;
   doc.paymentInfo.orderStatus = req.body.data.paymentInfo.orderStatus;
   doc.paymentInfo.receivedAmount = req.body.data.paymentInfo.receivedAmount;
   doc.paymentInfo.remainingAmount = req.body.data.paymentInfo.remainingAmount;
 
-
-  doc.tourInfo.adult =  req.body.bookingData.tourInfo.adult;
-  doc.tourInfo.child =  req.body.bookingData.tourInfo.child;
-  doc.tourInfo.infant =  req.body.bookingData.tourInfo.infant;
-
   doc.save();
-
+  
+//console.log("doc 55" , doc);
   //Update our touR Group Budget
-  const budget =  new Budget();
+
+  const budget = await Budget.findById(doc.budget._id);
   budget.name = 'الجروبات السياحية';
   budget.date = Date.now();
   budget.totalReceivedAmount = doc.paymentInfo.receivedAmount;
   budget.totalRemainingAmount = doc.paymentInfo.remainingAmount;
   await  budget.save();
-  
-
- // console.log('doc >>>',doc);
 
       if(!doc){
         return next(new AppError ('no document found with this id', 404));
@@ -55,10 +41,11 @@ exports.updateBooking = catchAsync(async (req, res) => {
           data : doc
         }
       });
+     
     });
 
 
-//Delete Booking
+// ---------------- Delete Booking---------------- 
 exports.deleteBooking = catchAsync(async (req, res, next) => {
   const booking = await Booking.findByIdAndDelete(req.params.id);
   if(!booking){
@@ -72,13 +59,13 @@ exports.deleteBooking = catchAsync(async (req, res, next) => {
      });
 });
 
-exports.getBooking = factory.getOne(Booking , {path:'tourName'});
-exports.getAllBookings = factory.getAll(Booking , {path:'tourName'});
+exports.getBooking = factory.getOne(Booking , {path:'tourName ,budget'});
+exports.getAllBookings = factory.getAll(Booking , {path:'tourName ,budget'});
 
 
 
-// Get Tours by months Status
 
+// ---------------- Get Tours by months Status ---------------- 
 exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = req.params.year * 1; // 2021
   const stats = await Booking.aggregate([
@@ -86,13 +73,11 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     {$group: {_id:{$month: '$createdAt'},  numBookings:{ $sum: 1},tours:{$push: '$tourName'}}},
   ]);
 
-
  // put zero when month dont have tour
     plan = Array.from(Array(12)).fill(0);
       stats.map((item, i) => {
      plan[parseInt(item._id) - 1] = parseInt(item.numBookings);
   });
-
   sixMonthesPlan = Array.from(Array(6)).fill(0);
   stats.map((item, i) => {
     sixMonthesPlan[parseInt(item._id) - 1] = parseInt(item.numBookings);
@@ -113,8 +98,8 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
 });
 
 
-// Get Booking by weekly Status
 
+// ---------------- Get Booking by weekly Status ---------------- 
 exports.getWeeklyPlan = catchAsync(async (req, res, next) => {
   var curr = new Date;
   var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay())); // get first day in week
@@ -140,8 +125,8 @@ exports.getWeeklyPlan = catchAsync(async (req, res, next) => {
   });
 });
 
-// Get Booking by weekly Status
 
+// ---------------- Get Booking by weekly Status ---------------- 
 exports.getRemainingSeatsPlan = catchAsync(async (req, res, next) => {
 
   //> db.tg.aggregate([{ $match: { "a" : {$exists:true}, "b" : {$exists:true} } }, { $project: { _id : 0,name : 1, r1: {$subtract:["$a", "$b"]} }}, { $limit: 100 }])
@@ -164,7 +149,7 @@ exports.getRemainingSeatsPlan = catchAsync(async (req, res, next) => {
      { $project: {  bookings:1 , maxGroupSize:1 , numOfBooking:1,remainingSeats:{$subtract:["$maxGroupSize", "$numOfBooking"]} }}, { $limit: 100 }
   ]);
 
-  console.log("booking in remainig seats >>>" , plan);
+  //console.log("booking in remainig seats >>>" , plan);
   res.status(200).json({
     status: 'success',
     data: {
@@ -173,9 +158,7 @@ exports.getRemainingSeatsPlan = catchAsync(async (req, res, next) => {
   });
 });
 
-
-// Create New Booking 
-
+// ---------------- Create New Booking ---------------- 
 exports.createBooking = catchAsync(async (req, res, next) => {
   const getRandomBookingId = (min = 0, max = 800000) => {
     min = Math.ceil(min);
@@ -202,6 +185,9 @@ exports.createBooking = catchAsync(async (req, res, next) => {
     budget.totalReceivedAmount = newBooking.paymentInfo.receivedAmount;
     budget.totalRemainingAmount = newBooking.paymentInfo.remainingAmount;
     await  budget.save();
+
+    newBooking.budget = budget._id;
+    await newBooking.save();
 
   const safebox =  new Safebox();
   safebox.title = 'حجز برنامج سياحي';

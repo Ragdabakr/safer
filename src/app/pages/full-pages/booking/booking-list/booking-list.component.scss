@@ -4,8 +4,11 @@
 #error-msg{
     color:red;
 }
+.card .card {
+    box-shadow: none;
+    text-align: right;
+}
 .icon{
-    background-color: #b2d1eb;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -87,4 +90,49 @@ form .form-control {
     vertical-align: baseline;
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn{
+    margin-left: 5px;
+}
+.btn-raised{
+    background-color: #312662 !important;
+    color:white
+}
+.csv{
+    background-color: #e02365 !important;
+    color: white !important;
+}
+.icon{
+    color: #fcfcfc;
+}
+
+.printer{
+    color:rgb(0, 4, 255) !important;
+    font-size: 2em;
+}
+.btn-green{
+    background-color: #028a8d;
+    color:white !important;
+}
+
+a {
+    color:white
+}
+.card .header {
+    padding: 1.5rem;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+}
+.icon{
+    color: #fcfcfc;
+    padding-left: 20px;
+    background-color: none;
+}
+li {
+    font-family: 'Almarai', sans-serif !important;
+}
+.reset{
+    color:#e02365;
+    cursor: pointer;
 }

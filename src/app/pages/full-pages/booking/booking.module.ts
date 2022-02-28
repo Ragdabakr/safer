@@ -23,6 +23,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { BookingRoutingModule } from './booking-routing.module';
 import { CreateBookingComponent } from './create-booking/create-booking.component';
 import { BookingListComponent } from './booking-list/booking-list.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { BookingListComponent } from './booking-list/booking-list.component';
     DialogModule,
     AgmCoreModule,
     Ng2TelInputModule,
+    NgxPrintModule,
 
 
 ],

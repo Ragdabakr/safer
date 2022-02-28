@@ -9,6 +9,8 @@ import 'intl-tel-input/build/css/intlTelInput.css';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { formatDate } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -20,7 +22,8 @@ const URL = 'http://localhost:3000/api/v1/image/upload-image';
 @Component({
   selector: 'app-booking-list',
   templateUrl: './booking-list.component.html',
-  styleUrls: ['./booking-list.component.scss']
+  styleUrls: ['./booking-list.component.scss'],
+  providers: [DatePipe]
 })
 export class BookingListComponent implements OnInit {
   //Upload single images
@@ -31,7 +34,7 @@ export class BookingListComponent implements OnInit {
   bookings: any;
   detailsBookingDialog: boolean;
   booking: any;
-  editBookingDialog: boolean;
+  editBookingDialog: boolean = false;
   travellerForm: FormGroup;
   editbooking: any;
   bookingId: any;
@@ -50,7 +53,7 @@ export class BookingListComponent implements OnInit {
   child: any;
   totalPrice: number;
   paymentWays = [{"name":"نقدا"} , {"name":"أجل"}];
-  bookingStatus = [  'دفع بتحويل بنكي' ,'حجز بدون دفع', 'تأكيد حجز المبلغ كامل' ,'الغاء الحجز' ];
+  bookingStatus = [  'حجز جزء من المبلغ' ,'حجز بدون دفع', 'تأكيد حجز المبلغ كامل' ,'الغاء الحجز' ];
   display: boolean = false;
   closeDialog:boolean = false;
   openPaymentForm: boolean = false;
@@ -72,7 +75,7 @@ export class BookingListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder ,  private tourService:TourService, private bookingService:BookingService,private authService:AuthService ,
-    private toastr:ToastrService , private invoiceService:InvoiceService) { }
+    private toastr:ToastrService , private invoiceService:InvoiceService , private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.user =this.authService.getUser();
@@ -134,8 +137,6 @@ export class BookingListComponent implements OnInit {
                     paymentWay: new FormControl('', [
                           Validators.required,
                       ]),
-                      bankPaymentPhoto: new FormControl('', [
-                      ]),
                      
                       totalPrice: new FormControl('', [
                          
@@ -160,6 +161,8 @@ export class BookingListComponent implements OnInit {
               
                 var iti = window.intlTelInputGlobals.getInstance(input);
                 iti.isValidNumber();
+               // this.tourForm.controls.tourDate.setValue(formatDate(date,'yyyy-MM-dd','en'));
+               
   }
 
   // Get Tours
@@ -181,11 +184,16 @@ getTourDates(): void {
   const tourId = this.tourForm.get('tourInfo').value.tourName;
   this.tourService.getTourById(tourId).subscribe((data) =>{
      const foundTour = data.data.doc.startDates;
-       this.tourDates = foundTour.map((i) => { i.date  ; return i; });
+       const tourDates = foundTour.map((i) => { i.date  ; return i; });
+       this.tourDates = this.datePipe.transform( tourDates, 'dd-MM-yyyy'),
+       console.log(" this.tourDates" ,  this.tourDates);
        this.tourPrice = data.data.doc.price;
        this.paymentForm.patchValue({
         paymentInfo:{
-            tourPrice : this.tourPrice
+            tourPrice : this.tourPrice,
+        },
+        tourInfo:{
+          tourDate:this.tourDates
         }
        });
       },
@@ -444,7 +452,8 @@ onPaymentChange(paymentWay: string): void {
 
               this.toastr.success('تم تحديث  الحجز بنجاح');
               this.getBookings();
-              this.openPaymentForm = false;
+
+             this.editBookingDialog = false;
           },
           (error: HttpErrorResponse) =>{
             if(error.error.message === 'You do not have permission to perform this action'){
@@ -477,12 +486,7 @@ onPaymentChange(paymentWay: string): void {
 
 // hide edit booking dialog  with conditions
  close(){
-if(this.bookingTraveller = true){
-  this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة');
-  this.bookingTraveller = false;
-  this.editBookingDialog = false;
-}
-  else if (this.paymentForm.invalid) {
+if (this.paymentForm.invalid) {
     this.validateAllFormFields(this.paymentForm); // Triger postForm validation  
     this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة');
     this.editBookingDialog = true;
@@ -589,6 +593,13 @@ OnFileSelect(event) {
       }).catch(err => console.log(err));
   }
 
+}
+
+//Create new tour
+createNewBooking(){
+  setTimeout(() => {
+    window.location.href = `/full-layout/full-pages/createBooking`;
+  }, 1000);
 }
 
 

@@ -42,13 +42,12 @@ export class GroupReportComponent implements OnInit {
         this.tourService.getTourById(this.tourId).subscribe((data) =>{
           this.tour = data.data.doc;
           this.bookings = data.data.doc.bookings;
-         // console.log("this.bookings" , this.bookings);
+        //  console.log("this.bookings >>" , this.bookings);
           this.bookingsNumber =  data.data.doc.bookings.length;
           const travellerInfoArray =  this.bookings.map((info) => {
            this.travellerInfo = info.travellerInfo;
           // console.log("this.travellerInfo999" , this.travellerInfo);
 
-          
            var i;
            var totalRceivedAmount = 0;
            var totalRemainingAmount = 0 ;
@@ -210,7 +209,7 @@ closeTour(){
     this.tourService.closeTour(this.tourId , this.tour).subscribe(
       res =>{
         this.toastr.success(' تم اغلاق الرحلة بنجاح');
-        this.getTours();
+        window.location.href = '/full-layout/full-pages/groupsReport';
         },
         err =>{
         console.log(err);

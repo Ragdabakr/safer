@@ -21,6 +21,7 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { HttpModule } from '@angular/http';
 import { AgmCoreModule } from '@agm/core';
 import { GroupReportComponent } from './group-report/group-report.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -48,9 +49,10 @@ import { GroupReportComponent } from './group-report/group-report.component';
     TableModule,
     DialogModule,
     AgmCoreModule,
-      TableModule,
-      DialogModule,
-      AgmCoreModule,
+    TableModule,
+    DialogModule,
+    AgmCoreModule,
+    NgxPrintModule,
   
       
   ],

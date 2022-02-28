@@ -311,10 +311,10 @@ addTraveller(): FormGroup {
       !this.flightTicketForm.get('ratio').value ||
       !this.flightTicketForm.get('notes').value ||
       !this.flightTicketForm.get('departureDate').value||
-      !this.flightTicketForm.get('destination').value ||
-      !this.flightTicketForm.get('totalReceivedAmount').value ||
-      !this.flightTicketForm.get('totalNetSellingPrice').value ||
-      !this.flightTicketForm.get('totalRemainingAmount').value
+      !this.flightTicketForm.get('destination').value 
+      // !this.flightTicketForm.get('totalReceivedAmount').value ||
+      // !this.flightTicketForm.get('totalNetSellingPrice').value ||
+      // !this.flightTicketForm.get('totalRemainingAmount').value
       ){
         this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
     }else{

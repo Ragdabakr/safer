@@ -12,6 +12,10 @@ const bookingSchema = new mongoose.Schema({
     ref: 'Tour',
     required: [true, 'Booking must belong to a Tour!']
   },
+  budget: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Budget',
+  },
   number: {
     type: Number
   },
@@ -65,6 +69,7 @@ const bookingSchema = new mongoose.Schema({
 bookingSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'tourName',
+    path: 'budget',
     select: 'name maxGroupSize'
   });
   next();
@@ -73,6 +78,7 @@ bookingSchema.pre(/^find/, function(next) {
 bookingSchema.pre(/^findOne/, function(next) {
   this.populate({
     path: 'tourName',
+    path: 'budget',
     select: 'name maxGroupSize'
   });
   next();

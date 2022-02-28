@@ -36,7 +36,7 @@ export class BudgetComponent implements OnInit {
             totalTourCost += parseInt(this.tourBudget[i].tourCost);
             this.totalCredit= totalCredit;
             this.totalDebit= totalDebit;
-            this.totalTourCost= totalTourCost;
+            this.totalTourCost=totalTourCost;
           }
         },
         err =>{

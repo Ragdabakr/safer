@@ -104,7 +104,7 @@
                       </button>
                     </p-toolbar>  -->
                   <p-table #dt [value]="tours" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
-                  currentPageReportTemplate="إظهار {first} الى {last} من  {totalRecords} الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
+                  currentPageReportTemplate=" الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
                   [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
                   [responsive]="true" selectionMode="single"
                   [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">

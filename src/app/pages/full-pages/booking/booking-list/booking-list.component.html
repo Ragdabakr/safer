@@ -18,15 +18,15 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <!-- <p-toolbar class="toolbar" >
-            <button (click)="createNewTour()" class=" btn btn-default" >
-              <i class="icon-plus icon"></i>  اضافة رحلة 
+          <button (click)="exportCSV()" class=" btn btn-default csv " >
+            CSV    <i class="icon-share-alt icon"></i> 
             </button>
-            <button (click)="exportCSV()" class=" btn btn-default left" >
-              <i class="icon-share-alt icon"></i>  CSV
+            <button (click)="createNewBooking()" class=" btn btn-green" >
+              <i class="icon-plus icon"></i>  اضافة حجز لبرنامج سياحي 
             </button>
-          </p-toolbar>  -->
-        <p-table #dt [value]="bookings" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+            <button type="button" class="btn btn-primary btn-raised " printTitle="الحجوزات" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button> 
+           
+        <p-table  id="print-section" #dt [value]="bookings" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
         currentPageReportTemplate="" [style]="{'width':'100%','overflow':'auto!important'}"
         [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
         [responsive]="true" selectionMode="single"
@@ -68,7 +68,7 @@
           <tr>
               <td>{{rowIndex}}</td>
               <td>{{booking?.number}}</td>
-              <td ><a *ngIf="booking.createdInvoice === true"  href="/full-layout/full-pages/invoice/{{booking?._id}}">الفاتورة</a>
+              <td ><a  class="reset" *ngIf="booking.createdInvoice === true"  href="/full-layout/full-pages/invoice/{{booking?._id}}">الفاتورة</a>
                 <p  *ngIf="booking.createdInvoice === false">لم يتم اصدار فاتورة</p></td>
               <td>{{booking?.tourName.name}}</td>
               <td>{{booking?.tourInfo.tourDate | date}}</td>
@@ -77,7 +77,7 @@
               <td>{{booking?.tourInfo.adult}}</td>
               <td>{{booking?.tourInfo.child}}</td>
               <td>{{booking?.tourInfo.infant}}</td>
-              <td>{{booking?.paymentInfo.totalPrice}} ريال</td>
+              <td>{{booking?.paymentInfo.totalPrice}} </td>
               <td>
                 <span class="badge badge-success  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'تأكيد حجز المبلغ كامل'"> {{booking?.paymentInfo.orderStatus}}</span>
                 <span class="badge badge-warning  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'حجز بدون دفع'"> {{booking?.paymentInfo.orderStatus}}</span>
@@ -118,141 +118,9 @@
     <p-dialog [(visible)]="editBookingDialog" [style]="{width: '650px'}" header="تعديل الحجز" [modal]="true" styleClass="p-fluid" styleClass="p-fluid"  [dismissableMask]="false" 
     [modal]="true" (onHide)="close()"
     [appendTo]="'body'">    
-    <!-- <i (click)="hide()" class="icon-close edit"></i>  -->
+
                     <div class="row">
                       <div class="col-md-12"> 
-
-                         <!--edit traveller-->
-                        <div *ngIf="!bookingTraveller">
-                          <ul class="array" *ngFor="let traveller of editbooking?.travellerInfo" >
-                            <li>
-                               {{traveller.firstName}} {{traveller.lastName}}
-                               <button (click)="editBookingTraveller(traveller)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
-                            </li>
-                            <hr/>
-                            </ul>
-                        </div>     
-                          <!--edit traveller-->
-
-                          <div *ngIf="bookingTraveller" class="container-box">
-                            <form  [formGroup]="travellerForm"  novalidate>
-                              <div class="keyword-input-container"  formArrayName ="travellerInfo" >
-                                <div class="task-tags"   *ngFor="let traveller of  travellerForm.get('travellerInfo')['controls']; let i = index;">
-                                <div class="row borderSection" [formGroupName] ='i'>
-                                  {{traveller?.firstName}}
-                                 <div class="row">
-                                     <div class="form-group col-md-6   col-sm-12 ">
-                                         <label for="street">الاسم الاول</label><span class="red">*</span>
-                                         <input type="text"  formControlName="firstName" class="form-control">
-                                     </div>
-                                     <div class="form-group col-md-6   col-sm-12 ">
-                                         <label for="houseNumber">الاسم الاخير</label><span class="red">*</span>
-                                         <input type="text"  formControlName="lastName" class="form-control">
-                                     </div>
-                                     <div class="form-group col-md-6   col-sm-12 ">
-                                         <label for="postalCode">رقم جواز السفر</label><span class="red">*</span>
-                                         <input type="text"  formControlName="passportNo" class="form-control">
-                                         <span class="alert alert-danger"  *ngIf="travellerInfo2.controls[i].get('passportNo').errors?.required && (travellerInfo2.controls[i].get('passportNo').touched || travellerInfo2.controls[i].get('passportNo').dirty)">
-                                          رقم جواز السفر مطلوب
-                                        </span>
-                                        <span class="alert alert-danger"  *ngIf="travellerInfo2.controls[i].get('passportNo').errors?.pattern">
-                                          رقم جواز السفر يجب ان يحتوي علي حرف كبير وأرقام فقط
-                                        </span> 
-                                     </div>
-                                     <div class="form-group col-md-6   col-sm-12 ">
-                                       <label for="postalCode">السن</label>
-                                       <input type="text"  formControlName="age" class="form-control">
-                                   </div>
-                                 </div>
-                                </div>
-                               </div>
-                            </div>
-                            
-                          <span class="btn-toolbar">
-                            <button (click)="editTavellerButton(travellerForm)" class="btn  btn-primary "><i class="fa fa-edit" aria-hidden="true"></i></button>
-                            <button (click)="cancelEditTravellerInfo()" class="btn  btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
-                          </span>
-                            </form> 
-                          </div>
-                          
-                          <!--end edit traveller-->
-                          <!--start edit contactInfo-->
-
-                          <div class="container-box">
-                              <form [formGroup]="dataForm"  novalidate>
-                                <div formGroupName="contactInfo"> 
-                                  <div class="row">
-                                      <div class="form-group col-md-6   col-sm-12 ">
-                                          <label for="street">الاسم بالكامل</label><span class="red">*</span>
-                                          <input type="text"  formControlName="fullName" class="form-control">
-                                      </div>
-                                      <div class="form-group col-md-6   col-sm-12 ">
-                                          <label for="houseNumber">الايميل</label><span class="red">*</span>
-                                          <input type="text" formControlName="email" class="form-control">
-                                          <span class="alert alert-danger" *ngIf="customerInfo.controls['email'].invalid && (customerInfo.controls['email'].dirty || customerInfo.controls['email'].touched)">
-                                            <span  *ngIf="customerInfo.controls['email'].errors?.required">الايميل مطلوب </span>
-                                            <span  *ngIf="customerInfo.controls['email'].errors?.pattern">الايميل غير صحيح</span> 
-                                        </span>
-                                      </div>
-                                      <div class="form-group col-md-6   col-sm-12 ">
-                                          <label for="postalCode">الجوال</label><span class="red">*</span>
-                                          <input  type="text" id="phone" (change)="hasError($event)"  ng2TelInput formControlName="phone" class="form-control">
-                                          <span id="valid-msg" *ngIf="phoneSuccess" >✓ الرقم صحيح</span>
-                                          <span id="error-msg" *ngIf="phoneError" >الرقم غير صحيح</span>
-                                      </div>
-                                      <div class="form-group col-md-6   col-sm-12 ">
-                                        <label for="postalCode">العنوان</label>
-                                        <input type="text" formControlName="address" class="form-control">
-                                    </div>
-                                  </div>
-                              </div> 
-                              <div class="buttons margin-top-10">
-                                <input type="submit"  (click)="editContactInfoButton(dataForm)" class=" btn btn-primary submit " value="تعديل">
-                            </div>
-                            </form>
-                         </div>
-
-                          <!--end edit contactInfo-->
-
-                          <!--Edit tour info-->
-                          <div class="container-box">
-                            <form [formGroup]="tourForm"  novalidate>
-                              <div class="form-group col-sm-12">
-                                <label class="label-control" for="userinput6"> اسم الرحلة</label><span class="red">*</span>
-                                <input type="text"  class="form-control" formControlName="tourId"  readonly>
-                              </div>
-                              <div formGroupName="tourInfo"> 
-                                 <div class="row">
-                                  
-                                     <div class="form-group col-md-6   col-sm-12 ">
-                                       <label class="label-control" for="userinput6"> تاريخ الرحلة</label><span class="red">*</span>
-                                        <ng-select [items]="tourDates"  [bindLabel]="date | date" [bindValue]="date | date" [multiple]="false" formControlName="tourDate"> 
-                                        <ng-template ng-option-tmp let-item="item">
-                                          {{ item.date | date }}
-                                       </ng-template> 
-                                       </ng-select>
-                                     </div>
-                                     <div class="form-group col-md-6   col-sm-12 ">
-                                       <label for="street">عدد البالغين</label><span class="red">*</span>
-                                       <input type="number"  (change)="onAdultChange($event.target.value)" formControlName="adult" class="form-control">
-                                   </div>
-                                   <div class="form-group col-md-6   col-sm-12 ">
-                                     <label for="street">عدد الأطفال</label><span class="red">*</span>
-                                     <input type="number" (change)="onChildChange($event.target.value)" formControlName="child" class="form-control">
-                                   </div>
-                                  <div class="form-group col-md-6   col-sm-12 ">
-                                    <label for="street">عدد الرضع</label><span class="red">*</span>
-                                    <input type="number" (change)="onChildChange($event.target.value)" formControlName="infant" class="form-control">
-                                  </div>
-                                 </div>
-                             </div> 
-                             <div class="buttons margin-top-10">
-                              <input type="submit"  (click)="editTourInfoButton(tourForm)" class=" btn btn-primary submit " value="تعديل">
-                             </div>
-                           </form>
-                          </div>
-                         
-                          <!--end edit tour info-->
                            <!--end edit payment info-->
                            <div class="container-box" >
                            <form [formGroup]="paymentForm"  novalidate>
@@ -282,11 +150,10 @@
                                    <ng-select [items]="bookingStatus"  bindLabel="name" bindValue="name" [multiple]="false"  formControlName="orderStatus">
                                    </ng-select>
                                  </div>
-                                 
-                               </div>
-                           </div> 
+                                </div>
+                              </div> 
                            <div class="buttons margin-top-10">
-                            <input type="submit"  (click)="editPaymentInfoButton(paymentForm)" class=" btn btn-primary submit " value="تعديل">
+                              <input type="submit"  (click)="editPaymentInfoButton(paymentForm)" class=" btn btn-primary submit " value="حفظ التعديلات">
                            </div>
                          </form>
                          </div>
