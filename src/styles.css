@@ -154,3 +154,15 @@ form label {
     padding: 1.5rem;
     padding-bottom: 20px !important;
 }
+.iti__country-list {
+    position: fixed !important;
+    z-index: 2;
+    list-style: none;
+    text-align: right;
+    float: right;
+ margin-left: 30px;}
+ .iti {
+    position: unset !important;
+    display: unset !important;
+    width: 150px !important;
+}

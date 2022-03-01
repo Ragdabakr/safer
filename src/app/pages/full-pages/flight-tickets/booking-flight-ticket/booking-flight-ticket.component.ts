@@ -9,6 +9,8 @@ import { CompanyService } from 'app/shared/services/company.service';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { ItemsList } from '@ng-select/ng-select/ng-select/items-list';
 import { InvoiceService } from 'app/shared/services/invoice.service';
+import * as intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/build/css/intlTelInput.css';
 
 @Component({
   selector: 'app-booking-flight-ticket',
@@ -103,15 +105,15 @@ export class BookingFlightTicketComponent implements OnInit {
   ngOnInit() {
   this.getCompanies();
   this.user =this.authService.getUser();
+  const input = document.querySelector("#phone");
+  // intlTelInput(input, {
+  //     // any initialisation options go here
+  //     initialCountry: "sa",   
+  //      utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.min.js'
+  // });
 
-        this.cols = [
-          { field: 'travellerFirstName', header: 'أسم المسافر' },
-          { field: 'travellerType', header: 'نوع المسافر' },
-          { field: 'ticketCostPrice', header: 'سعر التكلفة ' },
-          { field: 'ticketSellingPrice', header: ' سعرالبيع' },
-         
-      ];
-
+  // var iti = window.intlTelInputGlobals.getInstance(input);
+  // iti.isValidNumber();
 
    this.flightTicketForm = new FormGroup(
          {
@@ -229,7 +231,7 @@ addTraveller(): FormGroup {
         travellerLastName: ['', [Validators.required]],
         travellerType: ['', [Validators.required]],
         passportNumber: ['', [Validators.required]],
-        // ticketvatPrice:  ['', [Validators.required]],
+        phoneNumber:  ['', [Validators.required]],
         ticketCostPrice: ['', [Validators.required]],
         ticketSellingPrice: ['', [Validators.required]],
 

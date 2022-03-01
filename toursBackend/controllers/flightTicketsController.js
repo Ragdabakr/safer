@@ -6,6 +6,7 @@ const FlightTicketBooking = require('../models/flightTicketBookingModel');
 FlightTicketCancelBooking= require('../models/flightTicketCancelBookingModel');
 const FlightTicketBookingInvoice= require('./../models/flightTicketBookingInvoiceModel');
 const Commission = require('./../models/commissionModel');
+const Budget = require('./../models/budgetModel');
 
 const Company = require('./../models/companyModel');
 const User = require('./../models/userModel');
@@ -37,6 +38,7 @@ exports.createFlightTicketBooking = catchAsync(async(req, res) => {
     pnrNumber:req.body.travellers[i].pnrNumber ,
     travellerType :req.body.travellers[i].travellerType ,
     passportNumber :req.body.travellers[i].passportNumber ,
+    phoneNumber :req.body.travellers[i].phoneNumber ,
     ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
     ticketCostPrice :req.body.travellers[i].ticketCostPrice ,
     ticketSellingPrice :req.body.travellers[i].ticketSellingPrice ,
@@ -69,6 +71,20 @@ commission.credit = req.body.data.totalNetComm;
 commission.user = user.name;
 // console.log("commission  >>>>>>" , commission);
  commission.save();
+
+ const budget =  new Budget();
+ budget.name = 'حجوزات تذاكر الطيران';
+ budget.date = Date.now();
+ budget.totalReceivedAmount = req.body.data.totalReceivedAmount;
+ budget.totalRemainingAmount = req.body.data.totalRemainingAmount;
+ await  budget.save(); 
+
+ const budget2 =  new Budget();
+ budget2.name = 'عمولات تذاكر الطيران';
+ budget2.date = Date.now();
+ budget2.totalReceivedAmount = req.body.data.totalNetComm;
+ budget2.totalRemainingAmount = 0;
+ await  budget2.save(); 
 
 
   Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
@@ -131,6 +147,7 @@ res.status(201).json({
       pnrNumber:req.body.travellers[i].pnrNumber ,
       travellerType :req.body.travellers[i].travellerType ,
       passportNumber :req.body.travellers[i].passportNumber ,
+      phoneNumber :req.body.travellers[i].phoneNumber ,
       ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
       ticketCostPrice :req.body.travellers[i].ticketCostPrice ,
       ticketSellingPrice :req.body.travellers[i].ticketSellingPrice ,
@@ -162,6 +179,22 @@ res.status(201).json({
   commission.user = user.name;
   // console.log("commission  >>>>>>" , commission);
    commission.save();
+
+   const budget =  new Budget();
+   budget.name = 'حجوزات تذاكر الطيران';
+   budget.date = Date.now();
+   budget.totalReceivedAmount = req.body.data.totalReceivedAmount;
+   budget.totalRemainingAmount = req.body.data.totalRemainingAmount;
+   await  budget.save(); 
+  
+   const budget2 =  new Budget();
+   budget2.name = 'عمولات تذاكر الطيران';
+   budget2.date = Date.now();
+   budget2.totalReceivedAmount = req.body.data.totalNetComm;
+   budget2.totalRemainingAmount = 0;
+   await  budget2.save(); 
+
+
 
      Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
                  if (err) {console.log(err); 
@@ -202,6 +235,8 @@ res.status(201).json({
                    
                   await foundCompany.save();
   });
+
+
   
   res.status(201).json({
     status: 'success',
@@ -223,8 +258,6 @@ res.status(201).json({
 exports.createFlightTicketInvoice = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
-  console.log('data666', data);
-  
   const newFlightTicketBookingInvoice = await FlightTicketBookingInvoice.create(req.body.data);
   FlightTicketBooking.findOne({number:newFlightTicketBookingInvoice.number}, async function(err,foundBooking){ 
     if (err) {console.log(err); }
@@ -235,9 +268,7 @@ exports.createFlightTicketInvoice = catchAsync(async(req, res) => {
     data: {
         data: foundBooking
     }
-    
-  
-  });
+    });
   });
 });
 
@@ -250,8 +281,6 @@ exports.createFlightTicketInvoice = catchAsync(async(req, res) => {
 exports.refundFlightTickets = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
-  // console.log("user" ,user);
-   console.log("data999" ,data);
   const newCancelFlightTicket = await FlightTicketCancelBooking.create(req.body.data);
 
 const commission =  new Commission();
@@ -263,6 +292,13 @@ commission.credit = 0;
 commission.user = req.user.name;
 // console.log("commission  >>>>>>" , commission);
  commission.save();
+
+ const budget2 =  new Budget();
+ budget2.name = 'استرجاع عمولات حجز الطيران';
+ budget2.date = Date.now();
+ budget2.totalReceivedAmount = 0;
+ budget2.totalRemainingAmount = req.body.data.totalRefundNetComm;
+ await  budget2.save(); 
 
  FlightTicketBooking.findOne({number:req.body.data.number}, async function(err,foundFlightTicketBooking){
   if (err) {console.log(err); 
@@ -314,25 +350,17 @@ data: newCancelFlightTicket
 }
 
 });
-
-  
 });
 
 
-
-
-
 exports.getFlightTicketsBookingList = factory.getAll(FlightTicketBooking, {path:'bookingFrom ,bookingTo'});
-
 
 exports.getFlightTicketBooking= factory.getOne(FlightTicketBooking , {path:'bookingFrom ,bookingTo'});
 exports.updateFlightTicketBooking= factory.updateOne(FlightTicketBooking);
 exports.deleteFlightTicketBooking= factory.deleteOne(FlightTicketBooking);
 
-
 exports.getAllflightTicketsInvoices = factory.getAll(FlightTicketBookingInvoice);
 exports.getFlightTicketInvoice= factory.getOne(FlightTicketBookingInvoice);
-// exports.createFlightTicketInvoice= factory.createOne(FlightTicketBookingInvoice);
 exports.deleteFlightTicketInvoice= factory.deleteOne(FlightTicketBookingInvoice);
 
 

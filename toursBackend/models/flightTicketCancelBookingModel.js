@@ -27,8 +27,7 @@ const flightTicketCancelBooking = new mongoose.Schema({
     },
 
     departureDate: {
-        type: Date,
-        required: true,
+        type: String,
     },
     destination: {
         type: String,

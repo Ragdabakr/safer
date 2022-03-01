@@ -30,7 +30,7 @@
           currentPageReportTemplate="تذاكر الطيران" [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['bookingFrom','number','departureDate','destination','cancel','paymentMethod','totalNetSellingPrice','totalRemainingAmount' , 'totalRemainingAmount' ]">
+          [filterDelay]="0" [globalFilterFields]="['bookingFrom','number','traveller.phoneNumber','departureDate','destination','cancel','paymentMethod','totalNetSellingPrice','totalRemainingAmount' , 'totalRemainingAmount' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -47,9 +47,9 @@
             <tr>
               <th   pSortableColumn="number"> رقم الحجز  <p-sortIcon field="number"></p-sortIcon></th>
                 <th   pSortableColumn="number">الفاتورة  <p-sortIcon field="number"></p-sortIcon></th>
-                <!-- <th pSortableColumn="bookingFrom">القطع من  <p-sortIcon field="bookingFrom"></p-sortIcon></th> -->
                 <th pSortableColumn="city"> عدد المسافرين <p-sortIcon field="city"></p-sortIcon></th>
                 <th pSortableColumn="city">  المسافرين <p-sortIcon field="city"></p-sortIcon></th>
+                <th pSortableColumn="phoneNumber"> الهاتف  <p-sortIcon field="phoneNumber"></p-sortIcon></th> 
                 <th pSortableColumn="departureDate">تاريخ المغادرة <p-sortIcon field="departureDate"></p-sortIcon></th>
                 <th pSortableColumn="destination">الوجهة  <p-sortIcon field="destination"></p-sortIcon></th>
                 <th pSortableColumn="paymentMethod">طريقة الدفع  <p-sortIcon field="paymentMethod"></p-sortIcon></th>
@@ -73,6 +73,11 @@
                     <li>{{traveller.travellerFirstName}} {{traveller.travellerLastName}}</li>
                   </ul>
                 </td>
+                <td> 
+                <ul *ngFor="let traveller of ticket.travellers ; let i = index">
+                  <li>{{traveller.phoneNumber}}</li>
+                </ul>
+              </td>
                 <td>{{ticket?.departureDate | date}}</td>
                 <td>{{ticket?.destination}}</td>
                 <td>{{ticket?.paymentMethod}}</td>

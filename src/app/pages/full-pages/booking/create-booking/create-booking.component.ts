@@ -162,8 +162,8 @@ export class CreateBookingComponent implements OnInit {
 
         }
 
-   // Start travellers Array
-
+   
+  // ---------------- Start travellers Array----------------
    addTravellerInfoButtonClick(): void {
     const travellerInfo = this.travellerForm.controls.travellerInfo as FormArray;
     this.travellersArray = travellerInfo.value;
@@ -180,7 +180,8 @@ addtravellers(): FormGroup {
 }
 
 
-// Get Tours
+
+// ----------------  Get Tours----------------
 getTours(){
   this.tourService.getTours().subscribe(
     res =>{
@@ -188,10 +189,12 @@ getTours(){
       this.tours = data.docs.filter(a=> a.active === true  && a.open === true).reverse();
       },
       err =>{
-      console.log(err);
+        this.toastr.error('يوجد خطأ ما');
     }
   )
 }
+
+// ----------------  Find Tours Dates----------------
 onTourChange(tourId: string): void {
   this.datesArray =[];
   this.tourService.getTourById(tourId).subscribe((data) =>{
@@ -220,20 +223,20 @@ onTourChange(tourId: string): void {
        });
       },
       (error: HttpErrorResponse) =>{
-        console.log("error" , error);
+        //console.log("error" , error);
         if(error.error.message === 'You do not have permission to perform this action'){
             this.toastr.error(' ليس لديك صلاحية إضافة حجز');
            }
     }),
       err =>{
-      console.log(err);
+        this.toastr.error('يوجد خطأ ما');
     }
 }
 onPaymentChange(paymentWay: string): void {
   this.paymentWayCheck = paymentWay;
 }
 
-    // On submit link click
+ // ----------------  On Booking Submit Clicked----------------
     onFirstSubmit() {
 
       if (this.travellerForm.invalid) {
@@ -334,16 +337,14 @@ onPaymentChange(paymentWay: string): void {
                   }, 1000);
               },
                   (error: HttpErrorResponse) =>{
-                      console.log("error >>>>" ,error);
-                    //   if(error.error.errors[0].title === "Invalid tour name!"){
-                    //       this.toastr.error('اسم الرحلة مستخدم من قبل');
-                    //   }
+                  
               });
          }
         
      }
 
-         // To validate all form fields, we need to iterate throughout all form controls:
+   // To validate all form fields, we need to iterate throughout all form controls:
+
     validateAllFormFields(formGroup: FormGroup) {
       Object.keys(formGroup.controls).forEach(field => {
           const control = formGroup.get(field);
@@ -355,18 +356,19 @@ onPaymentChange(paymentWay: string): void {
       });
   }
 
-  //validate nested form groups
+
+   // ---------------- Validate nested form groups----------------
   get customerInfo() {
     return this.dataForm.controls.contactInfo as FormGroup;
   };
-  //validate array forms
+
+   // ----------------  Validate array forms----------------
   get travellerInfo(){
     return this.travellerForm.controls.travellerInfo as FormArray;
   }
 
-/// phone number validation
 
-
+  // ---------------- Phone number validation----------------
 hasError(event){
     var inputs = document.querySelector('#phone');
     var iti = window.intlTelInputGlobals.getInstance(inputs);

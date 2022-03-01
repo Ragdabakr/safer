@@ -81,3 +81,19 @@ label{
 .saveButton{
     background-color: #e02365 !important;
 }
+/* phone flags path*/
+.iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/img/flags.png");} 
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+ .iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/img/flags@2x.png");}
+} 
+
+#valid-msg{
+    color:green;
+}
+#error-msg{
+    color:red;
+}
+// .phone{
+//     width:100px !important
+// }

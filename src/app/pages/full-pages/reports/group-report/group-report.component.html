@@ -125,11 +125,11 @@
 	</div>
 </div>
 
-                <p-table #dt [value]="bookings" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+                <p-table id="print-section" #dt [value]="bookings" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
                 currentPageReportTemplate="الحجوزات" [style]="{'width':'100%','overflow':'auto!important'}"
                 [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
                 [responsive]="true" selectionMode="single"
-                [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
+                [filterDelay]="0" [globalFilterFields]="['tourInfo.adult','email','phone','createdAt' , 'tourInfo.adult' ,'remainingAmount', 'receivedAmount']">
               <ng-template pTemplate="caption">
                 <div class="ui-table-globalfilter-container">
                   <div class="form-group">
@@ -151,8 +151,8 @@
                     <th pSortableColumn="phone">الهاتف<p-sortIcon field="phone"></p-sortIcon></th>
                     <th pSortableColumn="email">البريد الالكتروني<p-sortIcon field="email"></p-sortIcon></th>
                     <th pSortableColumn="createdAt">تاريخ حجز الرحلة <p-sortIcon field="createdAt"></p-sortIcon></th>
-                    <th pSortableColumn="maxGroupSize">  المبلغ المدفوع <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
-                    <th pSortableColumn="maxGroupSize">  المبلغ المتبقي <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+                    <th pSortableColumn="receivedAmount">  المبلغ المدفوع <p-sortIcon field="receivedAmount"></p-sortIcon></th>
+                    <th pSortableColumn="remainingAmount">  المبلغ المتبقي <p-sortIcon field="remainingAmount"></p-sortIcon></th>
                     <th pSortableColumn="tourInfo.adult">   نوع المسافرين <p-sortIcon field="tourInfo.adult"></p-sortIcon></th>
                     <th pSortableColumn="">  اتمام الدفع <p-sortIcon field=" "></p-sortIcon></th>
                 </tr>

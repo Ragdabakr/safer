@@ -81,7 +81,6 @@ export class BookingListComponent implements OnInit {
     this.user =this.authService.getUser();
     this.getBookings();
     this.getTours();
-    //  this.getTourDates();
     this.travellerForm = this.fb.group({
       travellerInfo: this.fb.array([this.addtravellers()]),
   });
@@ -165,28 +164,30 @@ export class BookingListComponent implements OnInit {
                
   }
 
-  // Get Tours
+
+// ---------------- Get Tours----------------
 getTours(){
   this.tourService.getTours().subscribe(
     res =>{
       let data = res['data'];
       this.tours = data.docs;
-      console.log('tours >>>',this.tours);
       },
       err =>{
-      console.log(err);
+        this.toastr.error('يوجد خطأ ما');
     }
   )
 }
 
-  // Get Tours Dtes
+
+ // ---------------- Get TourDates----------------
+
 getTourDates(): void {
   const tourId = this.tourForm.get('tourInfo').value.tourName;
   this.tourService.getTourById(tourId).subscribe((data) =>{
      const foundTour = data.data.doc.startDates;
        const tourDates = foundTour.map((i) => { i.date  ; return i; });
        this.tourDates = this.datePipe.transform( tourDates, 'dd-MM-yyyy'),
-       console.log(" this.tourDates" ,  this.tourDates);
+       //console.log(" this.tourDates" ,  this.tourDates);
        this.tourPrice = data.data.doc.price;
        this.paymentForm.patchValue({
         paymentInfo:{
@@ -198,10 +199,12 @@ getTourDates(): void {
        });
       },
       err =>{
-      console.log(err);
+        this.toastr.error('يوجد خطأ ما');
     }
   )
 }
+
+ // ---------------- On Bayment Change----------------
 
 onPaymentChange(paymentWay: string): void {
   this.paymentWayCheck = paymentWay;
@@ -218,205 +221,42 @@ onPaymentChange(paymentWay: string): void {
           age: ['', [Validators.required]],
       });
   }
-      // Get Tours
+
+   // ---------------- Get Booking ----------------  
+
     getBookings(){
       this.bookingService.getBookings().subscribe(
         res =>{
           let data = res['data'];
           this.bookings = data.docs.reverse();
-           console.log('bookings >>>',this.bookings);
           },
           err =>{
-          console.log(err);
+            this.toastr.error('يوجد خطأ ما');
         }
       )
     }
     
-      // Get Booking details
+      
+    // ---------------- Get Booking details----------------
+
     detailsBooking(booking){
       this.booking = booking;
-      console.log("this.boooking" , this.booking );
+     // console.log("this.boooking" , this.booking );
       this.detailsBookingDialog = true;
     }
    
+   // ---------------- Edit Booking----------------
 
     editBooking(Booking){
       this.editbooking = Booking;
       this.bookingId = Booking._id;
       this.editBookingDialog = true;
-      this.editContactForm(Booking);
-      this.editTourInfo(Booking);
       this.editPaymentInfo(Booking);
     }
 
-     // Edit travellerInfo array
 
-    editBookingTraveller(traveller){
-      this.traveller = traveller;
-      this.bookingTraveller = true;
-      this.travellerForm.patchValue({
-        travellerInfo: [{
-        firstName:this.traveller.firstName,
-        lastName:this.traveller.lastName,
-        passportNo:this.traveller.passportNo,
-        age:this.traveller.age,
-          }],
-       });
-    }
-
-  
-    editTavellerButton(travellerForm){
-      if (this.travellerForm.invalid) {
-        this.validateAllFormFields(this.travellerForm); // Triger postForm validation  
-        this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة');
-    } else {
-      this.bookingService.editBooking(this.bookingId ,  travellerForm.value ,this.paymentForm).subscribe(
-        () => {
-            this.toastr.success('تم تحديث  الحجز بنجاح');
-            this.getBookings();
-        },
-        (error: HttpErrorResponse) =>{
-          if(error.error.message === 'You do not have permission to perform this action'){
-              this.toastr.error(' ليس لديك صلاحية تعديل حجز');
-              this.getBookings();
-             }
-      });
-    }
-  }
-
-  cancelEditTravellerInfo(){
-    this.bookingTraveller = false;
-  }
-  
-
-    // Edit contactInfo 
-
-    editContactForm(Booking){
-      this.dataForm.patchValue({
-        contactInfo: {
-        fullName: Booking.contactInfo.fullName,
-        email: Booking.contactInfo.email,
-        phone: Booking.contactInfo.phone,
-        address: Booking.contactInfo.address,
-      },
-       });
-    }
-
-    editContactInfoButton(dataForm){
-      if (this.dataForm.invalid) {
-        this.validateAllFormFields(this.dataForm);
-        this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة');
-    }else{
-      var inputs = document.querySelector('#phone');
-      var iti = window.intlTelInputGlobals.getInstance(inputs);
-      var phoneNumber  = iti.getNumber(intlTelInputUtils.numberFormat.E164);
-      this.dataForm.patchValue({
-        contactInfo: {
-        phone: phoneNumber,
-      },
-       });
-      this.bookingService.editBooking(this.bookingId ,  dataForm.value, this.paymentForm.value ).subscribe(
-        () => {
-            this.toastr.success('تم تحديث  الحجز بنجاح');
-            this.getBookings();
-        },
-        (error: HttpErrorResponse) =>{
-          if(error.error.message === 'You do not have permission to perform this action'){
-              this.toastr.error(' ليس لديك صلاحية تعديل حجز');
-              this.getBookings();
-             }
-      });
-    }
-  }
-
-   // Edit tour Info 
-
-    editTourInfo(Booking){
-      this.tourForm.patchValue({
-        tourId: Booking.tourName.name,
-        tourName: Booking.tourName.id,
-        tourInfo: {
-          tourDate: Booking.tourInfo.tourDate,
-          adult: Booking.tourInfo.adult,
-          child: Booking.tourInfo.child,
-          infant: Booking.tourInfo.infant,
-      },
-       });
-
-
-       this.tourService.getTourById(Booking.tourName.id).subscribe((tour) => {
-        this.tour = tour.data.doc;
-        this.adultPrice = tour.data.doc.adultPrice;
-        this.childPrice = tour.data.doc.childPrice;
-        this.infantPrice = tour.data.doc.infantPrice;
-      });
-
-    }
-
-
-
-    editTourInfoButton(tourForm){
-      //console.log("tourForm" , tourForm.value);
-      this.adult = this.tourForm.get('tourInfo').value.adult;
-      this.child = this.tourForm.get('tourInfo').value.child;
-      this.infant = this.tourForm.get('tourInfo').value.infant;
-
-  
-      this.totalPrice = this.adultPrice * this.adult + this.childPrice *this.child + this.infantPrice *this.infant;
- 
-       this.tourForm.patchValue({
-       tourInfo:{
-            adult: this.adult,
-            child: this.child,
-            infant: this.infant,
-        }
-       
-       });
-      this.paymentForm.patchValue({
-       paymentInfo:{
-           totalPrice: this.totalPrice,
-       }
-      
-      });
-
-      this.bookingService.editBooking(this.bookingId ,  tourForm.value , this.paymentForm.value ).subscribe(
-        () => {
-            this.toastr.success('تم تحديث  الحجز بنجاح');
-            this.getBookings();
-        },
-        (error: HttpErrorResponse) =>{
-          if(error.error.message === 'You do not have permission to perform this action'){
-              this.toastr.error(' ليس لديك صلاحية تعديل حجز');
-              this.getBookings();
-             }
-            
-      });
-
-      
-    }
-
-    onAdultChange(event){
-      this.paymentForm.patchValue({
-        paymentInfo: {
-          paymentWay: '',
-          orderStatus: '',
-      },
-       });
-      this.openPaymentForm = true;
-    }
-    onChildChange(event){
-      this.paymentForm.patchValue({
-        paymentInfo: {
-          paymentWay: '',
-          orderStatus: '',
-      },
-       });
-       this.openPaymentForm = true;
-      
-    }
-
-      // Edit payment Info 
-
+   // ---------------- Edit payment Info ----------------
+   
     editPaymentInfo(Booking){
       this.paymentForm.patchValue({
         paymentInfo: {
@@ -465,7 +305,6 @@ onPaymentChange(paymentWay: string): void {
 
       
       }else{
-        console.log("else reservation");
         this.bookingService.editPaymentBooking(this.bookingId ,  paymentForm.value  , this.tourForm.value).subscribe(
           () => {
               this.toastr.success('تم تحديث  الحجز بنجاح');
@@ -484,7 +323,7 @@ onPaymentChange(paymentWay: string): void {
   }
 
 
-// hide edit booking dialog  with conditions
+  // ---------------- Hide edit booking dialog  with conditions----------------
  close(){
 if (this.paymentForm.invalid) {
     this.validateAllFormFields(this.paymentForm); // Triger postForm validation  
@@ -497,7 +336,7 @@ if (this.paymentForm.invalid) {
  }
 
 
-   // Delete booking
+   // ---------------- Delete booking----------------
   deleteBooking(booking){
     this.bookingService.deleteBooking(booking._id, booking.tourName.id ).subscribe(
       () => {
@@ -505,16 +344,17 @@ if (this.paymentForm.invalid) {
           this.getBookings();
       },
       (error: HttpErrorResponse) =>{
-        console.log("error" , error);
         if(error.error.message === 'You do not have permission to perform this action'){
             this.toastr.error(' ليس لديك صلاحية حذف حجز');
+           }else{
+            this.toastr.error('يوجد خطأ ما');
            }
     });
   }
 
 
 
-      // To validate all form fields, we need to iterate throughout all form controls:
+ // To validate all form fields, we need to iterate throughout all form controls:
       validateAllFormFields(formGroup: FormGroup) {
       Object.keys(formGroup.controls).forEach(field => {
           const control = formGroup.get(field);
@@ -526,7 +366,9 @@ if (this.paymentForm.invalid) {
       });
   }
 
-/// phone number validation
+
+// ---------------- Phone Number Validation----------------
+
 hasError(event){
   var inputs = document.querySelector('#phone');
   var iti = window.intlTelInputGlobals.getInstance(inputs);
@@ -550,52 +392,7 @@ hasError(event){
   }
 
 
-  // Image upload  ReadAsBase64
-
-  ReadAsBase64(file): Promise<any> {
-    const reader = new FileReader();
-    const fileValue = new Promise((resolve, reject) => {
-        reader.addEventListener('load', () => {
-            resolve(reader.result);
-        });
-
-        reader.addEventListener('error', (event) => {
-            reject(event);
-        });
-        reader.readAsDataURL(file);
-    });
-    return fileValue;
-}  
-
-  //upload single image
-
-OnFileSelect(event) {
-
-  const file: File = event[0];
-  this.uploadedFile = file;
-  const sizeImage = file.size;
-  if (sizeImage > 10000000) {
-      this.fileAvalable = false;
-      alert('File is too big!');
-      const fileImage = '';
-      this.progress = false;
-      this.ReadAsBase64(fileImage).then(result => {
-          this.selectedFile = result;
-      }).catch(err => console.log(err));
-  } else {
-      this.ReadAsBase64(file).then(result => {
-          this.selectedFile = result;
-          this.paymentForm.patchValue({
-              paymentInfo:{
-                  bankPaymentPhoto: this.selectedFile
-              }
-          });
-      }).catch(err => console.log(err));
-  }
-
-}
-
-//Create new tour
+// ---------------- Create new tour----------------
 createNewBooking(){
   setTimeout(() => {
     window.location.href = `/full-layout/full-pages/createBooking`;
@@ -603,7 +400,7 @@ createNewBooking(){
 }
 
 
-//print function
+// ---------------- Get Reset----------------
 printReaet(booking){
   this.invoiceService.createInvoice(booking).subscribe(
     res =>{

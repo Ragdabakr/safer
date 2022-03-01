@@ -34,6 +34,10 @@ const flightTicketBooking = new mongoose.Schema({
             type: String,
             
         }, 
+        phoneNumber: {
+            type: Number,
+            
+        },
         ticketCostPrice: {
             type: Number,
             

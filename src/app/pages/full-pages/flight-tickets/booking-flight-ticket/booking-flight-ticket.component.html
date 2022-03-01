@@ -24,13 +24,13 @@
               <div class="row">
                 <div class=" borderSection form-inline"> 
                     <div class="form-group  col-sm-12 col-md-4">
-                          <label for="street"> القطع من</label>
+                          <label for="street"> الحجز من</label>
                           <select  class="form-control" data-size="7" formControlName="bookingFrom"  >
                             <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
                         </select><span class="red">*</span>
                     </div>
                         <div class="form-group col-sm-12 col-md-4">
-                          <label for="street"> القطع الي</label>
+                          <label for="street"> الحجز الي</label>
                           <select class="form-control" data-size="7" formControlName="bookingTo"  >
                             <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
                         </select><span class="red">*</span>
@@ -71,7 +71,7 @@
                     <input type="text"  formControlName="travellerFirstName" class="form-control"><span class="red">*</span>
                 </div>
                 <div class="form-group col-sm-12 col-md-4 payment">
-                  <label  class="label" for="street">الاسم الأخير</label>
+                  <label  class="label" for="street"> اسم العائلة</label>
                   <input type="text"  formControlName="travellerLastName" class="form-control"><span class="red">*</span>
                 </div>
                 <div class="form-group col-sm-12 col-md-4 payment">
@@ -85,9 +85,16 @@
                 <input  class="checkbox" type="text" formControlName="pnrNumber" class="form-control"><span class="red">*</span>
               </div>
               <div class="form-group col-sm-12 col-md-4 payment">
+                <label  class="label" for="street">رقم الهاتف</label>
+                <input  type="text" id="phone" (change)="hasError($event)"  ng2TelInput formControlName="phoneNumber" class="form-control">
+                <span id="valid-msg" *ngIf="phoneSuccess" >✓ الرقم صحيح</span>
+                <span id="error-msg" *ngIf="phoneError" >الرقم غير صحيح</span>
+            </div>
+              <div class="form-group col-sm-12 col-md-4 payment">
                 <label  class="label" for="street">رقم الجواز</label>
                 <input type="text"  formControlName="passportNumber" class="form-control"><span class="red">*</span>
             </div>
+
             <div class="form-group col-sm-12 col-md-4 payment">
               <label  class="label" for="street">سعر البيع</label>
               <input type="text"  formControlName="ticketSellingPrice" class="form-control"><span class="red">*</span>

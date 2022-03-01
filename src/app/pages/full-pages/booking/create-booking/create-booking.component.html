@@ -102,17 +102,17 @@
                         <form [formGroup]="dataForm"  novalidate>
                          <div formGroupName="contactInfo"> 
                             <div class="row">
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-12 col-md-4">
                                     <label for="street">الاسم</label><span class="red">*</span>
                                     <input type="text" formControlName="fullName" class="form-control">
                                 </div>
-                                <div class="form-group col-sm-4">
-                                    <label for="postalCode">الجوال</label><span class="red">*</span>
+                                <div class="form-group col-sm-12 col-md-4">
+                                    <label for="postalCode">الهاتف</label><span class="red">*</span>
                                     <input  type="text" id="phone" (change)="hasError($event)"  ng2TelInput formControlName="phone" class="form-control">
                                     <span id="valid-msg" *ngIf="phoneSuccess" >✓ الرقم صحيح</span>
                                     <span id="error-msg" *ngIf="phoneError" >الرقم غير صحيح</span>
                                 </div>
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-12 col-md-4">
                                     <label for="houseNumber">الايميل</label><span class="red">*</span>
                                         <input type="text" formControlName="email" class="form-control">
                                     <span class="alert alert-danger" *ngIf="customerInfo.controls['email'].invalid && (customerInfo.controls['email'].dirty || customerInfo.controls['email'].touched)">
@@ -252,7 +252,6 @@
                         </div>
                       </form>
                     </div>
-
                     </aw-wizard-step> 
                 </aw-wizard>
             </div>

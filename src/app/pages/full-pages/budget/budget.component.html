@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                   <th scope="row">2</th>
-                  <td>مجموع الوارد من الجروبات السياحية</td>
+                  <td> الوارد من الجروبات السياحية</td>
                   <td>
                     <p *ngIf="totalCredit > 0"> {{totalCredit}}</p>
                     <p *ngIf="!totalCredit">0</p>
@@ -52,11 +52,40 @@
                   </td>
                   <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
                 </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td>الوارد من تذاكر الطيران</td>
+                  <td> 
+                     <p *ngIf="totalCreditFlightTickets > 0"> {{totalCreditFlightTickets}}</p>
+                     <p *ngIf="!totalCreditFlightTickets">0</p>
+                  </td>
+                  <td><a href="/full-layout/full-pages/flightTicketsList">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td>  مجموع ديون المسافرين من حجوزات تذاكر الطيران</td>
+                  <td>
+                    <p *ngIf="totalDebitFlightTickets > 0"> {{totalDebitFlightTickets}}</p>
+                    <p *ngIf="!totalDebitFlightTickets">0</p>
+                  </td>
+                  <td><a href="/full-layout/full-pages/flightTicketsList">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>مجموع عمولات تذاكر الطيران</td>
+                  <td>
+                    <p *ngIf="totalCreditCommFlightTickets > 0"> {{totalCreditCommFlightTickets - totalCreditRefundCommFlightTickets}}</p>
+                    <p *ngIf="!totalCreditCommFlightTickets">0</p>
+                  </td>
+                  <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
               </tbody>
             </table>
           
             
           </div>
+    
+
         </div>      
       </div>
     </div>

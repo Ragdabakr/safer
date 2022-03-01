@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookingService } from 'app/shared/services/booking.service';
 import { TourService } from 'app/shared/services/tour.service';
+import { ExportToCsv } from 'export-to-csv-file';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -216,5 +217,28 @@ closeTour(){
       }
     )
   
+}
+
+
+
+
+//Export cvs
+exportCSV(){
+  const options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: ' Bookings CSV',
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    headers: ['tourInfo.adult','email','phone','createdAt' , 'tourInfo.adult' ,'remainingAmount', 'receivedAmount'] 
+  };
+ 
+const csvExporter = new ExportToCsv(options);
+ 
+csvExporter.generateCsv(this.bookings);
 }
 }

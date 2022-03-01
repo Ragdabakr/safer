@@ -5,8 +5,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/full-layout/dashboard/dashboard1', title: 'لوحة التحكم', icon: 'ft-home', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
  
     {
-        path: '', title: 'ادارة الحسابات', icon: 'ft-package', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-            {path:  '/full-layout/full-pages/companies', title: 'الحسابات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
+        path: '', title: 'ادارة الموردين', icon: 'ft-package', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+            {path:  '/full-layout/full-pages/companies', title: 'اضافة مورد', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
             { path: '/full-layout/full-pages/flightTickets', title: 'شركات الطيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
               
     {
@@ -22,13 +22,13 @@ export const ROUTES: RouteInfo[] = [
   
     {
         path: '', title: 'البرامج السياحية', icon: 'ft-more-vertical', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-            { path: '/full-layout/full-pages/createTour', title: 'إضافة رحلة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/createTour', title: 'إضافة برنامج سياحي', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/tours', title: 'البرامج السياحية', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/createBooking', title: 'إضافة حجز لبرنامج سياحي', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/booking', title: 'حجوزات البرامج السياحية', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { path: '/full-layout/full-pages/tours', title: 'الرحلات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            {path:  '/full-layout/full-pages/invoices', title: 'الفواتير', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
+            { path: '/full-layout/full-pages/groupsReport', title: 'تقارير الجروبات السياحية', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            // {path:  '/full-layout/full-pages/invoices', title: 'الفواتير', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
             {path: '/full-layout/full-pages/guides', title: 'المرشدين السياحيين', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
-            { path: '/full-layout/full-pages/hotels', title: 'الفنادق', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: [] },
             {path: '/full-layout/full-pages/transports', title: 'المواصلات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true,  submenu: [] },
           
         ]
@@ -48,6 +48,13 @@ export const ROUTES: RouteInfo[] = [
             { path: '/full-layout/full-pages/bookingVisa', title: 'حجز تأشيرة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/cancelVisa', title: ' الغاء حجز تأشيرة', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/visaList', title: ' التأشيرات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+        ]
+    },
+    {
+        path: '', title: 'الفنادق', icon: 'ft-star', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+            { path: '/full-layout/full-pages/hotels', title: '  اضافة فندق', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            // { path: '/full-layout/full-pages/bookingsReport', title: ' Bookingstats', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            
         ]
     },
     {
@@ -73,13 +80,6 @@ export const ROUTES: RouteInfo[] = [
             { path: '/full-layout/full-pages/roles', title: 'الصلاحيات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/full-layout/full-pages/users', title: 'الموظفين', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             
-            
-        ]
-    },
-    {
-        path: '', title: 'التقارير', icon: 'ft-pie-chart', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-            { path: '/full-layout/full-pages/groupsReport', title: 'تقارير الجروبات السياحية', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            // { path: '/full-layout/full-pages/bookingsReport', title: ' Bookingstats', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             
         ]
     },
