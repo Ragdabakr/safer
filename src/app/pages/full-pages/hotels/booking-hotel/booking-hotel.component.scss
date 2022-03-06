@@ -1,0 +1,114 @@
+.payment{
+    margin-top: 3% !important;
+}
+
+.btn-primary {
+    color: white !important;
+}
+button, input {
+    text-align: right;
+}
+.checkbox{
+    margin-right: 3%;
+}
+form label {
+    color: #212529;
+}
+.blueTiltle {
+    color: blue;
+    font-weight: 400;
+   cursor: pointer;
+}
+.redTiltle {
+    color: red;
+    font-weight: 400;
+   cursor: pointer;
+}
+.code{
+    float:left;
+}
+.prsentage{
+margin-right: 10px;
+color:blue;
+}
+.borderSection {
+    width: 100%;
+    border: 1px solid #e1dfdf;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+
+}
+.badge{
+    font-family: 'primeicons' !important;
+    font-weight: 700;
+    color: blue;
+    padding-left: 10px;
+    font-size:15px;
+}
+.keywords-container{
+    direction:rtl ;
+    padding-top: 10px;
+    padding-bottom:10px;
+}
+label{
+    text-align: right;
+    clear: both;
+    float: left;
+    padding: 6px;
+    border-radius: 0px;
+    background-color: #1976d2;
+    color: white !important;
+    margin-right: 15px;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    border-radius: 0;
+    vertical-align: middle;
+}
+.label{
+    width:120px !important;
+    height: 35px !important
+}
+.submit{
+    color:white !important
+}
+.icon-calculator{
+    font-size: 2.5rem;
+}
+.saveButton{
+    background-color: #e02365 !important;
+}
+.form-inline .form-control[_ngcontent-c5] {
+    display: inline-block;
+    width: 180px;
+    border-radius: 0;
+    vertical-align: middle;
+}
+.phone{
+    width:auto !important;
+}
+label{
+    width:130px !important;
+}
+/* phone flags path*/
+.iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/img/flags.png");} 
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+ .iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/img/flags@2x.png");}
+} 
+
+#valid-msg{
+    color:green;
+}
+#error-msg{
+    color:red;
+}
+.iti--allow-dropdown .iti__flag-container, .iti--separate-dial-code .iti__flag-container {
+    right: -px;
+    left: 60px !important;
+}
+.iti__selected-flag {
+    left: 80px;}

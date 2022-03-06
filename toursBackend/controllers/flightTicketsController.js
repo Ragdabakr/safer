@@ -177,8 +177,7 @@ res.status(201).json({
   commission.debit = 0;
   commission.credit = req.body.data.totalNetComm;
   commission.user = user.name;
-  // console.log("commission  >>>>>>" , commission);
-   commission.save();
+  commission.save();
 
    const budget =  new Budget();
    budget.name = 'حجوزات تذاكر الطيران';
@@ -194,64 +193,43 @@ res.status(201).json({
    budget2.totalRemainingAmount = 0;
    await  budget2.save(); 
 
-
-
-     Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
-                 if (err) {console.log(err); 
-                }
-
-                // console.log("foundCompany >>>>>" , foundCompany);
-                foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalNetCostPrice);
-                foundCompany.companyReport.push({
-                    debit :0 ,
-                    credit :req.body.data.totalNetCostPrice, 
-                    name:'استحقاق الي',
-                    description : req.body.data.notes,
-                    date : Date.now(),
-                    user : req.user.name,
-                 });
-                 
-                await foundCompany.save();
+    Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
+          if (err) {console.log(err); }
+        foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalNetCostPrice);
+        foundCompany.companyReport.push({
+            debit :0 ,
+            credit :req.body.data.totalNetCostPrice, 
+            name:'استحقاق الي',
+            description : req.body.data.notes,
+            date : Date.now(),
+            user : req.user.name,
+          });
+          
+        await foundCompany.save();
 });
-  
-  
     Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
-                   if (err) {console.log(err); 
-                  }
-         
-       
-                  foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalReceivedAmount);
-
-                  // console.log("foundCompany credit 33>>>>>" , foundCompany.credit);
-
-                  foundCompany.companyReport.push({
-                      debit :req.body.data.totalNetSellingPrice,
-                      credit :req.body.data.totalReceivedAmount, 
-                      name:' حجز تذكرة بالاجل',
-                      description : req.body.data.notes,
-                      date : Date.now(),
-                      user : req.user.name,
-                   });
-                   
-                  await foundCompany.save();
+          if (err) {console.log(err); 
+        }
+        foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalReceivedAmount);
+        foundCompany.companyReport.push({
+            debit :req.body.data.totalNetSellingPrice,
+            credit :req.body.data.totalReceivedAmount, 
+            name:' حجز تذكرة بالاجل',
+            description : req.body.data.notes,
+            date : Date.now(),
+            user : req.user.name,
+          });
+          
+        await foundCompany.save();
   });
-
-
-  
-  res.status(201).json({
-    status: 'success',
-    data: {
-        data: newFlightTicketBooking
-    }
-  
-  });
-  
-
- }
-
+          res.status(201).json({
+            status: 'success',
+            data: {
+                data: newFlightTicketBooking
+            }
+          });
+        }
 });
-
-
 
 // ------- create invoice  ------//
 
@@ -271,10 +249,6 @@ exports.createFlightTicketInvoice = catchAsync(async(req, res) => {
     });
   });
 });
-
-
-
- 
 
 // ------- refund Ticket with comm ------//
 
@@ -343,13 +317,12 @@ Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundComp
  await foundCompany.save();
 });
 
-res.status(201).json({
-status: 'success',
-data: {
-data: newCancelFlightTicket
-}
-
-});
+    res.status(201).json({
+    status: 'success',
+    data: {
+      data: newCancelFlightTicket
+    }
+  });
 });
 
 

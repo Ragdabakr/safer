@@ -137,17 +137,14 @@ const flightTicketBooking = new mongoose.Schema({
 //1) get flightTicketBooking with bookingFrom ,bookingTo
 flightTicketBooking.pre(/^find/, function (next) {
     this.populate({
-        path: 'bookingFrom',
-        path: 'bookingTo',
-
+        path: 'bookingFrom bookingTo',
     });
     next();
 });
 //1) get flightTicketBooking with bookingFrom ,bookingTo
 flightTicketBooking.pre(/^findOne/, function (next) {
     this.populate({
-        path: 'bookingFrom',
-        path: 'bookingTo',
+        path: 'bookingFrom bookingTo',
     });
     next();
 });

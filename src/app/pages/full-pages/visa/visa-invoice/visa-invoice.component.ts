@@ -20,20 +20,14 @@ export class VisaInvoiceComponent implements OnInit {
 
   ngOnInit() {
     this.invoiceId = this.route.snapshot.paramMap.get('invoiceId');
-    console.log("this.invoiceId  >>" ,    this.invoiceId);
-
     this.visaService.getInvoiceById(this.invoiceId).subscribe((data) => {
     this.invoice = data.data.doc;
-    console.log("INVOICE  >>" ,    this.invoice );
     this.getCompanyAccount();
-  
     });
   }
   getCompanyAccount(){
     this.userService.getCompanyAccount().subscribe((data) =>{
-      debugger;
       this.companyAccount = data.data.docs;
-      console.log("companyAccount  >>" ,    this.companyAccount );
       });
   }
 

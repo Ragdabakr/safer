@@ -21,7 +21,6 @@ exports.createOne = Model => catchAsync(async (req, res) => {
       const num =  Math.floor(Math.random() * (max - min + 1)) + min;
       return num.toString().padStart(6, "0");
     };
-
     const newDocument = await Model.create(req.body.data);
     console.log('new', newDocument);
   res.status(201).json({
@@ -83,11 +82,12 @@ exports.updateOne = Model => catchAsync(async (req, res) => {
 
 
     exports.getAll = ( Model , popOptions) => catchAsync(async (req, res) => {
-      // console.log("user44" , req.user);
+      console.log("get all   klgyty" );
       let query = Model.find();
+      console.log('query',query);
        if(popOptions) query = query.populate(popOptions);
       const docs = await query;
-      //  console.log(" companyAccount " , docs);
+      console.log(" companyAccount " , docs);
 
       // For get reviews
     //  let filter = {};

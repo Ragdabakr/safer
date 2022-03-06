@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                   <th scope="row">3</th>
-                  <td>مجموع ديون المسافرين  من الجروبات السياحية</td>
+                  <td>صافي ديون المسافرين  من الجروبات السياحية</td>
                   <td>
                     <p *ngIf="totalDebit > 0"> {{totalDebit}}</p>
                     <p *ngIf="!totalDebit">0</p>
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                   <th scope="row">5</th>
-                  <td>  مجموع ديون المسافرين من حجوزات تذاكر الطيران</td>
+                  <td>  صافي ديون المسافرين من حجوزات تذاكر الطيران</td>
                   <td>
                     <p *ngIf="totalDebitFlightTickets > 0"> {{totalDebitFlightTickets}}</p>
                     <p *ngIf="!totalDebitFlightTickets">0</p>
@@ -72,13 +72,76 @@
                 </tr>
                 <tr>
                   <th scope="row">6</th>
-                  <td>مجموع عمولات تذاكر الطيران</td>
+                  <td>صافي عمولات تذاكر الطيران</td>
                   <td>
                     <p *ngIf="totalCreditCommFlightTickets > 0"> {{totalCreditCommFlightTickets - totalCreditRefundCommFlightTickets}}</p>
                     <p *ngIf="!totalCreditCommFlightTickets">0</p>
                   </td>
                   <td><a href="/full-layout/full-pages/groupsReport">  <i class=" icon-eye edit"></i></a></td>
                 </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td> الوارد من التأشيرات</td>
+                  <td>
+                    <p *ngIf="totalCreditVisa > 0"> {{totalCreditVisa}}</p>
+                    <p *ngIf="!totalCreditVisa">0</p>
+                  </td>
+                  <td><a href="/full-layout/full-pages/visaList">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>صافي ديون المسافرين من حجوزات  التأشيرات</td>
+                  <td>
+                    <p *ngIf="totalDebitVisa > 0"> {{totalDebitVisa}}</p>
+                    <p *ngIf="!totalDebitVisa">0</p>
+                  </td>
+                  <td><a href="/full-layout/full-pages/visaList">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
+                <tr>
+                  <th scope="row">9</th>
+                  <td>صافي عمولات التأشيرات</td>
+                  <td>
+                    <p *ngIf="totalCreditCommVisa > 0"> {{totalCreditCommVisa - totalCreditRefundCommVisa}}</p>
+                    <p *ngIf="!totalCreditCommVisa">0</p>
+                  </td>
+                  <td><a href="/full-layout/full-pages/visaList">  <i class=" icon-eye edit"></i></a></td>
+                </tr>
+                <tr>
+                <th scope="row">10</th>
+                <td>سندات الصرف</td>
+                <td>
+                  <p *ngIf="totalExchangeDebit > 0"> -{{totalExchangeDebit}}</p>
+                  <p *ngIf="!totalExchangeDebit">0</p>
+                </td>
+                <td><a href="/full-layout/full-pages/bonds">  <i class=" icon-eye edit"></i></a></td>
+              </tr>
+              <tr>
+              <th scope="row">11</th>
+              <td> سندات القبض</td>
+              <td>
+                <p *ngIf="totalReceiptCredit > 0"> {{totalReceiptCredit}}</p>
+                <p *ngIf="!totalReceiptCredit">0</p>
+              </td>
+              <td><a href="/full-layout/full-pages/bonds">  <i class=" icon-eye edit"></i></a></td>
+            </tr>
+            <tr>
+              <th scope="row">12</th>
+              <td>الوادر من الفنادق </td>
+              <td>
+                <p *ngIf="totalHotelCredit > 0"> {{totalHotelCredit}}</p>
+                <p *ngIf="!totalHotelCredit">0</p>
+              </td>
+              <td><a href="/full-layout/full-pages/bookingHotels">  <i class=" icon-eye edit"></i></a></td>
+            </tr>
+            <tr>
+            <th scope="row">13</th>
+            <td> صافي عمولات حجز الفنادق </td>
+            <td>
+              <p *ngIf="totalCommHotelCredit > 0"> {{totalCommHotelCredit - totalRefundCommHotelDebit}}</p>
+              <p *ngIf="!totalCommHotelCredit">0</p>
+            </td>
+            <td><a href="/full-layout/full-pages/bookingHotels">  <i class=" icon-eye edit"></i></a></td>
+          </tr>
               </tbody>
             </table>
           

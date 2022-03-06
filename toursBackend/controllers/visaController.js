@@ -1,10 +1,5 @@
 
-
-
-const FlightTicket = require('./../models/flightTicketsModel');
-const FlightTicketBooking = require('../models/flightTicketBookingModel');
  FlightTicketCancelBooking= require('../models/flightTicketCancelBookingModel');
-const FlightTicketBookingInvoice= require('./../models/flightTicketBookingInvoiceModel');
 const Commission = require('./../models/commissionModel');
 const VisaBooking = require('./../models/visaBookingModel');
 const VisaBookingInvoice = require('./../models/visaBookingInvoiceModel');
@@ -19,6 +14,7 @@ const factory = require('./handlerFactory');
 const APIFeatures = require('./../utils/apiFeatures');
 const Invoice = require('../models/invoiceModel');
 const Safebox = require('../models/safeboxsModel');
+const Budget = require('./../models/budgetModel');
 
 
 // ------- Booking new Visa  ------//
@@ -49,17 +45,15 @@ exports.createVisaBooking = catchAsync(async(req, res) => {
     remainingAmount :req.body.travellers[i].remainingAmount ,
   })
   await newVisaBooking.save();
-  // console.log('newFlightTicketBooking with travellers >>>>>', newFlightTicketBooking);
- 
  }
 
 const safebox =  new Safebox();
 safebox.title = 'فيزا';
 safebox.description = req.body.data.notes;
 safebox.date = Date.now();
-safebox.indebted = req.body.data.totalReceivedAmount;
-safebox.credit = 0;
- safebox.save();
+safebox.indebted = 0;
+safebox.credit = req.body.data.totalReceivedAmount;
+safebox.save();
 
 const commission =  new Commission();
 commission.name = 'عمولة حجز فيزا';
@@ -70,6 +64,20 @@ commission.credit = req.body.data.totalNetComm;
 commission.user = user.name;
 // console.log("commission  >>>>>>" , commission);
  commission.save();
+
+ const budget =  new Budget();
+ budget.name = 'حجوزات التأشيرات';
+ budget.date = Date.now();
+ budget.totalReceivedAmount = req.body.data.totalReceivedAmount;
+ budget.totalRemainingAmount = req.body.data.remainingAmount;
+ await  budget.save(); 
+
+ const budget2 =  new Budget();
+ budget2.name = 'عمولات  حجوزات التأشيرات';
+ budget2.date = Date.now();
+ budget2.totalReceivedAmount = req.body.data.totalNetComm;
+ budget2.totalRemainingAmount = 0;
+ await  budget2.save(); 
 
 
   Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
@@ -245,9 +253,8 @@ exports.createVisaInvoice = catchAsync(async(req, res) => {
 exports.refundVisa = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
-  // console.log("user" ,user);
-   console.log("data999" ,data);
   const newCancelVisa = await VisaCancelBooking.create(req.body.data);
+
 
 const commission =  new Commission();
 commission.name = 'عمولة استرجاع تأشيرة';
@@ -256,8 +263,14 @@ commission.date = Date.now();
 commission.debit = req.body.data.totalRefundNetComm;
 commission.credit = 0;
 commission.user = req.user.name;
-// console.log("commission  >>>>>>" , commission);
  commission.save();
+
+ const budget2 =  new Budget();
+ budget2.name = 'استرجاع عمولات حجز التأشيرات';
+ budget2.date = Date.now();
+ budget2.totalReceivedAmount = 0;
+ budget2.totalRemainingAmount = req.body.data.totalRefundNetComm;
+ await  budget2.save(); 
 
  VisaBooking.findOne({number:req.body.data.number}, async function(err,foundVisaBooking){
   if (err) {console.log(err); 

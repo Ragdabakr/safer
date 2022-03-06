@@ -53,7 +53,9 @@ export const ROUTES: RouteInfo[] = [
     {
         path: '', title: 'الفنادق', icon: 'ft-star', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             { path: '/full-layout/full-pages/hotels', title: '  اضافة فندق', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            // { path: '/full-layout/full-pages/bookingsReport', title: ' Bookingstats', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/bookingHotel', title: 'حجز فندق', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/cancelHotelBooking', title: 'الغاء حجز فندق ', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/full-layout/full-pages/bookingHotels', title: 'حجوزات الفنادق', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             
         ]
     },

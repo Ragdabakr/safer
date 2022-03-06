@@ -46,6 +46,10 @@ import { VisaListComponent } from './visa/visa-list/visa-list.component';
 import { VisaInvoiceComponent } from './visa/visa-invoice/visa-invoice.component';
 import { CancelVisaComponent } from './visa/cancel-visa/cancel-visa.component';
 import { BudgetComponent } from './budget/budget.component';
+import { BookingHotelComponent } from './hotels/booking-hotel/booking-hotel.component';
+import { BookingHotelsComponent } from './hotels/booking-hotels/booking-hotels.component';
+import { HotelInvoiceBookingComponent } from './hotels/hotel-invoice-booking/hotel-invoice-booking.component';
+import { CancelHotelComponent } from './hotels/cancel-hotel/cancel-hotel.component';
 
 
 const routes: Routes = [
@@ -295,6 +299,34 @@ const routes: Routes = [
               }
            },
            {
+            path: 'bookingHotel',
+            component: BookingHotelComponent,
+            data: {
+              title: 'Booking Hotel'
+              }
+           },
+           {
+            path: 'hotels/:id',
+            component:HotelInvoiceBookingComponent ,
+            data: {
+              title: 'Booking Hotel page'
+              }
+           },
+           {
+            path: 'bookingHotels',
+            component: BookingHotelsComponent,
+            data: {
+              title: 'Booking Hotels'
+              }
+           },
+           {
+            path: 'cancelHotelBooking',
+            component: CancelHotelComponent,
+            data: {
+              title: 'Cancel Hotel Booking'
+              }
+           },
+           {
             path: 'companies',
             component:TravelAgentsComponent,
             data: {
@@ -336,6 +368,13 @@ const routes: Routes = [
                 title: 'Bonds'
                 }
               },
+              {
+                path: 'bondsInvoice/:id',
+                component: BondsInvoiceComponent,
+                data: {
+                  title: 'Bonds'
+                  }
+                },
               
               {
                 path: 'visas/:invoiceId',

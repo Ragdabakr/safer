@@ -6,15 +6,15 @@ const Company = require('./../models/companyModel');
 const User = require('./../models/userModel');
 const async = require('async');
 const catchAsync = require('./../utils/catchAsync');
+const Budget = require('./../models/budgetModel');
 
 // ------- create Bond With Invoice ------//
 
 exports.createBond = catchAsync(async(req, res) => {
     const user = req.user;
     const data= req.body.data;
- console.log("data kkk" ,data);
+
     const newBond = await Bond.create(req.body.data);
-    // console.log("newBond kkk" ,newBond);
     const newBondInvoice = await BondInvoice.create(req.body.data);
     if(req.body.data.accountName._id){
       if(req.body.data.type === 'سند صرف'){
@@ -34,6 +34,13 @@ exports.createBond = catchAsync(async(req, res) => {
         
         await foundCompany.save();
     });
+
+    const budget =  new Budget();
+    budget.name = 'مجموع سندات الصرف';
+    budget.date = Date.now();
+    budget.totalReceivedAmount = 0;
+    budget.totalRemainingAmount = req.body.data.amount;
+    await  budget.save(); 
 
     res.status(201).json({
       status: 'success',
@@ -60,6 +67,12 @@ exports.createBond = catchAsync(async(req, res) => {
         
         await foundCompany.save();
     });
+    const budget =  new Budget();
+    budget.name = 'مجموع سندات القبض';
+    budget.date = Date.now();
+    budget.totalReceivedAmount = req.body.data.amount;
+    budget.totalRemainingAmount = 0;
+    await  budget.save(); 
 
     res.status(201).json({
       status: 'success',

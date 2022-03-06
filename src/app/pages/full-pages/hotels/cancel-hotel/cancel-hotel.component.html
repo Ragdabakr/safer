@@ -1,13 +1,13 @@
-<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === true">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
-        <h4 class="card-title mb-0">  الغاء تأشيرة</h4>
+        <h4 class="card-title mb-0">  الغاء حجز فندقي</h4>
       </div>
     </div>
   </div>
 </div>
-<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === true">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="card-header">
@@ -16,13 +16,13 @@
         <div class="card-body add-items">
 
       <!-- Cancel Visa-->
-      <form   [formGroup]="visaForm"  novalidate>
+      <form   [formGroup]="hotelForm"  novalidate>
           <div class="row">
             <div class=" borderSection form-inline"> 
               <div class="form-group  col-sm-12 col-md-4 ">
                 <label for="street"> رقم الحجز</label>
-                <select (change)='onVisaNumberSelected($event)' class="form-control" data-size="7" formControlName="companyAccount"  >
-                  <option *ngFor="let visa of visas"   [ngValue]="visa.number">{{visa.number}}</option>
+                <select (change)='onHotelNumberSelected($event)' class="form-control" data-size="7" formControlName="companyAccount"  >
+                  <option *ngFor="let book of hotelsBooking"   [ngValue]="book.number">{{book.number}}</option>
               </select><span class="red">*</span>
               </div>
                 <div class="form-group  col-sm-12 col-md-4 ">
@@ -30,13 +30,25 @@
                       <input type="text"  formControlName="bookingFrom" class="form-control ">
                 </div>
                 <div class="form-group col-sm-12 col-md-4 ">
-                  <label for="street"> الحجز الي</label>
-                  <input type="text"  formControlName="bookingTo" class="form-control">
+                        <label for="street"> الحجز الي</label>
+                        <input type="text"  formControlName="bookingTo" class="form-control ">
+                </div>
+                <div class="form-group col-sm-12 col-md-4">
+                  <label for="street">  اسم الفندق</label>
+                  <input  class="text" type="text" formControlName="hotelName" class="form-control"><span class="red">*</span>
                 </div>
                 <div class="form-group col-sm-12 col-md-4 payment">
                   <label for="street">طريقة الدفع</label>
-                  <input type="text"  formControlName="paymentMethod" class="form-control ">
+                  <input  class="text" type="text" formControlName="paymentMethod" class="form-control"><span class="red">*</span>
                 </div>
+              <div class="form-group col-sm-12 col-md-4 payment">
+                <label for="street">تاريخ الوصول</label> 
+                <input  class="date" type="text" formControlName="arrivalDate" class="form-control"><span class="red">*</span>
+            </div>
+              <div class="form-group col-sm-12 col-md-4 payment">
+                <label for="street">تاريخ المغادرة</label> 
+                <input  class="date" type="text" formControlName="departureDate" class="form-control"><span class="red">*</span>
+            </div>
               <div class="form-group col-sm-12 col-md-4 payment">
                 <label for="street">الوجهة</label> 
                 <input  class="checkbox" type="text" formControlName="destination" class="form-control">
@@ -55,16 +67,16 @@
   <div class="col-sm-12" >
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title mb-0"> التأشيرات</h4>
+        <h4 class="card-title mb-0"> الحجوزات</h4>
       </div>
     
       <div class="card-content">
         <div class="card-body">
-          <p-table  #dt [value]="visaArray" dataKey="ticket" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+          <p-table  #dt [value]="hotelsArray" dataKey="number" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['travellerFirstName','travellerType','receivedAmount','netCost','comm' ,'passportNumber','receivedAmount','remainingAmount' ]">
+          [filterDelay]="0" [globalFilterFields]="['guestName','roomType','receivedAmount','netCost','comm' ,'phoneNumber','receivedAmount','remainingAmount' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -80,23 +92,23 @@
           <ng-template pTemplate="header">
             <tr>
                 <th>القيد</th>
-                <th pSortableColumn="travellerFirstName"> اسم المسافر <p-sortIcon field="travellerFirstName"></p-sortIcon></th>
-                <th pSortableColumn="passportNumber">رقم الجواز  <p-sortIcon field="passportNumber"></p-sortIcon></th>
+                <th pSortableColumn="guestName"> اسم المسافر <p-sortIcon field="guestName"></p-sortIcon></th>
+                <th pSortableColumn="phoneNumber"> رقم الهاتف  <p-sortIcon field="phoneNumber"></p-sortIcon></th>
                 <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
                 <th pSortableColumn="receivedAmount">    المبلغ المدفوع    <p-sortIcon field="receivedAmount"></p-sortIcon></th>
                 <th pSortableColumn="remainingAmount">    المبلغ المتبقي    <p-sortIcon field="remainingAmount"></p-sortIcon></th>
                 <th pSortableColumn="comm"> العمولة<p-sortIcon field="comm"></p-sortIcon></th>
             </tr>
          </ng-template>
-          <ng-template pTemplate="body" let-visa let-rowIndex="rowIndex">
+          <ng-template pTemplate="body" let-hotel let-rowIndex="rowIndex">
             <tr>
                 <td>{{rowIndex}}</td>
-                <td>{{visa?.travellerFirstName}}  {{visa?.travellerLastName}}</td>   
-                <td>{{visa?.passportNumber}}</td> 
-                <td>{{visa?.netCost}}</td> 
-                <td>{{visa?.receivedAmount}}</td>  
-                <td>{{visa?.remainingAmount}}</td> 
-                <td>{{visa?.comm}}</td>          
+                <td>{{hotel?.guestName}}</td>   
+                <td>{{hotel?.phoneNumber}}</td> 
+                <td>{{hotel?.netCost}}</td> 
+                <td>{{hotel?.receivedAmount}}</td>  
+                <td>{{hotel?.remainingAmount}}</td> 
+                <td>{{hotel?.comm}}</td>          
           </tr>
           </ng-template>
         </p-table>
@@ -110,27 +122,27 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card cancelSection" >
       <div class="card-header"  >
-        <h4 class="card-title mb-0"> خيارات استرجاع التأشيرة (نقدا و أجل )</h4>
+        <h4 class="card-title mb-0"> خيارات استرجاع الحجز (نقدا و أجل )</h4>
         </div>
       <div class="row">
         <div class="col-sm-12  col-md-6 form-inline">
           <div class="form-group payment">
             <input type="radio" [(ngModel)]="cancelType"  name="ticketCancel" value="withComm" (change)="checkCheckBoxvalue($event)">
-            <label for="vehicle1" class="form-control label">  إرجاع عمولة التأشيرة كاملة للمسافر </label>
+            <label for="vehicle1" class="form-control label">  إرجاع عمولة الفندق كاملة للنزيل </label>
           </div>
           <div class="form-group payment">
             <input type="radio" [(ngModel)]="cancelType"   name="ticketCancel" value="noComm" (change)="checkCheckBoxvalue($event)">
-            <label for="vehicle2" class="form-control label">عدم إرجاع عمولة التأشيرة للمسافر وعدم فرض غرامة</label>
+            <label for="vehicle2" class="form-control label">عدم إرجاع عمولة الفندق للنزيل افر وعدم فرض غرامة</label>
           </div>
           </div>
           <div class="col-sm-12  col-md-6 form-inline">
           <div class="form-group payment">
             <input type="radio" [(ngModel)]="cancelType"       name="ticketCancel" value="fineWithComm" (change)="checkCheckBoxvalue($event)">
-            <label for="vehicle1" class="form-control label"> فرض غرامة مع إرجاع عمولة كاملة للمسافر</label>
+            <label for="vehicle1" class="form-control label"> فرض غرامة مع إرجاع عمولة كاملة للنزيل</label>
           </div>
           <div class="form-group payment">
             <input type="radio" [(ngModel)]="cancelType"  id="cansel" name="ticketCancel" value="fineNoComm" (change)="checkCheckBoxvalue($event)">
-          <label for="vehicle2" class="form-control label"> فرض غرامة مع عدم إرجاع عمولة المسافر</label>
+          <label for="vehicle2" class="form-control label"> فرض غرامة مع عدم إرجاع عمولة النزيل</label>
           </div>
         </div>
       </div>    
@@ -138,12 +150,12 @@
   </div>
 </div>
 
-<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === true">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="row">
 
-      <form   [formGroup]="visaForm"  novalidate>
+      <form   [formGroup]="hotelForm"  novalidate>
       <div class="col-sm-12 form-inline">
         <div class="form-group col-sm-8 payment">
             <label for="street">المبلغ المسترجع من الشركة (الحجز من )</label> 
@@ -164,15 +176,11 @@
       </div>
 
       <div class="buttons margin-top-10">
-        <input type="submit"  (click)="submitCancelVisa(visaForm)" class=" btn saveButton submit " value="حفظ">
+        <input type="submit"  (click)="submitCancelHotel(hotelForm)" class=" btn saveButton submit " value="حفظ">
     </div>
       </div>
-
-    
       </form>
-  
       </div>
-     
     </div>
   </div>
 </div>
@@ -180,7 +188,7 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
-        <h4 class="card-title mb-0"> ليس لديك صلاحيات الغاء حجز تأشيرة </h4>
+        <h4 class="card-title mb-0"> ليس لديك صلاحيات الغاء حجز فندقي </h4>
       </div>
    </div>
   </div>

@@ -19,7 +19,7 @@ export class BondsInvoiceComponent implements OnInit {
   ngOnInit() {
     this. getCompanyAccount();
     
-   this.invoiceId = this.route.snapshot.paramMap.get('bondId');
+   this.invoiceId = this.route.snapshot.paramMap.get('id');
 
    this.bondService.getBondeInvoice(this.invoiceId).subscribe((data) => {
    this.invoice = data.data.data;

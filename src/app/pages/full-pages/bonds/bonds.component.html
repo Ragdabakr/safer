@@ -33,7 +33,7 @@
                   </div>
                  
                   <div class="form-group col-sm-3">
-                    <label for="postalCode">المبلغ</label> ريال <span class="red">*</span>
+                    <label for="postalCode">المبلغ</label> <span class="red">*</span>
                     <input type="text" formControlName="amount" class="form-control"> 
                 </div>
                 <div class="form-group col-sm-3">
@@ -96,7 +96,7 @@
             <tr>
                 <!-- <td></td> -->
                 <td>{{ rowIndex }}</td>
-                <td><a href="/full-layout/full-pages/bonds/{{bond.number}}">#{{bond?.number}}</a></td>
+                <td><a href="/full-layout/full-pages/bondsInvoice/{{bond.number}}">#{{bond?.number}}</a></td>
                 <td> 
                   <span class="red" *ngIf="bond?.type === 'سند صرف'"> {{bond?.type}}</span> 
                   <span class="green" *ngIf="bond?.type === 'سند قبض'"> {{bond?.type}}</span>
