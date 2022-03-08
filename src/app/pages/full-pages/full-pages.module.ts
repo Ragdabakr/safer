@@ -56,9 +56,6 @@ import { VisaInvoiceComponent } from './visa/visa-invoice/visa-invoice.component
 import { CancelVisaComponent } from './visa/cancel-visa/cancel-visa.component';
 import { BudgetComponent } from './budget/budget.component';
 
-
-
-
 @NgModule({
     imports: [
         CommonModule,
@@ -94,6 +91,7 @@ import { BudgetComponent } from './budget/budget.component';
         TravelAgentsModule,
         flightTicketsModule,
         AccountModule,
+
 
     ],
     declarations: [

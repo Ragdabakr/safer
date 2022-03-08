@@ -32,7 +32,6 @@ const hotelBooking = new mongoose.Schema({
         type: Date,
         required: true,
     },
-
     departureDate: {
         type: Date,
         required: true,
@@ -78,17 +77,11 @@ const hotelBooking = new mongoose.Schema({
         ref: 'User',
     },
     travellers:[{
-        travellerFirstName: {
-            type: String,
-           
-        },
         guestName: {
             type: String,
-            
         },
         roomType: {
             type: String,
-           
         },
         phoneNumber: {
             type: String,

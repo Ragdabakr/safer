@@ -110,6 +110,7 @@ onHotelNumberSelected(event){
         console.log(" this.hotelValue" , this.hotelValue);
         this.patchFormValues(this.hotelValue);
         this.hotelsArray = this.bookings[0].travellers;
+        console.log(" this.hotelsArray" , this.hotelsArray);
     },
     error: err => {
         console.log(err);

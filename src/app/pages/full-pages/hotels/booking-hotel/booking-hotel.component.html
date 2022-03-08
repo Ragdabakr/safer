@@ -22,52 +22,73 @@
             
               <div class="row">
                 <div class=" borderSection form-inline"> 
-                    <div class="form-group  col-sm-12  col-md-4">
-                          <label for="street"> الحجز من</label>
+                    <div class="input-group  col-sm-12  col-md-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> الحجز من </span>
+                      </div>
                           <select  class="form-control" data-size="7" formControlName="bookingFrom"  >
                             <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
                         </select><span class="red">*</span>
                     </div>
-                    <div class="form-group  col-sm-12  col-md-4">
-                      <label for="street"> الحجز الي</label>
+                    <div class="input-group  col-sm-12  col-md-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> الحجز الي </span>
+                      </div>
                       <select  class="form-control" data-size="7" formControlName="bookingTo"  >
                         <option *ngFor="let company of companies"  [ngValue]="company">{{company.name}}</option>
                     </select><span class="red">*</span>
                 </div>
-                    <div class="form-group col-sm-12 col-md-4">
-                      <label for="street">  اسم الفندق</label>
+                    <div class="input-group col-sm-12 col-md-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> اسم الفندق </span>
+                      </div>
                       <select class="form-control" data-size="7" formControlName="hotelName"  >
                         <option *ngFor="let hotel of hotels"  [ngValue]="hotel">{{hotel.name}}</option>
                     </select><span class="red">*</span>
                     </div>
-                    <div class="form-group col-sm-12 col-md-4 payment">
-                      <label for="street">طريقة الدفع</label>
-                      <select class="form-control" data-size="7" formControlName="paymentMethod"  >
-                        <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
-                    </select><span class="red">*</span>
+                   
+                    <div class="input-group  col-sm-12  col-md-4 payment">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> طريقة الدفع  </span>
+                      </div>
+                          <select  class="form-control" data-size="7" formControlName="bookingFrom"  >
+                            <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
+                        </select><span class="red">*</span>
                     </div>
-                  <div class="form-group col-sm-12 col-md-4 payment">
-                    <label for="street">تاريخ الوصول</label> 
+                  <div class="input-group col-sm-12 col-md-4 payment">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> تاريخ الوصول </span>
+                    </div>
                     <input  class="date" type="date" formControlName="arrivalDate" class="form-control"><span class="red">*</span>
                 </div>
-                  <div class="form-group col-sm-12 col-md-4 payment">
-                    <label for="street">تاريخ المغادرة</label> 
+                  <div class="input-group col-sm-12 col-md-4 payment">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> تاريخ المغادرة </span>
+                    </div>
                     <input  class="date" type="date" formControlName="departureDate" class="form-control"><span class="red">*</span>
                 </div>
-                <div class="form-group col-sm-12 col-md-4 payment">
-                  <label for="street">الوجهة</label> 
+                <div class="input-group col-sm-12 col-md-4 payment">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"> الوجهة </span>
+                  </div>
                   <input  class="checkbox" type="text" formControlName="destination" class="form-control"><span class="red">*</span>
               </div>
-                <div class="form-group col-sm-12 col-md-4 payment">
-                  <label for="street">عدد البالغين</label> 
+                <div class="input-group col-sm-12 col-md-4 payment">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"> عدد البالغين </span>
+                  </div>
                   <input  class="number" type="number" formControlName="adultNumber" class="form-control"><span class="red">*</span>
                  </div>
-                  <div class="form-group col-sm-12 col-md-4 payment">
-                    <label for="street">عدد الاطفال</label> 
+                  <div class="input-group col-sm-12 col-md-4 payment">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> عدد الاطفال </span>
+                    </div>
                     <input  class="number" type="number" formControlName="childNumber" class="form-control"><span class="red">*</span>
                 </div>
-                  <div class="form-group col-sm-12 col-md-4 payment">
-                    <label for="street">الملاحظات</label>
+                  <div class="input-group col-sm-12 col-md-12 payment">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"> الملاحظات </span>
+                    </div>
                     <input  class="checkbox" type="text" formControlName="notes" class="form-control"><span class="red">*</span>
                 </div>
             </div>
@@ -78,44 +99,44 @@
             <div class="keywords-container " *ngFor="let item of hotelForm.get('travellers')['controls']; let i = index;">
               <div class="keyword-input-container  row" [formGroupName]='i'>
                   <div class="form-group col-sm-12 col-md-4 payment">
-                    <label class="label" for="street">اسم النزيل</label>
+                    <label>اسم النزيل</label>
                     <input type="text"  formControlName="guestName" class="form-control"><span class="red">*</span>
                 </div>
                 <div class="form-group col-sm-12 col-md-4 payment">
-                  <label  class="label" for="street">رقم الهاتف</label>
+                  <label>رقم الهاتف</label>
                   <input  type="text" id="phone" (change)="hasError($event)"  ng2TelInput formControlName="phoneNumber" class="form-control phone">
                   <span id="valid-msg" *ngIf="phoneSuccess" >✓ الرقم صحيح</span>
                   <span id="error-msg" *ngIf="phoneError" >الرقم غير صحيح</span>
               </div>
                 <div class="form-group col-sm-12 col-md-4 payment">
-                  <label  class="label" for="street"> نوع الغرفة </label>
+                  <label> نوع الغرفة </label>
                   <select class="form-control" data-size="7" formControlName="roomType"  >
                     <option *ngFor="let room of roomTypes "  [ngValue]="room">{{room}}</option>
                 </select><span class="red">*</span>
                 </div>
              
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street">سعر البيع</label>
+              <label>سعر البيع</label>
               <input type="text"  formControlName="sellingPrice" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street">سعر الفير</label>
+              <label>سعر الفير</label>
               <input type="text"  formControlName="costPrice" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street"> العمولة</label>
+              <label> العمولة</label>
               <input type="text"  formControlName="comm" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street">مبلغ التسديد</label>
+              <label>مبلغ التسديد</label>
               <input type="text"  formControlName="netCost" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-                <label class="label"  for="street"> المبلغ الواصل</label>
+                <label> المبلغ الواصل</label>
                 <input type="text"  formControlName="receivedAmount" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street"> المبلغ الباقي</label>
+              <label> المبلغ الباقي</label>
               <input type="text"  formControlName="remainingAmount" class="form-control"><span class="red">*</span>
             </div>
           </div>

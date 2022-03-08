@@ -11,7 +11,8 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { StoreModule } from "@ngrx/store";
 import { NgxCountriesModule } from '@ngx-countries/core';
-import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
+// import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
+
 
 import {
     PerfectScrollbarModule,
@@ -42,6 +43,7 @@ import { DashboardModule } from "./dashboard/dashboard.module";
 import { RouterModule, Routes } from "@angular/router";
 import { LoginPageComponent } from "./pages/content-pages/login/login-page.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FilterService, PrimeNGConfig } from "primeng/api";
 
 
 
@@ -97,6 +99,8 @@ export function createTranslateLoader(http: HttpClient) {
         AuthService,
         AuthGuard,
         DragulaService,
+        FilterService,
+        PrimeNGConfig,
         {
             provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true
         }, //send token to header
