@@ -74,41 +74,6 @@
                             </a>
                         </div>
                     </li>
-
-                    <li class="nav-item" ngbDropdown [placement]="placement">
-                        <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
-                            <i class="ft-bell font-medium-3 blue-grey darken-4"></i>
-                            <p class="d-none">User notification</p>
-                        </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic3" class="text-right notificationDiv ">                           
-                            <p class="text-right" *ngIf="findNotification.length  === 0"> لا توجد إشعارات جديدة</p>
-                            <div *ngIf="findNotification.length  > 0">
-                                kjkk
-                                <ul  *ngFor="let notification of findNotification">
-                                    <li >
-                                     <div matchHeight="card">
-                                         <!--Basic List Group Starts-->
-                                         <div  *ngIf="notification.type === 'tours'">
-                                           <div class="card  text-left" >
-                                             <div class="card-header">
-                                                 تم إضافة رحلة جديدة
-                                               <h4 class="card-title">
-                                                 {{notification.name}}<span class="delete" (click)="deleteNotificatiob(notification._id)"><i class="icon-close"></i></span></h4>
-                                               <p>{{notification.createdAt | date}}</p>
-                                             </div>
-                                             
-                                           </div>
-                                         </div>
-                                         <!--Contextual classes Ends-->
-                                       </div>
-                                    </li>
-                                </ul>
-                            </div>
-                           
-                        </div>
-                
-                  
-                   
                 </ul>
             </div>
         </div>

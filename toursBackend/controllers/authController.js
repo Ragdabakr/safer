@@ -14,8 +14,7 @@ const crypto = require('crypto');
 
 
 const signToken = (id,email ,role ,name) => 
-{console.log("role" ,role);
-   
+{
     return jwt.sign(
       { id ,email, role,name }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN
@@ -149,10 +148,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     // 3) Send it to user's email  // protocol = http or https
     //const resetURL = `${req.protocol}://${req.get( 'host')}/api/v1/users/resetPassword/${resetToken}`;
       const link = "http://localhost:4200/content-pages/resetpassword?token=" + resetToken + "&email=" + user.email;
-      console.log('resetURL', link);
+     // console.log('resetURL', link);
   
     const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${link}.\nIf you didn't forget your password, please ignore this email!`;
-      console.log('message', message);
+     // console.log('message', message);
     try {
       await sendEmail({
         email: user.email,
@@ -189,7 +188,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
       passwordResetToken: hashedToken,
       passwordResetExpires: { $gt: Date.now() }
     });
-    console.log('user97655', user);
   
     // 2) If token has not expired, and there is user, set the new password
     if (!user) {
@@ -210,8 +208,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   exports.updatePassword = catchAsync(async (req, res, next) => {
     // 1) Get user from collection
     //req.user.id from protect
-    console.log('userId555555555' , req.user.id);
-    console.log('passwordCurrent' , req.body.data.passwordCurrent);
+
     const user = await User.findById(req.user.id).select('+password');
   
     // 2) Check if POSTed current password is correct

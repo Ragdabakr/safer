@@ -13,7 +13,7 @@ router
     .route('/')
     .get(safeboxController.getAllsafeboxes)
     .post(authController.protect ,safeboxController.createSafebox)
-    .delete(authController.protect ,safeboxController.deleteSafeboxes)
+    .delete(authController.protect ,safeboxController.deleteSafebox)
 
     
 

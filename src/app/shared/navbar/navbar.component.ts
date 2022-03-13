@@ -57,9 +57,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userService.getUser(this.user.id).subscribe({
         next: response => {
             this.user= response.data.doc;
-            this.findNotification = response.data.doc.notifications;
-            console.log("findnotification" ,    this.findNotification);
-            console.log("user" ,    this.user.role);
+            console.log("user" ,    this.user);
         },
         error: err => {
             console.log(err);

@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from './shared/services/notification.service';
 
 @Component({
     selector: 'app-root',
@@ -13,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
     subscription: Subscription;
     language:any;
     textDir: string = 'rtl';
-    constructor(private router: Router , private translate: TranslateService) {
+    constructor(private router: Router , private translate: TranslateService ,private notifyService : NotificationService ) {
       
 //find browser language
         this.translate.onLangChange.subscribe((event: LangChangeEvent) =>
@@ -38,8 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
             
     }
-
-   
 
     ngOnDestroy() {
         if (this.subscription) {

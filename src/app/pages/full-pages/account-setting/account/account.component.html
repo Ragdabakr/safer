@@ -1,5 +1,17 @@
 
-<div class="row" matchHeight="card">
+
+<!--Tabs Starts-->
+<div class="row" matchHeight="card" *ngIf="user.role.userPermissions.addEditCompanyInfo === false ">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add">
+      <div class="card-header">
+        <h4 class="card-title mb-0"> ليس لديك صلاحيات للإضافة او التعديل علي معلومات الشركة </h4>
+      </div>
+   </div>
+  </div>
+</div>
+
+<div class="row" matchHeight="card" *ngIf="user.role.userPermissions.addEditCompanyInfo === true ">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
@@ -7,7 +19,7 @@
       </div>
 </div>
 <!--Tabs Starts-->
-<section id="tabs">
+<section id="tabs" *ngIf="user.role.userPermissions.addEditCompanyInfo === false ">
   <div class="row ">
     <div class="col-sm-12">
     </div>
@@ -20,7 +32,7 @@
           <div class="card-body">
             <ngb-tabset>
               <ngb-tab>
-                <ng-template ngbTabTitle> <i class="icon-settings" aria-hidden="true"></i>  معلومات الحساب</ng-template>
+                <ng-template ngbTabTitle> <i class="icon-settings" aria-hidden="true"></i>  معلومات الشركة</ng-template>
                 <ng-template ngbTabContent>
                   <form [formGroup]="userForm" >
                     <div class="content with-padding padding-bottom-0">
@@ -83,23 +95,34 @@
                                       </span>
                                   </div>
                               </div>
+
+                              <div class="col-md-12">
+                                <div class="submit-field form-group"
+                                 [ngClass]="{'has-error': userForm.get('')?.errors &&
+                                             (userForm.get('currency').touched || userForm.get('currency').dirty)}">
+                                    <h5 class="control-label">العملة</h5>
+                                    <input  type="text" class="form-control" formControlName='currency' >
+                                    <span class="alert alert-danger" *ngIf="userForm.get('currency')?.errors &&
+                                    (userForm.get('currency').touched || userForm.get('currency').dirty)">
+                                    <span  *ngIf="userForm.get('currency').errors?.required">الحقل مطلوب</span>
+                                    </span>
+                                </div>
+                            </div>
                                   </div>
                             </div>
                         </div>
-              
-                        <div  *ngIf="companyAccount[0].active === false" class="buttons margin-top-10">
+                        <div  *ngIf="companyAccount.length === 0"  class="buttons margin-top-10">
                             <input type="submit"  (click)="onSubmiInfoForm(userForm)" class=" btn btn-primary submit" value="حفظ">
                         </div>
-
-                        <div  *ngIf="companyAccount[0].active === true" class="buttons margin-top-10">
+                        <div  *ngIf="companyAccount.length > 0" class="buttons margin-top-10">
                           <input type="submit"  (click)="onEditInfoForm(userForm)" class=" btn btn-primary submit" value="تعديل">
                       </div>
                     </form>
                 </ng-template>
               </ngb-tab>
              
-              <ngb-tab>
-                <ng-template ngbTabTitle> <i class="icon-info" aria-hidden="true"></i>  الصورة</ng-template>
+              <ngb-tab *ngIf="companyAccount.length > 0">
+                <ng-template  ngbTabTitle> <i class="icon-info" aria-hidden="true"></i>  الصورة</ng-template>
                 <ng-template ngbTabContent>
                   <form (ngSubmit)="onSubmitImage()" [formGroup]="">
                       <div class="row">
@@ -112,21 +135,24 @@
 
                          
                           <img  *ngIf="selectedFile" class="photo" [src]="selectedFile ? selectedFile : 'https://res.cloudinary.com/reg1rego3/image/upload/v1585916456/user_rygoeq.png'" file accept='image/*' />
-                          <img   *ngIf="companyAccount[0].active === true && !selectedFile" class="photo" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{companyAccount[0]?.imageCover.imageVersion}}/{{companyAccount[0]?.imageCover.imageId}}.jpg" alt="Card image cap">
+                          <img   *ngIf="companyAccount[0].active === true && !selectedFile" class="photo" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{companyAccount[0]?.imageCover.imageVersion}}/{{companyAccount[0]?.imageCover.imageId}}.jpg" alt="صورة توقيع الشركة">
                          
                           
                           <label class="mb-3 custom-file-upload-image input-group">
-                              <input  class="SelectImage" type="file" formControlName="imageCover" ng2FileSelect [uploader]="uploader" (onFileSelected)="OnFileSelect($event)" accept="image/*   ">
+                              <input  class="SelectImage" id="fileInput" type="file" required   ng2FileSelect [uploader]="uploader" (onFileSelected)="OnFileSelect($event)" accept="image/*   ">
                               <span> <p class="upload"><i class="fa fa-download" aria-hidden="true"></i>  اختار صورة  </p></span>
                              </label>
-                    
-
                       </div>          
    
                    </div>
                    <div class="fg-actions d-flex justify-content-between">
-                    <div class="recover-pass">
-                        <button class="btn btn-primary photoBtn"  (click)="onSubmitImage()">
+                    <div class="recover-pass" >
+                      <button class="btn btn-primary photoBtn" *ngIf="selectedFile"  (click)="onSubmitImage()">
+                        <a class="text-decoration-none text-white">
+                            حفظ
+                        </a>
+                    </button>
+                        <button  *ngIf="!selectedFile" class="btn btn-primary photoBtn" disabled='document.getElementById("fileInput").value == "" ' (click)="onSubmitImage()">
                             <a class="text-decoration-none text-white">
                                 حفظ
                             </a>
@@ -136,38 +162,6 @@
                     </form>
                 </ng-template>
               </ngb-tab>
-
-              <ngb-tab>
-                <ng-template ngbTabTitle> <i class="icon-lock" aria-hidden="true"></i>  تغيير كلمة المرور</ng-template>
-                <ng-template ngbTabContent>
-                  <form (ngSubmit)="onSubmit()" [formGroup]="authForm">
-
-                    <app-input inputType="text"
-                               label="كلمة المرور القديمة"
-                               [control]="authForm.get('passwordCurrent')"></app-input>
-
-                    <app-input inputType="text"
-                               label="كلمة المرور الجديدة"
-                               [control]="authForm.get('password')"></app-input>
-
-                    <app-input inputType="passwordConfirmation"
-                               label="تأكيد كلمة المرور"
-                               [control]="authForm.get('passwordConfirmation')"></app-input>
-
-                    <div class="fg-actions d-flex justify-content-between">
-                        <div class="recover-pass">
-                            <button class="btn btn-primary">
-                                <a class="text-decoration-none text-white">
-                                    حفظ
-                                </a>
-                            </button>
-                        </div>
-                    </div>
-                   
-                    </form>  
-                </ng-template>
-              </ngb-tab>
-           
             </ngb-tabset>
           </div>
         </div>
@@ -177,4 +171,3 @@
   </div>
 
 </section>
-<!--Tabs Starts-->

@@ -21,6 +21,10 @@ const budgetSchema = new mongoose.Schema({
         type: String,
     },
     createdAt :{type: Date, default: Date.now()},
+    safeboxBudget:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Safebox',
+    }
 
 });
 

@@ -14,7 +14,6 @@ cloudinary.config({
 });
 
 exports.createOne = Model => catchAsync(async (req, res) => {
-    console.log('newData',req.body.data);
     const getRandomBookingId = (min = 0, max = 800000) => {
       min = Math.ceil(min);
       max = Math.floor(max);
@@ -22,7 +21,6 @@ exports.createOne = Model => catchAsync(async (req, res) => {
       return num.toString().padStart(6, "0");
     };
     const newDocument = await Model.create(req.body.data);
-    console.log('new', newDocument);
   res.status(201).json({
    status: 'success',
    data: {
@@ -34,7 +32,6 @@ exports.createOne = Model => catchAsync(async (req, res) => {
 
 exports.deleteOne = Model => catchAsync( async (req, res ,next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
-    console.log('deleteddoc', doc);
     if(!doc){
       return next(new AppError ('no document found with this id', 404));
     }
@@ -45,9 +42,6 @@ exports.deleteOne = Model => catchAsync( async (req, res ,next) => {
      });
 
 exports.updateOne = Model => catchAsync(async (req, res) => {
-  console.log("req.body.data" ,req.body.data);
-  console.log("req.params.id" ,req.params.id);
-  console.log("connected" );
       const doc = await Model.findByIdAndUpdate(req.params.id, req.body.data, {
         new: true,
         runValidators: true
@@ -68,7 +62,6 @@ exports.updateOne = Model => catchAsync(async (req, res) => {
       let query = Model.findById(req.params.id);
       if(popOptions) query = query.populate(popOptions);
       const doc = await query;
-      // console.log("companyAccount" , doc);
       if(!doc){
         return next(new AppError ('no document found with this id', 404));
       }
@@ -82,12 +75,9 @@ exports.updateOne = Model => catchAsync(async (req, res) => {
 
 
     exports.getAll = ( Model , popOptions) => catchAsync(async (req, res) => {
-      console.log("get all   klgyty" );
       let query = Model.find();
-      console.log('query',query);
        if(popOptions) query = query.populate(popOptions);
       const docs = await query;
-      console.log(" companyAccount " , docs);
 
       // For get reviews
     //  let filter = {};

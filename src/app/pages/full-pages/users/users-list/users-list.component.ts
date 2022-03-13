@@ -109,7 +109,7 @@ editUser(user) {
   this.userDialog = true;
   this.userForm.patchValue({
     name : user.name,
-    role : user.role,
+    role : user.role.name,
     email : user.email,
    });
  //  console.log('userform',this.userForm);
@@ -184,6 +184,7 @@ submitEdituserForm(userForm ,userId){
      else {
        this.userService.createUserForm(createDataUser).subscribe((data) =>{
        this.newUserDialog = false;
+       this.newUserForm.reset();
        this.toastr.success('تم اضافة المستخدم بنجاح');
        this.getUsers();
        },

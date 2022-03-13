@@ -42,6 +42,9 @@ export class BudgetComponent implements OnInit {
   refundCommHotelBudget: any;
   totalRefundCommHotelCredit: number =0;
   totalRefundCommHotelDebit: number = 0;
+  totalSafeboxCredit: number;
+  totalSafeboxDebit: number;
+  safeboxBudget: any;
 
   constructor(private budgetService:BudgetService , private authService:AuthService) { }
 
@@ -51,6 +54,7 @@ export class BudgetComponent implements OnInit {
     this.getVisaBudget();
     this.getBondsBudget();
     this.getHotelsBudget();
+    this.getSafeboxBudget();
     this.user = this.authService.getUser();
   }
 
@@ -212,6 +216,26 @@ export class BudgetComponent implements OnInit {
              this.totalRefundCommHotelCredit= totalRefundCommHotelCredit;
              this.totalRefundCommHotelDebit= totalRefundCommHotelDebit;
            }
+        },
+        err =>{
+        console.log(err);
+      }
+    )
+  }
+
+  getSafeboxBudget(){
+    this.budgetService.getBudgetes().subscribe(
+      res =>{
+        let data = res['data'];
+        this.safeboxBudget= data.docs.filter(a=> a.name === 'رصيد الخزنة');
+         var totalSafeboxCredit = 0;
+         var totalSafeboxDebit = 0;
+          for (let i = 0; i <  this.safeboxBudget.length; i++) {
+            totalSafeboxCredit += parseInt(this.safeboxBudget[i].totalReceivedAmount);
+            totalSafeboxDebit += parseInt(this.safeboxBudget[i].totalRemainingAmount);
+            this.totalSafeboxCredit= totalSafeboxCredit;
+            this.totalSafeboxDebit= totalSafeboxDebit;
+        }
         },
         err =>{
         console.log(err);

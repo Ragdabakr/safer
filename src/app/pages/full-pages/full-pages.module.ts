@@ -46,7 +46,7 @@ import { FlightTicketsComponent } from './flight-tickets/flight-tickets.componen
 import { flightTicketsModule } from './flight-tickets/flight-tickets.module';
 import { AccountComponent } from './account/account.component';
 import { AccountModule } from './account/account.module';
-import { TabsComponent } from 'app/components/bootstrap/tabs/tabs.component';
+
 import { SafeBoxComponent } from './safe-box/safe-box.component';
 import { BondsComponent } from './bonds/bonds.component';
 import { BondsInvoiceComponent } from './bonds/bonds-invoice/bonds-invoice.component';
@@ -110,7 +110,6 @@ import { BudgetComponent } from './budget/budget.component';
         GuidesComponent,
         InvoiceListComponent,
         FlightTicketsComponent,
-        TabsComponent,
         SafeBoxComponent,
         BondsComponent,
         BondsInvoiceComponent,

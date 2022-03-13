@@ -7,15 +7,10 @@ const User = require('./../models/userModel');
 
 exports.createCompany = catchAsync(async (req, res) => {
   const user = req.user;
-   console.log('newData',req.body.data);
- 
   const newCompany = await Company.create(req.body.data);
-  console.log('newCompany', newCompany);
-
   Company.findById({_id:newCompany._id}, async function(err,foundCompany){
-    if (err) {console.log(err); 
-   }
-   console.log('foundCompany', foundCompany);
+    if (err) {console.log(err); }
+
    foundCompany.companyReport.push({
     debit :req.body.data.debit ,
     credit :req.body.data.credit, 
@@ -24,8 +19,6 @@ exports.createCompany = catchAsync(async (req, res) => {
       user :user.name
    });
    foundCompany.save();
-
-
     res.status(201).json({
     status: 'success',
     data: {

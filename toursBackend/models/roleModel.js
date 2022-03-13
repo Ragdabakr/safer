@@ -13,6 +13,7 @@ const roleSchema = new mongoose.Schema({
           addUser: { type: Boolean, default: false},
           editUser: { type: Boolean,default: false},
           deleteUser: { type: Boolean,default: false},
+          addEditCompanyInfo: { type: Boolean,default: false},
         },
         settingPermissions:{
           addVisa: { type: Boolean,default: false},

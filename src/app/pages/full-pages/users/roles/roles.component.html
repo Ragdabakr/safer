@@ -24,7 +24,7 @@
                   </div>
               </div> 
           <div class="buttons margin-top-10">
-            <input type="submit"  (click)="submitNewrole(dataForm)" class=" btn btn-primary submit " value="حفظ">
+            <input type="submit" [disabled]="!dataForm.value.name" (click)="submitNewrole(dataForm)" class=" btn btn-primary submit " value="حفظ">
         </div>
         </form>
         </div>
@@ -136,6 +136,10 @@
                                             <div class="col-lg-4  col-md-4 col-sm-12 form-group">
                                               <input  class="checkbox" type="checkbox"  formControlName="deleteUser" >
                                               <label for="street"> حذف موظف</label>
+                                            </div>
+                                            <div class="col-lg-4  col-md-4 col-sm-12 form-group">
+                                              <input  class="checkbox" type="checkbox"  formControlName="addEditCompanyInfo" >
+                                              <label for="street">  اضافة وتعديل معلومات الشركة</label>
                                             </div>
                                           </div>
                                           

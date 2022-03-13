@@ -4,9 +4,10 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { NotificationService } from 'app/shared/services/notification.service';
 import { TourService } from 'app/shared/services/tour.service';
 import { UserService } from 'app/shared/services/user.service';
-import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-profile',
@@ -16,30 +17,9 @@ import { ToastrService } from 'ngx-toastr';
 export class ProfileComponent implements OnInit {
   userId: any;
   user: any;
-  languages: any;
-  openGeneralData: boolean;
   editUserForm: any;
-  openInfoData: boolean;
-  countries: any;
-  gender = [
-    { name:'أنثي'},
-    { name:'ذكر'},
-    
-  ];
-  languagess = [
-    { name:'عربي'},
-    { name:'انجليزي'},
-    { name:'الماني'},
-    { name:'فرنساوي'},
-    { name:'ايطالي'},
-    { name:'روسي'},
-    { name:'هندي'},
-    { name:'اسباني'},
-    { name:'صيني'},
-    { name:'ياباني'},
-    
-  ];
-  openSocialData: boolean;
+  openGeneralData: boolean;
+
 
   constructor(
     private userService:UserService,
@@ -47,115 +27,63 @@ export class ProfileComponent implements OnInit {
     private authService:AuthService,
     private router: Router,
     private fb: FormBuilder, 
-    private toastr:ToastrService) { }
+    private toastr:NotificationService) { }
 
 
     // Update User Form
     userForm = this.fb.group ({
       name : ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-      role : ['', [Validators.required]],
+      role : ['',],
       email: ['', [Validators.required , Validators.email]],
-      
       });
 
-
-      infoForm = new FormGroup(
+    authForm = new FormGroup(
         {
-          bio: new FormControl(
+          passwordCurrent: new FormControl(
                 '',
                 [
                     Validators.required,
-                    Validators.minLength(10),
-                    Validators.maxLength(200),
+                   
                 ]
             ),
-            birthDate: new FormControl('', [
+            password: new FormControl('', [
               Validators.required,
+              Validators.minLength(6),
           ]),
-            phone: new FormControl('', [
+            passwordConfirmation: new FormControl('', [
                 Validators.required,
+                Validators.minLength(6),
+                Validators.maxLength(20)
             ]),
-            languages: new FormControl('', [
-              Validators.required,
-          ]),
-            country: new FormControl('', [
-                Validators.required,
-            ]),
-            gender: new FormControl('', [
-              Validators.required,
-          ]),
-      
+    
         } 
-      );
-
-      socialForm = new FormGroup(
-        {
-            facebook: new FormControl('', [
-            
-          ]),
-            instagram: new FormControl('', [
-                
-            ]),
-            linkdin: new FormControl('', [
-             
-          ]),
-           twitter: new FormControl('', [
-                
-            ]),
-        } 
-      );
+    );
 
   ngOnInit() {
     this.userId = this.authService.getUserId();
     this.getUser();
-    this.tourService.getCountries().subscribe((data) =>{
-      this.countries = data.map(a => a.name);
-    });
   }
+     // ---------------- Get user----------------
 
   getUser(){
     this.authService.getUserById(this.userId).subscribe((data) =>{
       this.user = data.data.doc;
       this.patchFormValues();
-      this.patchInfoFormValues(this.user);
-      this.patchSocialFormValues(this.user);
-      this.languages = this.user.profile.languages.map(a => a.language);
       });
-      
   }
-
+ // ---------------- Patch user data----------------
   patchFormValues(){
       this.userForm.patchValue({
       name : this.user.name,
-      role :  this.user.role,
+      role :  this.user.role.name,
       email :  this.user.email,
      });
 
   }
-  patchInfoFormValues(user){
-    this.infoForm.patchValue({
-    birthDate : this.user.profile.birthDate,
-    bio : this.user.profile.bio,
-    country : this.user.profile.country,
-    phone : this.user.profile.phone,
-    gender : this.user.profile.gender,
-    // languages : this.user.profile.languages,
-   });
-  }
-
-   patchSocialFormValues(user){
-    this.socialForm.patchValue({
-    facebook : this.user.social.facebook,
-    twitter : this.user.social.twitter,
-    instagram : this.user.social.instagram,
-    linkdin : this.user.social.linkdin,
-   });
-  }
-
-  editGeneralData(){
+   // ---------------- Edit user data----------------
+editGeneralData(){
     this.openGeneralData = true;
   }
-    // // Submit Edit user Form
 submitEdituserForm(userForm ){
   this.editUserForm = userForm.value;
   const editData= {
@@ -163,6 +91,7 @@ submitEdituserForm(userForm ){
      phone : this.editUserForm.phone,
      address : this.editUserForm.address,
      email: this.editUserForm.email,
+     role: this.editUserForm.role.name,
   }
     if (userForm.invalid) {
       this.validateAllFormFields(this.userForm); // Triger userForm validation
@@ -180,55 +109,29 @@ submitEdituserForm(userForm ){
     }
   }
 
-  editInfoData(){
-    this.openInfoData = true;
-  }
-  
-  // On change Password link click
-//   onSubmiInfoForm() {
-//     if (this.infoForm.invalid) {
-//       this.toastr.error('الرجاء ملئ جميع الحقول المطلوبة');
-//         return;
-//     }
-//     this.userService.createUserProfile(this.infoForm.value).subscribe({
-//         next: response => {
-//               this.toastr.success('تم تحديث بيانات المستخدم');
-//               this.openInfoData = false;
-//               this.getUser();
-//         },
-//         error: err => {
-//             console.log(err);
-//             if (!err.status) {
-//                 this.infoForm.setErrors({ noConnection: true });
-//                 this.toastr.error(' هناك خطأ ما');
-//             } else {
-//                 this.toastr.error('هناك خطأ ما');
-//                 this.infoForm.setErrors({ unknownError: true });
-//             }
-//         }
-//     });
-// } 
-
-editSocialData(){
-  this.openSocialData = true;
-}
-
-  // On submit social link click
-  onSubmSocialForm() {
-    this.userService.createSocialForm(this.socialForm.value).subscribe({
+// ---------------- On change user password----------------
+   onSubmit() {
+    if (this.authForm.invalid) {
+      this.toastr.error('الرجاء ملئ جميع الحقول المطلوبة');
+        return;
+    }
+    if (this.authForm.value.password !== this.authForm.value.passwordConfirmation) {
+      this.toastr.error('تأكيد كلمة المرور لا يطابق كلمة المرور الجديدة');
+        return;
+    }
+    this.authService.updateMyPassword(this.authForm.value).subscribe({
         next: response => {
-              this.toastr.success('تم اضافة  حسابات السوشيال ميديا');
-              this.openSocialData = false;
-              this.getUser();
+              this.toastr.success('تم تحديث كلمة المرور');
+              this.router.navigate(['/content-pages/login']);
         },
         error: err => {
             console.log(err);
             if (!err.status) {
-                this.socialForm.setErrors({ noConnection: true });
-                this.toastr.error(' هناك خطأ ما');
+                this.authForm.setErrors({ noConnection: true });
+                this.toastr.error('معلومات الدخول غير صحيحة');
             } else {
-                this.toastr.error('هناك خطأ ما');
-                this.socialForm.setErrors({ unknownError: true });
+                this.toastr.error('معلومات الدخول غير صحيحة');
+                this.authForm.setErrors({ unknownError: true });
             }
         }
     });
@@ -246,30 +149,5 @@ validateAllFormFields(formGroup: FormGroup) {
   });
   }
 
-
-
-  get hasLangugesError() {
-    return (
-        this.infoForm.get('languages').touched &&
-        this.infoForm.get('languages').errors &&
-        this.infoForm.get('languages').errors.required
-    )
-}
-
-get hasCountryError(){
-  return (
-    this.infoForm.get('country').touched &&
-    this.infoForm.get('country').errors &&
-    this.infoForm.get('country').errors.required
-)
-}
-
-get hasGenderError(){
-  return (
-    this.infoForm.get('gender').touched &&
-    this.infoForm.get('gender').errors &&
-    this.infoForm.get('gender').errors.required
-)
-}
 
 }

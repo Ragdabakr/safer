@@ -7,15 +7,8 @@ export const ROUTES: RouteInfo[] = [
     {
         path: '', title: 'ادارة الموردين', icon: 'ft-package', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
             {path:  '/full-layout/full-pages/companies', title: 'اضافة مورد', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: true, submenu: []},
-            { path: '/full-layout/full-pages/flightTickets', title: 'شركات الطيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            // { path: '/full-layout/full-pages/flightTickets', title: 'شركات الطيران', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
               
-    {
-        path: '', title: 'إعدادات الحساب', icon: 'ft-user', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-            { path: '/full-layout/full-pages/account-settings', title: 'الإعدادات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false ,submenu: [] },
-            { path: '/full-layout/full-pages/profile', title: 'الملف الشخصي', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-           
-        ]
-    },
             
         ]
     },
@@ -83,6 +76,13 @@ export const ROUTES: RouteInfo[] = [
             { path: '/full-layout/full-pages/users', title: 'الموظفين', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             
             
+        ]
+    },
+    {
+        path: '', title: 'إعدادات الحساب', icon: 'ft-user', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
+            { path: '/full-layout/full-pages/account-settings', title: 'الإعدادات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false ,submenu: [] },
+            { path: '/full-layout/full-pages/profile', title: 'الملف الشخصي', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+           
         ]
     },
    

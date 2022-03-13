@@ -15,12 +15,14 @@ const companyAccountSchema = new mongoose.Schema({
     address: {
         type: String,
         required: [true, 'A company must have an address'],
-
     },
     email: {
         type: String,
         required: [true, 'A company must have an email'],
-
+    },
+    currency: {
+        type: String,
+        required: true,
     },
     active:{type:Boolean,  default: false },
     imageCover: {

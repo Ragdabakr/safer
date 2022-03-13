@@ -22,7 +22,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/primeng/resources/themes/nova/theme.css",
+              "node_modules/primeng/resources/themes/nova-accent/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/sweetalert2/dist/sweetalert2.min.css",
@@ -40,14 +40,13 @@
               "src/assets/css/demo.css",
               "src/assets/sass/app.scss",
               "node_modules/intl-tel-input/build/css/intlTelInput.css"
-              //  "node_modules/bootstrap/dist/css/bootstrap.min.css"
+          
             ],
             "scripts": [
               "src/assets/vendor/pace/pace.min.js",
               "node_modules/intl-tel-input/build/js/intlTelInput.min.js",
               "node_modules/jquery/dist/jquery.min.js"
-              //  "node_modules/popper.js/dist/umd/popper.min.js",
-              //  "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              
             ]
           },
           "configurations": {
@@ -112,6 +111,7 @@
               "src/assets/css/quill.bubble.css",
               "src/assets/css/hopscotch.css",
               "node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
+              "node_modules/ngx-toastr/toastr.css",
               "node_modules/nouislider/distribute/nouislider.min.css",
               "node_modules/angular-calendar/scss/angular-calendar.scss",
               "node_modules/dragula/dist/dragula.css",

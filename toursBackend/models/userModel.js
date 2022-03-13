@@ -5,14 +5,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  notifications: [{
-    type:{type :String},
-    name:{type :String},
-    id:{type :String},
-    createdAt:{type: Date},
-  
-  }],
-  
+ 
   name: {
     type: String,
     required: [true, 'Please tell us your name!']
@@ -36,7 +29,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please provide a password'],
-    minlength: 8,
+    minlength: 6,
     select: false,
   },
     passwordConfirmation: {
@@ -57,12 +50,6 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
     select: true
-},
-incoming: {
-  type: Number, default: 0,
-},
-outgoing: {
-  type: Number, default: 0,
 },
 
 

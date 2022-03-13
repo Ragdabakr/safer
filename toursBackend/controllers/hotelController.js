@@ -16,12 +16,10 @@ const Budget = require('./../models/budgetModel');
 exports.createHotelBooking = catchAsync(async(req, res) => {
     const user = req.user;
     const data= req.body.data;
-
-    console.log("data"  , data);
    if(req.body.data.paymentMethod === "نقدا"){
   
     const newHotelBooking = await HotelBooking.create(req.body.data);
-     console.log('newHotelBooking', newHotelBooking);
+    // console.log('newHotelBooking', newHotelBooking);
     newHotelBooking.travellers = [];
    for (let i = 0; i < req.body.travellers.length; i++) {
       newHotelBooking.travellers.push({

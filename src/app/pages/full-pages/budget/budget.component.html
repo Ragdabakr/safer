@@ -142,6 +142,15 @@
             </td>
             <td><a href="/full-layout/full-pages/bookingHotels">  <i class=" icon-eye edit"></i></a></td>
           </tr>
+          <tr>
+            <th scope="row">14</th>
+            <td> صافي رصيد مدخلات الخزنة </td>
+            <td>
+              <p *ngIf="totalSafeboxCredit > 0"> {{totalSafeboxCredit - totalSafeboxDebit}}</p>
+              <p *ngIf="!totalSafeboxCredit">0</p>
+            </td>
+            <td><a href="/full-layout/full-pages/safeBox">  <i class=" icon-eye edit"></i></a></td>
+          </tr>
               </tbody>
             </table>
           

@@ -15,7 +15,7 @@
   "private": true,
   "dependencies": {
     "@agm/core": "1.0.0-beta.5",
-    "@angular/animations": "7.2.15",
+    "@angular/animations": "^7.2.15",
     "@angular/cdk": "^7.3.7",
     "@angular/common": "7.2.9",
     "@angular/compiler": "^9.0.0",
@@ -75,7 +75,7 @@
     "ngx-perfect-scrollbar": "5.3.5",
     "ngx-print": "^1.2.0-beta.5",
     "ngx-quill": "4.0.0",
-    "ngx-toastr": "9.1.1",
+    "ngx-toastr": "^9.1.1",
     "ngx-ui-switch": "7.0.1",
     "nouislider": "12.0.0",
     "popper.js": "^1.16.1",

@@ -19,30 +19,42 @@
       <form   [formGroup]="visaForm"  novalidate>
           <div class="row">
             <div class=" borderSection form-inline"> 
-              <div class="form-group  col-sm-12 col-md-4 ">
-                <label for="street"> رقم الحجز</label>
+              <div class="input-group  col-sm-12 col-md-4 ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> رقم الحجز  </span>
+                </div>
                 <select (change)='onVisaNumberSelected($event)' class="form-control" data-size="7" formControlName="companyAccount"  >
                   <option *ngFor="let visa of visas"   [ngValue]="visa.number">{{visa.number}}</option>
               </select><span class="red">*</span>
               </div>
-                <div class="form-group  col-sm-12 col-md-4 ">
-                      <label for="street"> الحجز من</label>
+                <div class="input-group  col-sm-12 col-md-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"> الحجز من </span>
+                  </div>
                       <input type="text"  formControlName="bookingFrom" class="form-control ">
                 </div>
-                <div class="form-group col-sm-12 col-md-4 ">
-                  <label for="street"> الحجز الي</label>
+                <div class="input-group col-sm-12 col-md-4 ">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"> الحجز الي </span>
+                  </div>
                   <input type="text"  formControlName="bookingTo" class="form-control">
                 </div>
-                <div class="form-group col-sm-12 col-md-4 payment">
-                  <label for="street">طريقة الدفع</label>
+                <div class="input-group col-sm-12 col-md-4 payment">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">  طريقة الدفع </span>
+                  </div>
                   <input type="text"  formControlName="paymentMethod" class="form-control ">
                 </div>
-              <div class="form-group col-sm-12 col-md-4 payment">
-                <label for="street">الوجهة</label> 
+              <div class="input-group col-sm-12 col-md-4 payment">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">  الوجهة </span>
+                </div>
                 <input  class="checkbox" type="text" formControlName="destination" class="form-control">
               </div>
-              <div class="form-group col-sm-12 col-md-4 payment">
-                <label for="street">الملاحظات</label>
+              <div class="input-group col-sm-12 col-md-4 payment">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> الملاحظات </span>
+                </div>
                 <input  class="" type="text" formControlName="notes" class="form-control"><span class="red">*</span>
               </div>
             </div>

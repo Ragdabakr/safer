@@ -11,9 +11,6 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { StoreModule } from "@ngrx/store";
 import { NgxCountriesModule } from '@ngx-countries/core';
-// import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
-
-
 import {
     PerfectScrollbarModule,
     PERFECT_SCROLLBAR_CONFIG,
@@ -26,13 +23,11 @@ import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 
 
 import { DragulaService } from "ng2-dragula";
-//import { AuthService } from './pages/content-pages/auth.service';
-//import { AuthGuard } from './pages/content-pages/auth.guard';
 import { ContentPagesModule } from './pages/content-pages/content-pages.module';
 import { TokenInterceptor } from './pages/content-pages/token.interceptor';
 import { AuthService } from "./shared/auth/auth.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
-//import { ResetPasswordComponent } from './content-pages/reset-password/reset-password.component';
+
 import { UserService } from './shared/services/user.service';
 
 
@@ -72,6 +67,7 @@ export function createTranslateLoader(http: HttpClient) {
       // DashboardModule,
       // ContentPagesModule,
         AppRoutingModule,
+        BrowserAnimationsModule, // required animations module
         ToastrModule.forRoot(),
         NgbModule.forRoot(),
         NgxCountriesModule.forRoot({

@@ -7,14 +7,14 @@
     </div>
    </div>
 </div>
-<div class="row" matchHeight="card" id="print-section" *ngIf="user.role.sidebarPermissions.hotels === true">
+<div class="row" matchHeight="card" *ngIf="user.role.sidebarPermissions.hotels === true">
 
   <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="header">
         <div>
           <button (click)="exportCSV()" class=" btn btn-default csv left" >
-            <i class="icon-share-alt icon"></i>  CSV
+            CSV  <i class="icon-share-alt icon"></i>  
           </button>
           <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الفيز " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
           <button  class=" btn btn-green my-1" > <i class="icon-plus icon"></i><a href="/full-layout/full-pages/bookingHotel">  اضافة حجز جديد</a>
@@ -25,7 +25,7 @@
         </div>
   
       </div>
-      <div class="card-content">
+      <div class="card-content" id="print-section" >
         <div class="card-body">
           <p-table  #dt [value]="hotels" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           currentPageReportTemplate=" حجوزات الفنادق" [style]="{'width':'100%','overflow':'auto!important'}"
@@ -58,12 +58,16 @@
               <th pSortableColumn="hotelName">  اسم الفندق   <p-sortIcon field="hotelName"></p-sortIcon></th>
               <th>
                 <div class="flex justify-content-center align-items-center">
-                    Date
+                    تاريخ الوصول
                     <p-columnFilter type="date" field="arrivalDate" display="menu"></p-columnFilter>
                 </div>
             </th>
-              <!-- <th pSortableColumn="arrivalDate"> تاريخ الوصول <p-sortIcon field="arrivalDate"></p-sortIcon></th> -->
-              <th pSortableColumn="departureDate">تاريخ المغادرة <p-sortIcon field="departureDate"></p-sortIcon></th>
+            <th>
+              <div class="flex justify-content-center align-items-center">
+                تاريخ المغادرة 
+                  <p-columnFilter type="date" field="departureDate" display="menu"></p-columnFilter>
+              </div>
+             </th>
               <th pSortableColumn="adultNumber"> عدد البالغين <p-sortIcon field="adultNumber"></p-sortIcon></th>
               <th pSortableColumn="childNumber">  عدد الاطفال <p-sortIcon field="childNumber"></p-sortIcon></th>
               <th pSortableColumn="roomType">   نوع الغرفة <p-sortIcon field="roomType"></p-sortIcon></th>
@@ -83,9 +87,9 @@
               <td>{{hotelBooking?.number}}</td>
                 <td ><a class="link" *ngIf="hotelBooking.createdInvoice === true"  href="/full-layout/full-pages/hotels/{{hotelBooking?._id}}">الفاتورة</a>
                 <p  *ngIf="hotelBooking.createdInvoice === false">لم يتم اصدار فاتوره</p></td>
-                <td> 
+                <td>
                   <ul *ngFor="let traveller of hotelBooking.travellers ; let i = index">
-                    <li>   <p-columnFilter type="text" field="guestName" display="menu"></p-columnFilter></li>
+                    <li>{{traveller.guestName}}</li>
                   </ul>
                 </td>
                 <td>
@@ -94,7 +98,7 @@
                   </ul>
                 </td>
                 <td>{{hotelBooking?.hotelName.name}}</td> 
-                <td>{{hotelBooking?.arrivalDate | date}</td>
+                <td>{{hotelBooking?.arrivalDate | date}}</td>
                 <td>{{hotelBooking?.departureDate | date}}</td>
                 <td>{{hotelBooking?.adultNumber}}</td>
                 <td>{{hotelBooking?.childNumber}}</td>

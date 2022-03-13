@@ -56,6 +56,7 @@ export class RolesComponent implements OnInit {
                 addUser: new FormControl(false),
                 editUser: new FormControl(false),
                 deleteUser: new FormControl(false),
+                addEditCompanyInfo: new FormControl(false),
               }),
               settingPermissions: new FormGroup({
                 addVisa: new FormControl(false),
@@ -171,6 +172,7 @@ updatePermissionForm(role){
       addUser: role.userPermissions.addUser,
       editUser: role.userPermissions.editUser,
       deleteUser: role.userPermissions.deleteUser,
+      addEditCompanyInfo: role.userPermissions.addEditCompanyInfo,
     },
     settingPermissions:{
       addVisa: role.settingPermissions.addVisa,

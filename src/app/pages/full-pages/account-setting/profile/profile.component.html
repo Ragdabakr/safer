@@ -1,25 +1,17 @@
-<div class="row" matchHeight="card">
+<div class="row" matchHeight="card"  *ngIf="user">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
         <h4 class="card-title mb-0"> الملف الشخصي</h4>
       </div>
-</div>
-<!--Tabs Starts-->
-<section id="tabs">
-  <div class="row text-left">
-    <div class="col-sm-12">
-    </div>
-  </div>
-  <div class="row text-left">
-    <!--Tabset Starts-->
-    <div class="col-md-12 col-lg-12">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body" *ngIf="!openGeneralData">
+      <ngb-tabset>
+        <ngb-tab>
+          <ng-template  ngbTabTitle> <i class="icon-info" aria-hidden="true"></i>  المعلومات الشخصية</ng-template>
+          <ng-template ngbTabContent>
+            <div class="card-body" *ngIf="!openGeneralData">
               <p><span class="item">الاسم</span> : {{user.name}}</p>
               <p><span class="item">الايميل</span> : {{user.email}}</p>
-              <p><span class="item">الرتبة</span> : {{user.role}}</p>
+              <p><span class="item">الرتبة</span> : {{user.role.name}}</p>
               <div class="recover-pass">
                 <button class="btn btn-primary">
                     <a class="text-decoration-none text-white" (click)="editGeneralData()">
@@ -28,59 +20,108 @@
                 </button>
             </div>
           </div>
-          <div class="card-body" *ngIf="openGeneralData">
-            <form [formGroup]="userForm" >
-              <div class="content with-padding padding-bottom-0">
-                  <div class="row">
-                      <div class="col-xl-12">
-        
+            <!-- Edit Info form -->
+            <div class="card-body" *ngIf="openGeneralData">
+              <form [formGroup]="userForm" >
+                <div class="content with-padding padding-bottom-0">
+                    <div class="row">
+                        <div class="col-xl-12">
+          
+                                <div class="col-md-12">
+                                  <div class="submit-field input-group col-sm-12 col-md-4 payment"
+                                  [ngClass]="{'has-error': userForm.get('name')?.errors &&
+                                              (userForm.get('name').touched || userForm.get('name').dirty)}">
+                                              <div class="input-group-prepend">
+                                                <span class="input-group-text">الاسم</span>
+                                              </div>
+                                        <input required type="text" class="form-control" formControlName='name' >
+                                    </div>
+                                </div>
+          
                               <div class="col-md-12">
-                                <div class="submit-field form-group"
-                                [ngClass]="{'has-error': userForm.get('name')?.errors &&
-                                            (userForm.get('name').touched || userForm.get('name').dirty)}">
-                                      <h5 class="control-label">الاسم </h5>
-                                      <input  type="text" class="form-control" formControlName='name' >
-                                      <span class="alert alert-danger" *ngIf="userForm.get('name')?.errors &&
-                                      (userForm.get('name').touched || userForm.get('name').dirty)">
-                                      <span  *ngIf="userForm.get('name').errors.required">اسم المستخدم مطلوب</span>
-                                      <span  *ngIf="userForm.get('name').errors.minlength || userForm.get('name').errors.maxlength">اقل عدد حروف متاح 4 ,اكثر عدد حروف متاح 50  </span>
-                                      </span>
-                                  </div>
-                              </div>
-        
-                            <div class="col-md-12">
-                              <div class="submit-field form-group"
-                               [ngClass]="{'has-error': userForm.get('email')?.errors &&
-                                           (userForm.get('email').touched || userForm.get('email').dirty)}">
-                                  <h5 class="control-label">الايميل</h5>
-                                  <input  type="text" class="form-control" formControlName='email' >
-                                  <span class="alert alert-danger" *ngIf="userForm.get('email')?.errors &&
-                                  (userForm.get('email').touched || userForm.get('email').dirty)">
-                                  <span  *ngIf="userForm.get('email').errors?.required">اسم الكامل مطلوب</span>
-                                  <span  *ngIf="userForm.get('email').errors?.email">الايميل غير صحيح</span>
-                                  </span>
-                              </div>
-                          </div>
-        
-                              <div class="col-md-12">
-                                    <h5 class="control-label" >الرتبة </h5>
-                                    <input  type="text" readOnly class="form-control" formControlName='role' >
-                              </div>
+                                <div class="submit-field input-group col-sm-12 col-md-4 payment"
+                                 [ngClass]="{'has-error': userForm.get('email')?.errors &&
+                                             (userForm.get('email').touched || userForm.get('email').dirty)}">
+                                             <div class="input-group-prepend">
+                                              <span class="input-group-text">الايميل </span>
+                                            </div>
+                                    <input required type="text" class="form-control" formControlName='email' >
+                                </div>
                             </div>
-                      </div>
-                  </div>
-        
-                  <div class="buttons margin-top-10">
-                      <input type="submit"  (click)="submitEdituserForm(userForm)" class=" btn btn-primary submit" value="تعديل">
-                  </div>
-              </form>
-        </div>
-        </div>
-      </div>
+          
+                                <div class="col-md-12">
+                                  <div class="input-group col-sm-12 col-md-4 payment">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text">الرتبة </span>
+                                  </div>
+                                      <input  type="text" readOnly class="form-control" formControlName='role' >
+                                </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+          
+                    <div class="buttons margin-top-10">
+                        <input type="submit" [disabled]="!userForm.valid"  (click)="submitEdituserForm(userForm)" class=" btn btn-primary submit" value="تعديل">
+                    </div>
+                </form>
+          </div>
+          </ng-template>
+        </ngb-tab>
 
+        <ngb-tab>
+          <ng-template ngbTabTitle> <i class="icon-lock" aria-hidden="true"></i>  تغيير كلمة المرور</ng-template>
+          <ng-template ngbTabContent>
+            <form (ngSubmit)="onSubmit()" [formGroup]="authForm">
+                  <div class="input-group col-sm-12 col-md-4 payment">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">  كلمة المرور القديمة </span>
+                    </div>
+                    <input   type="text" formControlName="passwordCurrent" class="form-control"><span class="red">*</span>
+                </div>
+                <div class="input-group col-sm-12 col-md-4 payment"  [ngClass]="{'has-error': authForm.get('password')?.errors &&
+                (authForm.get('password').touched || authForm.get('password').dirty)}" >
+                  <div class="input-group-prepend"  >
+                    <span class="input-group-text">كلمة المرور الجديدة </span>
+                    <input   type="text" formControlName="password" class="form-control"><span class="red">*</span>
+                  </div>
+                  <div  *ngIf="authForm.get('password')?.errors &&
+                      (authForm.get('password').touched || authForm.get('password').dirty)">
+                        <span class="alert alert-danger" *ngIf="authForm.get('password').errors.minlength">اقل عدد متاح 6</span>
+                  </div>
+              </div>
+              <div class="input-group col-sm-12 col-md-4 payment">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">تأكيد كلمة المرور</span>
+                </div>
+                <input   type="text" formControlName="passwordConfirmation" class="form-control"><span class="red">*</span>
+               </div>
+                <div class="fg-actions d-flex justify-content-between">
+                  <div class="recover-pass">
+                      <button [disabled]="!authForm.valid"  class="btn btn-primary">
+                          <a class="text-decoration-none text-white">
+                              حفظ
+                          </a>
+                      </button>
+                  </div>
+              </div>
+              </form>  
+          </ng-template>
+        </ngb-tab>
+     
+      </ngb-tabset>
     </div>
-    <!--Tabset Ends-->    
+   </div>
+</div>
+<!--Tabs Starts-->
+<div class="row" matchHeight="card" *ngIf="!user">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> ليس لديك ملف شخصي </h4>
+      </div>
+   </div>
   </div>
+</div>
 
-</section>
 <!--Tabs Starts-->

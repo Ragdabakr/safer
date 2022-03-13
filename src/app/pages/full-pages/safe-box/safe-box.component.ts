@@ -6,11 +6,15 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { ExportToCsv } from 'export-to-csv-file';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { DatePipe } from '@angular/common';
+import { PrimeNGConfig } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-safe-box',
   templateUrl: './safe-box.component.html',
-  styleUrls: ['./safe-box.component.scss']
+  styleUrls: ['./safe-box.component.scss'],
+  providers: [DatePipe]
 })
 export class SafeBoxComponent implements OnInit {
 
@@ -23,7 +27,7 @@ export class SafeBoxComponent implements OnInit {
   safeboxes: any;
   user: any;
 
-  constructor(private authService:AuthService , private SafeboxService: SafeboxService,private toastr:ToastrService ) { }
+  constructor(private authService:AuthService ,private config: PrimeNGConfig,private translateService: TranslateService,private datePipe: DatePipe, private SafeboxService: SafeboxService,private toastr:ToastrService ) { }
 
   ngOnInit() {
   this.getSafeboxes();
@@ -84,7 +88,26 @@ export class SafeBoxComponent implements OnInit {
                 console.log(err);
             }
         });
-  }
+        this.config.setTranslation({
+          dateIs: "التاريخ",
+          dateIsNot: "جميع التواريخ ما عدا",
+          dateBefore: "جميع النتائج بعد هذا التاريخ",
+          dateAfter: "جميع النتائج قبل هذا التاريخ",
+          clear: "الغاء",
+          apply: "تنفيذ",
+          matchAll: "جميع النتائج",
+          matchAny: "بعض النتائج ",
+          addRule: "تاريخ جديد",
+          removeRule: "حذف التاريخ",
+          //translations
+      });
+      this.translateService.setDefaultLang('en');
+          }
+          translate(lang: string) {
+            this.translateService.use(lang);
+            this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
+        }
+      
 
   submitNewSafeBox(safeboxForm){
     if (this.safeboxForm.invalid) {
@@ -121,10 +144,10 @@ updateSafebox(safebox){
   this.hotelId = safebox._id;
   this.dataForm.patchValue({
     title: safebox.title,
-    date: safebox.date,
     description: safebox.description,
     credit: safebox.credit,
-    indebted: safebox.indebted
+    indebted: safebox.indebted,
+    date: safebox.date,
   })
 }
 editSafeboxButton(dataForm){
