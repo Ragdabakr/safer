@@ -57,8 +57,8 @@ exports.createBond = catchAsync(async(req, res) => {
        foundCompany.credit = foundCompany.credit +parseInt(req.body.data.amount);
 
        foundCompany.companyReport.push({
-           debit :0,
-           credit :req.body.data.amount, 
+           credit :req.body.data.amount,
+           debit :0, 
            name:req.body.data.type,
            description : req.body.data.notes,
            date : Date.now(),

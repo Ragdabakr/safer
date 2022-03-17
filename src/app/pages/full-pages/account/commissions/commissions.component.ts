@@ -32,10 +32,10 @@ export class CommissionsComponent implements OnInit {
       next: response => {
           this.commissions = response.data.docs.reverse();
           for (let i = 0; i < this.commissions.length; i++) {
-            this.totalDebitNumber += parseInt(this.commissions[i].debit);
+            this.totalDebitNumber += this.commissions[i].debit;
             }
             for (let i = 0; i < this.commissions.length; i++) {
-              this.totalCreditNumber += parseInt(this.commissions[i].credit);
+              this.totalCreditNumber += this.commissions[i].credit;
               }
       },
       error: err => {

@@ -44,8 +44,8 @@ export class BookingHotelsComponent implements OnInit {
   this.config.setTranslation({
     dateIs: "التاريخ",
     dateIsNot: "جميع التواريخ ما عدا",
-    dateBefore: "جميع النتائج بعد هذا التاريخ",
-    dateAfter: "جميع النتائج قبل هذا التاريخ",
+    dateBefore: "جميع النتائج قبل هذا التاريخ",
+    dateAfter: "جميع النتائج بعد هذا التاريخ",
     clear: "الغاء",
     apply: "تنفيذ",
     matchAll: "جميع النتائج",
@@ -56,15 +56,6 @@ export class BookingHotelsComponent implements OnInit {
 });
 this.translateService.setDefaultLang('en');
 
-
-  // this.config.filterMatchModeOptions = {
-  //   date: [
-  //       FilterMatchMode.DATE_IS,
-  //       FilterMatchMode.DATE_IS_NOT,
-  //       FilterMatchMode.DATE_BEFORE,
-  //       FilterMatchMode.DATE_AFTER
-  //   ]
-  //    }
     }
 
     translate(lang: string) {

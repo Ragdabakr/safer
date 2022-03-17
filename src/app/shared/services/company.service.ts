@@ -33,9 +33,9 @@ export class CompanyService {
         debugger;
         return this.http.get(`/api/v1/companies/${id}`);
     }
-    public deletecompany(id:any): Observable<any> {
+    public deletecompany(id:any ): Observable<any> {
         debugger;
-        return this.http.delete(`/api/v1/companies/${id}`);
+        return this.http.delete(`/api/v1/companies/${id}` );
     }
 
     // public addpermissions(id:any , data:any): Observable<any> {

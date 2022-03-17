@@ -82,7 +82,7 @@
                 <th pSortableColumn="title"> وصف الحركة  <p-sortIcon field="title"></p-sortIcon></th>
                 <th> <div class="flex justify-content-center align-items-center">
                    التاريخ
-                  <p-columnFilter type="date" field="date" display="menu"></p-columnFilter>
+                  <p-columnFilter type="date" field="createdAt" display="menu"></p-columnFilter>
               </div></th>
                 <th pSortableColumn="description">التفاصيل <p-sortIcon field="description"></p-sortIcon></th>
                 <th pSortableColumn="indebted">مدين <p-sortIcon field="indebted"></p-sortIcon></th>
@@ -95,7 +95,7 @@
                 <!-- <td></td> -->
                 <td>{{ rowIndex }}</td>
                 <td>{{safebox?.title }}</td>
-                <td>{{safebox?.date}}</td>
+                <td>{{safebox?.createdAt | date}}</td>
                 <td>{{safebox?.description}}</td>
                 <td>{{safebox?.indebted}}</td>
                 <td>{{safebox?.credit}}</td>

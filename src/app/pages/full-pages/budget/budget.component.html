@@ -10,12 +10,15 @@
    <!--Tabset Starts-->
     <div class="col-md-12 col-lg-12" *ngIf="user.role.sidebarPermissions.reports === true">
       <div class="card">
+        <div class="header">
+          <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الموازنة المالية " [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
+      </div>
         <div class="card-header">
         </div>
         <div class="card-content">
           
-          <div class="card-body">
-            <table class="table">
+          <div class="card-body" id="print-section">
+            <table class="table" >
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -151,13 +154,18 @@
             </td>
             <td><a href="/full-layout/full-pages/safeBox">  <i class=" icon-eye edit"></i></a></td>
           </tr>
+          <tr>
+            <th scope="row">15</th>
+            <td> صافي مدخلات أرصدة الموردين </td>
+            <td>
+              <p *ngIf="totalCompanyCredit  > 0 || totalCompanyDebit>0"> {{totalCompanyDebit - totalCompanyCredit}}</p>
+              <p *ngIf="!totalCompanyCredit && !totalCompanyDebit">0</p>
+            </td>
+            <td><a href="/full-layout/full-pages/accountsBalanceComponent">  <i class=" icon-eye edit"></i></a></td>
+          </tr>
               </tbody>
             </table>
-          
-            
           </div>
-    
-
         </div>      
       </div>
     </div>

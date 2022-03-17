@@ -8,6 +8,8 @@ import { ExportToCsv } from 'export-to-csv-file';
 import { BondService } from 'app/shared/services/bond.service';
 import { CompanyService } from 'app/shared/services/company.service';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { PrimeNGConfig } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-bonds',
@@ -31,7 +33,7 @@ export class BondsComponent implements OnInit {
   length;
 
 
-  constructor( private authService : AuthService ,private bondService: BondService,private toastr:ToastrService , private companyService: CompanyService,) { }
+  constructor( private authService : AuthService ,private config: PrimeNGConfig,private translateService: TranslateService,private bondService: BondService,private toastr:ToastrService , private companyService: CompanyService,) { }
 
   ngOnInit() {
   this.getBonds();
@@ -57,12 +59,30 @@ export class BondsComponent implements OnInit {
                 
                 }
               );
-  }
+              this.config.setTranslation({
+                dateIs: "التاريخ",
+                dateIsNot: "جميع التواريخ ما عدا",
+                dateBefore: "جميع النتائج قبل هذا التاريخ",
+                dateAfter: "جميع النتائج بعد هذا التاريخ",
+                clear: "الغاء",
+                apply: "تنفيذ",
+                matchAll: "جميع النتائج",
+                matchAny: "بعض النتائج ",
+                addRule: "تاريخ جديد",
+                removeRule: "حذف التاريخ",
+                //translations
+            });
+            this.translateService.setDefaultLang('en');
+                }
+            
+                translate(lang: string) {
+                  this.translateService.use(lang);
+                  this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
+                }
   getCompanies(){
     this.companyService.getcompanies().subscribe({
       next: response => {
           this.companies = response.data.docs;
-          console.log(" this.companies>>>" ,  this.companies);
       },
 
       error: err => {
@@ -76,7 +96,7 @@ export class BondsComponent implements OnInit {
           this.bondService.getBondes().subscribe({
             next: response => {
                 this.bonds = response.data.docs;
-                console.log("bonds >>>" ,this.bonds);
+                this.bonds.forEach(bond => bond.createdAt = new Date(bond.createdAt));
             },
             error: err => {
                 console.log(err);

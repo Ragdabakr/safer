@@ -86,7 +86,12 @@
                 <th pSortableColumn="number">القيد <p-sortIcon field="number"></p-sortIcon></th>
                 <th pSortableColumn="number">رقم السند <p-sortIcon field="number"></p-sortIcon></th>
                 <th pSortableColumn="type"> وصف الحركة  <p-sortIcon field="type"></p-sortIcon></th>
-                <th pSortableColumn="createdAt">التاريخ <p-sortIcon field="createdAt"></p-sortIcon></th>
+                <th>
+                  <div class="flex justify-content-center align-items-center">
+                       التاريخ
+                   <p-columnFilter type="date" field="createdAt" display="menu"></p-columnFilter>
+                  </div>
+              </th>
                 <th pSortableColumn="amount">قيمة السند <p-sortIcon field="amount"></p-sortIcon></th>
                 <th pSortableColumn="notes">التفاصيل <p-sortIcon field="notes"></p-sortIcon></th>
                 <th pSortableColumn="accountType">اسم الحساب <p-sortIcon field="accountType"></p-sortIcon></th> 

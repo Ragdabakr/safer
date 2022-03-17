@@ -64,7 +64,7 @@
           <ng-template pTemplate="body" let-ticket>
             <tr>
                 <td>{{ticket?.number}}</td>
-                <td ><a *ngIf="ticket.createdInvoice === true"  href="/full-layout/full-pages/invoices/{{ticket?._id}}">الفاتورة</a>
+                <td ><a class="reset" *ngIf="ticket.createdInvoice === true"  href="/full-layout/full-pages/invoices/{{ticket?._id}}">الفاتورة</a>
                 <p  *ngIf="ticket.createdInvoice === false">لم يتم اصدار فاتورة</p></td>
                 <!-- <td>{{ticket?.bookingFrom}}</td> -->
                 <td>{{ticket?.travellers.length }}</td>
@@ -116,11 +116,3 @@
    </div>
   </div>
 </div>
-
-
-
-
-
-
-
-

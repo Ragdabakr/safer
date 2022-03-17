@@ -42,13 +42,26 @@ const companySchema = new mongoose.Schema({
         name :{type: String},
         user :{type: String},
         createdAt :{type: Date, default: Date.now()}
-      
-
-     }]
-   
-
+     }],
+     companyBudget:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Budget',
+    }
 });
 
+companySchema.pre(/^find/, function(next) {
+    this.populate({
+      path: 'companyBudget',
+    });
+    next();
+  });
+  
+companySchema.pre(/^findOne/, function(next) {
+    this.populate({
+      path: 'companyBudget',
+    });
+    next();
+  });
 
 
 const Company = mongoose.model('Company', companySchema);

@@ -69,7 +69,6 @@ commission.date = Date.now();
 commission.debit = 0;
 commission.credit = req.body.data.totalNetComm;
 commission.user = user.name;
-// console.log("commission  >>>>>>" , commission);
  commission.save();
 
  const budget =  new Budget();
@@ -211,6 +210,7 @@ res.status(201).json({
           if (err) {console.log(err); 
         }
         foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalReceivedAmount);
+        foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalNetSellingPrice);
         foundCompany.companyReport.push({
             debit :req.body.data.totalNetSellingPrice,
             credit :req.body.data.totalReceivedAmount, 
@@ -306,8 +306,8 @@ Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundComp
 
  foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
  foundCompany.companyReport.push({
-     debit :0,
-     credit :req.body.data.totalRefundNetSellingPrice, 
+     credit :req.body.data.totalRefundNetSellingPrice,
+     debit :0, 
      name:' استحقاق له / استرجاع تذكرة',
      description : req.body.data.notes,
      date : Date.now(),

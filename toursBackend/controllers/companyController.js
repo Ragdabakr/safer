@@ -1,9 +1,10 @@
 const Company = require('./../models/companyModel');
-const async = require('async');
 const AppError = require('./../utils/appError');
 const catchAsync = require('./../utils/catchAsync');
 const factory = require('./handlerFactory');
-const User = require('./../models/userModel');
+const Budget = require('./../models/budgetModel');
+
+// ---------------- Create Company --------------- 
 
 exports.createCompany = catchAsync(async (req, res) => {
   const user = req.user;
@@ -18,22 +19,37 @@ exports.createCompany = catchAsync(async (req, res) => {
     description :req.body.data.notes, 
       user :user.name
    });
+   await foundCompany.save();
+
+   const budget =  new Budget();
+   budget.name = "أرصدة الحسابات";
+   budget.date = Date.now();
+   budget.totalReceivedAmount = req.body.data.debit;
+   budget.totalRemainingAmount = req.body.data.credit;
+   await  budget.save(); 
+   foundCompany.companyBudget=budget._id;
    foundCompany.save();
+
     res.status(201).json({
     status: 'success',
     data: {
-      data: newCompany
+      data: foundCompany
       }
     });   
   });
 
 });
 
-
-
+// ---------------- Delete Company--------------- 
+exports.deleteCompany = catchAsync(async (req, res) => {
+const deletedCompany = await Company.findByIdAndDelete(req.params.id);
+ await Budget.findByIdAndDelete(deletedCompany.companyBudget._id);
+    res.status(201).json({
+    status: 'success',
+    });
+});
 
   exports.getAllCompanies = factory.getAll(Company);
   exports.getCompany = factory.getOne(Company);
-   exports.updateCompany = factory.updateOne(Company); 
-  exports.deleteCompany = factory.deleteOne(Company);
+  exports.updateCompany = factory.updateOne(Company); 
   exports.deleteAllCompanies = factory.deleteMany(Company);

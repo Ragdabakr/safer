@@ -22,7 +22,7 @@ export class InvoiceComponent implements OnInit {
 
     this.flightTicketsService.getInvoiceById(this.invoiceId).subscribe((data) => {
     this.invoice = data.data.doc;
-    console.log("INVOICE  >>" ,    this.invoice );
+    //console.log("INVOICE  >>" ,    this.invoice );
     this.getCompanyAccount();
   
     });
@@ -31,7 +31,7 @@ export class InvoiceComponent implements OnInit {
     this.userService.getCompanyAccount().subscribe((data) =>{
       debugger;
       this.companyAccount = data.data.docs;
-      console.log("companyAccount  >>" ,    this.companyAccount );
+     console.log("companyAccount  >>" ,    this.companyAccount );
       });
   }
 

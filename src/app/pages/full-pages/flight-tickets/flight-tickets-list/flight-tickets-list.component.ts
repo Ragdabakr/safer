@@ -3,12 +3,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { TourService } from 'app/shared/services/tour.service';
 import { ExportToCsv } from 'export-to-csv-file';
 import { ToastrService } from 'ngx-toastr';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-flight-tickets-list',
@@ -27,13 +29,32 @@ export class FlightTicketsListComponent implements OnInit {
   Invoices: any;
   user: any;
 
-  constructor(private authService:AuthService , private flightTicketsService: FlightTicketsService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
+  constructor(private authService:AuthService ,private config: PrimeNGConfig,private translateService: TranslateService, private flightTicketsService: FlightTicketsService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
 
   ngOnInit() {
   this.user = this.authService.getUser();
   this.getTickets();
   this.getInvoices();
+  this.config.setTranslation({
+    dateIs: "التاريخ",
+    dateIsNot: "جميع التواريخ ما عدا",
+    dateBefore: "جميع النتائج قبل هذا التاريخ",
+    dateAfter: "جميع النتائج بعد هذا التاريخ",
+    clear: "الغاء",
+    apply: "تنفيذ",
+    matchAll: "جميع النتائج",
+    matchAny: "بعض النتائج ",
+    addRule: "تاريخ جديد",
+    removeRule: "حذف التاريخ",
+    //translations
+});
+this.translateService.setDefaultLang('en');
     }
+
+    translate(lang: string) {
+      this.translateService.use(lang);
+      this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
+  }
 
 
     getInvoices(){
@@ -49,11 +70,12 @@ export class FlightTicketsListComponent implements OnInit {
 }
 
   getTickets(){
-        
           this.flightTicketsService.getFlightTicketsList().subscribe({
             next: response => {
                 this.tickets = response.data.docs.reverse();
-                //console.log("tickets >>>" ,this.tickets);
+                this.tickets.forEach(ticket => ticket.createdAt = new Date(ticket.createdAt));
+                this.tickets.forEach(ticketdate => ticketdate.departureDate = new Date(ticketdate.departureDate));
+                this.tickets.forEach(ticketPhone => ticketPhone.phoneNumber = new Date(ticketPhone.phoneNumber));
             },
             error: err => {
                 console.log(err);

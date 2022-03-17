@@ -82,7 +82,7 @@ export class SafeBoxComponent implements OnInit {
           this.SafeboxService.getSafeboxes().subscribe({
             next: response => {
                 this.safeboxes = response.data.docs.reverse();
-               // console.log("safeboxes >>>" ,this.safeboxes);
+                this.safeboxes.forEach(safebox => safebox.createdAt = new Date(safebox.createdAt));
             },
             error: err => {
                 console.log(err);
@@ -91,8 +91,8 @@ export class SafeBoxComponent implements OnInit {
         this.config.setTranslation({
           dateIs: "التاريخ",
           dateIsNot: "جميع التواريخ ما عدا",
-          dateBefore: "جميع النتائج بعد هذا التاريخ",
-          dateAfter: "جميع النتائج قبل هذا التاريخ",
+          dateBefore: "جميع النتائج قبل هذا التاريخ",
+          dateAfter: "جميع النتائج بعد هذا التاريخ",
           clear: "الغاء",
           apply: "تنفيذ",
           matchAll: "جميع النتائج",
@@ -147,7 +147,7 @@ updateSafebox(safebox){
     description: safebox.description,
     credit: safebox.credit,
     indebted: safebox.indebted,
-    date: safebox.date,
+    date: this.datePipe.transform(safebox.date, 'dd-MM-yyyy'),
   })
 }
 editSafeboxButton(dataForm){

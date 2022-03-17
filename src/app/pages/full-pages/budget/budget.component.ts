@@ -9,17 +9,17 @@ import { BudgetService } from 'app/shared/services/budget.service';
 })
 export class BudgetComponent implements OnInit {
   tourBudget: any;
-  totalCredit: number;
-  totalDebit: number;
-  totalTourCost: number;
+  totalCredit: number=0;
+  totalDebit: number=0;
+  totalTourCost: number=0;
   user: any;
-  totalCreditFlightTickets: number;
+  totalCreditFlightTickets: number=0;
   flightTicketBudget: any;
   flightTicketCommBudget: any;
-  totalCreditCommFlightTickets: number;
-  totalDebitFlightTickets: number;
+  totalCreditCommFlightTickets: number=0;
+  totalDebitFlightTickets: number=0;
   flightTicketRefundCommBudget: any;
-  totalCreditRefundCommFlightTickets: number;
+  totalCreditRefundCommFlightTickets: number =0;
   visaBudget: any;
   visaCommBudget: any;
   totalDebitVisa: number=0;
@@ -42,9 +42,12 @@ export class BudgetComponent implements OnInit {
   refundCommHotelBudget: any;
   totalRefundCommHotelCredit: number =0;
   totalRefundCommHotelDebit: number = 0;
-  totalSafeboxCredit: number;
-  totalSafeboxDebit: number;
+  totalSafeboxCredit: number = 0;
+  totalSafeboxDebit: number=0;
   safeboxBudget: any;
+  companyBudget: any;
+  totalCompanyCredit: number=0;
+  totalCompanyDebit: number=0;
 
   constructor(private budgetService:BudgetService , private authService:AuthService) { }
 
@@ -55,6 +58,7 @@ export class BudgetComponent implements OnInit {
     this.getBondsBudget();
     this.getHotelsBudget();
     this.getSafeboxBudget();
+    this.companiesBudget();
     this.user = this.authService.getUser();
   }
 
@@ -90,8 +94,8 @@ export class BudgetComponent implements OnInit {
           var totalCreditFlightTickets = 0;
           var totalDebitFlightTickets = 0;
            for (let i = 0; i <  this.flightTicketBudget.length; i++) {
-             totalCreditFlightTickets += parseInt(this.flightTicketBudget[i].totalReceivedAmount);
-             totalDebitFlightTickets += parseInt(this.flightTicketBudget[i].totalRemainingAmount);
+             totalCreditFlightTickets += this.flightTicketBudget[i].totalReceivedAmount;
+             totalDebitFlightTickets += this.flightTicketBudget[i].totalRemainingAmount;
              this.totalCreditFlightTickets= totalCreditFlightTickets;
              this.totalDebitFlightTickets= totalDebitFlightTickets;
            }
@@ -99,7 +103,7 @@ export class BudgetComponent implements OnInit {
            var totalCreditCommFlightTickets = 0;
  
             for (let i = 0; i <  this.flightTicketCommBudget.length; i++) {
-              totalCreditCommFlightTickets += parseInt(this.flightTicketCommBudget[i].totalReceivedAmount);
+              totalCreditCommFlightTickets += this.flightTicketCommBudget[i].totalReceivedAmount;
               this.totalCreditCommFlightTickets= totalCreditCommFlightTickets;
             }
 
@@ -107,7 +111,7 @@ export class BudgetComponent implements OnInit {
             var totalCreditRefundCommFlightTickets = 0;
   
              for (let i = 0; i <  this.flightTicketRefundCommBudget.length; i++) {
-               totalCreditRefundCommFlightTickets += parseInt(this.flightTicketRefundCommBudget[i].totalRemainingAmount);
+               totalCreditRefundCommFlightTickets += this.flightTicketRefundCommBudget[i].totalRemainingAmount;
                this.totalCreditRefundCommFlightTickets= totalCreditRefundCommFlightTickets;
              }  
         },
@@ -125,8 +129,8 @@ export class BudgetComponent implements OnInit {
           var totalCreditVisa = 0;
           var totalDebitVisa = 0;
            for (let i = 0; i <  this.visaBudget.length; i++) {
-            totalCreditVisa += parseInt(this.visaBudget[i].totalReceivedAmount);
-            totalDebitVisa += parseInt(this.visaBudget[i].totalRemainingAmount);
+            totalCreditVisa += this.visaBudget[i].totalReceivedAmount;
+            totalDebitVisa += this.visaBudget[i].totalRemainingAmount;
              this.totalCreditVisa= totalCreditVisa;
              this.totalDebitVisa= totalDebitVisa;
 
@@ -135,14 +139,14 @@ export class BudgetComponent implements OnInit {
            this.visaCommBudget= data.docs.filter(a=> a.name === 'عمولات  حجوزات التأشيرات');
            var totalCreditCommVisa = 0;
             for (let i = 0; i <  this.visaCommBudget.length; i++) {
-              totalCreditCommVisa += parseInt(this.visaCommBudget[i].totalReceivedAmount);
+              totalCreditCommVisa += this.visaCommBudget[i].totalReceivedAmount;
               this.totalCreditCommVisa= totalCreditCommVisa;
             }
               this.visaRefundCommBudget= data.docs.filter(a=> a.name === 'استرجاع عمولات حجز التأشيرات');
               var totalCreditRefundCommVisa = 0;
   
              for (let i = 0; i <  this.visaRefundCommBudget.length; i++) {
-              totalCreditRefundCommVisa += parseInt(this.visaRefundCommBudget[i].totalRemainingAmount);
+              totalCreditRefundCommVisa += this.visaRefundCommBudget[i].totalRemainingAmount;
                this.totalCreditRefundCommVisa= totalCreditRefundCommVisa;
              }
         },
@@ -160,8 +164,8 @@ export class BudgetComponent implements OnInit {
          var totalExchangeCredit = 0;
          var totalExchangeDebit = 0;
           for (let i = 0; i <  this.bondsBudget.length; i++) {
-            totalExchangeCredit += parseInt(this.bondsBudget[i].totalReceivedAmount);
-            totalExchangeDebit += parseInt(this.bondsBudget[i].totalRemainingAmount);
+            totalExchangeCredit += this.bondsBudget[i].totalReceivedAmount;
+            totalExchangeDebit += this.bondsBudget[i].totalRemainingAmount;
             this.totalExchangeCredit= totalExchangeCredit;
             this.totalExchangeDebit= totalExchangeDebit;
         }
@@ -170,8 +174,8 @@ export class BudgetComponent implements OnInit {
          var totalReceiptCredit = 0;
          var totalReceiptDebit = 0;
           for (let i = 0; i <  this.receiptBudget.length; i++) {
-            totalReceiptCredit += parseInt(this.receiptBudget[i].totalReceivedAmount);
-            totalReceiptDebit += parseInt(this.receiptBudget[i].totalRemainingAmount);
+            totalReceiptCredit += this.receiptBudget[i].totalReceivedAmount;
+            totalReceiptDebit += this.receiptBudget[i].totalRemainingAmount;
             this.totalReceiptCredit= totalReceiptCredit;
             this.totalReceiptDebit= totalReceiptDebit;
           }
@@ -190,8 +194,8 @@ export class BudgetComponent implements OnInit {
          var totalHotelCredit = 0;
          var totalHotelDebit = 0;
           for (let i = 0; i <  this.hotelsBudget.length; i++) {
-            totalHotelCredit += parseInt(this.hotelsBudget[i].totalReceivedAmount);
-            totalHotelDebit += parseInt(this.hotelsBudget[i].totalRemainingAmount);
+            totalHotelCredit += this.hotelsBudget[i].totalReceivedAmount;
+            totalHotelDebit += this.hotelsBudget[i].totalRemainingAmount;
             this.totalHotelCredit= totalHotelCredit;
             this.totalHotelDebit= totalHotelDebit;
         }
@@ -200,8 +204,8 @@ export class BudgetComponent implements OnInit {
          var totalCommHotelCredit = 0;
          var totalCommHotelDebit = 0;
           for (let i = 0; i <  this.commHotelBudget.length; i++) {
-            totalCommHotelCredit += parseInt(this.commHotelBudget[i].totalReceivedAmount);
-            totalCommHotelDebit += parseInt(this.commHotelBudget[i].totalRemainingAmount);
+            totalCommHotelCredit += this.commHotelBudget[i].totalReceivedAmount;
+            totalCommHotelDebit += this.commHotelBudget[i].totalRemainingAmount;
             this.totalCommHotelCredit= totalCommHotelCredit;
             this.totalCommHotelDebit= totalCommHotelDebit;
           }
@@ -211,8 +215,8 @@ export class BudgetComponent implements OnInit {
           var totalRefundCommHotelCredit = 0;
           var totalRefundCommHotelDebit = 0;
            for (let i = 0; i <  this.refundCommHotelBudget.length; i++) {
-            totalRefundCommHotelCredit += parseInt(this.refundCommHotelBudget[i].totalReceivedAmount);
-            totalRefundCommHotelDebit += parseInt(this.refundCommHotelBudget[i].totalRemainingAmount);
+            totalRefundCommHotelCredit += this.refundCommHotelBudget[i].totalReceivedAmount;
+            totalRefundCommHotelDebit += this.refundCommHotelBudget[i].totalRemainingAmount;
              this.totalRefundCommHotelCredit= totalRefundCommHotelCredit;
              this.totalRefundCommHotelDebit= totalRefundCommHotelDebit;
            }
@@ -231,11 +235,33 @@ export class BudgetComponent implements OnInit {
          var totalSafeboxCredit = 0;
          var totalSafeboxDebit = 0;
           for (let i = 0; i <  this.safeboxBudget.length; i++) {
-            totalSafeboxCredit += parseInt(this.safeboxBudget[i].totalReceivedAmount);
-            totalSafeboxDebit += parseInt(this.safeboxBudget[i].totalRemainingAmount);
+            totalSafeboxCredit += this.safeboxBudget[i].totalReceivedAmount;
+            totalSafeboxDebit += this.safeboxBudget[i].totalRemainingAmount;
             this.totalSafeboxCredit= totalSafeboxCredit;
             this.totalSafeboxDebit= totalSafeboxDebit;
         }
+        },
+        err =>{
+        console.log(err);
+      }
+    )
+  }
+
+  companiesBudget(){
+    this.budgetService.getBudgetes().subscribe(
+      res =>{
+        let data = res['data'];
+        this.companyBudget= data.docs.filter(a=> a.name === 'أرصدة الحسابات');
+         var totalCompanyCredit = 0;
+         var totalCompanyDebit = 0;
+          for (let i = 0; i <  this.companyBudget.length; i++) {
+            totalCompanyCredit += this.companyBudget[i].totalRemainingAmount;
+            totalCompanyDebit += this.companyBudget[i].totalReceivedAmount;
+            this.totalCompanyCredit= totalCompanyCredit;
+            this.totalCompanyDebit= totalCompanyDebit;
+            console.log("totalCompanyCredit" , totalCompanyCredit);
+            console.log("totalCompanyDebit" , totalCompanyDebit);
+          }
         },
         err =>{
         console.log(err);
