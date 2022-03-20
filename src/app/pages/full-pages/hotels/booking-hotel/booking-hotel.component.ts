@@ -127,14 +127,15 @@ export class BookingHotelComponent implements OnInit {
             hotelName:new FormControl('', [ Validators.required,]),
 
             totalNetSellingPrice: new FormControl(''),
-            totalNetCostPrice: new FormControl(''),
             totalNetComm: new FormControl(''),
+            totalNetCostPrice: new FormControl(''),
             totalReceivedAmount: new FormControl(''),
             totalRemainingAmount: new FormControl(''),
             bookingUser: new FormControl(''),
             bookingTime: new FormControl(''),
-            travellers: new FormArray([this.addTraveller()]),
-          
+            // travellers: new FormArray([this.addTraveller()],
+            //   [Validators.required])
+              travellers: this.fb.array([this.addTraveller()],[Validators.required])
           }
         );
       
@@ -165,52 +166,6 @@ export class BookingHotelComponent implements OnInit {
 
   // ---------------- Add new traveller----------------
 
-    addNewTraveller(){
-      if(this.hotelForm.invalid){
-        this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
-        this.validateAllFormFields(this.hotelForm); // Triger postForm validation
-      }else{
-    this.booking= this.hotelForm.value;
-   // console.log("this.booking" , this.booking); 
-    var totalNetSellingPrice = 0;
-    var totalNetCostPrice = 0 ;
-    var totalNetComm = 0;
-    var  totalReceivedAmount = 0;
-    var  totalRemainingAmount =0;
-   
-    for (let i = 0; i < this.booking.travellers.length; i++) {
-    this.bookingArray.push(this.booking.travellers[i]);
-    //console.log("this.bookingArray" , this.bookingArray); 
-
-    for (let i = 0; i < this.bookingArray.length; i++) {
-      const sellingPrice = this.bookingArray[i].sellingPrice;
-      const costPrice  = this.bookingArray[i].costPrice ;
-      const comm = this.bookingArray[i].comm ;
-
-      totalNetSellingPrice += parseInt(sellingPrice) ;
-      totalNetCostPrice += parseInt(costPrice); 
-      totalNetComm += parseInt(comm); 
-      totalReceivedAmount += parseInt(this.bookingArray[i].receivedAmount);
-      totalRemainingAmount +=parseInt(this.bookingArray[i].remainingAmount);
-
-      this.hotelForm.patchValue({
-        totalNetSellingPrice: totalNetSellingPrice,
-        totalNetCostPrice: totalNetCostPrice,
-        totalNetComm:totalNetComm,
-        totalReceivedAmount:totalReceivedAmount,
-        totalRemainingAmount:totalRemainingAmount,       
-       });
-      }
-    }
-  }
-
-  // ----------------  Reset travellers array----------------
-
-  const control = <FormArray>this.hotelForm.controls['travellers'];
-        for(let i = control.length-1; i >= 0; i--) {
-            control.reset(i)
-    }
- }
 
 
 addTraveller(): FormGroup {
@@ -218,48 +173,81 @@ addTraveller(): FormGroup {
         guestName: ['', [Validators.required]],
         roomType: ['', [Validators.required]],
         phoneNumber: ['', [Validators.required]],
-        costPrice: ['', [Validators.required]],
         sellingPrice: ['', [Validators.required]],
         comm: ['', [Validators.required]],
         netCost: ['', [Validators.required]],
-        receivedAmount: ['', [Validators.required]],
+        receivedAmount: ['0', [Validators.required]],
         remainingAmount: ['0', [Validators.required]],
 
     });
 }
 
-  // ---------------- Calculation----------------
-  calculate(){
-    for (let i = 0; i < this.hotelForm.value.travellers.length; i++) {
-    const sellingPrice = this.hotelForm.value.travellers[i].sellingPrice;
-    const costPrice  = this.hotelForm.value.travellers[i].costPrice ;
-    const comm = this.hotelForm.value.travellers[i].comm ;
-    const netCost = parseInt(costPrice) + parseInt(comm);
+get travellerss(): FormArray {
+  return this.hotelForm.get('travellers') as FormArray;
+} 
+
+addNewTraveller(){
+  const min = 0;
+  const max =90000;
+  this.num =  Math.floor(Math.random() * (max - min + 1)) + min;
+  this.num.toString().padStart(6, "0");
+   this.hotelForm.patchValue({
+   bookingUser:this.user,
+   bookingTime:Date.now(),
+   number:this.num
+    });
+
+  if(this.hotelForm.invalid){
+    this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
+    this.validateAllFormFields(this.hotelForm); // Triger postForm validation
+  }else{
+  this.booking= this.hotelForm.value;
+
+  var totalNetSellingPrice = 0;
+  var totalNetComm = 0;
+  var  totalReceivedAmount = 0;
+  var  totalRemainingAmount =0;
+  var totalNetCostPrice = 0;
+ 
+  for (let i = 0; i < this.booking.travellers.length; i++) {
+  this.bookingArray.push(this.booking.travellers[i]);
+  //console.log("this.bookingArray" , this.bookingArray); 
+
+  for (let i = 0; i < this.bookingArray.length; i++) {
+    const sellingPrice = this.bookingArray[i].sellingPrice;
+    const comm = this.bookingArray[i].comm ;
+    const netCost = this.bookingArray[i].netCost ;
+
+    totalNetCostPrice += parseFloat(netCost); 
+    totalNetSellingPrice += parseFloat(sellingPrice) ;
+    totalNetComm += parseFloat(comm); 
+    totalReceivedAmount += parseFloat(this.bookingArray[i].receivedAmount);
+    totalRemainingAmount +=parseFloat(this.bookingArray[i].remainingAmount);
 
     this.hotelForm.patchValue({
-     travellers: [{
-      sellingPrice: sellingPrice,
-      netCost: netCost,
-      refundTicketUser:this.user,
-      comm:comm,
-      }]
-   });
-   const min = 0;
-   const max =8000;
-   this.num =  Math.floor(Math.random() * (max - min + 1)) + min;
-   this.num.toString().padStart(6, "0");
-  //  console.log( " this.num",this.num);
-    this.hotelForm.patchValue({
-    bookingUser:this.user,
-    bookingTime:Date.now(),
-    number:this.num
+      totalNetSellingPrice: totalNetSellingPrice,
+      totalNetComm:totalNetComm,
+      totalNetCostPrice:totalNetCostPrice,
+      totalReceivedAmount:totalReceivedAmount,
+      totalRemainingAmount:totalRemainingAmount,       
      });
     }
   }
+}
+
+// ----------------  Reset travellers array----------------
+
+const control = <FormArray>this.hotelForm.controls['travellers'];
+      for(let i = control.length-1; i >= 0; i--) {
+          control.reset(i)
+  }
+}
+
 
    // ----------------  Submit new hotel booking----------------
 
    submitNewHotelBooking(hotelForm){
+
     console.log( "hotelForm .....",this.hotelForm.value);
     if (
       !this.hotelForm.get('bookingFrom').value ||
@@ -272,15 +260,25 @@ addTraveller(): FormGroup {
       ){
         this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
     }else{
+      const min = 0;
+      const max =8000;
+      this.num =  Math.floor(Math.random() * (max - min + 1)) + min;
+      this.num.toString().padStart(6, "0");
+     //  console.log( " this.num",this.num);
+       this.hotelForm.patchValue({
+       bookingUser:this.user,
+       bookingTime:Date.now(),
+       number:this.num
+        });
 
 this.hotelService.createHotelBooking(hotelForm.value , this.bookingArray).subscribe(
       res =>{
         this.hotelForm.reset();
         this.toastr.success('تم الاضافة بنجاح ');
-        // setTimeout(() => {
-        //   window.location.href = '/full-layout/full-pages/flightTicketsList';
-        // }, 1000);
-   },
+        setTimeout(() => {
+          window.location.href = '/full-layout/full-pages/bookingHotels';
+        }, 1000);
+       },
         err =>{
         console.log(err);
       }
@@ -290,9 +288,36 @@ this.hotelService.createHotelBooking(hotelForm.value , this.bookingArray).subscr
 
 // ----------------  Delete  Traveller----------------
 
-deleteTraveller(traveller){
-  let deletedTicket =  this.bookingArray.filter(a=> a.phoneNumber !== traveller.phoneNumber );
+deleteTraveller(booking){
+  let deletedTicket =  this.bookingArray.filter(a=> a.phoneNumber !== booking.phoneNumber );
    this.bookingArray = deletedTicket;
+   console.log( " this.bookingArray",this.bookingArray);
+
+   var totalNetSellingPrice = 0;
+   var totalNetComm = 0;
+   var  totalReceivedAmount = 0;
+   var  totalRemainingAmount =0;
+   var totalNetCostPrice = 0;
+ 
+   for (let i = 0; i < this.bookingArray.length; i++) {
+     const sellingPrice = this.bookingArray[i].sellingPrice;
+     const comm = this.bookingArray[i].comm ;
+     const netCost = this.bookingArray[i].netCost ;
+ 
+     totalNetCostPrice += parseFloat(netCost); 
+     totalNetSellingPrice += parseFloat(sellingPrice) ;
+     totalNetComm += parseFloat(comm); 
+     totalReceivedAmount += parseFloat(this.bookingArray[i].receivedAmount);
+     totalRemainingAmount +=parseFloat(this.bookingArray[i].remainingAmount);
+ 
+     this.hotelForm.patchValue({
+       totalNetSellingPrice: totalNetSellingPrice,
+       totalNetComm:totalNetComm,
+       totalNetCostPrice:totalNetCostPrice,
+       totalReceivedAmount:totalReceivedAmount,
+       totalRemainingAmount:totalRemainingAmount,       
+      });
+     }
 }
 
   // To validate all form fields, we need to iterate throughout all form controls:

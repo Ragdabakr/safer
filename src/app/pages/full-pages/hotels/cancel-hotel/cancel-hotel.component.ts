@@ -74,7 +74,6 @@ export class CancelHotelComponent implements OnInit {
     this.hotelService.getHotelsList().subscribe({
       next: response => {
           this.hotelsBooking = response.data.docs.reverse().filter(a => a.cancel  === false );
-        console.log("hotelsBooking >>>" ,this.hotelsBooking);
       },
       error: err => {
           console.log(err);
@@ -107,10 +106,8 @@ onHotelNumberSelected(event){
       const hotelNumber =  parseInt(x.slice(1));
         this.bookings = response.data.docs;
         this.hotelValue =  this.bookings.filter(a => a.number  === hotelNumber );
-        console.log(" this.hotelValue" , this.hotelValue);
         this.patchFormValues(this.hotelValue);
-        this.hotelsArray = this.bookings[0].travellers;
-        console.log(" this.hotelsArray" , this.hotelsArray);
+        this.hotelsArray = this.hotelValue[0].travellers;
     },
     error: err => {
         console.log(err);

@@ -1,7 +1,9 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { TourService } from 'app/shared/services/tour.service';
+import { ExportToCsv } from 'export-to-csv-file';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -20,10 +22,12 @@ export class TransportsComponent implements OnInit {
   buses: any;
   transports: any;
   transportId: any;
+  user: any;
 
-  constructor( private tourService: TourService,private toastr:ToastrService ) { }
+  constructor( private tourService: TourService,private authService:AuthService ,private toastr:ToastrService ) { }
 
   ngOnInit() {
+    this.user =this.authService.getUser();  
   this.getBuses();
         this.cols = [
           { field: 'name', header: 'اسم الفندق ' },
@@ -81,7 +85,6 @@ export class TransportsComponent implements OnInit {
           this.tourService.getBuses().subscribe({
             next: response => {
                 this.transports = response.data.docs;
-                console.log("buses >>>" ,this.buses);
             },
             error: err => {
                 console.log(err);
@@ -152,6 +155,24 @@ validateAllFormFields(formGroup: FormGroup) {
           this.validateAllFormFields(control);
       }
   });
+}
+exportCSV(){
+  const options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: 'تقرير التنقلات',
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    headers: ['busNumber','size','brand','color','maxPassengerSize'] 
+  };
+ 
+const csvExporter = new ExportToCsv(options);
+ 
+csvExporter.generateCsv(this.transports);
 }
 
 }

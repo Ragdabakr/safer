@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NgForm, FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { RoleService } from 'app/shared/services/role.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
@@ -171,16 +170,16 @@ export class BookingFlightTicketComponent implements OnInit {
     for (let i = 0; i < this.ticket.travellers.length; i++) {
     this.ticketsArray.push(this.ticket.travellers[i]);
     
-      const sellingPrice = this.ticket.travellers[i].ticketSellingPrice;
-      const costPrice  = this.ticket.travellers[i].ticketCostPrice ;
-      const ratio  = this.ticket.ratio;
-      const discount  = this.ticket.travellers[i].discount;
-      const ratioPresntage =  parseInt(ratio) / 100;
+      // const sellingPrice = this.ticket.travellers[i].ticketSellingPrice;
+      // const costPrice  = this.ticket.travellers[i].ticketCostPrice ;
+      // const ratio  = this.ticket.ratio;
+      // const discount  = this.ticket.travellers[i].discount;
+      // const ratioPresntage =  parseFloat(ratio) / 100;
 
-      const comm = (costPrice* ratioPresntage) ;
-      const netCost = sellingPrice - comm;
-      const netComm = comm - discount;
-      const totalPrice = sellingPrice - discount;
+      // const comm = (costPrice* ratioPresntage) ;
+      // const netCost = sellingPrice - comm;
+      // const netComm = comm - discount;
+      // const totalPrice = sellingPrice - discount;
 
     // console.log("this.ticketsArray" , this.ticketsArray); 
 
@@ -189,7 +188,7 @@ export class BookingFlightTicketComponent implements OnInit {
       const costPrice  = this.ticketsArray[i].ticketCostPrice ;
       const ratio  = this.ticket.ratio;
       const discount  = this.ticketsArray[i].discount;
-      const ratioPresntage =  parseInt(ratio) / 100;
+      const ratioPresntage =  parseFloat(ratio) / 100;
 
       const comm = (costPrice* ratioPresntage) ;
       const netCost = sellingPrice - comm;
@@ -199,8 +198,8 @@ export class BookingFlightTicketComponent implements OnInit {
       totalNetSellingPrice += totalPrice ;
       totalNetCostPrice += netCost; 
       totalNetComm += netComm; 
-      totalReceivedAmount += parseInt(this.ticketsArray[i].receivedAmount);
-      totalRemainingAmount +=parseInt(this.ticketsArray[i].remainingAmount);
+      totalReceivedAmount += parseFloat(this.ticketsArray[i].receivedAmount);
+      totalRemainingAmount +=parseFloat(this.ticketsArray[i].remainingAmount);
 
       this.flightTicketForm.patchValue({
         totalNetSellingPrice: totalNetSellingPrice,
@@ -272,7 +271,7 @@ addTraveller(): FormGroup {
     const costPrice  = this.flightTicketForm.value.travellers[i].ticketCostPrice ;
     const ratio  = this.flightTicketForm.value.ratio;
     const discount  = this.flightTicketForm.value.travellers[i].discount;
-    const ratioPresntage =  parseInt(ratio) / 100;
+    const ratioPresntage =  parseFloat(ratio) / 100;
   
     const comm = costPrice* ratioPresntage ;
     const netCost = sellingPrice - comm;
@@ -342,10 +341,41 @@ this.flightTicketsService.createflightTicketBooking(flightTicketForm.value , thi
 
  // Delete  Traveller 
 deleteTraveller(traveller){
-  // console.log("traveller >>>" , traveller);
   let deletedTicket =  this.ticketsArray.filter(a=> a.passportNumber !== traveller.passportNumber );
-  // console.log("deletedTicket >>>" , deletedTicket);
    this.ticketsArray = deletedTicket;
+   var totalNetSellingPrice = 0;
+   var totalNetCostPrice = 0 ;
+   var totalNetComm = 0;
+   var  totalReceivedAmount = 0;
+   var  totalRemainingAmount =0;
+   for (let i = 0; i < this.ticketsArray.length; i++) {
+    const sellingPrice = this.ticketsArray[i].ticketSellingPrice;
+    const costPrice  = this.ticketsArray[i].ticketCostPrice ;
+    const ratio  = this.ticket.ratio;
+    const discount  = this.ticketsArray[i].discount;
+    const ratioPresntage =  parseFloat(ratio) / 100;
+
+    const comm = (costPrice* ratioPresntage) ;
+    const netCost = sellingPrice - comm;
+    const netComm = comm - discount;
+    const totalPrice = sellingPrice - discount;
+
+    totalNetSellingPrice += totalPrice ;
+    totalNetCostPrice += netCost; 
+    totalNetComm += netComm; 
+    totalReceivedAmount += parseFloat(this.ticketsArray[i].receivedAmount);
+    totalRemainingAmount +=parseFloat(this.ticketsArray[i].remainingAmount);
+
+    this.flightTicketForm.patchValue({
+      totalNetSellingPrice: totalNetSellingPrice,
+      totalNetCostPrice: totalNetCostPrice,
+      totalNetComm:totalNetComm,
+      totalReceivedAmount:totalReceivedAmount,
+      totalRemainingAmount:totalRemainingAmount,
+     
+    });
+
+    }
 }
 
   // To validate all form fields, we need to iterate throughout all form controls:

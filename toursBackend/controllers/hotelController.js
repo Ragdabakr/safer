@@ -26,8 +26,6 @@ exports.createHotelBooking = catchAsync(async(req, res) => {
       guestName :req.body.travellers[i].guestName ,
       roomType :req.body.travellers[i].roomType ,
       phoneNumber :req.body.travellers[i].phoneNumber ,
-      ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
-      ticketCostPrice :req.body.travellers[i].ticketCostPrice ,
       ticketSellingPrice :req.body.travellers[i].ticketSellingPrice ,
       comm :req.body.travellers[i].comm ,
       netCost :req.body.travellers[i].netCost ,
@@ -42,8 +40,8 @@ exports.createHotelBooking = catchAsync(async(req, res) => {
   safebox.title = 'حجز فندقي';
   safebox.description = req.body.data.notes;
   safebox.date = Date.now();
-  safebox.indebted = 0;
-  safebox.credit = req.body.data.totalReceivedAmount;
+  safebox.indebted = req.body.data.totalReceivedAmount;
+  safebox.credit =0;
   safebox.save();
   
   const commission =  new Commission();
@@ -73,7 +71,7 @@ exports.createHotelBooking = catchAsync(async(req, res) => {
     Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
                    if (err) {console.log(err); 
                   }
-                  foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalReceivedAmount);
+                  foundCompany.credit = foundCompany.credit +parseFloat(req.body.data.totalReceivedAmount);
                  
                   foundCompany.companyReport.push({
                       debit :0 ,
@@ -92,7 +90,7 @@ exports.createHotelBooking = catchAsync(async(req, res) => {
   //  }
   
   
-  //  foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalReceivedAmount);
+  //  foundCompany.credit = foundCompany.credit +parseFloat(req.body.data.totalReceivedAmount);
   
   //  foundCompany.companyReport.push({
   //      debit :  req.body.data.totalRemainingAmount,
@@ -121,7 +119,6 @@ exports.createHotelBooking = catchAsync(async(req, res) => {
     // console.log("agel payment");
   
     const newHotelBooking = await HotelBooking.create(req.body.data);
-    // console.log('newFlightTicketBooking', newFlightTicketBooking);
     newHotelBooking.travellers = [];
   
     for (let i = 0; i < req.body.travellers.length; i++) {
@@ -130,7 +127,6 @@ exports.createHotelBooking = catchAsync(async(req, res) => {
         roomType :req.body.travellers[i].roomType ,
         phoneNumber :req.body.travellers[i].phoneNumber ,
         ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
-        ticketCostPrice :req.body.travellers[i].ticketCostPrice ,
         ticketSellingPrice :req.body.travellers[i].ticketSellingPrice ,
         comm :req.body.travellers[i].comm ,
         netCost :req.body.travellers[i].netCost ,
@@ -178,7 +174,7 @@ exports.createHotelBooking = catchAsync(async(req, res) => {
                   }
   
                   // console.log("foundCompany >>>>>" , foundCompany);
-                  foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalNetCostPrice);
+                  foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalNetCostPrice);
                   foundCompany.companyReport.push({
                       debit :0 ,
                       credit :req.body.data.totalNetCostPrice, 
@@ -195,7 +191,7 @@ exports.createHotelBooking = catchAsync(async(req, res) => {
       Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
                      if (err) {console.log(err); 
                     }
-                    foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalReceivedAmount);
+                    foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalReceivedAmount);
   
                     // console.log("foundCompany credit 33>>>>>" , foundCompany.credit);
   
@@ -276,7 +272,7 @@ exports.refundHotelBooking = catchAsync(async(req, res) => {
     if (err) {console.log(err); 
    }
   
-   foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalRefundNetCostPrice);
+   foundCompany.debit = foundCompany.debit + parseFloat(req.body.data.totalRefundNetCostPrice);
    foundCompany.companyReport.push({
        debit :req.body.data.totalRefundNetCostPrice ,
        credit :0, 
@@ -293,10 +289,10 @@ exports.refundHotelBooking = catchAsync(async(req, res) => {
     if (err) {console.log(err); 
    }
   
-   foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
+   foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalRefundNetSellingPrice);
    foundCompany.companyReport.push({
-       debit :0,
-       credit :req.body.data.totalRefundNetSellingPrice, 
+      credit :req.body.data.totalRefundNetSellingPrice,
+       debit :0, 
        name:' استحقاق له /  حجز فندقي',
        description : req.body.data.notes,
        date : Date.now(),

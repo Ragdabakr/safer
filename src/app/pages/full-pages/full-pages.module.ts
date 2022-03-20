@@ -55,6 +55,7 @@ import { VisaListComponent } from './visa/visa-list/visa-list.component';
 import { VisaInvoiceComponent } from './visa/visa-invoice/visa-invoice.component';
 import { CancelVisaComponent } from './visa/cancel-visa/cancel-visa.component';
 import { BudgetComponent } from './budget/budget.component';
+import { Ng2TelInputModule } from 'ng2-tel-input';
 
 @NgModule({
     imports: [
@@ -91,6 +92,7 @@ import { BudgetComponent } from './budget/budget.component';
         TravelAgentsModule,
         flightTicketsModule,
         AccountModule,
+        Ng2TelInputModule,
 
 
     ],
@@ -118,6 +120,7 @@ import { BudgetComponent } from './budget/budget.component';
         VisaInvoiceComponent,
         CancelVisaComponent,
         BudgetComponent,
+        
 
 
 

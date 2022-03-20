@@ -191,10 +191,10 @@ exports.createBooking = catchAsync(async (req, res, next) => {
 
   const safebox =  new Safebox();
   safebox.title = 'حجز برنامج سياحي';
-  safebox.description = newBooking.tourName.name +' / حجز برنامج سياحي  /' + newBooking.contactInfo.fullName;
+  safebox.description = ' / حجز برنامج سياحي  /' + newBooking.contactInfo.fullName;
   safebox.date = Date.now();
-  safebox.indebted = 0;
-  safebox.credit = newBooking.paymentInfo.receivedAmount;
+  safebox.indebted = newBooking.paymentInfo.receivedAmount;
+  safebox.credit = 0;
   await  safebox.save();
   res.status(201).json({
     status: 'success',

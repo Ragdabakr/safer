@@ -10,6 +10,8 @@ import { AuthService } from 'app/shared/auth/auth.service';
 import { ItemsList } from '@ng-select/ng-select/ng-select/items-list';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { VisaService } from 'app/shared/services/visa.service';
+import * as intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/build/css/intlTelInput.css';
 
 @Component({
   selector: 'app-booking-visa',
@@ -104,6 +106,7 @@ export class BookingVisaComponent implements OnInit {
   ngOnInit() {
   this.getCompanies();
   this.user =this.authService.getUser();
+  const input = document.querySelector("#phone");
    this.visaForm= new FormGroup(
          {
             number: new FormControl(''),
@@ -160,15 +163,14 @@ export class BookingVisaComponent implements OnInit {
 
     for (let i = 0; i < this.visasArray.length; i++) {
       const sellingPrice = this.visasArray[i].sellingPrice;
-      const costPrice  = this.visasArray[i].costPrice ;
+      const netCost  = this.visasArray[i].netCost ;
       const comm = this.visasArray[i].comm ;
 
-
-      totalNetSellingPrice += parseInt(sellingPrice) ;
-      totalNetCostPrice += parseInt(costPrice); 
-      totalNetComm += parseInt(comm); 
-      totalReceivedAmount += parseInt(this.visasArray[i].receivedAmount);
-      totalRemainingAmount +=parseInt(this.visasArray[i].remainingAmount);
+      totalNetSellingPrice += parseFloat(sellingPrice) ;
+      totalNetCostPrice += parseFloat(netCost); 
+      totalNetComm += parseFloat(comm); 
+      totalReceivedAmount += parseFloat(this.visasArray[i].receivedAmount);
+      totalRemainingAmount +=parseFloat(this.visasArray[i].remainingAmount);
 
       this.visaForm.patchValue({
         totalNetSellingPrice: totalNetSellingPrice,
@@ -196,7 +198,7 @@ addTraveller(): FormGroup {
         travellerLastName: ['', [Validators.required]],
         travellerType: ['', [Validators.required]],
         passportNumber: ['', [Validators.required]],
-        costPrice: ['', [Validators.required]],
+        phoneNumber: ['', [Validators.required]],
         sellingPrice: ['', [Validators.required]],
         comm: ['', [Validators.required]],
         netCost: ['', [Validators.required]],
@@ -207,56 +209,19 @@ addTraveller(): FormGroup {
 }
 
 
-
- // calculation
-  calculate(){
-
-
-    for (let i = 0; i < this.visaForm.value.travellers.length; i++) {
-    
-    const sellingPrice = this.visaForm.value.travellers[i].sellingPrice;
-    const costPrice  = this.visaForm.value.travellers[i].costPrice ;
-    const comm = this.visaForm.value.travellers[i].comm ;
-    const netCost = parseInt(costPrice) + parseInt(comm);
-
-
-    this.visaForm.patchValue({
-     travellers: [{
-      sellingPrice: sellingPrice,
-      netCost: netCost,
-      refundTicketUser:this.user,
-      comm:comm,
-      }]
-   });
-
-
-   const min = 0;
-   const max =8000;
-   this.num =  Math.floor(Math.random() * (max - min + 1)) + min;
-   this.num.toString().padStart(6, "0");
-  //  console.log( " this.num",this.num);
-    this.visaForm.patchValue({
-    bookingUser:this.user,
-    bookingTime:Date.now(),
-    number:this.num
-     });
-    }
-  
-   
-  }
-
    // Submit new visa
    submitNewVisa(visaForm){
-    console.log( "visaForm .....",this.visaForm.value);
-    if (
-      // !this.visaForm.get('bookingFrom').value ||
-      // !this.visaForm.get('bookingTo').value ||
-      !this.visaForm.get('notes').value
-      // !this.visaForm.get('destination').value ||
-      // !this.visaForm.get('totalReceivedAmount').value ||
-      // !this.visaForm.get('totalNetSellingPrice').value ||
-      // !this.visaForm.get('totalRemainingAmount').value
-      ){
+    const min = 0;
+    const max =8000;
+    this.num =  Math.floor(Math.random() * (max - min + 1)) + min;
+    this.num.toString().padStart(6, "0");
+     this.visaForm.patchValue({
+     bookingUser:this.user,
+     bookingTime:Date.now(),
+     number:this.num
+      });
+  
+    if (!this.visaForm.get('notes').value){
         this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
     }else{
 
@@ -264,9 +229,9 @@ this.visaService.createVisaBooking(visaForm.value , this.visasArray).subscribe(
       res =>{
         this.visaForm.reset();
         this.toastr.success('تم الاضافة بنجاح ');
-        // setTimeout(() => {
-        //   window.location.href = '/full-layout/full-pages/flightTicketsList';
-        // }, 1000);
+        setTimeout(() => {
+          window.location.href = '/full-layout/full-pages/visaList';
+        }, 1000);
    },
         err =>{
         console.log(err);
@@ -277,11 +242,35 @@ this.visaService.createVisaBooking(visaForm.value , this.visasArray).subscribe(
 
 
  // Delete  Traveller 
-deleteTraveller(traveller){
-  // console.log("traveller >>>" , traveller);
-  let deletedTicket =  this.visasArray.filter(a=> a.passportNumber !== traveller.passportNumber );
-  // console.log("deletedTicket >>>" , deletedTicket);
+deleteTraveller(visa){
+  let deletedTicket =  this.visasArray.filter(a=> a.phoneNumber !== visa.phoneNumber );
    this.visasArray = deletedTicket;
+
+   var totalNetSellingPrice = 0;
+   var totalNetCostPrice = 0 ;
+   var totalNetComm = 0;
+   var  totalReceivedAmount = 0;
+   var  totalRemainingAmount =0;
+  
+   for (let i = 0; i < this.visasArray.length; i++) {
+     const sellingPrice = this.visasArray[i].sellingPrice;
+     const netCost  = this.visasArray[i].netCost ;
+     const comm = this.visasArray[i].comm ;
+
+     totalNetSellingPrice += parseFloat(sellingPrice) ;
+     totalNetCostPrice += parseFloat(netCost); 
+     totalNetComm += parseFloat(comm); 
+     totalReceivedAmount += parseFloat(this.visasArray[i].receivedAmount);
+     totalRemainingAmount +=parseFloat(this.visasArray[i].remainingAmount);
+
+     this.visaForm.patchValue({
+       totalNetSellingPrice: totalNetSellingPrice,
+       totalNetCostPrice: totalNetCostPrice,
+       totalNetComm:totalNetComm,
+       totalReceivedAmount:totalReceivedAmount,
+       totalRemainingAmount:totalRemainingAmount,       
+      });
+     }
 }
 
   // To validate all form fields, we need to iterate throughout all form controls:

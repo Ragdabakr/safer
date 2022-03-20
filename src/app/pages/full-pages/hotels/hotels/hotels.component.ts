@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourService } from 'app/shared/services/tour.service';
 import { ToastrService } from 'ngx-toastr';
+import * as intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/build/css/intlTelInput.css';
+import { AuthService } from 'app/shared/auth/auth.service';
+import { ExportToCsv } from 'export-to-csv-file';
 
 @Component({
   selector: 'app-hotels',
@@ -15,10 +19,13 @@ export class HotelsComponent implements OnInit {
   editHotelDialog: boolean;
   hotelId: any;
   hotelForm: FormGroup;
+  user: any;
 
-  constructor( private tourService: TourService,private toastr:ToastrService ) { }
+  constructor( private tourService: TourService,private toastr:ToastrService, private authService:AuthService , ) { }
 
   ngOnInit() {
+    this.user =this.authService.getUser();
+    const input = document.querySelector("#phone");  
   this.getHotels();
         this.cols = [
           { field: 'name', header: 'اسم الفندق ' },
@@ -140,5 +147,25 @@ validateAllFormFields(formGroup: FormGroup) {
       }
   });
 }
+
+exportCSV(){
+  const options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: 'تقرير الفنادق',
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    headers: ['name','phone','city','address'  ] 
+  };
+ 
+const csvExporter = new ExportToCsv(options);
+ 
+csvExporter.generateCsv(this.hotels);
+}
+
 
 }

@@ -7,6 +7,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransportsRoutingModule } from './transports-routing.module';
 import { TransportsComponent } from './transports/transports.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { TransportsComponent } from './transports/transports.component';
     DialogModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxPrintModule,
   ]
 })
 export class TransportsModule { }

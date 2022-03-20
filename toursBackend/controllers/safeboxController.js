@@ -32,8 +32,8 @@ exports.updateSafebox = catchAsync(async(req, res) => {
       doc.indebted = req.body.data.indebted;
       doc.date = req.body.data.date;
       doc.createdAt = Date.now();
-       doc.save();
-      //console.log(doc);
+      doc.save();
+      if(doc.safeboxBudget){
       Budget.findById({_id:doc.safeboxBudget._id}, async function(err,foundBudget){
         if (err) {console.log(err); }
 
@@ -49,13 +49,19 @@ exports.updateSafebox = catchAsync(async(req, res) => {
         }
       
       });
-});
+    });
+    }else{
+        res.status(201).json({
+            status: 'success',
+            data: {
+                data: doc
+            }
+    });
+}
 });
   
    
 
 exports.getAllsafeboxes= factory.getAll(Safebox);
 exports.getSafebox = factory.getOne(Safebox);
-//exports.createSafebox = factory.createOne(Safebox);
-//exports.updateSafebox = factory.updateOne(Safebox);
 exports.deleteSafebox = factory.deleteOne(Safebox);

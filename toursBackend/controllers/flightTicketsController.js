@@ -89,7 +89,7 @@ commission.user = user.name;
   Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
                  if (err) {console.log(err); 
                 }
-                foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalNetCostPrice);
+                foundCompany.credit = foundCompany.credit +parseFloat(req.body.data.totalNetCostPrice);
                
                 foundCompany.companyReport.push({
                     debit :0 ,
@@ -108,7 +108,7 @@ commission.user = user.name;
 //  }
 
 
-//  foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalReceivedAmount);
+//  foundCompany.credit = foundCompany.credit +parseFloat(req.body.data.totalReceivedAmount);
 
 //  foundCompany.companyReport.push({
 //      debit :  req.body.data.totalRemainingAmount,
@@ -194,7 +194,7 @@ res.status(201).json({
 
     Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
           if (err) {console.log(err); }
-        foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalNetCostPrice);
+        foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalNetCostPrice);
         foundCompany.companyReport.push({
             debit :0 ,
             credit :req.body.data.totalNetCostPrice, 
@@ -209,8 +209,8 @@ res.status(201).json({
     Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
           if (err) {console.log(err); 
         }
-        foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalReceivedAmount);
-        foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalNetSellingPrice);
+        foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalReceivedAmount);
+        foundCompany.debit = foundCompany.debit + parseFloat(req.body.data.totalNetSellingPrice);
         foundCompany.companyReport.push({
             debit :req.body.data.totalNetSellingPrice,
             credit :req.body.data.totalReceivedAmount, 
@@ -287,7 +287,7 @@ commission.user = req.user.name;
   if (err) {console.log(err); 
  }
 
- foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalRefundNetCostPrice);
+ foundCompany.debit = foundCompany.debit + parseFloat(req.body.data.totalRefundNetCostPrice);
  foundCompany.companyReport.push({
      debit :req.body.data.totalRefundNetCostPrice ,
      credit :0, 
@@ -304,7 +304,7 @@ Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundComp
   if (err) {console.log(err); 
  }
 
- foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
+ foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalRefundNetSellingPrice);
  foundCompany.companyReport.push({
      credit :req.body.data.totalRefundNetSellingPrice,
      debit :0, 

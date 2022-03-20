@@ -187,6 +187,7 @@ getTours(){
     res =>{
       let data = res['data'];
       this.tours = data.docs.filter(a=> a.active === true  && a.open === true).reverse();
+      console.log("this.tours" , this.tours);
       },
       err =>{
         this.toastr.error('يوجد خطأ ما');

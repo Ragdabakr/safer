@@ -22,12 +22,9 @@ const Budget = require('./../models/budgetModel');
 exports.createVisaBooking = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
- console.log("data" ,data); 
-
  if(req.body.data.paymentMethod === "نقدا"){
 
   const newVisaBooking = await VisaBooking.create(req.body.data);
-  // console.log('newFlightTicketBooking', newFlightTicketBooking);
   newVisaBooking.travellers = [];
  for (let i = 0; i < req.body.travellers.length; i++) {
     newVisaBooking.travellers.push({
@@ -35,7 +32,7 @@ exports.createVisaBooking = catchAsync(async(req, res) => {
     travellerLastName :req.body.travellers[i].travellerLastName ,
     travellerType :req.body.travellers[i].travellerType ,
     passportNumber :req.body.travellers[i].passportNumber ,
-    ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
+    phoneNumber :req.body.travellers[i].phoneNumber ,
     ticketCostPrice :req.body.travellers[i].ticketCostPrice ,
     ticketSellingPrice :req.body.travellers[i].ticketSellingPrice ,
     comm :req.body.travellers[i].comm ,
@@ -83,7 +80,7 @@ commission.user = user.name;
   Company.findById({_id:req.body.data.bookingFrom._id}, async function(err,foundCompany){
                  if (err) {console.log(err); 
                 }
-                foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalReceivedAmount);
+                foundCompany.credit = foundCompany.credit +parseFloat(req.body.data.totalReceivedAmount);
                
                 foundCompany.companyReport.push({
                     debit :0 ,
@@ -102,7 +99,7 @@ commission.user = user.name;
 //  }
 
 
-//  foundCompany.credit = foundCompany.credit +parseInt(req.body.data.totalReceivedAmount);
+//  foundCompany.credit = foundCompany.credit +parseFloat(req.body.data.totalReceivedAmount);
 
 //  foundCompany.companyReport.push({
 //      debit :  req.body.data.totalRemainingAmount,
@@ -139,7 +136,7 @@ res.status(201).json({
       travellerLastName :req.body.travellers[i].travellerLastName ,
       travellerType :req.body.travellers[i].travellerType ,
       passportNumber :req.body.travellers[i].passportNumber ,
-      ticketvatPrice :req.body.travellers[i].ticketvatPrice ,
+      phoneNumber :req.body.travellers[i].phoneNumber ,
       ticketCostPrice :req.body.travellers[i].ticketCostPrice ,
       ticketSellingPrice :req.body.travellers[i].ticketSellingPrice ,
       comm :req.body.travellers[i].comm ,
@@ -175,7 +172,7 @@ res.status(201).json({
                 }
 
                 // console.log("foundCompany >>>>>" , foundCompany);
-                foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalNetCostPrice);
+                foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalNetCostPrice);
                 foundCompany.companyReport.push({
                     debit :0 ,
                     credit :req.body.data.totalNetCostPrice, 
@@ -192,7 +189,7 @@ res.status(201).json({
     Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundCompany){
                    if (err) {console.log(err); 
                   }
-                  foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalReceivedAmount);
+                  foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalReceivedAmount);
 
                   // console.log("foundCompany credit 33>>>>>" , foundCompany.credit);
 
@@ -222,14 +219,11 @@ res.status(201).json({
 });
 
 
-
 // ------- create invoice  ------//
 
 exports.createVisaInvoice = catchAsync(async(req, res) => {
   const user = req.user;
   const data= req.body.data;
-  console.log('data666', data);
-
   const newVisaBookingInvoice = await VisaBookingInvoice.create(req.body.data);
   VisaBooking.findOne({number:newVisaBookingInvoice.number}, async function(err,foundBooking){ 
     if (err) {console.log(err); }
@@ -285,7 +279,7 @@ commission.user = req.user.name;
   if (err) {console.log(err); 
  }
 
- foundCompany.debit = foundCompany.debit + parseInt(req.body.data.totalRefundNetCostPrice);
+ foundCompany.debit = foundCompany.debit + parseFloat(req.body.data.totalRefundNetCostPrice);
  foundCompany.companyReport.push({
      debit :req.body.data.totalRefundNetCostPrice ,
      credit :0, 
@@ -302,10 +296,10 @@ Company.findById({_id:req.body.data.bookingTo._id}, async function(err,foundComp
   if (err) {console.log(err); 
  }
 
- foundCompany.credit = foundCompany.credit + parseInt(req.body.data.totalRefundNetSellingPrice);
+ foundCompany.credit = foundCompany.credit + parseFloat(req.body.data.totalRefundNetSellingPrice);
  foundCompany.companyReport.push({
-     debit :0,
-     credit :req.body.data.totalRefundNetSellingPrice, 
+     credit :req.body.data.totalRefundNetSellingPrice,
+     debit :0, 
      name:' استحقاق له / استرجاع تأشيرة',
      description : req.body.data.notes,
      date : Date.now(),

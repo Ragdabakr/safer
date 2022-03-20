@@ -62,7 +62,7 @@
             </div>
          
           <div class=" borderSection row form-inline"  formArrayName="travellers"> 
-            <div ><i class="icon-calculator"  (click)="calculate()"></i></div>
+          
               <!-- <input type="submit"  (click)="addTravellerButtonClick()" class=" btn btn-danger submit " value="اضافة مسافر"> -->
             <div class="keywords-container " *ngFor="let item of visaForm.get('travellers')['controls']; let i = index;">
               <div class="keyword-input-container  row" [formGroupName]='i'>
@@ -85,13 +85,16 @@
                 <input type="text"  formControlName="passportNumber" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
+              <label  class="label" for="street">رقم الهاتف</label>
+              <input  type="text" id="phone" (change)="hasError($event)"  ng2TelInput formControlName="phoneNumber" class="form-control">
+              <span id="valid-msg" *ngIf="phoneSuccess" >✓ الرقم صحيح</span>
+              <span id="error-msg" *ngIf="phoneError" >الرقم غير صحيح</span>
+          </div>
+            <div class="form-group col-sm-12 col-md-4 payment">
               <label  class="label" for="street">سعر البيع</label>
               <input type="text"  formControlName="sellingPrice" class="form-control"><span class="red">*</span>
             </div>
-            <div class="form-group col-sm-12 col-md-4 payment">
-              <label  class="label" for="street">سعر الفير</label>
-              <input type="text"  formControlName="costPrice" class="form-control"><span class="red">*</span>
-            </div>
+
             <div class="form-group col-sm-12 col-md-4 payment">
               <label  class="label" for="street"> العمولة</label>
               <input type="text"  formControlName="comm" class="form-control"><span class="red">*</span>
@@ -149,7 +152,7 @@
             <tr>
                 <th pSortableColumn="travellerFirstName"> اسم المسافر <p-sortIcon field="travellerFirstName"></p-sortIcon></th>
                 <th pSortableColumn="passportNumber">رقم الجواز  <p-sortIcon field="passportNumber"></p-sortIcon></th>
-                <th pSortableColumn="costPrice"> سعرالفير <p-sortIcon field="costPrice"></p-sortIcon></th>
+                <th pSortableColumn="phoneNumber"> رقم الهاتف <p-sortIcon field="phoneNumber"></p-sortIcon></th>
                 <th pSortableColumn="sellingPrice">   سعر البيع   <p-sortIcon field="sellingPrice"></p-sortIcon></th>
                 <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
                 <th pSortableColumn="receivedAmount">    المبلغ المدفوع    <p-sortIcon field="receivedAmount"></p-sortIcon></th>
@@ -164,19 +167,14 @@
                 <!-- <td>{{user.user_id}}</td> -->
                 <td>{{visa?.travellerFirstName}}  {{visa?.travellerLastName}}</td>   
                 <td>{{visa?.passportNumber}}</td> 
-                <td>{{visa?.costPrice}}</td>  
+                <td>{{visa?.phoneNumber}}</td>  
                 <td>{{visa?.sellingPrice}}</td>  
                 <td>{{visa?.netCost}}</td> 
                 <td>{{visa?.receivedAmount}}</td>  
                 <td>{{visa?.remainingAmount}}</td>  
                 <td>{{visa?.comm}}</td>  
-                <!-- <td>
-                  <div class="blueTiltle"  (click)="editTraveller(ticket)">
-                    <i class="ft-edit-2 ft icon"></i> التعديل
-                  </div>  
-                </td>  -->
                 <td>
-                  <div class="redTiltle" (click)="deleteTraveller(ticket)">
+                  <div class="redTiltle" (click)="deleteTraveller(visa)">
                     <i class="ft-trash-2 ft icon"></i>
                   </div>  
                 </td>         

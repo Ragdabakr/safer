@@ -65,7 +65,7 @@ export class CancelVisaComponent implements OnInit {
     this.visaService.getVisasList().subscribe({
       next: response => {
           this.visas = response.data.docs.reverse().filter(a => a.cancel  === false );
-          //console.log("tickets >>>" ,this.tickets);
+          console.log("visas >>>" ,this.visas);
       },
       error: err => {
           console.log(err);

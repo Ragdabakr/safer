@@ -1,4 +1,4 @@
-<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === true">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
@@ -7,7 +7,7 @@
     </div>
    </div>
 </div>
-<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === true">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="card-header">
@@ -51,7 +51,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"> طريقة الدفع  </span>
                       </div>
-                          <select  class="form-control" data-size="7" formControlName="bookingFrom"  >
+                          <select  class="form-control" data-size="7" formControlName="paymentMethod"  >
                             <option *ngFor="let payment of paymentTypes"  [ngValue]="payment">{{payment}}</option>
                         </select><span class="red">*</span>
                     </div>
@@ -94,13 +94,13 @@
             </div>
          
           <div class=" borderSection row form-inline"  formArrayName="travellers"> 
-            <div ><i class="icon-calculator"  (click)="calculate()"></i></div>
+          
               <!-- <input type="submit"  (click)="addTravellerButtonClick()" class=" btn btn-danger submit " value="اضافة مسافر"> -->
             <div class="keywords-container " *ngFor="let item of hotelForm.get('travellers')['controls']; let i = index;">
               <div class="keyword-input-container  row" [formGroupName]='i'>
                   <div class="form-group col-sm-12 col-md-4 payment">
                     <label>اسم النزيل</label>
-                    <input type="text"  formControlName="guestName" class="form-control"><span class="red">*</span>
+                    <input type="text" required formControlName="guestName" class="form-control"><span class="red">*</span>
                 </div>
                 <div class="form-group col-sm-12 col-md-4 payment">
                   <label>رقم الهاتف</label>
@@ -120,10 +120,6 @@
               <input type="text"  formControlName="sellingPrice" class="form-control"><span class="red">*</span>
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
-              <label>سعر الفير</label>
-              <input type="text"  formControlName="costPrice" class="form-control"><span class="red">*</span>
-            </div>
-            <div class="form-group col-sm-12 col-md-4 payment">
               <label> العمولة</label>
               <input type="text"  formControlName="comm" class="form-control"><span class="red">*</span>
             </div>
@@ -137,14 +133,15 @@
             </div>
             <div class="form-group col-sm-12 col-md-4 payment">
               <label> المبلغ الباقي</label>
-              <input type="text"  formControlName="remainingAmount" class="form-control"><span class="red">*</span>
+              <input type="text"   formControlName="remainingAmount" class="form-control"><span class="red">*</span>
             </div>
           </div>
         </div> 
-      <div  class="form-group col-sm-3"><input type="submit"   (click)="addNewTraveller()" class=" btn btn-danger submit " value="حفظ"></div> 
+      <div  class="form-group col-sm-3"><input type="submit" (click)="addNewTraveller()" class=" btn btn-danger submit " value="حفظ"></div> 
     </div>
   </div>
  </form>
+
         </div>
       </div>
     </div>
@@ -180,7 +177,6 @@
             <tr>
                 <th pSortableColumn="guestName"> اسم النزيل <p-sortIcon field="guestName"></p-sortIcon></th>
                 <th pSortableColumn="phoneNumber">رقم الهاتف  <p-sortIcon field="phoneNumber"></p-sortIcon></th>
-                <th pSortableColumn="costPrice"> سعرالفير <p-sortIcon field="costPrice"></p-sortIcon></th>
                 <th pSortableColumn="sellingPrice">   سعر البيع   <p-sortIcon field="sellingPrice"></p-sortIcon></th>
                 <th pSortableColumn="netCost"> مبلغ التسديد <p-sortIcon field="netCost"></p-sortIcon></th>
                 <th pSortableColumn="receivedAmount">    المبلغ المدفوع    <p-sortIcon field="receivedAmount"></p-sortIcon></th>
@@ -194,8 +190,7 @@
             <tr>
                 <!-- <td>{{user.user_id}}</td> -->
                 <td>{{booking?.guestName}}</td>   
-                <td>{{booking?.phoneNumber}}</td> 
-                <td>{{booking?.costPrice}}</td>  
+                <td>{{booking?.phoneNumber}}</td>  
                 <td>{{booking?.sellingPrice}}</td>  
                 <td>{{booking?.netCost}}</td> 
                 <td>{{booking?.receivedAmount}}</td>  
@@ -207,7 +202,7 @@
                   </div>  
                 </td>  -->
                 <td>
-                  <div class="redTiltle" (click)="deleteTraveller(ticket)">
+                  <div class="redTiltle" (click)="deleteTraveller(booking)">
                     <i class="ft-trash-2 ft icon"></i>
                   </div>  
                 </td>         
@@ -219,7 +214,7 @@
     </div>
   </div>
 </div>
-<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookVisa === false">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === false">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >

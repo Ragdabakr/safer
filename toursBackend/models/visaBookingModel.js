@@ -78,7 +78,7 @@ const visaBooking = new mongoose.Schema({
             type: String,
             
         }, 
-        costPrice: {
+        netCost: {
             type: Number,
             
         },
@@ -90,7 +90,7 @@ const visaBooking = new mongoose.Schema({
             type: Number,
            
         },
-        netCost: {
+        phoneNumber: {
             type: Number,
          
         },

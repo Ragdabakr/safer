@@ -1,6 +1,14 @@
-
-<div class="row" matchHeight="card">
-  <div class="col-xl-4 col-lg-12">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === true">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0">الفنادق</h4>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === true">
+  <div class="col-sm-12 col-lg-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0"> إضافة فندق</h4>
@@ -15,14 +23,14 @@
                       <input type="text"  formControlName="name" class="form-control">
                   </div>
                   <div class="form-group col-sm-6">
+                    <label for="postalCode">المدينة</label><span class="red">*</span>
+                    <input type="text" formControlName="city" class="form-control">
+                </div>
+                  <div class="form-group col-sm-6">
                       <label for="houseNumber">رقم الهاتف</label><span class="red">*</span>
-                      <input type="text" formControlName="phone" class="form-control">
+                      <input  type="text" id="phone" (change)="hasError($event)"  ng2TelInput formControlName="phone" class="form-control">
                   </div>
-                  <div class="form-group col-sm-12">
-                      <label for="postalCode">المدينة</label><span class="red">*</span>
-                      <input type="text" formControlName="city" class="form-control">
-                  </div>
-                  <div class="form-group col-sm-12">
+                  <div class="form-group col-sm-6">
                     <label for="postalCode">العنوان</label><span class="red">*</span>
                     <input type="text" formControlName="address" class="form-control">
                 </div>
@@ -35,15 +43,19 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-8 col-lg-12">
+  <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0"> الفنادق</h4>
+        <button (click)="exportCSV()" class=" btn btn-default csv left" >
+          <i class="icon-share-alt icon"></i>  CSV
+        </button>
+        <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الفنادق" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
       </div>
-      <div class="card-content">
+      <div class="card-content" id="print-section">
         <div class="card-body">
           <p-table  #dt [value]="hotels" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
-          currentPageReportTemplate="إظهار {first} الى {last} من  {totalUsers} الفنادق" [style]="{'width':'100%','overflow':'auto!important'}"
+          currentPageReportTemplate=" الفنادق" [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
           [filterDelay]="0" [globalFilterFields]="['name','phone','city','address' ]">
@@ -53,7 +65,7 @@
                 <div class="input-group">
                   <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
                   <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                    <span class="input-group-text "><i class="fa fa-search "></i></span>
                   </div>
                 </div>
               </div>
@@ -61,7 +73,7 @@
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
-                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                <th pSortableColumn="user_id"> القيد <p-sortIcon field="user_id"></p-sortIcon></th>
                 <th pSortableColumn="name">اسم الفندق <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="phone"> رقم الهاتف <p-sortIcon field="phone"></p-sortIcon></th>
                 <th pSortableColumn="city">المدينة <p-sortIcon field="city"></p-sortIcon></th>
@@ -69,17 +81,17 @@
                 <th >التعديل</th>  
             </tr>
          </ng-template>
-          <ng-template pTemplate="body" let-hotel>
+          <ng-template pTemplate="body" let-hotel let-rowIndex="rowIndex">
             <tr>
-                <!-- <td>{{user.user_id}}</td> -->
+                <td>{{rowIndex}}</td>
                 <td>{{hotel?.name}}</td>
                 <td>{{hotel?.phone }}</td>
                 <td>{{hotel?.city}}</td>
                 <!-- <td>{{user?.active}}</td> -->
                 <!-- <td>{{hotel?.address}}</td> -->
                 <td>               
-                <div class="fonticon-wrap"  (click)="editHotel(hotel)">
-                  <i class="icon-pencil icon"></i>
+                <div class="blue fonticon-wrap"  (click)="editHotel(hotel)">
+                  <i class="blue icon-pencil icon"></i>
                 </div> 
               
                 </td>
@@ -129,9 +141,16 @@
     </div>
   </div>
 </div>
-<div class="row" matchHeight="card">
-
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookHotel === false">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0"> ليس لديك صلاحيات اضافة فندق</h4>
+      </div>
+   </div>
+  </div>
 </div>
+
 
 
 

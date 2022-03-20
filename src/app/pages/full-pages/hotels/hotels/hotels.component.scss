@@ -3,14 +3,10 @@
     margin-right: 10px !important;
 
 }
-.icon{
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 2;
-    color: blue;
-    padding: 1%
+form .form-control {
+    text-align: right;
+    border: 1px solid #A6A9AE;
+    color: #75787d;
 }
 .edit {
     font-size: 20px;
@@ -20,4 +16,75 @@ form label {float: right;}
 .red {
     color: #f44336 !important;
     float: right;
+}
+.btn-default{
+    margin-top: 1%;
+    margin-left: 10px;
+}
+.btn-raised{
+    background-color: #312662 !important;
+}
+.csv{
+    background-color: #e02365 !important;
+    color: white !important;
+}
+.icon{
+    color: #fcfcfc;
+}
+.red{
+    color:red;
+}
+.pink{
+   color: #e02365 !important;
+}
+.green{
+    color:green;
+}
+.blue{
+    color: blue !important;
+ }
+ .orange{
+     color:orangered;
+ }
+ span{
+    font-size: 15px;
+    font-weight: 700 !important;
+ }
+ .blue-2{
+     color:#312662
+ }
+ .blue-3{
+    color:#22819e
+}
+a {
+    color:white
+}
+.card .header {
+    padding: 1.5rem;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+}
+.card .card-header {
+    padding-bottom: 20px;
+}
+/* phone flags path*/
+.iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/img/flags.png");} 
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+ .iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/img/flags@2x.png");}
+} 
+.input-group{
+    margin-bottom: 3px;
+}
+.input-group-text{
+    background-color: #1976d2 !important;
+    color: white !important;
+    font-family: 'Almarai', sans-serif !important;
+    border-radius: 0px;
+}
+.iti__flag-container {
+    right: auto;
+    left: 0;
+    top: 50% !important;
 }

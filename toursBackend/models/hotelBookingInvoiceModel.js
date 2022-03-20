@@ -94,10 +94,7 @@ const hotelBookingInvoice = new mongoose.Schema({
             type: String,
             
         }, 
-        costPrice: {
-            type: Number,
-            
-        },
+       
         sellingPrice: {
             type: Number,
            

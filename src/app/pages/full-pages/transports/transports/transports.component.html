@@ -1,6 +1,14 @@
-
-<div class="row" matchHeight="card">
-  <div class="col-xl-4 col-lg-12">
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookTour === true">
+  <div class="col-xl-12 col-lg-12">
+    <div class="card card-add" >
+      <div class="card-header"  >
+        <h4 class="card-title mb-0">التنقلات</h4>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookTour === true">
+  <div class="col-sm-12 col-lg-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0"> إضافة سيارة</h4>
@@ -10,23 +18,23 @@
           <form [formGroup]="transportForm"  novalidate>
             
               <div class="row">
-                  <div class="form-group col-sm-6">
+                  <div class="form-group col-sm-12 col-md-4">
                       <label for="street">رقم السيارة</label><span class="red">*</span>
                       <input type="text"  formControlName="busNumber" class="form-control">
                   </div>
-                  <div class="form-group col-sm-6">
+                  <div class="form-group col-sm-12 col-md-4">
                       <label for="houseNumber">النوع</label><span class="red">*</span>
                       <input type="text" formControlName="brand" class="form-control">
                   </div>
-                  <div class="form-group col-sm-6">
+                  <div class="form-group col-sm-12  col-md-4">
                       <label for="postalCode">اللون</label><span class="red">*</span>
                       <input type="text" formControlName="color" class="form-control">
                   </div>
-                  <div class="form-group col-sm-6">
+                  <div class="form-group col-sm-12 col-md-4">
                     <label for="postalCode">الحجم</label><span class="red">*</span>
                     <input type="text" formControlName="size" class="form-control">
                 </div>
-                <div class="form-group col-sm-12">
+                <div class="form-group col-sm-12 col-md-4">
                   <label for="postalCode">عدد الركاب</label><span class="red">*</span>
                   <input type="text" formControlName="maxPassengerSize" class="form-control">
               </div>
@@ -39,18 +47,22 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-8 col-lg-12">
+  <div class="col-sm-12 col-lg-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0"> السيارات</h4>
-      </div>
-      <div class="card-content">
+        <button (click)="exportCSV()" class=" btn btn-default csv left" >
+          <i class="icon-share-alt icon"></i>  CSV
+        </button>
+        <button type="button" class="btn btn-primary btn-raised my-1" printTitle="الفنادق" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
+  
+      <div class="card-content" id="print-section">
         <div class="card-body">
           <p-table  #dt [value]="transports" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           currentPageReportTemplate="إظهار {first} الى {last} من  {totalUsers} الفنادق" [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['name','phone','city','address' ]">
+          [filterDelay]="0" [globalFilterFields]="['busNumber','size','brand','color','maxPassengerSize' ]">
           <ng-template pTemplate="caption">
             <div class="ui-table-globalfilter-container">
               <div class="form-group">
@@ -65,7 +77,7 @@
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
-                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
+                <th pSortableColumn="user_id"> القيد <p-sortIcon field="user_id"></p-sortIcon></th>
                 <th pSortableColumn="busNumber">رقم السيارة <p-sortIcon field="busNumber"></p-sortIcon></th>
                 <th pSortableColumn="size"> الحجم <p-sortIcon field="size"></p-sortIcon></th>
                 <th pSortableColumn="brand">النوع <p-sortIcon field="brand"></p-sortIcon></th>
@@ -75,17 +87,17 @@
                 <th >التعديل</th>  
             </tr>
          </ng-template>
-          <ng-template pTemplate="body" let-transport>
+          <ng-template pTemplate="body" let-transport let-rowIndex="rowIndex">
             <tr>
-                <!-- <td>{{user.user_id}}</td> -->
+                <td>{{rowIndex}}</td>
                 <td>{{transport?.busNumber}}</td>
                 <td>{{transport?.size }}</td>
                 <td>{{transport?.brand}}</td>
                 <td>{{transport?.color}}</td>
                 <td>{{transport?.maxPassengerSize}}</td>
                 <td>               
-                <div class="fonticon-wrap"  (click)="editTransport(transport)">
-                  <i class="icon-pencil icon"></i>
+                <div class="blue fonticon-wrap"  (click)="editTransport(transport)">
+                  <i class="  blue icon-pencil icon"></i>
                 </div> 
               
                 </td>

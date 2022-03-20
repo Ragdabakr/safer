@@ -96,29 +96,17 @@
                     </tr>
                     <tr class="bg-grey bg-lighten-4">
                       <td class="text-bold-800">السعر الكلي</td>
-                      <td class="text-bold-800 text-right">{{ invoice?.totalNetSellingPrice }} ريال</td>
+                      <td class="text-bold-800 text-right">{{ invoice?.totalNetSellingPrice }} {{companyAccount[0].currency}}</td>
                     </tr> 
                     <tr class="bg-grey bg-lighten-4">
                       <td class="text-bold-800">المبلغ الواصل</td>
-                      <td class="text-bold-800 text-right">{{ invoice?.totalReceivedAmount }} ريال</td>
+                      <td class="text-bold-800 text-right">{{ invoice?.totalReceivedAmount }} {{companyAccount[0].currency}}</td>
                     </tr> 
                     <tr class="bg-grey bg-lighten-4">
                       <td class="text-bold-800">المبلغ المتبقي</td>
-                      <td class="text-bold-800 text-right">{{ invoice?.totalRemainingAmount }} ريال</td>
+                      <td class="text-bold-800 text-right">{{ invoice?.totalRemainingAmount }} {{companyAccount[0].currency}}</td>
                     </tr> 
                   </tbody>
-                  
-
-                  <!--  <tbody *ngIf="invoice.type === 'refundFlightTickets'">
-                    <tr class="bg-grey bg-lighten-4">
-                      <td class="text-bold-800">وصل استرجاع تذكرة</td>
-                      <td class="text-bold-800 text-right">{{ invoice?.companyAccount}}</td> 
-                    </tr>
-                    <tr class="bg-grey bg-lighten-4">
-                      <td class="text-bold-800">السعر الكلي</td>
-                      <td class="text-bold-800 text-right">{{ invoice?.totalPrice }} ريال</td>
-                    </tr> 
-                  </tbody> -->
                 </table> 
               </div>
               <div class="text-center">

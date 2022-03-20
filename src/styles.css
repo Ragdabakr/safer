@@ -169,7 +169,9 @@ form label {
     display: unset !important;
     width: 150px !important;
 }
-/* #toast-container > div {
-    opacity:1;
-} */
+.iti__flag-container {
+    right: auto;
+    left: 0;
+    top: 50% !important;
+}
 

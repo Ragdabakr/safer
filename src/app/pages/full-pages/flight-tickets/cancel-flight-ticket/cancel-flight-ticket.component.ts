@@ -101,7 +101,7 @@ onTicketNumberSelected(event){
   this.flightTicketsService.getFlightTicketsList().subscribe({
     next: response => {
       const x =  event.target.value.slice(2);
-      const ticketNumber =  parseInt(x.slice(1));
+      const ticketNumber =  parseFloat(x.slice(1));
       //console.log("x3 >>> " , ticketNumber);
       // console.log("event.target.value >>> " , event.target.value);
         this.tickets = response.data.docs;
