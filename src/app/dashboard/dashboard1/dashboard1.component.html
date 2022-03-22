@@ -2,14 +2,14 @@
 <!--Statistics cards Starts-->
 
 <div class="row" >
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12"*ngIf="user.role.dashboardPermissions.addCompany === true" >
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12">
 		<div class="card gradient-blackberry">
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
 						
-							<p class="box-title"> اضافة حساب </p>
+							<p class="box-title">  الموردين </p>
 							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/companies">  اضافة حساب جديد</a>
 							</button>
 						</div>
@@ -26,13 +26,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookFlightTickets === true" >
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12"  >
 		<div class="card gradient-ibiza-sunset">
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							<p class="box-title">حجز  تذكرة طيران</p>
+							<p class="box-title">   تذاكر الطيران</p>
 							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/bookingFlightTickets">  اضافة حجز جديد</a>
 							</button>
 						</div>
@@ -51,13 +51,13 @@
 		</div>
 	</div>
 	
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookTour === true" >
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12" >
 		<div class="card gradient-green-tea">
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							<p class="box-title">حجز برنامج سياحي</p>
+							<p class="box-title">  البرامج السياحية</p>
 							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/createBooking">  اضافة حجز جديد</a>
 							</button>
 						</div>
@@ -74,14 +74,60 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookVisa === true" >
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12" >
 		<div class="card gradient-pomegranate">
 			<div class="card-content">
 				<div class="card-body pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							<p class="box-title">حجز  تأشيرة</p>
+							<p class="box-title">  التأشيرات</p>
 							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/bookingVisa">  اضافة حجز جديد</a>
+							</button>
+						</div>
+						<div class="media-right white text-right">
+							<i class="icon-flag  font-large-1"></i>
+						</div>
+					</div>
+				</div>
+				<div id="Widget-line-chart" class="height-75 WidgetlineChart WidgetlineChartshadow mb-2">
+					<x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options" [responsiveOptions]="WidgetlineChart.responsiveOptions"
+					 [events]="WidgetlineChart.events">
+					</x-chartist>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12" >
+		<div class="card gradient-purple-bliss ">
+			<div class="card-content">
+				<div class="card-body pt-2 pb-0">
+					<div class="media">
+						<div class="media-body white text-left">
+							<p class="box-title"> الفنادق</p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/bookingHotel">  اضافة حجز جديد</a>
+							</button>
+						</div>
+						<div class="media-right white text-right">
+							<i class="icon-star font-large-1"></i>
+						</div>
+					</div>
+				</div>
+				<div id="Widget-line-chart" class="height-75 WidgetlineChart WidgetlineChartshadow mb-2">
+					<x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options" [responsiveOptions]="WidgetlineChart.responsiveOptions"
+					 [events]="WidgetlineChart.events">
+					</x-chartist>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12" >
+		<div class="card gradient-mint">
+			<div class="card-content">
+				<div class="card-body pt-2 pb-0">
+					<div class="media">
+						<div class="media-body white text-left">
+							<p class="box-title"> الموظفين</p>
+							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/users">  اضافة موظف جديد</a>
 							</button>
 						</div>
 						<div class="media-right white text-right">
@@ -100,93 +146,10 @@
 </div>
 <!--Statistics cards Ends-->
 
-<!--Statistics cards Starts-->
 
-<div class="row">
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12"  *ngIf="user.role.dashboardPermissions.addCompany === true">
-		<div class="card gradient-blackberry">
-			<div class="card-content">
-				<div class="card-body pt-2 pb-0">
-					<div class="media">
-						<div class="media-body white text-left">
-							
-							<h3 class="font-large-1 mb-0">  {{totalEarings}}</h3>
-							<p class="box-title"> اضافة حساب </p>
-							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/companies">  اضافة حساب جديد</a>
-							</button>
-						</div>
-						<div class="media-right white text-right">
-							<i class="icon-wallet font-large-1"></i>
-						</div>
-					</div>
-				</div>
-			
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookFlightTickets === true" >
-		<div class="card gradient-ibiza-sunset">
-			<div class="card-content">
-				<div class="card-body pt-2 pb-0">
-					<div class="media">
-						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{totalBookings}}</h3>
-							<p class="box-title">  التذاكر</p>
-							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/flightTicketsList">التذاكر</a>
-							</button>
-						</div>
-						<div class="media-right white text-right">
-							<i class="icon-calendar font-large-1"></i>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookTour === true">
-		<div class="card gradient-green-tea">
-			<div class="card-content">
-				<div class="card-body pt-2 pb-0">
-					<div class="media">
-						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{totalTours}}</h3>
-							<p class="box-title">  البرامج السياحية</p>
-							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/tours"> الرحلات</a>
-							</button>
-						</div>
-						<div class="media-right white text-right">
-							<i class="icon-plane font-large-1"></i>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="user.role.dashboardPermissions.bookVisa === true">
-		<div class="card gradient-pomegranate">
-			<div class="card-content">
-				<div class="card-body pt-2 pb-0">
-					<div class="media">
-						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{appUsers}}</h3>
-							<p class="box-title">  التأشيرات</p>
-							<button  class=" btn btn-green my-1" ><i class="icon-plus icon"> </i><a href="/full-layout/full-pages/visaList">  التأشيرات</a>
-							</button>
-						</div>
-						<div class="media-right white text-right">
-							<i class="icon-users font-large-1"></i>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!--Statistics cards Ends-->
 
 <!--Line with Area Chart 1 Starts-->
-<div class="row">
+<!-- <div class="row" *ngIf="tours">
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-header">
@@ -207,27 +170,25 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 <!--Line with Area Chart 1 Ends-->
 
-<div class="row" matchHeight ="card">
-	<div class="col-xl-4 col-lg-12 col-12">
+<!-- <div class="row" matchHeight ="card" *ngIf="tours">
+	<div class="col-xl-4 col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">التقارير</h4>
+				<h4 class="card-title">حجوزات الرحلات</h4>
 			</div>
-			<div class="card-content">
-
-				<p class="font-medium-2 text-muted text-center pb-2">الحجوزات اخر 6 أشهر</p>
-				<div id="Stack-bar-chart" class="height-300 Stackbarchart mb-2">
-					<x-chartist class="" [data]="Stackbarchart.data" [type]="Stackbarchart.type" [options]="Stackbarchart.options"
-					 [responsiveOptions]="Stackbarchart.responsiveOptions" [events]="Stackbarchart.events">
-					</x-chartist>
-				</div>
-
+			<div class="card-content users-list">
+				<ul class="list-group" *ngFor="let tour of tours">
+					<li class="list-group-item text-left">
+					  <span class="badge bg-primary float-right text-white">{{tour?.bookings.length}}</span> {{tour?.name}}
+					</li>
+				  </ul>
 			</div>
 		</div>
 	</div>
+
 	<div class="col-xl-8 col-lg-12 col-12">
 		<div class="card">
 			<div class="card-header">
@@ -240,8 +201,6 @@
 							<th>الصورة</th>
 							<th>اسم الرحلة</th>
 							<th>عدد الحجوزات</th>
-							<th>التفعيل</th>
-							<th>السعر</th>
 							<th>تاريخ الرحلة</th>
 						</tr>
 					</thead>
@@ -250,18 +209,6 @@
 							<td><img class="media-object round-media height-50" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png" alt="Generic placeholder image" /></td>
 							<td>{{tour.name}}</td>
 							<td>{{tour?.bookings.length}}</td>
-							<td>
-								
-								<label class="switch" *ngIf="tour?.active === false" >
-									<input type="checkbox" />
-									<span class="slider round"  (click)="enableTour(tour)"></span>
-								  </label>
-								  <label class="switch"  *ngIf="tour?.active === true">
-									<input type="checkbox" checked >
-									<span class="slider round"  (click)="disableTour(tour)"></span>
-								  </label>
-							</td>
-							<td>{{tour.price}} ريال</td>
 							<td>
 								{{tour?.createdAt | date}}
 							</td>
@@ -272,11 +219,11 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 
 
-<div class="row" matchHeight ="card">
+<!-- <div class="row" matchHeight ="card">
 	<div class="col-xl-8 col-lg-12 col-12">
 		<div class="card">
 			<div class="card-header">
@@ -303,13 +250,13 @@
 				<div class="card-body">
 					<h4 class="card-title white">الإحصائيات</h4>
 					<div class="p-2 text-center">
-						<!-- <a class="white font-medium-1"></a> -->
+					
 						<a class="btn btn-raised btn-round bg-white mx-3 px-3">إحصائيات اخر اسبوع</a>
-						<!-- <a class="white font-medium-1">Day</a> -->
+						
 					</div>
 					<div class="my-3 text-center white">
 						<a class="font-large-2 d-block mb-1">ريال {{totalEarings}} <span class="ft-arrow-up font-large-2"></span></a>
-						<!-- <span class="font-medium-1">Week2   +15.44</span> -->
+						
 					</div>
 				</div>
 				<div id="lineChart" class="height-250 lineChart lineChartShadow">
@@ -320,87 +267,5 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
-<div class="row" matchHeight ="card">
-	<div class="col-xl-4 col-lg-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">حجوزات الرحلات</h4>
-			</div>
-			<div class="card-content users-list">
-				<ul class="list-group" *ngFor="let tour of tours">
-					<li class="list-group-item text-left">
-					  <span class="badge bg-primary float-right text-white">{{tour?.bookings.length}}</span> {{tour?.name}}
-					</li>
-				  </ul>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-4 col-lg-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title mb-0">قائمة المرشدين السياحين</h4>
-			</div>
-			<div class="card-content users-list">
-				<div class="card-body" *ngFor="let user of users">
-					<div class="media mb-1">
-						<div class="media-body">
-							<h4 class="font-medium-2 mt-1 mb-0">{{user.name}}</h4>
-							<p class="text-muted font-small-3">{{user.role}}</p>
-						</div>
-						<div class="mt-1">
-							<div *ngIf="user.active === true" class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-								<input type="checkbox" class="custom-control-input" checked id="customcheckbox1">
-								<label class="custom-control-label" for="customcheckbox1"></label>
-							</div>
-							<div  *ngIf="user.active === false" class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-								<input type="checkbox" class="custom-control-input"  id="customcheckbox1">
-								<label class="custom-control-label" for="customcheckbox1"></label>
-							</div>
-						</div>
-					</div>
-					
-				</div>
-				<div class="action-buttons mt-2 text-center">
-					<a href="/full-layout/full-pages/guides" class="btn btn-raised gradient-blackberry py-2 px-4 white mr-2">أضف مرشد سياحي </a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-4 col-lg-12 list">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">الرحلات</h4>
-			</div>
-			<div class="card-content">
-
-				<p class="font-medium-2 text-muted text-center">احصائيات اكتمال الحجوزات للرحلات</p>
-				<div id="donut-dashboard-chart" class="height-250 donut">
-					<x-chartist class="" [data]="DonutChart.data" [type]="DonutChart.type" [options]="DonutChart.options" [responsiveOptions]="DonutChart.responsiveOptions"
-					 [events]="DonutChart.events">
-					</x-chartist>
-				</div>
-
-				<div class="card-body">
-				
-					<div class="row mb-2">
-						<div class="col">
-							<span class="mb-1 text-muted d-block">{{notCcompletedTours}} - الرحلات الغير مكتملة</span>
-							<div class="progress" style="height: 5px;">
-								<div class="progress-bar  bg-yellow" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0"
-								 aria-valuemax="100"></div>
-							</div>
-						</div>
-						<div class="col">
-							<span class="mb-1 text-muted d-block">{{completedTours}} - عدد الرحلات المكتملة</span>
-							<div class="progress" style="height: 5px;">
-								<div class="progress-bar bg-green" role="progressbar" style="width: 28%;" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>

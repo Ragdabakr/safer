@@ -88,11 +88,11 @@ this.find({ active:true });
 });
 
 
+
 //1) get role
 userSchema.pre(/^find/, function (next) {
   this.populate({
       path: 'role',
-
   });
   next();
 });

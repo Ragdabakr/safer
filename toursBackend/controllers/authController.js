@@ -43,7 +43,7 @@ const signToken = (id,email ,role ,name) =>
   //Signup new user
 exports.signup = catchAsync(async (req, res, next) => {
       const { email, password, name, passwordConfirmation ,role } = req.body.data;
-     // console.log("credintails" , email, password, name, passwordConfirmation ,role );
+     console.log("credintails" , email, password, name, passwordConfirmation ,role );
     const user = await User.findOne({ email });
       if (user) {
         res.status(400).send('This email belongs to another user') ;

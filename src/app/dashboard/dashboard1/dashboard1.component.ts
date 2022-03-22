@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import  io from 'socket.io-client';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { FlightTicketsService } from 'app/shared/services/flightTickets.service';
 
 declare var require: any;
 
@@ -449,10 +450,11 @@ export class Dashboard1Component {
     appReports= [];
     bookingsByWeek: any;
     user: string;
+    tickets: any;
     
         // Line chart configuration Ends
     
-        constructor(private tourService:TourService,private authService:AuthService, private translate: TranslateService ,private toastr:ToastrService ,private invoiceService: InvoiceService, private bookingService:BookingService, private userService:UserService,) 
+        constructor(private tourService:TourService,private flightTicketsService :FlightTicketsService,private authService:AuthService, private translate: TranslateService ,private toastr:ToastrService ,private invoiceService: InvoiceService, private bookingService:BookingService, private userService:UserService,) 
         { 
             translate.setDefaultLang('ar');
             this.socket = io('http://localhost:3000');
@@ -464,6 +466,7 @@ export class Dashboard1Component {
           this.getBookings();
           this.getourMonthlyStatus();
           this.getUsers();
+          this.getTickets();
           this.getBookingsSixMonthlyStatus();
           this.getBookingsWeeklyStatus();
           this.user = this.authService.getUser();
@@ -955,6 +958,15 @@ generateWeeklyReport(bookingsByWeek){
 
 };
 }
-// Line chart configuration Ends
+getTickets(){
+    this.flightTicketsService.getFlightTicketsList().subscribe({
+      next: response => {
+          this.tickets = response.data.docs.reverse();
+      },
+      error: err => {
+          console.log(err);
+      }
+  });
+}
     
     }

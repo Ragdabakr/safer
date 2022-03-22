@@ -7,6 +7,8 @@ import {ToastrService} from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from 'app/shared/services/user.service';
 import { ExportToCsv } from 'export-to-csv-file';
+import { AuthService } from 'app/shared/auth/auth.service';
+import { RoleService } from 'app/shared/services/role.service';
 
 @Component({
   selector: 'app-guides',
@@ -25,9 +27,7 @@ export class GuidesComponent implements OnInit {
   userDialog: boolean;
   submitted:any;
   errors:any;
-  roles = [
-    { role_name:'مرشد سياحي'},
-  ];
+  roles = [];
 
   editUserForm: any;
   newUserDialog: boolean;
@@ -37,6 +37,7 @@ export class GuidesComponent implements OnInit {
   users =  [];
   totalTours: any;
   user: any;
+  allUsers: boolean;
 
 
 
@@ -44,6 +45,8 @@ export class GuidesComponent implements OnInit {
     private userService:UserService,
     private fb: FormBuilder,
     private toastr:ToastrService ,
+    private authService:AuthService ,
+    private roleServices: RoleService,
 ) { }
 
    // Update User Form
@@ -68,9 +71,8 @@ export class GuidesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-
-    //this.loggedUser = this.authService.getUserName();
-    //console.log( 'loggedUser >>',this.loggedUser);
+    this.getRoles();
+    this.user =this.authService.getUser();
     this.cols = [
       { field: 'name', header: 'اسم المستخدم ' },
       { field: 'email', header: ' الايميل' },
@@ -80,12 +82,26 @@ export class GuidesComponent implements OnInit {
 
 
   }
+
+//Get tRoles
+getRoles(){
+  this.roleServices.getroles().subscribe(
+    res =>{
+      let data = res['data'];
+      this.roles = data.docs;
+      console.log(this.roles);
+      },
+      err =>{
+        this.toastr.error('يوجد خطأ ما');
+    }
+  )
+}  
 // Get Users
 getUsers(){
     this.userService.getUsers().subscribe(
       res =>{
         let data = res['data'];
-        this.users = data.docs.filter(a => a.role === "مرشد سياحي");
+        this.users = data.docs.filter(a => a.role.name === "مرشد سياحي");
         this.totalUsers= this.users.length;
         },
         err =>{
@@ -157,7 +173,7 @@ submitEdituserForm(userForm ,userId){
 
 //   // Submit Create user Form
   submitCreateUserForm(newUserForm){
-  //console.log('newUserForm >>>',newUserForm.value);
+  console.log('newUserForm >>>',newUserForm.value);
   this.createUserForm = newUserForm.value;
   const createDataUser= {
      name :  this.createUserForm.name,
@@ -257,6 +273,8 @@ validateAllFormFields(formGroup: FormGroup) {
          console.log(err);
        }
      }
+
+     
 
 
 
