@@ -174,4 +174,7 @@ form label {
     left: 0;
     top: 50% !important;
 }
+.control-label {
+    font-family: 'Almarai', sans-serif !important;
+}
 

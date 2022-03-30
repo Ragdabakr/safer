@@ -112,11 +112,16 @@ console.log('Mongoose connection is disconnected...');
 });
 
 
-mongoose.set('useNewUrlParser', true);
+//mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
+//sudo rm -r safer -f
+//git clone git@github.com:Ragdabakr/safer.git
+//cd safer
+//sudo npm i
 
+//npm i nodemon morgan mongoose hpp dotenv express-mongo-sanitize express-rate-limit helmet xss-clean slugify
 
 
 // 3) ROUTES

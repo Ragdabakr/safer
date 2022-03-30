@@ -178,7 +178,7 @@
                             <div class="submit-field"  *ngIf="newUserForm.get('password') as userFormControl"
                             [class.invalid]="userFormControl?.errors && (userFormControl.touched || userFormControl.dirty)">
                                 <h5 class="control-label">كلمة المرور</h5>
-                                <input type="text" class="form-control" formControlName='password' >
+                                <input type="password" class="form-control" formControlName='password' >
                                 <span  class="alert alert-danger" *ngIf="newUserForm.get('password')?.errors &&
                                 (newUserForm.get('password').touched || newUserForm.get('password').dirty)">
                                 <span  *ngIf="newUserForm.get('password').errors?.required"> كلمة المرور مطلوبة</span>
@@ -191,7 +191,7 @@
                           <div class="submit-field"  *ngIf="newUserForm.get('passwordConfirmation') as userFormControl"
                           [class.invalid]="userFormControl?.errors && (userFormControl.touched || userFormControl.dirty)">
                               <h5 class="control-label">تأكيد كلمة المرور</h5>
-                              <input type="text" class="form-control" formControlName='passwordConfirmation' >
+                              <input type="password" class="form-control" formControlName='passwordConfirmation' >
                               <span  class="alert alert-danger" *ngIf="newUserForm.get('passwordConfirmation')?.errors &&
                               (newUserForm.get('passwordConfirmation').touched || newUserForm.get('passwordConfirmation').dirty)">
                               <span  *ngIf="newUserForm.get('passwordConfirmation').errors?.required"> كلمة المرور مطلوبة</span>
