@@ -20,8 +20,8 @@ process.on('unhandledExeption',err =>{ //brocken db handelError
 // console.log(process.env);
 
 const appPath = path.join(__dirname,'..','dist');
-const port = process.env.PORT || 4000;
-server.listen(4000);
+const port = process.env.PORT || 5000;
+server.listen(5000);
 // const server = app.listen(port, () => {
 //   console.log(`App running on port ${port}...`);
 // });

@@ -21,7 +21,7 @@ import { PrimeNGConfig } from 'primeng/api';
   styleUrls: ['./booking-hotels.component.scss']
 })
 export class BookingHotelsComponent implements OnInit {
-
+  @ViewChild('dt',{read: ''}) dt: any;
   Invoice :boolean = false;
   tickets = [];
   cols: { field: string; header: string; }[];
@@ -34,10 +34,30 @@ export class BookingHotelsComponent implements OnInit {
   visas: any;
   user: string;
   hotels: any;
+  travellers = [{ guestName: "guestName", phoneNumber: "phoneNumber" }];
 
   constructor(private authService:AuthService ,private config: PrimeNGConfig,private translateService: TranslateService,private flightTicketsService: FlightTicketsService,private hotelService: HotelService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
 
   ngOnInit() {
+    this.cols = [
+      { field: "number", header: "رقم الحجز" },
+      { field: "email", header: "الفاتورة" },
+      { field: this.travellers[0]["guestName"], header: "اسم النزيل" },
+      { field: this.travellers[0]["phoneNumber"], header: "الهاتف " },
+      { field: "hotelName", header: "اسم الفندق" },
+      { field: "arrivalDate", header: " تاريخ الوصول " },
+      { field: "departureDate", header: " تاريغ المغادرة" },
+      { field: "adultNumber", header: "  عدد البالغين " },
+      { field: "childNumber", header: "  عدد الاطفال " },
+      { field: "roomType", header: "   نوع الغرفة " },
+      { field: "destination", header: " الوجهة   " },
+      { field: "paymentMethod", header: "  طريقة الدفع " },
+      { field: "totalNetSellingPrice", header: " المبلغ الكلي " },
+      { field: "totalReceivedAmount", header: "   المبلغ المدفوع " },
+      { field: "totalRemainingAmount", header: "  المبلغ المتبقي  " },
+      { field: "", header: "  اصدار فاتورة " },
+      { field: "cancel", header: " حالة الحجز  " },
+      ];
   this.getHotelBookings();
   // this.getInvoices();
   this.user =this.authService.getUser();
@@ -55,7 +75,6 @@ export class BookingHotelsComponent implements OnInit {
     //translations
 });
 this.translateService.setDefaultLang('en');
-
     }
 
     translate(lang: string) {
@@ -100,16 +119,39 @@ exportCSV(){
     title: 'تقرير جوزات الفنادق',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['number','destination','cancel','paymentMethod','totalNetSellingPrice','totalRemainingAmount' , 'totalRemainingAmount','guestName','phoneNumber','arrivalDate','departureDate','hotelName','roomType' ] 
+    headers: ['رقم الحجز','اسم النزيل','الهاتف','اسم الفندق','تاريخ الوصول','تاريخ المغادرة' , 'عدد البالغين','عدد الاطفال','نوع الغرفة','الوجهة','طريقة الدفع','المبلغ الكلي','المبلغ المدفوع','المبلغ المتبقي' ] 
   };
  
 const csvExporter = new ExportToCsv(options);
  
-csvExporter.generateCsv(this.hotels);
+var data = this.hotels.map(u => ({ number: u.number,guestName:u.travellers[0].guestName,phoneNumber:u.travellers[0].phoneNumber ,hotelName:u.hotelName.name,arrivalDate:u.arrivalDate ,
+  departureDate:u.departureDate,adultNumber:u.adultNumber , childNumber:u.childNumber , roomType:u.travellers[0].roomType, destination:u.destination,paymentMethod:u.paymentMethod ,totalNetSellingPrice:u.totalNetSellingPrice,totalReceivedAmount:u.totalReceivedAmount   ,totalRemainingAmount:u.totalRemainingAmount ,
+}));
+csvExporter.generateCsv(data);
 }
 
 
+myFilter(e){
+  this.dt.value.forEach((e)=>{
+    e['guestName'] = e['travellers'][0]['guestName'];
+  });
+  this.dt.filterGlobal(e.target.value, 'contains');
+  setTimeout(()=>{
+    this.dt.value.forEach((e)=>{
+    delete e['guestName'];
+  });
+  },500)
+
+  this.dt.value.forEach((e)=>{
+    e['phoneNumber'] = e['travellers'][0]['phoneNumber'];
+  });
+  this.dt.filterGlobal(e.target.value, 'contains');
+  setTimeout(()=>{
+    this.dt.value.forEach((e)=>{
+    delete e['phoneNumber'];
+  });
+  },500)
+}
 
 }
 

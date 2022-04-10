@@ -11,6 +11,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { formatDate } from '@angular/common';
 import { DatePipe } from '@angular/common';
+import { PrimeNGConfig } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { ExportToCsv } from 'export-to-csv-file';
 
 
 
@@ -75,12 +78,27 @@ export class BookingListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder ,  private tourService:TourService, private bookingService:BookingService,private authService:AuthService ,
-    private toastr:ToastrService , private invoiceService:InvoiceService , private datePipe: DatePipe) { }
+    private toastr:ToastrService , private invoiceService:InvoiceService , private datePipe: DatePipe , private config: PrimeNGConfig,private translateService: TranslateService,) { }
 
   ngOnInit() {
     this.user =this.authService.getUser();
     this.getBookings();
     this.getTours();
+    this.config.setTranslation({
+      dateIs: "التاريخ",
+      dateIsNot: "جميع التواريخ ما عدا",
+      dateBefore: "جميع النتائج قبل هذا التاريخ",
+      dateAfter: "جميع النتائج بعد هذا التاريخ",
+      clear: "الغاء",
+      apply: "تنفيذ",
+      matchAll: "جميع النتائج",
+      matchAny: "بعض النتائج ",
+      addRule: "تاريخ جديد",
+      removeRule: "حذف التاريخ",
+      //translations
+  });
+  this.translateService.setDefaultLang('en');
+
     this.travellerForm = this.fb.group({
       travellerInfo: this.fb.array([this.addtravellers()]),
   });
@@ -151,19 +169,14 @@ export class BookingListComponent implements OnInit {
                   }
                 );
 
-                const input = document.querySelector("#phone");
-                intlTelInput(input, {
-                    // any initialisation options go here
-                    initialCountry: "sa",   
-                     utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.min.js'
-                });
-              
-                var iti = window.intlTelInputGlobals.getInstance(input);
-                iti.isValidNumber();
-               // this.tourForm.controls.tourDate.setValue(formatDate(date,'yyyy-MM-dd','en'));
-               
-  }
+        
+       
+              }
 
+translate(lang: string) {
+  this.translateService.use(lang);
+  this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
+}
 
 // ---------------- Get Tours----------------
 getTours(){
@@ -229,6 +242,9 @@ onPaymentChange(paymentWay: string): void {
         res =>{
           let data = res['data'];
           this.bookings = data.docs.reverse();
+          console.log("this.bookings" , this.bookings);
+          this.bookings.forEach(booking => booking.createdAt = new Date(booking.createdAt));
+          this.bookings.forEach(book => book.tourInfo.tourDate = new Date(book.tourInfo.tourDate));
           },
           err =>{
             this.toastr.error('يوجد خطأ ما');
@@ -413,6 +429,26 @@ printReaet(booking){
             this.toastr.error(' ليس لديك صلاحية طباعة فاتورة');
            }
     });
+}
+
+//Export cvs
+exportCSV(){
+  const options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: ' حجوزات البرامج السياحية',
+    useTextFile: false,
+    useBom: true,
+   // useKeysAsHeaders: true,
+    headers: ['اسم الرحلة' , 'المسافرين','الهاتف', 'رقم الحجز' ,'تاريخ انشاء الحجز' ,' تاريخ الرحلة','عدد البالغين', ' عدد الاطفال' ,'  عدد الرضع' ,'السعر الكلي' ,' المبلغ الواصل' ,' المبلغ المتبقي' ,'حالة الحجز'  ] 
+  };
+const csvExporter = new ExportToCsv(options);
+var data = this.bookings.map(b => ({ name: b.tourName.name, fullName: b.contactInfo.fullName ,phone: b.contactInfo.phone  , number: b.number, createdAt: b.createdAt  ,
+  tourDate:b.tourInfo.tourDate,adult:b.tourInfo.adult ,child:b.tourInfo.child  ,infant:b.tourInfo.infant  , totalPrice:b.paymentInfo.totalPrice ,receivedAmount:b.paymentInfo.receivedAmount,remainingAmount:b.paymentInfo.remainingAmount, orderStatus:b.paymentInfo.orderStatus ,}));
+csvExporter.generateCsv(data);
 }
 
 

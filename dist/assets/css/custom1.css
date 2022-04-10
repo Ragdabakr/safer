@@ -1,0 +1,21 @@
+tr{
+    text-align: right;
+    float:right;
+    color: red;
+}
+
+tr th{
+    text-align: right;
+    float:right;
+    color: red;
+}
+
+ng-template{
+    text-align: right;
+    float:right;
+}
+.card-body{
+    text-align: right;
+    float:right;
+    background-color: red;
+}

@@ -6,7 +6,6 @@
     "ng": "ng",
     "start": "npm run start --prefix toursBackend",
     "start-dev": "ng serve --proxy-config proxy.conf.json",
-    "heroku-postbuild": "npm run build",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

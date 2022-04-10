@@ -57,7 +57,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userService.getUser(this.user.id).subscribe({
         next: response => {
             this.user= response.data.doc;
-            console.log("user" ,    this.user);
+           // console.log("user" ,    this.user);
         },
         error: err => {
             console.log(err);
@@ -98,7 +98,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ChangeLanguage(language: string) {
     this.translate.use(language);
     this.lang.emit(language);
-    console.log("language", language);
+   // console.log("language", language);
   }
 
 

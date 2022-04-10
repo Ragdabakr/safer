@@ -34,7 +34,7 @@
         currentPageReportTemplate=" الرحلات" [style]="{'width':'100%','overflow':'auto!important'}"
         [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
         [responsive]="true" selectionMode="single"
-        [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' , 'price' ,'maxGroupSize', 'priceDiscount']">
+        [filterDelay]="0" [globalFilterFields]="['name','type','duration','createdAt' ,'maxGroupSize']">
         <ng-template pTemplate="caption">
           <div class="ui-table-globalfilter-container">
             <div class="form-group">
@@ -53,10 +53,11 @@
               <th pSortableColumn="name">اسم الرحلة <p-sortIcon field="name"></p-sortIcon></th>
               <th pSortableColumn="type">نوع الرحلة <p-sortIcon field="type"></p-sortIcon></th>
               <th pSortableColumn="duration">المدة <p-sortIcon field="duration"></p-sortIcon></th>
-              <th pSortableColumn="createdAt">تاريخ انشاء الرحلة <p-sortIcon field="createdAt"></p-sortIcon></th>
-              <th pSortableColumn="adultPrice"> سعر البالغ <p-sortIcon field="adultPrice"></p-sortIcon></th>
-              <th pSortableColumn="chuldPrice"> سعر الطفل <p-sortIcon field="childPrice"></p-sortIcon></th>
-              <th pSortableColumn="infantPrice"> سعر الرضيع <p-sortIcon field="infantPrice"></p-sortIcon></th>
+              <th> <div class="flex justify-content-center align-items-center">
+                تاريخ انشاء الرحلة
+               <p-columnFilter type="date" field="createdAt" display="menu"></p-columnFilter>
+           </div></th>
+              <!-- <th pSortableColumn="adultPrice"> الأسعار  <p-sortIcon field="adultPrice"></p-sortIcon></th> -->
               <th pSortableColumn="maxGroupSize">  عدد المقاعد <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
               <th pSortableColumn="maxGroupSize"> عدد الحجوزات <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
               <th pSortableColumn="priceDiscount">صورة المكان <p-sortIcon field="priceDiscount"></p-sortIcon></th>
@@ -74,9 +75,6 @@
               <td>{{tour?.type}}</td>
               <td>{{tour?.duration}} _ يوم</td>
               <td>{{tour?.createdAt | date}}</td>
-              <td>{{tour?.adultPrice}} </td>
-              <td>{{tour?.childPrice}} </td>
-              <td>{{tour?.infantPrice}} </td>
               <td>{{tour?.maxGroupSize}}</td>
               <td>{{tour?.bookings.length}}</td>
               <td> <img class="card-img-top img-fluid" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png" alt="Card image cap">

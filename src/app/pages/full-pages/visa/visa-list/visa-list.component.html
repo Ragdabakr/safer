@@ -1,4 +1,4 @@
-<div class="row" matchHeight="card" *ngIf="user.role.sidebarPermissions.visas === true">
+<div class="row" matchHeight="card"  *ngIf="user.role.sidebarPermissions.visas === true">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
@@ -24,76 +24,56 @@
        
         </div>
   
-      </div>
-      <div class="card-content">
+   
         <div class="card-body">
-          <p-table  #dt [value]="visas" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
-          currentPageReportTemplate=" التأشيرات" [style]="{'width':'100%','overflow':'auto!important'}"
-          [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
-          [responsive]="true" selectionMode="single"
-          [filterDelay]="0" [globalFilterFields]="['bookingFrom','number','destination','cancel','paymentMethod','totalNetSellingPrice','totalRemainingAmount' , 'totalRemainingAmount' ]">
-          <ng-template pTemplate="caption">
-            <div class="ui-table-globalfilter-container">
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="بحث" >
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+          <p-table [columns]="cols" #dt [value]="visas" [autoLayout]="true" [paginator]="true" [rows]="10" (onSort)="onSort($event)">
+            <ng-template pTemplate="caption">
+              <div class="ui-table-globalfilter-container">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" pInputText  (input)="myFilter($event)" class="filter form-control" placeholder="البحث">
                   </div>
+                 </div>
                 </div>
-              </div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr>
-                <!-- <th pSortableColumn="user_id"> التسلسل <p-sortIcon field="user_id"></p-sortIcon></th> -->
-                <th   pSortableColumn="number">رقم الفاتورة  <p-sortIcon field="number"></p-sortIcon></th>
-                <th   pSortableColumn=""> الفاتورة  <p-sortIcon field=""></p-sortIcon></th>
-                <!-- <th pSortableColumn="bookingFrom">القطع من  <p-sortIcon field="bookingFrom"></p-sortIcon></th> -->
-                <th pSortableColumn="city"> عدد المسافرين <p-sortIcon field="city"></p-sortIcon></th>
-                <th pSortableColumn="city">  المسافرين <p-sortIcon field="city"></p-sortIcon></th>
-                <th pSortableColumn="destination">الوجهة  <p-sortIcon field="destination"></p-sortIcon></th>
-                <th pSortableColumn="paymentMethod">طريقة الدفع  <p-sortIcon field="paymentMethod"></p-sortIcon></th>
-                <th pSortableColumn="totalNetSellingPrice">  السعر الكلي  <p-sortIcon field="totalNetSellingPrice"></p-sortIcon></th>
-                <th pSortableColumn="totalReceivedAmount">المبلغ المدفوع <p-sortIcon field="totalReceivedAmount"></p-sortIcon></th>
-                 <th pSortableColumn="totalRemainingAmount">المبلغ المتبقي <p-sortIcon field="totalRemainingAmount"></p-sortIcon></th> 
-                <th  >أصدار فاتورة</th> 
-                <th pSortableColumn="cancel"> حالة الفيزة  <p-sortIcon field="totalNetSellingPrice"></p-sortIcon></th>
- 
-            </tr>
-         </ng-template>
-          <ng-template pTemplate="body" let-visa>
-            <tr>
-              <td>{{visa?.number}}</td>
-                <td ><a *ngIf="visa.createdInvoice === true"  href="/full-layout/full-pages/visas/{{visa?._id}}">الفاتورة</a>
-                <p  *ngIf="visa.createdInvoice === false">لم يتم اصدار فاتوره</p></td>
-                <!-- <td>{{visa?.bookingFrom}}</td> -->
-                <td>{{visa?.travellers.length }}</td>
-                <td>
-                  <ul *ngFor="let traveller of visa.travellers ; let i = index">
-                    <li>{{traveller.travellerFirstName}} {{traveller.travellerLastName}}</li>
-                  </ul>
-                </td>
-                <td>{{visa?.destination}}</td>
-                <td>{{visa?.paymentMethod}}</td>
-                <td>{{visa?.totalNetSellingPrice}}</td>
-                <td>{{visa?.totalReceivedAmount}}</td>
-                <td>{{visa?.totalRemainingAmount}}</td>
-                <td>               
-                <div   *ngIf="visa.createdInvoice === false" (click)="getInvoice(visa)">
-                  <i class="icon-printer icon printer"></i> 
-                </div> 
-                <div   *ngIf="visa.createdInvoice === true" >
-                 تم اصدار فاتورة
-                </div> 
-                </td>
-                <td>
-                  <span class="badge badge-success  mr-1" *ngIf="visa?.cancel === false"> الحجز قائم</span>
-                  <span class="badge badge-warning  mr-1" *ngIf="visa?.cancel === true"> تم الغاء الحجز</span>
-                
-                </td>
-             </tr>
-          </ng-template>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th class="row-header" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon class="" [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                    </th>
+    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-visa let-columns="columns">
+              <tr class="center-text">
+                <td>{{visa?.number}}</td>
+                  <td class="row-cell" ><a  class="red" *ngIf="visa.createdInvoice === true"  href="/full-layout/full-pages/visas/{{visa?._id}}">الفاتورة</a>
+                  <p  *ngIf="visa.createdInvoice === false">لم يتم اصدار فاتوره</p></td>
+                  <td class="row-cell">{{visa?.travellers.length }}</td>
+                  <td class="row-cell">{{visa.travellers[0].travellerFirstName}}</td>
+                  <td class="row-cell">{{visa.travellers[0].travellerLastName}}</td>
+                  <td class="row-cell">{{visa?.destination}}</td>
+                  <td class="row-cell">{{visa?.paymentMethod}}</td>
+                  <td class="row-cell">{{visa?.totalNetSellingPrice}}</td>
+                  <td class="row-cell">{{visa?.totalReceivedAmount}}</td>
+                  <td class="row-cell">{{visa?.totalRemainingAmount}}</td>
+                  <td class="row-cell">               
+                  <div   *ngIf="visa.createdInvoice === false" (click)="getInvoice(visa)">
+                    <i class="icon-printer icon printer"></i> 
+                  </div> 
+                  <div   *ngIf="visa.createdInvoice === true" >
+                   تم اصدار فاتورة
+                  </div> 
+                  </td>
+                  <td class="row-cell">
+                    <span class="badge badge-success  mr-1" *ngIf="visa?.cancel === false"> الحجز قائم</span>
+                    <span class="badge badge-warning  mr-1" *ngIf="visa?.cancel === true"> تم الغاء الحجز</span>
+                  
+                  </td>
+               </tr>
+            </ng-template>
         </p-table>
 
         </div>

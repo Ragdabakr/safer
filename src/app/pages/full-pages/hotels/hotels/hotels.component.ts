@@ -158,13 +158,12 @@ exportCSV(){
     title: 'تقرير الفنادق',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['name','phone','city','address'  ] 
+    headers: ['اسم الفندق','المدينة','الهاتف','العنوان'  ] 
   };
  
 const csvExporter = new ExportToCsv(options);
- 
-csvExporter.generateCsv(this.hotels);
+var data = this.hotels.map(u => ({ name: u.name,city:u.city ,phone:u.phone,address:u.address }));
+csvExporter.generateCsv(data);
 }
 
 

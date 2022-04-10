@@ -71,13 +71,13 @@ exportCSV(){
     title: 'تقرير  الحسابات',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['name' ,'type' ,'debit' ,'credit' ,'notes','PINCompanyCode' ,'createdAt' ] 
+   // useKeysAsHeaders: true,
+    headers: ['رقم الحساب' ,'تاريخ الانشاء' ,'اسم الحساب' ,'نوع العميل' ,'المدين','الدائن' ] 
   };
  
 const csvExporter = new ExportToCsv(options);
- 
-csvExporter.generateCsv(this.companies);
+var data = this.companies.map(u => ({PINCompanyCode:u.PINCompanyCode ,createdAt:u.createdAt ,name:u.name,type:u.type,debit:u.debit ,credit:u.credit}));
+csvExporter.generateCsv(data);
 }
 
 

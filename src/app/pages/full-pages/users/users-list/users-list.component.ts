@@ -229,13 +229,13 @@ validateAllFormFields(formGroup: FormGroup) {
       title: 'الموظفين',
       useTextFile: false,
       useBom: true,
-      useKeysAsHeaders: true,
-      headers: ['name', 'email', 'role' ,'active'] 
+     // useKeysAsHeaders: true,
+      headers: ['الاسم', 'البريد الالكتروني', 'الصلاحيات' ,'التفعيل'] 
     };
    
   const csvExporter = new ExportToCsv(options);
-   
-  csvExporter.generateCsv(this.users);
+  var data = this.users.map(u => ({ name: u.name,email:u.email ,role:u.role.name ,active:u.active}));
+  csvExporter.generateCsv(data);
   }
 
 //   // Disable & Enable user

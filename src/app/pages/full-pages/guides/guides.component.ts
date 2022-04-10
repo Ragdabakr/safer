@@ -24,7 +24,7 @@ export class GuidesComponent implements OnInit {
   length:any;
   newUser: boolean;
   displayDialog: boolean;
-  userDialog: boolean;
+  userDialog: boolean = false;
   submitted:any;
   errors:any;
   roles = [];
@@ -113,7 +113,6 @@ getUsers(){
 
 // // update userform with user values
 editUser(user) {
-  console.log("user",user);
   this.user = user;
   this.userDialog = true;
   this.userForm.patchValue({
@@ -132,7 +131,7 @@ hideDialog() {
 mapValues() {
  this.user.name = this.userForm.value.name;
  this.user.role = this.userForm.value.role;
- this.user.email = this.userForm.value.username;
+ this.user.email = this.userForm.value.email;
 }
 // // Submit Edit user Form
 submitEdituserForm(userForm ,userId){
@@ -173,23 +172,16 @@ submitEdituserForm(userForm ,userId){
 
 //   // Submit Create user Form
   submitCreateUserForm(newUserForm){
-  console.log('newUserForm >>>',newUserForm.value);
+  //console.log('newUserForm >>>',newUserForm.value);
   this.createUserForm = newUserForm.value;
-  const createDataUser= {
-     name :  this.createUserForm.name,
-     email : this.createUserForm.email,
-     role : this.createUserForm.role,
-     password : this.createUserForm.password,
-     passwordConfirmation:this.createUserForm.passwordConfirmation,
-  }
-
   this.submitted = true;
     if (newUserForm.invalid) {
       this.validateAllFormFields(this.newUserForm); // Triger userForm validation
       this.toastr.error('الرجاء ملئ جميع الحقول المطلوبة');
     } else {
-       this.userService.createUserForm(createDataUser).subscribe((data) =>{
+       this.userService.createUserForm(this.newUserForm.value).subscribe((data) =>{
        this.newUserDialog = false;
+       this.newUserForm.reset();
        this.toastr.success('تم اضافة المستخدم بنجاح');
        this.getUsers();
        },
@@ -197,13 +189,12 @@ submitEdituserForm(userForm ,userId){
        if(error.error.error === 'Email already exist'){
         this.toastr.error(' الايميل مستخدم من قبل');
        }
-       if(error.error.error.code === '23505'){
+       if(error.error.code === '23505'){
         this.toastr.error('  اسم المستخدم مستخدم من قبل ');
        }
     }),
     err =>{
-      // this.toastr.error(' لم يتم اضافة المستخدم  ');
-       console.log("error>>>>",err);
+      this.toastr.error(' لم يتم اضافة المستخدم  ');
      }
     }
   }
@@ -224,27 +215,26 @@ validateAllFormFields(formGroup: FormGroup) {
   exportCSV(){
     const options = { 
       fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true, 
-      showTitle: true,
-      title: 'My Awesome CSV',
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-      headers: ['name', 'email', 'role' ,'active'] 
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: ' المرشدين',
+    useTextFile: false,
+    useBom: true,
+      headers: ['الاسم', 'البريد الالكتروني', 'الرتبة' ] 
     };
    
   const csvExporter = new ExportToCsv(options);
-   
-  csvExporter.generateCsv(this.users);
+  var data = this.users.map(u => ({ name: u.name,email:u.email ,role:u.role.name }));
+  csvExporter.generateCsv(data);
+
   }
 
 //   // Disable & Enable user
-
 //   // Disable User
   disableUser(userId){
-    console.log('userId' ,userId);
+   // console.log('userId' ,userId);
    const userData ={
       active : false 
    }

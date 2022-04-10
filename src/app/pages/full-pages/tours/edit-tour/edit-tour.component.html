@@ -25,11 +25,11 @@
                       <!--Start cover photo -->
                       <h4 class="head ">الصورة الرئيسية</h4>
                      <div class="imageContainer col-md-4"  *ngIf="!selectedFile">
-                      <img class="full-img-top img-fluid" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png" alt="Card image cap">
+                      <img class="full-img-top img-fluid" width="227"  height="200" src="https://res.cloudinary.com/reg1rego3/image/upload/v{{tour?.imageCover.imgVersion}}/{{tour?.imageCover.imageId}}.png" alt="Card image cap">
                      </div>
 
                      <div class="imageContainer col-md-4"  *ngIf="selectedFile">
-                      <img class="full-img-top img-fluid" [src]="selectedFile" alt="Card image cap">
+                      <img class="full-img-top img-fluid" [src]="selectedFile" alt="Card image cap" width="228" height="200">
                       <label class=" mb-6 custom-file-upload-image">
                         <span> <p  (click)="uploadSingleImage()" class="upload"><i class="fa fa-download" aria-hidden="true"></i>  ارفع الصورة  </p></span>
                       </label>

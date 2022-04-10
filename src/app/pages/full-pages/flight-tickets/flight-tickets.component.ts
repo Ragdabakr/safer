@@ -32,6 +32,7 @@ export class FlightTicketsComponent implements OnInit {
   companyId: any;
   rndInt: number;
   travelAdentCompanyForm: FormGroup;
+
   // Prevent panel toggle code
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === '2') {
@@ -47,9 +48,7 @@ export class FlightTicketsComponent implements OnInit {
 
   ngOnInit() {
   this.getCompanies();
-        this.cols = [
-        
-      ];
+
 
    this.companyForm = new FormGroup(
          {

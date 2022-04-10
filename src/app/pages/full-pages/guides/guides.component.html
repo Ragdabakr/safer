@@ -1,4 +1,5 @@
-<div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookTour === true">
+
+<div class="row" matchHeight="card">
   <div class="col-xl-12 col-lg-12">
     <div class="card card-add" >
       <div class="card-header"  >
@@ -7,7 +8,7 @@
     </div>
   </div>
 </div>
-  <section id="ngx" *ngIf="user.role.dashboardPermissions.bookTour === true">
+  <section id="ngx" >
     <div class="card">
         <div class="card-content">
             <div class="card-body"> 
@@ -19,7 +20,7 @@
               <button (click)="createNewUser()" class=" btn btn-green my-1" >
                 <i class="icon-plus icon"></i>  اضافة مرشد سياحي 
               </button>
-              <button type="button" class="btn btn-primary btn-raised my-1" printTitle="المرشديين" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
+              <!-- <button type="button" class="btn btn-primary btn-raised my-1" printTitle="المرشديين" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button> -->
               <button (click)="exportCSV()" class=" btn btn-default csv my-1" >
                   CSV <i class="icon-share-alt icon"></i>
               </button>
@@ -29,7 +30,7 @@
             currentPageReportTemplate=" المرشدين " [style]="{'width':'100%','overflow':'auto!important'}"
             [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
             [responsive]="true" selectionMode="single"
-            [filterDelay]="0" [globalFilterFields]="['name','email','role','active' ]">
+            [filterDelay]="0" [globalFilterFields]="['name','email','role.name','active' ]">
             <ng-template pTemplate="caption">
               <div class="ui-table-globalfilter-container">
                 <div class="form-group">
@@ -47,7 +48,7 @@
                   <th pSortableColumn="user_id"> القيد <p-sortIcon field="user_id"></p-sortIcon></th>
                   <th pSortableColumn="name">اسم المستخدم <p-sortIcon field="name"></p-sortIcon></th>
                   <th pSortableColumn="email"> الايميل <p-sortIcon field="email"></p-sortIcon></th>
-                  <th  pSortableColumn="role">نوع المستخدم <p-sortIcon field="role"></p-sortIcon></th>
+                  <th  pSortableColumn="role.name">نوع المستخدم <p-sortIcon field="role.name"></p-sortIcon></th>
                   <th pSortableColumn="active">حالة المستخدم <p-sortIcon field="active"></p-sortIcon></th>
                 
                   <th >التعديل</th> 
@@ -125,7 +126,7 @@
                           <div class="col-md-12">
                                 <h5 class="control-label" >نوع المستخدم</h5>
                                 <select  class="form-control" data-size="7" formControlName="role"  value='user.role' title="نوع المستخدم" >
-                                    <option *ngFor="let role of roles"   [ngValue]="role.role_name">{{ role.name}}</option>
+                                    <option *ngFor="let role of roles"   [ngValue]="role">{{ role.name}}</option>
                                 </select>
                           </div>
     
@@ -202,7 +203,7 @@
                           <div class="col-md-12">
                                 <h5 class="control-label" >نوع المستخدم</h5>
                                 <select  class="form-control" data-size="7" formControlName="role"  value='user.role' title="نوع المستخدم" >
-                                  <option *ngFor="let role of roles"   [ngValue]="role.role_name">{{ role.name}}</option>
+                                  <option *ngFor="let role of roles"   [ngValue]="role">{{role.name}}</option>
                               </select>
                           </div>
     
@@ -223,13 +224,5 @@
     </div>
     </div>
     </section>
-    <div class="row" matchHeight="card" *ngIf="user.role.dashboardPermissions.bookTour === false">
-      <div class="col-xl-12 col-lg-12">
-        <div class="card card-add" >
-          <div class="card-header"  >
-            <h4 class="card-title mb-0"> ليس لديك صلاحيات اضافة مرشديين</h4>
-          </div>
-       </div>
-      </div>
-    </div>
+
   

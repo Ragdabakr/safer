@@ -515,8 +515,8 @@ get hasHotelsError() {
   this.tourService.updateTourCoverImage(this.tourId ,  data).subscribe(
     () => {
         this.selectedFile="";
-        this.toastr.success('تم تحديث صور الرحلة بنجاح');
         this.getTour();
+        this.toastr.success('تم تحديث صورة الرحلة بنجاح');
     },
     (error) => {
      // console.log(error);

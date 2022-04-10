@@ -11,34 +11,33 @@
   <div class="col-xl-12 col-lg-12">
     <div class="card">
       <div class="card-content completed-tours">
-        <div class="card-body add-items"  >
+        <div class="card-body add-items">
           <form [formGroup]="companyForm"  novalidate>
-            
               <div class="row">
-                  <div class="form-group col-sm-3">
+                  <div class="form-group col-md-3 col-sm-12">
                       <label for="street">الاسم</label><span class="red">*</span>
                       <input type="text"  formControlName="name" class="form-control">
                   </div>
-                  <div class="form-group col-sm-3">
+                  <div class="form-group col-md-3 col-sm-12">
                     <label for="street">نوع العميل</label><span class="red">*</span>
 
                       <select  class="form-control" data-size="7" formControlName="type"  >
                           <option *ngFor="let role of roles"  [ngValue]="role">{{role}}</option>
                       </select>
                 </div>
-                <div class="form-group col-sm-4">
+                <div class="form-group col-md-4 col-sm-12">
                   <span class="blueTiltle  code" (click)="randomInteger()">صنع أتوماتيكي</span>  <label for="street">رمز التعريف</label><span class="red">*</span>
                   <input type="text"  formControlName="PINCompanyCode" class="form-control">
               </div>
-                    <div class="form-group col-sm-3">
-                      <label for="street">المدين</label><span class="red">*</span>
+                    <div class="form-group col-md-3 col-sm-12">
+                      <label for="street">مدين</label><span class="red">*</span>
                       <input type="number" value="0" formControlName="debit" class="form-control">
                   </div>
-                  <div class="form-group col-sm-3">
-                    <label for="street">الدائن</label><span class="red">*</span>
+                  <div class="form-group col-md-3 col-sm-12">
+                    <label for="street">دائن</label><span class="red">*</span>
                     <input type="number" value="0" formControlName="credit" class="form-control">
                 </div>
-                <div class="form-group col-sm-4">
+                <div class="form-group col-md-4 col-sm-12">
                   <label for="street">ملاحظات</label><span class="red">*</span>
                   <input type="text"  formControlName="notes" class="form-control">
               </div>
@@ -55,10 +54,11 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0"> الشركات</h4>
+        <button type="button"  class="btn btn-primary btn-raised my-1" printTitle="الموردين" [useExistingCss]="true"   printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button>
       </div>
       <div class="card-content">
-        <div class="card-body">
-          <p-table  #dt [value]="companies" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
+        <div class="card-body" id="print-section">
+          <p-table  class="table" #dt [value]="companies" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
           [style]="{'width':'100%','overflow':'auto!important'}"
           [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
           [responsive]="true" selectionMode="single"
@@ -80,10 +80,14 @@
               <th pSortableColumn="number">القيد <p-sortIcon field="number"></p-sortIcon></th>
               <th pSortableColumn="PINCompanyCode">رقم الحساب <p-sortIcon field="PINCompanyCode"></p-sortIcon></th>
                 <th pSortableColumn="name">الاسم <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="createdAt">التاريخ <p-sortIcon field="createdAt"></p-sortIcon></th>
+                <th> <div class="flex justify-content-center align-items-center">
+التاريخ
+                 <p-columnFilter type="date" field="createdAt" display="menu"></p-columnFilter>
+             </div></th>
+               
                 <th pSortableColumn="type">نوع العميل <p-sortIcon field="type"></p-sortIcon></th>
-                <th pSortableColumn="debit">المدين <p-sortIcon field="debit"></p-sortIcon></th>
-                <th pSortableColumn="credit">الدائن <p-sortIcon field="credit"></p-sortIcon></th>
+                <th pSortableColumn="debit">مدين <p-sortIcon field="debit"></p-sortIcon></th>
+                <th pSortableColumn="credit">دائن <p-sortIcon field="credit"></p-sortIcon></th>
                 <th pSortableColumn="notes">الملاحظات <p-sortIcon field="notes"></p-sortIcon></th>
                 <th pSortableColumn="name">التفاصيل <p-sortIcon field="notes"></p-sortIcon></th>
             </tr>
@@ -108,84 +112,72 @@
                     <i class="ft-trash-2 ft icon"></i>
                   </div>  
                 </td>  
-                      
-               
              </tr>
           </ng-template>
         </p-table>
-     
         <!--Update Company-->
         <p-dialog [(visible)]="addUpdateCompanyeDialog" [style]="{width: '850px', textAlign :'right'}" header=" معلومات الشركة" [modal]="true" styleClass="p-fluid"   [dismissableMask]="false" 
         [modal]="true"
         [appendTo]="'body'">       
                               <!--start edit -->
-                              <div class="container-box " >
-                                <form [formGroup]="companyForm"  novalidate>
-            
+                              <div class="container-box">
+                                <form [formGroup]="companyEditForm"  novalidate>
                                   <div class="row">
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-md-6 col-sm-12">
                                       <label for="street">اسم الحساب</label><span class="red">*</span>
                                       <input type="text" formControlName="accountName" class="form-control">
-                                   </div>
-                                      <div class="form-group col-sm-6">
-                                          <label for="street">الاسم</label><span class="red">*</span>
-                                          <input type="text" formControlName="name" class="form-control">
-                                      </div>
-
-                                      <div class="form-group col-sm-6">
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="street">الاسم</label><span class="red">*</span>
+                                        <input type="text" formControlName="name" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12">
                                         <label for="street">الهاتف</label>
                                         <input type="tel"  formControlName="phone" class="form-control">
                                     </div>
-                                    <!-- <div class="form-group col-sm-6">
+                                     <!-- <div class="form-group col-sm-6">
                                       <label for="street">المدين</label>
                                       <input type="number"  formControlName="debit" class="form-control">
-                                  </div>
-                                  <div class="form-group col-sm-6">
-                                    <label for="street">الدائن</label>
-                                    <input type="number"  formControlName="credit" class="form-control">
-                                </div> -->
-                                     
-                                      <div class="form-group col-sm-6">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                      <label for="street">الدائن</label>
+                                      <input type="number"  formControlName="credit" class="form-control">
+                                    </div>  -->
+                                    <div class="form-group col-md-6 col-sm-12">
                                         <label for="street">نوع العميل</label><span class="red">*</span>
-                    
                                           <select  class="form-control" data-size="7" formControlName="type"  >
                                               <option *ngFor="let role of roles"  [ngValue]="role">{{role}}</option>
                                           </select>
                                     </div>
-                                   
-                                  <div class="form-group col-sm-6">
-                                    <label for="street">البريد الالكتروني</label>
-                                    <input type="text"  formControlName="email" class="form-control">
-                                </div>
-                            
-                              <div class="form-group col-sm-12">
-                                <label for="street">الملاحظات </label>
-                                <input type="text"  formControlName="notes" class="form-control">
-                            </div>
-
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="street">البريد الالكتروني</label>
+                                        <input type="text"  formControlName="email" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                      <label for="street">الملاحظات </label>
+                                      <input type="text"  formControlName="notes" class="form-control">
+                                    </div>
                                   </div> 
-                              <div class="buttons margin-top-10">
-                                <input type="submit"  (click)="updateCompanyButton(companyForm)" class=" btn btn-primary submit " value="حفظ">
+                                  <div class="buttons margin-top-10">
+                                    <input type="submit"  (click)="updateCompanyButton(companyEditForm)" class=" btn btn-primary submit " value="حفظ">
+                                 </div>
+                               </form>
                             </div>
-                            </form>
+                      </p-dialog> 
+                      </div>
                     </div>
-              
-        </p-dialog> 
-        
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row" matchHeight="card" *ngIf="user.role.settingPermissions.addCompany === false">
-  <div class="col-xl-12 col-lg-12">
-    <div class="card card-add" >
-      <div class="card-header"  >
-        <h4 class="card-title mb-0"> ليس لديك صلاحيات اضافة حساب جديد</h4>
-      </div>
-   </div>
-  </div>
-</div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" matchHeight="card" *ngIf="user.role.settingPermissions.addCompany === false">
+                <div class="col-xl-12 col-lg-12">
+                  <div class="card card-add" >
+                    <div class="card-header"  >
+                      <h4 class="card-title mb-0"> ليس لديك صلاحيات اضافة حساب جديد</h4>
+                    </div>
+                </div>
+                </div>
+              </div>
 
 
 

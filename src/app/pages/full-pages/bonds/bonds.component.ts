@@ -202,16 +202,15 @@ exportCSV(){
     decimalSeparator: '.',
     showLabels: true, 
     showTitle: true,
-    title: 'تقرير  الخزنة',
+    title: 'تقرير  السندات',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['title','number','date','description' , 'credit'  ,'indebted'] 
+    headers: ['نوع السند','رقم السند','قيمة السند','التاريخ','الوصف','اسم الحساب' ] 
   };
  
 const csvExporter = new ExportToCsv(options);
- 
-csvExporter.generateCsv(this.safeboxes);
+var data = this.bonds.map(u => ({type:u.type ,number:u.number ,amount:u.amount,createdAt:u.createdAt,notes:u.notes ,accountType:u.accountName.name }));
+csvExporter.generateCsv(data);
 }
 
 }

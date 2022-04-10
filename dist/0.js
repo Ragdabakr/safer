@@ -4850,13 +4850,13 @@ var BookingService = /** @class */ (function () {
         debugger;
         return this.http.get('/api/v1/bookings');
     };
-    BookingService.prototype.editBooking = function (id, data) {
+    BookingService.prototype.editBooking = function (id, data, payment) {
         debugger;
-        return this.http.patch("/api/v1/bookings/" + id, { data: data });
+        return this.http.patch("/api/v1/bookings/" + id, { data: data, payment: payment });
     };
-    BookingService.prototype.editPaymentBooking = function (id, data) {
+    BookingService.prototype.editPaymentBooking = function (id, data, bookingData) {
         debugger;
-        return this.http.patch("/api/v1/bookings/" + id, { data: data });
+        return this.http.patch("/api/v1/bookings/" + id, { data: data, bookingData: bookingData });
     };
     BookingService.prototype.deleteBooking = function (id, tourId) {
         debugger;
@@ -4882,6 +4882,115 @@ var BookingService = /** @class */ (function () {
         Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], BookingService);
     return BookingService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/flightTickets.service.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/shared/services/flightTickets.service.ts ***!
+  \**********************************************************/
+/*! exports provided: FlightTicketsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FlightTicketsService", function() { return FlightTicketsService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+var FlightTicketsService = /** @class */ (function () {
+    function FlightTicketsService(http) {
+        this.http = http;
+    }
+    FlightTicketsService.prototype.createflightTicket = function (data) {
+        debugger;
+        return this.http.post('/api/v1/flightTickets', { data: data });
+    };
+    FlightTicketsService.prototype.getflightTickets = function () {
+        debugger;
+        return this.http.get('/api/v1/flightTickets');
+    };
+    FlightTicketsService.prototype.updateflightTicket = function (id, data) {
+        debugger;
+        return this.http.patch("/api/v1/flightTickets/" + id, { data: data });
+    };
+    FlightTicketsService.prototype.getflightTicketById = function (id) {
+        debugger;
+        return this.http.get("/api/v1/flightTickets/" + id);
+    };
+    FlightTicketsService.prototype.deleteflightTicket = function (id) {
+        debugger;
+        return this.http.delete("/api/v1/flightTickets/" + id);
+    };
+    FlightTicketsService.prototype.createflightTicketBooking = function (data, travellers) {
+        debugger;
+        return this.http.post('/api/v1/flightTickets/booking', { data: data, travellers: travellers });
+    };
+    FlightTicketsService.prototype.getFlightTicketsList = function () {
+        debugger;
+        return this.http.get('/api/v1/flightTickets/booked');
+    };
+    FlightTicketsService.prototype.getflightTicketsBooking = function () {
+        debugger;
+        return this.http.get('/api/v1/booking/flightTickets');
+    };
+    FlightTicketsService.prototype.updateflightTicketBooking = function (id, data) {
+        debugger;
+        return this.http.patch("/api/v1/booking/flightTickets/" + id, { data: data });
+    };
+    FlightTicketsService.prototype.getflightTicketByIdBooking = function (id) {
+        debugger;
+        return this.http.get("/api/v1/booking/flightTickets/" + id);
+    };
+    FlightTicketsService.prototype.deleteflightTicketBooking = function (id) {
+        debugger;
+        return this.http.delete("/api/v1/booking/flightTickets/" + id);
+    };
+    FlightTicketsService.prototype.cancelflightTicket = function (data) {
+        debugger;
+        return this.http.post('/api/v1/flightTickets/cancelBooking', { data: data });
+    };
+    FlightTicketsService.prototype.refundflightTicketBooking = function (data) {
+        debugger;
+        return this.http.post('/api/v1/flightTickets/refundFlightTicket', { data: data });
+    };
+    FlightTicketsService.prototype.changeFlightTicketBooking = function (data) {
+        debugger;
+        return this.http.post('/api/v1/flightTickets/changeFlightTickets', { data: data });
+    };
+    FlightTicketsService.prototype.salesFlightTicketBooking = function (data) {
+        debugger;
+        return this.http.post('/api/v1/flightTickets/salesFlightTickets', { data: data });
+    };
+    FlightTicketsService.prototype.createNoCommFlightTicketBooking = function (data) {
+        debugger;
+        return this.http.post('/api/v1/flightTickets/noCommFlightTicketBooking', { data: data });
+    };
+    FlightTicketsService.prototype.createflightTicketInvoice = function (data) {
+        debugger;
+        return this.http.post('/api/v1/flightTickets/invoice', { data: data });
+    };
+    FlightTicketsService.prototype.getInvoiceById = function (id) {
+        debugger;
+        return this.http.get("/api/v1/flightTickets/invoice/" + id);
+    };
+    FlightTicketsService.prototype.getflightTicketInvoices = function () {
+        debugger;
+        return this.http.get('/api/v1/flightTickets/invoice');
+    };
+    FlightTicketsService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], FlightTicketsService);
+    return FlightTicketsService;
 }());
 
 
@@ -4927,6 +5036,14 @@ var InvoiceService = /** @class */ (function () {
     InvoiceService.prototype.deleteInvoice = function (id) {
         debugger;
         return this.http.delete("/api/v1/invoices/" + id);
+    };
+    InvoiceService.prototype.getFlightInvoiceById = function (id) {
+        debugger;
+        return this.http.get("/api/v1/invoices/f/" + id);
+    };
+    InvoiceService.prototype.getFlightTicketsInvoices = function () {
+        debugger;
+        return this.http.get('/api/v1/invoices/f');
     };
     InvoiceService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -5004,6 +5121,22 @@ var TourService = /** @class */ (function () {
         debugger;
         return this.http.patch("/api/v1/hotels/" + editId, { data: data });
     };
+    //CostsSection
+    TourService.prototype.getCostss = function () {
+        return this.http.get('/api/v1/tours/costs');
+    };
+    TourService.prototype.createCost = function (tourId, data) {
+        debugger;
+        return this.http.post("/api/v1/tours/costs/" + tourId, { data: data });
+    };
+    TourService.prototype.deleteCost = function (tourId, costId) {
+        debugger;
+        return this.http.delete("/api/v1/tours/costs/" + tourId + "/" + costId);
+    };
+    TourService.prototype.updateCost = function (data, editId) {
+        debugger;
+        return this.http.patch("/api/v1/tours/costs/" + editId, { data: data });
+    };
     //GuidesSection
     TourService.prototype.getGuides = function () {
         return this.http.get('/api/v1/guides');
@@ -5071,6 +5204,10 @@ var TourService = /** @class */ (function () {
     TourService.prototype.disableTour = function (id, data) {
         debugger;
         return this.http.patch("/api/v1/tours/disableTour/" + id, { data: data });
+    };
+    TourService.prototype.closeTour = function (id, data) {
+        debugger;
+        return this.http.patch("/api/v1/tours/closeTour/" + id, { data: data });
     };
     // Reports Status
     TourService.prototype.tourTypeStatus = function () {

@@ -54,13 +54,14 @@ exportCSV(){
     title: 'تقرير العمولات',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['name' ,'type' ,'debit' ,'credit' ,'notes','PINCompanyCode' ,'createdAt' ] 
+   // useKeysAsHeaders: true,
+    headers: ['وصف الحركة' ,'الملاحظات' ,'مدين' ,'دائن','تاريخ الانشاء' ,'الموظف' ] 
   };
  
 const csvExporter = new ExportToCsv(options);
- 
-csvExporter.generateCsv(this.commissions);
+var data = this.commissions.map(u => ({name:u.name ,description:u.description,debit:u.debit ,credit:u.credit ,createdAt:u.createdAt ,user:u.user}));
+csvExporter.generateCsv(data);
+
 }
 
 

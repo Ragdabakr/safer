@@ -1,7 +1,7 @@
 
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  ,ViewChild} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'app/shared/auth/auth.service';
@@ -18,6 +18,7 @@ import { PrimeNGConfig } from 'primeng/api';
   styleUrls: ['./flight-tickets-list.component.scss']
 })
 export class FlightTicketsListComponent implements OnInit {
+  @ViewChild('dt',{read: ''}) dt: any;
   Invoice :boolean = false;
   tickets = [];
   cols: { field: string; header: string; }[];
@@ -28,11 +29,27 @@ export class FlightTicketsListComponent implements OnInit {
   invoiceId: any;
   Invoices: any;
   user: any;
-
+  travellers = [{ travellerFirstName: "travellerFirstName", travellerLastName: "travellerLastName" ,phoneNumber: "phoneNumber"}];
   constructor(private authService:AuthService ,private config: PrimeNGConfig,private translateService: TranslateService, private flightTicketsService: FlightTicketsService,private toastr:ToastrService , private invoiceService:InvoiceService ) { }
 
   ngOnInit() {
   this.user = this.authService.getUser();
+  this.cols = [
+    { field: "number", header: "رقم الحجز" },
+    { field: "email", header: "الفاتورة" },
+    { field: "travellers.length", header: "عدد المسافرين" },
+    { field: this.travellers[0]["travellerFirstName"], header: "اسم المسافر" },
+    { field: this.travellers[0]["travellerLastName"], header: "اسم العائلة" },
+    { field: this.travellers[0]["phoneNumber"], header: "الهاتف " },
+    { field: "departureDate", header: "تاريخ المغادرة" },
+    { field: "destination", header: "الوجهة" },
+    { field: "paymentMethod", header: "طريقة الدفع " },
+    { field: "totalNetSellingPrice", header: "السعر الكلي" },
+    { field: "totalReceivedAmount", header: " المبلغ الواصل " },
+    { field: "totalRemainingAmount", header: " المبلغ المتبقي " },
+    { field: "createdInvoice", header: "  اصدار فاتورة " },
+    { field: "cancel", header: " حالة الفيزا  " },
+    ];
   this.getTickets();
   this.getInvoices();
   this.config.setTranslation({
@@ -56,7 +73,6 @@ this.translateService.setDefaultLang('en');
       this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
   }
 
-
     getInvoices(){
         
       this.flightTicketsService.getflightTicketInvoices().subscribe({
@@ -73,6 +89,7 @@ this.translateService.setDefaultLang('en');
           this.flightTicketsService.getFlightTicketsList().subscribe({
             next: response => {
                 this.tickets = response.data.docs.reverse();
+                console.log("this.tickets" , this.tickets);
                 this.tickets.forEach(ticket => ticket.createdAt = new Date(ticket.createdAt));
                 this.tickets.forEach(ticketdate => ticketdate.departureDate = new Date(ticketdate.departureDate));
                 this.tickets.forEach(ticketPhone => ticketPhone.phoneNumber = new Date(ticketPhone.phoneNumber));
@@ -100,21 +117,54 @@ this.translateService.setDefaultLang('en');
   
 exportCSV(){
   const options = { 
-    fieldSeparator: ',',
+      fieldSeparator: ',',
     quoteStrings: '"',
     decimalSeparator: '.',
     showLabels: true, 
     showTitle: true,
-    title: 'تقرير العمولات',
+    title: ' تذاكر الطيران',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['bookingFrom','number','departureDate','destination','cancel','paymentMethod','totalNetSellingPrice','totalRemainingAmount' , 'totalRemainingAmount' ] 
+    headers: ['رقم الحجز','الاسم', 'اسم العائلة','الهاتف','عدد المسافرين','تاريخ المغادرة','الوجهة','طريقة الدفع','المبلغ الكلي','المبلغ الواصل' , 'المبلغ المتبقي' ] 
   };
 const csvExporter = new ExportToCsv(options);
-csvExporter.generateCsv(this.tickets);
+var data = this.tickets.map(u => ({ number: u.number,travellerFirstName:u.travellers[0].travellerFirstName,travellerLastName:u.travellers[0].travellerLastName ,phoneNumber:u.travellers[0].phoneNumber,travellers:u.travellers.length ,departureDate:u.departureDate
+  ,destination:u.destination,paymentMethod:u.paymentMethod ,totalNetSellingPrice:u.totalNetSellingPrice   ,totalReceivedAmount:u.totalReceivedAmount   ,totalRemainingAmount:u.totalRemainingAmount  
+}));
+csvExporter.generateCsv(data);
 }
 
+myFilter(e){
+  console.log("e" , e);
+  this.dt.value.forEach((e)=>{
+    e['travellerFirstName'] = e['travellers'][0]['travellerFirstName'];
+  });
+  this.dt.filterGlobal(e.target.value, 'contains');
+  setTimeout(()=>{
+    this.dt.value.forEach((e)=>{
+    delete e['travellerFirstName'];
+  });
+  },500)
+
+  this.dt.value.forEach((e)=>{
+    e['travellerLastName'] = e['travellers'][0]['travellerLastName'];
+  });
+  this.dt.filterGlobal(e.target.value, 'contains');
+  setTimeout(()=>{
+    this.dt.value.forEach((e)=>{
+    delete e['travellerLastName'];
+  });
+  },500)
+  this.dt.value.forEach((e)=>{
+    e['phoneNumber'] = e['travellers'][0]['phoneNumber'];
+  });
+  this.dt.filterGlobal(e.target.value, 'contains');
+  setTimeout(()=>{
+    this.dt.value.forEach((e)=>{
+    delete e['phoneNumber'];
+  });
+  },500)
+}
 
 
 }

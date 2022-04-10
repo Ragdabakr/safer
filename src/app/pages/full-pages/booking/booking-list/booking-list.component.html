@@ -24,13 +24,13 @@
             <button (click)="createNewBooking()" class=" btn btn-green" >
               <i class="icon-plus icon"></i>  اضافة حجز لبرنامج سياحي 
             </button>
-            <button type="button" class="btn btn-primary btn-raised " printTitle="الحجوزات" [useExistingCss]="true" printSectionId="print-section" ngxPrint><i class="icon icon-printer"></i> طباعة</button> 
+           
            
         <p-table  id="print-section" #dt [value]="bookings" dataKey="name" [rows]="10" [showCurrentPageReport]="true" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20]"
         currentPageReportTemplate="" [style]="{'width':'100%','overflow':'auto!important'}"
         [resizableColumns]="true" columnResizeMode="expand" styleClass="ui-table-customers" [autoLayout]="true"
         [responsive]="true" selectionMode="single"
-        [filterDelay]="0" [globalFilterFields]="['tourName.name','contactInfo.fullName','createdAt ','number','totalPrice' , 'price', 'child', 'adult', 'infant' ,'maxGroupSize', 'priceDiscount']">
+        [filterDelay]="0" [globalFilterFields]="['tourName.name','contactInfo.fullName','contactInfo.phone','createdAt ','number','paymentInfo.totalPrice' ,'tourInfo.tourDate', 'paymentInfo.orderStatus', 'tourInfo.child', 'tourInfo.adult', 'tourInfo.infant' , 'paymentInfo.receivedAmount' ,'paymentInfo.remainingAmount' ]">
         <ng-template pTemplate="caption">
           <div class="ui-table-globalfilter-container">
             <div class="form-group">
@@ -46,17 +46,26 @@
         <ng-template pTemplate="header">
           <tr>
             <th pSortableColumn="id">رقم القيد <p-sortIcon field="id"></p-sortIcon></th>
-              <th pSortableColumn="id">رقم الحجز <p-sortIcon field="id"></p-sortIcon></th>
-              <th pSortableColumn="type">الفاتورة <p-sortIcon field="type"></p-sortIcon></th>
+              <th pSortableColumn="number">رقم الحجز <p-sortIcon field="number"></p-sortIcon></th>
+              <th pSortableColumn="createdInvoice">الفاتورة <p-sortIcon field="createdInvoice"></p-sortIcon></th>
               <th pSortableColumn="type">اسم الرحلة <p-sortIcon field="type"></p-sortIcon></th>
-              <th pSortableColumn="type">تاريخ الرحلة <p-sortIcon field="type"></p-sortIcon></th>
-              <th pSortableColumn="duration">صاحب الحجز <p-sortIcon field="duration"></p-sortIcon></th>
-              <th pSortableColumn="createdAt">تاريخ الحجز <p-sortIcon field="createdAt"></p-sortIcon></th>
-              <th pSortableColumn="adult">عدد البالغين <p-sortIcon field="adult"></p-sortIcon></th>
-              <th pSortableColumn="child">عدد الأطفال<p-sortIcon field="child"></p-sortIcon></th>
-              <th pSortableColumn="infant">عدد الرضع <p-sortIcon field="infant"></p-sortIcon></th>
-              <th pSortableColumn="price"> السعر الكلي <p-sortIcon field="price"></p-sortIcon></th>
-              <th pSortableColumn="maxGroupSize"> حالة الطلب <p-sortIcon field="maxGroupSize"></p-sortIcon></th>
+              <th pSortableColumn="tourInfo.tourDate"> <div class="flex justify-content-center align-items-center">
+                تاريخ الرحله
+               <p-columnFilter type="date" field="tourInfo.tourDate" display="menu"></p-columnFilter>
+           </div></th>
+              <th pSortableColumn="contactInfo.fullName">صاحب الحجز <p-sortIcon field="contactInfo.fullName"></p-sortIcon></th>
+              <th pSortableColumn="contactInfo.phone">الهاتف <p-sortIcon field="contactInfo.phone"></p-sortIcon></th>
+              <th pSortableColumn="createdAt"> <div class="flex justify-content-center align-items-center">
+                تاريخ الحجز
+               <p-columnFilter type="date" field="createdAt" display="menu"></p-columnFilter>
+           </div></th>
+              <th pSortableColumn="tourInfo.adult">عدد البالغين <p-sortIcon field="tourInfo.adult"></p-sortIcon></th>
+              <th pSortableColumn="tourInfo.child">عدد الأطفال<p-sortIcon field="tourInfo.child"></p-sortIcon></th>
+              <th pSortableColumn="tourInfo.infant">عدد الرضع <p-sortIcon field="tourInfo.infant"></p-sortIcon></th>
+              <th pSortableColumn="paymentInfo.totalPrice"> السعر الكلي <p-sortIcon field="paymentInfo.totalPrice"></p-sortIcon></th>
+              <th pSortableColumn="paymentInfo.receivedAmount"> المبلغ الواصل <p-sortIcon field="paymentInfo.receivedAmount"></p-sortIcon></th>
+              <th pSortableColumn="paymentInfo.remainingAmount"> المبلغ المتبقي <p-sortIcon field="paymentInfo.remainingAmount"></p-sortIcon></th>
+              <th pSortableColumn="paymentInfo.orderStatus"> حالة الطلب <p-sortIcon field="paymentInfo.orderStatus"></p-sortIcon></th>
               <!-- <th pSortableColumn="active">التفعيل <p-sortIcon field="active"></p-sortIcon></th> -->
               <th >التعديل</th> 
               <th >الحذف</th> 
@@ -73,11 +82,14 @@
               <td>{{booking?.tourName.name}}</td>
               <td>{{booking?.tourInfo.tourDate | date}}</td>
               <td>{{booking?.contactInfo.fullName}}</td>
+              <td>{{booking?.contactInfo.phone}}</td>
               <td>{{booking?.createdAt | date}}</td>
               <td>{{booking?.tourInfo.adult}}</td>
               <td>{{booking?.tourInfo.child}}</td>
               <td>{{booking?.tourInfo.infant}}</td>
               <td>{{booking?.paymentInfo.totalPrice}} </td>
+              <td>{{booking?.paymentInfo.receivedAmount}} </td>
+              <td>{{booking?.paymentInfo.remainingAmount}} </td>
               <td>
                 <span class="badge badge-success  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'تأكيد حجز المبلغ كامل'"> {{booking?.paymentInfo.orderStatus}}</span>
                 <span class="badge badge-warning  mr-1" *ngIf="booking?.paymentInfo.orderStatus === 'حجز بدون دفع'"> {{booking?.paymentInfo.orderStatus}}</span>

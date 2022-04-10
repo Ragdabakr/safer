@@ -205,13 +205,13 @@ exportCSV(){
     title: 'تقرير  الخزنة',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['title','number','date','description' , 'credit'  ,'indebted'] 
+    headers: ['وصف الحركة','التاريخ','الوصف' , 'مدين'  ,'دائن'] 
   };
  
 const csvExporter = new ExportToCsv(options);
  
-csvExporter.generateCsv(this.safeboxes);
+var data = this.safeboxes.map(u => ({title:u.title ,createdAt:u.createdAt,description:u.description ,indebted:u.indebted,credit:u.credit }));
+csvExporter.generateCsv(data);
 }
 
 }

@@ -108,7 +108,7 @@ console.log(err.message);
 });
 
 mongoose.connection.on('disconnected', () => {
-console.log('Mongoose connection is disconnected...');
+console.log('Mongoose connection is disconnected 5000...');
 });
 
 
@@ -121,7 +121,7 @@ mongoose.set('useCreateIndex', true);
 //cd safer
 //sudo npm i
 
-//npm i nodemon morgan mongoose hpp dotenv express-mongo-sanitize express-rate-limit helmet xss-clean slugify
+//npm i nodemon morgan mongoose hpp dotenv express-mongo-sanitize express-rate-limit helmet xss-clean slugify validator bcryptjs cloudinary nodemailer jsonwebtoken multer
 
 
 // 3) ROUTES

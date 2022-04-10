@@ -166,13 +166,13 @@ exportCSV(){
     title: 'تقرير التنقلات',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['busNumber','size','brand','color','maxPassengerSize'] 
+    headers: ['رقم السيارة ','الحجم','النوع','اللون','عدد الركاب'] 
   };
  
 const csvExporter = new ExportToCsv(options);
- 
-csvExporter.generateCsv(this.transports);
+var data = this.transports.map(u => ({ busNumber: u.busNumber,size:u.size ,brand:u.brand,color:u.color ,maxPassengerSize:u.maxPassengerSize  }));
+csvExporter.generateCsv(data);
+
 }
 
 }

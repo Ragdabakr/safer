@@ -82,13 +82,7 @@ export const ROUTES: RouteInfo[] = [
         ]
     },
    
-    {
-        path: '', title: 'الإحصائيات', icon: 'ft-pie-chart', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [
-            { path: '/full-layout/full-pages/toursReport', title: 'احصائيات البرامج السياحية', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { path: '/full-layout/full-pages/bookingsReport', title: 'احصائيات الحجوزات', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            
-        ]
-    },
+ 
 
 ];
 

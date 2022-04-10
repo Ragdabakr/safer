@@ -11,6 +11,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ExportToCsv } from 'export-to-csv-file';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { PrimeNGConfig } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -54,6 +56,7 @@ export class TourListComponent implements OnInit {
   tourImages: [];
   user: any;
 
+
   
 
   constructor(
@@ -61,6 +64,7 @@ export class TourListComponent implements OnInit {
     private fb: FormBuilder,
     private toastr:ToastrService ,
     private authService:AuthService ,
+    private config: PrimeNGConfig,private translateService: TranslateService
 ) { }
 
 
@@ -77,15 +81,34 @@ export class TourListComponent implements OnInit {
   ];
 
 
+
+  this.config.setTranslation({
+    dateIs: "التاريخ",
+    dateIsNot: "جميع التواريخ ما عدا",
+    dateBefore: "جميع النتائج قبل هذا التاريخ",
+    dateAfter: "جميع النتائج بعد هذا التاريخ",
+    clear: "الغاء",
+    apply: "تنفيذ",
+    matchAll: "جميع النتائج",
+    matchAny: "بعض النتائج ",
+    addRule: "تاريخ جديد",
+    removeRule: "حذف التاريخ",
+    //translations
+});
+this.translateService.setDefaultLang('en');
+    }
+    translate(lang: string) {
+      this.translateService.use(lang);
+      this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
   }
+
 // Get Tours
 getTours(){
     this.tourService.getTours().subscribe(
       res =>{
         let data = res['data'];
         this.tours = data.docs.reverse();
-        // this.totalTours = this.tours.length;
-        console.log('tours >>>',data.docs);
+        this.tours.forEach(tour => tour.createdAt = new Date(tour.createdAt));
         },
         err =>{
         console.log(err);
@@ -165,16 +188,17 @@ exportCSV(){
     decimalSeparator: '.',
     showLabels: true, 
     showTitle: true,
-    title: 'My Tours CSV',
+    title: 'البرامج السياحية',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
-    headers: ['name', 'type', 'duration' ,'active' ,'difficulty','price' ,'priceDiscount','guides','tripLocations' , 'startLocation'] 
+   // useKeysAsHeaders: true,
+    headers: ['الاسم', 'النوع', 'المدة' ,'تاريخ انشاء الرحلة' ,'عدد المقاعد','عدد الحجوزات' ] 
   };
  
 const csvExporter = new ExportToCsv(options);
- 
-csvExporter.generateCsv(this.tours);
+var data = this.tours.map(tour => ({ name: tour.name, type: tour.type , duration: tour.duration, createdAt: tour.createdAt  ,
+  maxGroupSize:tour.maxGroupSize,bookings:tour.bookings.length }));
+csvExporter.generateCsv(data);
 }
 
 }

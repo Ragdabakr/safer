@@ -17,6 +17,7 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [TravelAgentsComponent],
@@ -40,6 +41,7 @@ import { DialogModule } from 'primeng/dialog';
     ToolbarModule,
     TableModule,
     DialogModule,
+    NgxPrintModule,
   ]
 })
 export class TravelAgentsModule { }

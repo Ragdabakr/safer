@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
-
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from 'app/shared/services/role.service';
@@ -10,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CompanyService } from 'app/shared/services/company.service';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { PrimeNGConfig } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-travel-agents',
   templateUrl: './travel-agents.component.html',
@@ -32,6 +31,7 @@ export class TravelAgentsComponent implements OnInit {
   companyId: any;
   rndInt: number;
   user: any;
+  companyEditForm: FormGroup;
   // Prevent panel toggle code
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === '2') {
@@ -43,7 +43,7 @@ export class TravelAgentsComponent implements OnInit {
   };
 
 
-  constructor(private authService:AuthService, private roleServices: RoleService,private toastr:ToastrService, private companyServices: CompanyService, ) { }
+  constructor(private authService:AuthService, private roleServices: RoleService,private toastr:ToastrService, private companyServices: CompanyService,private config: PrimeNGConfig,private translateService: TranslateService, ) { }
 
   ngOnInit() {
   this.getCompanies();
@@ -75,12 +75,50 @@ export class TravelAgentsComponent implements OnInit {
           
           }
         );
+    this.companyEditForm = new FormGroup(
+          {
+            name: new FormControl('', [
+              Validators.required,
+          ]),
+           accountName: new FormControl('', [
+            Validators.required,
+        ]
+        
+        
+        ),
+           type: new FormControl(''),
+           notes: new FormControl(''),
+           phone: new FormControl(''),
+           email: new FormControl(''),
+           
+           }
+         );  
+         this.config.setTranslation({
+          dateIs: "التاريخ",
+          dateIsNot: "جميع التواريخ ما عدا",
+          dateBefore: "جميع النتائج قبل هذا التاريخ",
+          dateAfter: "جميع النتائج بعد هذا التاريخ",
+          clear: "الغاء",
+          apply: "تنفيذ",
+          matchAll: "جميع النتائج",
+          matchAny: "بعض النتائج ",
+          addRule: "تاريخ جديد",
+          removeRule: "حذف التاريخ",
+          //translations
+      });
+      this.translateService.setDefaultLang('ar');   
   }
+  
+  translate(lang: string) {
+    this.translateService.use(lang);
+    this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
+}
 
   getCompanies(){
           this.companyServices.getcompanies().subscribe({
             next: response => {
-                this.companies = response.data.docs;
+                this.companies = response.data.docs.reverse();
+                this.companies.forEach(company => company.createdAt = new Date(company.createdAt));
             },
             error: err => {
                 console.log(err);
@@ -118,29 +156,24 @@ openUpdateCompany(company){
   this.updateCompanyForm(company);
 }
 
-
 updateCompanyForm(company){
-  this.companyForm.patchValue({
+  this.companyEditForm.patchValue({
   name:company.name,
   type:company.type,
   phone: company.phone,
   email: company.email,
-  debit: company.debit,
-  credit: company.credit,
   notes: company.notes,
-  accountName: company.accountName,
-  // PINCompanyCode: company.PINCompanyCode,
  }); 
 }
-updateCompanyButton(companyForm){
-  if (this.companyForm.invalid) {
+updateCompanyButton(companyEditForm){
+  if (this.companyEditForm.invalid) {
     this.toastr.error('الرجاء التأكد من ملئ جميع الحقول المطلوبة ');
-    this.validateAllFormFields(this.companyForm); // Triger postForm validation
+    this.validateAllFormFields(this.companyEditForm); // Triger postForm validation
   }else{
 
-  this.companyServices.updatecompany(this.companyId , companyForm.value ).subscribe(
+  this.companyServices.updatecompany(this.companyId , companyEditForm.value ).subscribe(
     res =>{
-      this.companyForm.reset();
+      this.companyEditForm.reset();
       this.toastr.success('تم التحديث بنجاح ');
       this.addUpdateCompanyeDialog = false;
       this.getCompanies();

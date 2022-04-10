@@ -19,18 +19,14 @@ ul {
     position:relative;
     border:1px solid #ccc;
 }
-.custom-file-upload {
-    display: inline-block;
-    padding: 6px 12px;
-    cursor: pointer;
-}
+
 input[type="file"] {
     display: none;
 }
 .upload{
     color:white;
 }
-.custom-file-upload[_ngcontent-c5] {
+.custom-file-upload{
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
@@ -55,4 +51,7 @@ input[type="file"] {
 .photo{
     width: 356px;
     height: 250px;
+}
+.red{
+    color:red;
 }

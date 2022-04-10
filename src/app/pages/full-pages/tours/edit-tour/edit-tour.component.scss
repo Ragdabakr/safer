@@ -24,7 +24,6 @@ ul {
 }
 .imageContainer{
     position:relative;
-    border:1px solid #ccc;
 }
 
 input[type="file"] {
@@ -38,7 +37,7 @@ input[type="file"] {
     padding: 6px 12px;
     cursor: pointer;
     background-color: #c2108b;
-    width:33%;
+    width:240px;
     border-radius: 5px;
     margin-top:10px;
 }
@@ -47,7 +46,7 @@ input[type="file"] {
         padding: 6px 12px;
         cursor: pointer;
         background-color: #009DA0;
-        width: 100%;
+        width: 228px;
         border-radius: 5px;
 }
 .head{
