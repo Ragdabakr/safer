@@ -90,11 +90,9 @@ mongoose
 .connect('mongodb+srv://@cluster0.2grjx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
   user: process.env.DB_USER,
   pass: process.env.DB_PASS,
-   useUnifiedTopology: true,
-   useFindAndModify: false,
-   useCreateIndex: true,
-   useNewUrlParser: true
-
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
 })
 .then(() => {
   console.log('Mongodb connected....');
@@ -120,7 +118,7 @@ mongoose.set('useCreateIndex', true);
 
 //sudo rm -r safer -f
 //git clone git@github.com:Ragdabakr/safer.git
-//cd safer/toursBackend
+//cd safer
 //sudo npm i
 
 //npm i nodemon morgan mongoose hpp dotenv express-mongo-sanitize express-rate-limit helmet xss-clean slugify validator bcryptjs cloudinary nodemailer jsonwebtoken multer
