@@ -90,10 +90,11 @@ mongoose
 .connect('mongodb+srv://@cluster0.2grjx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
   user: process.env.DB_USER,
   pass: process.env.DB_PASS,
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true,
-  // useFindAndModify: false,
-  useUnifiedTopology: true, useCreateIndex: true, useNewUrlParser: true
+   useUnifiedTopology: true,
+   useFindAndModify: false,
+   useCreateIndex: true,
+   useNewUrlParser: true
+
 })
 .then(() => {
   console.log('Mongodb connected....');
