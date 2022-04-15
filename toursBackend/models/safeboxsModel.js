@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 
 // select :false to any item hide it 
 
@@ -24,9 +25,6 @@ const safeboxsSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Budget',
 }
-
-
-
 });
 
 safeboxsSchema.pre(/^find/, function(next) {

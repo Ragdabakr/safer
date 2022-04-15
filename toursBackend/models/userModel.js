@@ -1,6 +1,7 @@
 
 const crypto = require('crypto');
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 

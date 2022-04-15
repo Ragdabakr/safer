@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 const slugify = require('slugify');
 const validator = require('validator');
 const User = require('./userModel');

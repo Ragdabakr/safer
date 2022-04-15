@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 
 const invoiceSchema = new mongoose.Schema({
   createdAt: {

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 
 const flightTicketBookingInvoiceSchema = new mongoose.Schema({
   index: { type: Boolean, default: true },

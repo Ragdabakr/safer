@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 const { ObjectId } = mongoose.Types;
 const hotelBooking = new mongoose.Schema({
 

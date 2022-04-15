@@ -1,5 +1,6 @@
 // review / rating / createdAt / ref to tour / ref to user
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 const Tour = require('./tourModel');
 
 const reviewSchema = new mongoose.Schema(

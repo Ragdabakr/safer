@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true)
 
 // select :false to any item hide it 
 
@@ -21,10 +22,7 @@ const budgetSchema = new mongoose.Schema({
         type: String,
     },
     createdAt :{type: Date, default: Date.now()},
-    safeboxBudget:{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Safebox',
-    }
+    
 
 });
 
